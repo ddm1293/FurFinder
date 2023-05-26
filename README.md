@@ -5,23 +5,18 @@
 ## Project Description
 
 Who is it for?
-
 - The missing pet tracking web app is for pet owners who have lost their cats or dogs (losers) and for other users who want to help locate missing pets (finders).
     
 What will it do? (What "human activity" will it support?)
-
 - Generally, our web app facilitates the activity of searching for and locating missing pets by enabling information sharing between losers and finders.
 
 What type of data will it store?
-
 - The site will store data including but not limited to user information, threads, pictures, text, and geolocations.
 
 What will users be able to do with this data?
-
 - Users will be able to create and browse lost pet threads, view and upload pictures and textual descriptions, and report possible sightings.
 
 What is some additional functionality you can add/remove based on time constraints?
-
 - Providing an option for users to subscribe to email or push notifications for updates on relevant lost pet threads.
 - Implementing a reporting system for inappropriate or false information.
 
@@ -41,7 +36,17 @@ What is some additional functionality you can add/remove based on time constrain
   - send notifications to thread owners
   - draw a target area on the map
 
-## Project Prototype
+## Minimal Requirements Break-down
+1. Be able to create, update, and close a thread
+- user can create a thread with essential information such as pet name, ID, sex, breed, last seen location and time, etc.
+- user can update a thread and change or add any related information
+- user can close (archive) or delete his/her threads
+1. Under a thread, be able to comment and reply to comments
+- under a thread, other users can add comments related to the missing pet
+- under a thread, the original poster can reply to comments
+- under a thread, other users can reply to any comments as well
+
+## Sketch Prototypes
 ![page1](pictures/Page1.jpg)
 ![page2](pictures/Page2.jpg)
 ![page3](pictures/Page3.jpg)
