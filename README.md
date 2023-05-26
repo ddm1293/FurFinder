@@ -41,7 +41,7 @@ What is some additional functionality you can add/remove based on time constrain
 - user can create a thread with essential information such as pet name, ID, sex, breed, last seen location and time, etc.
 - user can update a thread and change or add any related information
 - user can close (archive) or delete his/her threads
-1. Under a thread, be able to comment and reply to comments
+2. Under a thread, be able to comment and reply to comments
 - under a thread, other users can add comments related to the missing pet
 - under a thread, the original poster can reply to comments
 - under a thread, other users can reply to any comments as well
