@@ -17,6 +17,7 @@ const items = [
 
 function CreateThreadButton () {
   const [open, setOpen] = useState(false);
+  const [threadType, updateThreadType] = useState('unsetThreadType');
 
   const onCreate = (values) => {
     console.log('clicked, open thread', values);
@@ -27,15 +28,13 @@ function CreateThreadButton () {
     setOpen(false)
   }
 
-  useEffect(() => {
-    console.log('open state: ', open);
-  }, [open])
-
-
   const handleCreateClick = (e) => {
+    if (e.key === 'create-lost-pet') {
+      updateThreadType('lost-pet-thread');
+    } else {
+      updateThreadType('witness-thread');
+    }
     setOpen(true);
-    message.info('Click on menu item.');
-    console.log('click', e);
   };
 
   return (
@@ -55,7 +54,8 @@ function CreateThreadButton () {
       </Dropdown>
       <CreateThreadForm open={open}
                         onCreate={onCreate}
-                        onCancel={onCancel}/>
+                        onCancel={onCancel}
+                        initialType={threadType}/>
     </div>
   )
 }
