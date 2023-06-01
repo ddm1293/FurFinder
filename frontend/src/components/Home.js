@@ -1,4 +1,5 @@
 import './Home.css';
+import { Button } from 'antd';
 
 export default function Home() {
   return (
@@ -6,12 +7,12 @@ export default function Home() {
       <div id="split">
         <div className="split__sides split__sides--lost">
           <div className="split__image split__image--lost">
-            <a className="split__button" href="#">I Lost A Pet</a>
+            <Button className="split__button" type="primary" size="large" href="#">I Lost A Pet</Button>
           </div>
         </div>
         <div className="split__sides split__sides--witness">
           <div className="split__image split__image--witness">
-            <a className="split__button" href="#">I Found A Pet</a>
+            <Button className="split__button" type="primary" size="large" href="#">I Witnessed A Pet</Button>
           </div>
         </div>
       </div> 
