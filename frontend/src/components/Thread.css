@@ -1,0 +1,74 @@
+/* Some codes in this file is chatGPT 4.0 generated */
+
+* {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.thread-container {
+    width: 80%;
+    margin: auto;
+    background-color: rgba(240, 240, 240, 0.6);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(200, 200, 200, 0.3);
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: 1.5%;
+}
+
+.username {
+    font-size: 1.4em;
+}
+
+.thread-title {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 2.5em;
+}
+
+.id-card {
+    display: flex;
+    border: 1px solid grey;
+    padding: 20px;
+    margin-top: 20px;
+    position: relative;
+    width: 33%;
+    background-color: rgba(200, 200, 200, 0.3);
+    margin-left: 3%;
+}
+
+.id-card-img {
+    width: 200px;
+    height: auto;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.id-card-info p {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    font-size: 1.0em;
+}
+
+.id-card-info p::before {
+    content: attr(data-label);
+    font-weight: bold;
+    /* margin-right: 2px; */
+}
+
+.thread-text {
+    margin-top: 20px;
+    font-size: 1.2em;
+    text-align: left;
+    margin-left: 3%;
+}
