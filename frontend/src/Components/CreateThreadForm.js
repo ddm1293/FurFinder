@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import { Form, Modal, Input, Radio, Select, Divider, DatePicker, Upload, Space } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
 function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
+  const [threadType, updateThreadType] = useState(initialType);
+
+  useEffect(() => {
+    updateThreadType(initialType);
+  }, [initialType])
+
+  // useEffect(() => {
+  //   console.log("lets see over threadType state in createThreadForm: ", threadType);
+  // }, [threadType])
+
   const formik = useFormik({
     initialValues: {
 
@@ -11,7 +21,24 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
     onSubmit: {
 
     }
-  })
+  });
+
+  const onThreadTypeChange = (e) => {
+    console.log("see change type of thread change: ", e);
+    updateThreadType(e);
+  }
+
+  const threadTypeKeyWord = () => {
+    if (threadType === 'lost-pet-thread') return 'Lost Pet';
+    if (threadType === 'witness-thread') return 'Witness';
+    return 'Error';
+  }
+
+  const descriptionLabel = () => {
+    if (threadType === 'lost-pet-thread') return 'Details of the Missing Pet';
+    if (threadType === 'witness-thread') return 'Details of the Witness';
+    return 'Error';
+  }
 
   const normFile = (e) => {
     console.log('Upload event:', e);
@@ -24,19 +51,19 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   return (
     <Modal className='create-thread-modal'
            open={open}
-           title='Create A New Thread'
+           title={`Create A New ${threadTypeKeyWord()} Thread`}
            okText='Create'
            cancelText='Cancel'
            onCancel={onCancel}>
       <Form layout='vertical'
             name='create-thread-form'>
         <Form.Item name='select-thread-type'
-                   label='Choose The Type of Thread You Are Creating'>
-          <Select>
-            <Select.Option value="missing-pet">
-              Missing Pet Thread
+                   label='Alter The Type of Thread You Are Creating'>
+          <Select onChange={onThreadTypeChange} defaultValue={initialType}>
+            <Select.Option value="lost-pet-thread">
+              Lost Pet Thread
             </Select.Option>
-            <Select.Option value="witness">
+            <Select.Option value="witness-thread">
               Witness Thread
             </Select.Option>
           </Select>
@@ -61,20 +88,37 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
         <Form.Item name='pet-type'
                    label='Breed'>
           <Space.Compact block>
-            <Form.Item name={['pet-type', 'species']}
+            <Form.Item name='pet-species'
                        style={{width: '50%'}}
                        rules={[{
                          required: true,
                          message: 'Please choose the pet species' }]}>
               <Select placeholder="Select pet species">
-                <Select.Option value="Cat">Cat</Select.Option>
-                <Select.Option value="Dog">Dog</Select.Option>
+                <Select.Option value="cat">Cat</Select.Option>
+                <Select.Option value="dog">Dog</Select.Option>
               </Select>
             </Form.Item>
 
-            <Form.Item name={['pet-type', 'breed']}
-                       style={{width: '100%'}}>
-              <Input placeholder="Please select pet species" />
+            <Form.Item name='pet-breed' style={{width: '100%'}}>
+              <Form.Item shouldUpdate={(prevValues, currentValues) =>
+                           prevValues['pet-species'] !== currentValues['pet-species']
+                         }>
+                {({ getFieldValue }) => getFieldValue('pet-species') === 'cat' ? (
+                  <Form.Item name='cat-breed'>
+                    <Select placeholder="Select a cat breed">
+                      <Select.Option value="cat">Persian Cat</Select.Option>
+                      <Select.Option value="dog">Ragdoll</Select.Option>
+                    </Select>
+                  </Form.Item>
+                ) : (
+                  <Form.Item name='dog-breed'>
+                    <Select placeholder="Select a dog breed">
+                      <Select.Option value="cat">Beagle</Select.Option>
+                      <Select.Option value="dog">Golden Retrievers</Select.Option>
+                    </Select>
+                  </Form.Item>
+                )}
+              </Form.Item>
             </Form.Item>
           </Space.Compact>
         </Form.Item>
@@ -84,6 +128,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
             <Radio value="female"> Female </Radio>
             <Radio value="male"> Male </Radio>
             <Radio value="enby"> Non-binary </Radio>
+            <Radio value="not-sure-sex"> Not Sure </Radio>
           </Radio.Group>
         </Form.Item>
 
@@ -105,7 +150,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
         </Form.Item>
 
         <Form.Item name='description'
-                   label='Details of the Missing Pet'>
+                   label={descriptionLabel()}>
           <Input.TextArea rows={4} />
         </Form.Item>
       </Form>
