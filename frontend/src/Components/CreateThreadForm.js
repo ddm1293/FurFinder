@@ -10,10 +10,6 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
     updateThreadType(initialType);
   }, [initialType])
 
-  // useEffect(() => {
-  //   console.log("lets see over threadType state in createThreadForm: ", threadType);
-  // }, [threadType])
-
   const formik = useFormik({
     initialValues: {
 
@@ -56,10 +52,12 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
            cancelText='Cancel'
            onCancel={onCancel}>
       <Form layout='vertical'
-            name='create-thread-form'>
+            name='create-thread-form' initialValues={{
+              ['select-thread-type']: initialType,
+      }}>
         <Form.Item name='select-thread-type'
                    label='Alter The Type of Thread You Are Creating'>
-          <Select onChange={onThreadTypeChange} defaultValue={initialType}>
+          <Select onChange={onThreadTypeChange}>
             <Select.Option value="lost-pet-thread">
               Lost Pet Thread
             </Select.Option>
@@ -86,7 +84,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
         </Form.Item>
 
         <Form.Item name='pet-type'
-                   label='Breed'>
+                   label='Breed' style={{ marginBottom: 0 }}>
           <Space.Compact block>
             <Form.Item name='pet-species'
                        style={{width: '50%'}}
@@ -99,7 +97,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
               </Select>
             </Form.Item>
 
-            <Form.Item name='pet-breed' style={{width: '100%'}}>
+            <Form.Item name='pet-breed' style={{width: '100%', marginBottom: 0}}>
               <Form.Item shouldUpdate={(prevValues, currentValues) =>
                            prevValues['pet-species'] !== currentValues['pet-species']
                          }>
