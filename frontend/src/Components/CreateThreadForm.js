@@ -9,6 +9,11 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
     updateThreadType(initialType);
   }, [initialType])
 
+  // TODO: after the form is submitted, send the form data for the next step
+  const onFinish = (e) => {
+    console.log('form got submitted:', e)
+  }
+
   const onThreadTypeChange = (e) => {
     console.log("see change type of thread change: ", e);
     updateThreadType(e);
@@ -42,16 +47,28 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
            title={`Create A New ${threadTypeKeyWord()} Thread`}
            okText='Create'
            onOk={() => {
-             form.submit();
+             form.validateFields()
+               .then(() => {
+               form.submit();
+               form.resetFields();
+               onCreate();
+             })
+               .catch((reason) => {
+                 console.log('Validate Failed:', reason);
+               })
            }}
            cancelText='Cancel'
-           onCancel={onCancel}>
+           onCancel={() => {
+             form.resetFields();
+             onCancel();
+           }}>
       <Form layout='vertical'
             name='create-thread-form'
             form={form}
             initialValues={{
               ['select-thread-type']: initialType,
             }}
+            onFinish={onFinish}
             scrollToFirstError>
         <Form.Item name='select-thread-type'
                    label='Alter The Type of Thread You Are Creating'>

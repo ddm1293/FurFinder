@@ -20,7 +20,6 @@ function CreateThreadButton () {
   const [threadType, updateThreadType] = useState('unsetThreadType');
 
   const onCreate = (values) => {
-    console.log('clicked, open thread', values);
     setOpen(false);
   }
 
