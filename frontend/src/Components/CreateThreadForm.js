@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik';
 import { Form, Modal, Input, Radio, Select, Divider, DatePicker, Upload, Space } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
@@ -9,15 +8,6 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   useEffect(() => {
     updateThreadType(initialType);
   }, [initialType])
-
-  const formik = useFormik({
-    initialValues: {
-
-    },
-    onSubmit: {
-
-    }
-  });
 
   const onThreadTypeChange = (e) => {
     console.log("see change type of thread change: ", e);
@@ -44,17 +34,25 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
     return e?.fileList;
   };
 
+  const [form] = Form.useForm();
+
   return (
     <Modal className='create-thread-modal'
            open={open}
            title={`Create A New ${threadTypeKeyWord()} Thread`}
            okText='Create'
+           onOk={() => {
+             form.submit();
+           }}
            cancelText='Cancel'
            onCancel={onCancel}>
       <Form layout='vertical'
-            name='create-thread-form' initialValues={{
+            name='create-thread-form'
+            form={form}
+            initialValues={{
               ['select-thread-type']: initialType,
-      }}>
+            }}
+            scrollToFirstError>
         <Form.Item name='select-thread-type'
                    label='Alter The Type of Thread You Are Creating'>
           <Select onChange={onThreadTypeChange}>
@@ -71,7 +69,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
 
         <Form.Item name='thread-title'
                    label="Thread Title">
-          <Input />
+          <Input placeholder='Please enter thread title'/>
         </Form.Item>
 
         <Form.Item name='pet-name'
