@@ -27,7 +27,7 @@ const Navbar = () => {
 
                         <Drawer
                             title={"Brand Here"}
-                            placement="right"
+                            placement="left"
                             closable={true}
                             onClose={showDrawer}
                             visible={visible}
