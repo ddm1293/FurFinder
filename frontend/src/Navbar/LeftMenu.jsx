@@ -1,5 +1,6 @@
 import React from "react";
 import { Menu } from "antd";
+import "./navbar.css";
 
 const LeftMenu = ({ mode }) => {
     return (
