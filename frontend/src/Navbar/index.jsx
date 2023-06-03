@@ -4,6 +4,7 @@ import LeftMenu from "./LeftMenu";
 import RightMenu from "./RightMenu";
 import { MenuOutlined } from "@ant-design/icons";
 import icon from "./icon.png";
+import "./navbar.css";
 const Navbar = () => {
     const [visible, setVisible] = useState(false);
     const showDrawer = () => {
