@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Input, Radio, Select, Divider, DatePicker, Upload, Space } from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
-import '../../Style/CreateThread/CreateThreadPetInfo.css'
+import '../../style/CreateThread/CreateThreadPetInfo.css'
 
 function CreateThreadPetInfo ( {threadType} ) {
 

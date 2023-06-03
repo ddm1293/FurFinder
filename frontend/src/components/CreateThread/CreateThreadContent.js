@@ -1,6 +1,6 @@
 import React from 'react';
 import { Divider, Form, Input, Select, Typography } from 'antd'
-import '../../Style/CreateThread/CreateThreadContent.css'
+import '../../style/CreateThread/CreateThreadContent.css'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 
 function CreateThreadContent ({ threadType, handleThreadTypeUpdate }) {
