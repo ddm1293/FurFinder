@@ -1,4 +1,4 @@
-import './Home.css';
+import '../Style/Home.css'
 import { Button } from 'antd';
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
             <Button className="split__button" type="primary" size="large" href="#">I Witnessed A Pet</Button>
           </div>
         </div>
-      </div> 
+      </div>
       <div id="about">
         <h1>About</h1>
         <p>FurFinder is a web-based platform designed to help pet owners to locate their lost pets (only cats and dogs for now). It provides a centralized space for creating lost-pet threads, reporting sightings, and accessing resources to aid in the search effort. The platform offers user authentication, enabling secure login with options like Facebook accounts for increased credibility. Key features include automatic thread updates, notification system for potential witnesses, a thread map with marked locations, and (hopefully) a missing pet flyer generator. FurFinder aims to leverage community engagement and self-designed algorithms to maximize the chances of reuniting lost pets with their owners.</p>
