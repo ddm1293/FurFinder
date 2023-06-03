@@ -1,8 +1,9 @@
-/* Some codes in this file is chatGPT 4.0 generated */
-
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Avatar, Card } from 'antd';
 import './Thread.css';
+
+const { Meta } = Card;
 
 function Thread() {
     const user = useSelector((state) => state.user);
@@ -12,22 +13,32 @@ function Thread() {
     return (
         <div className="thread-container">
             <div className="user-info">
-                <img className="avatar" src={user.avatar} alt="user avatar" />
+                <Avatar size={64} src={user.avatar} alt="user avatar" />
                 <h2 className="username">{user.username}</h2>
             </div>
-            <h3 className="thread-title">{thread.title}</h3>
-            <div className="id-card">
-                <img className="id-card-img" src={form.img} alt="form" />
-                <div className="id-card-info">
-                    <p data-label="Name: ">{form.name}</p>
-                    <p data-label="ID: ">{form.ID}</p>
-                    <p data-label="Breed: ">{form.breed}</p>
-                    <p data-label="Sex: ">{form.sex}</p>
-                    <p data-label="Last Seen Time: ">{form.lastSeenTime}</p>
-                    <p data-label="Description: ">{form.description}</p>
-                </div>
+            <div className="thread-title-container">
+                <h3 className="thread-title">{thread.title}</h3>
             </div>
-            <p className="thread-text">{thread.text}</p>
+            <Card
+                className="id-card"
+                cover={<img className="id-card-img" alt="form" src={form.img} />}
+            >
+                <Meta
+                    title={<span className="id-card-title">Name: {form.name}</span>}
+                    description={
+                        <div className="id-card-info">
+                            <p>ID: {form.ID}</p>
+                            <p>Breed: {form.breed}</p>
+                            <p>Sex: {form.sex}</p>
+                            <p>Last Seen Time: {form.lastSeenTime}</p>
+                            <p>Description: {form.description}</p>
+                        </div>
+                    }
+                />
+            </Card>
+            <div className="thread-text-container">
+                <p className="thread-text">{thread.text}</p>
+            </div>
         </div>
     );
 }
