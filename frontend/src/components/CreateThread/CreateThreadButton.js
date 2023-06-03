@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../../Style/CreateThread/CreaeteThreadButton.css'
+import '../../style/CreateThread/CreaeteThreadButton.css'
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Space } from 'antd'
 import CreateThreadForm from './CreateThreadForm'
