@@ -1,9 +1,14 @@
-import Dashboard from './Components/Dashboard'
+import React from "react";
+import Home from './Components/Home';
+import './App.css';
+import Navbar from "./Components/Navbar/Navbar";
+
 
 function App() {
   return (
     <div className="App">
-      <Dashboard />
+      <Navbar/>
+      <Home />
     </div>
   );
 }
