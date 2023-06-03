@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import '../Style/CreaeteThreadButton.css'
+import React, { useState } from 'react'
+import '../../Style/CreateThread/CreaeteThreadButton.css'
 import { CaretDownOutlined } from '@ant-design/icons';
-import { Button, Dropdown, Space, message } from 'antd'
+import { Button, Dropdown, Space } from 'antd'
 import CreateThreadForm from './CreateThreadForm'
 
 const items = [
