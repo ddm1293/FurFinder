@@ -1,7 +1,7 @@
 import React, { useEffect,  useState } from 'react'
 import { Form, Modal, Divider } from 'antd';
 import CreateThreadContent from './CreateThreadContent'
-import '../../Style/CreateThread/CreateThreadForm.css'
+import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from './CreateThreadPetInfo'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 
