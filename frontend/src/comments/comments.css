@@ -1,6 +1,6 @@
-html {
-    background: #FFF4E0;
-}
+/*html {*/
+/*    background: #FFF4E0;*/
+/*}*/
 .comment-main {
     display: flex;
     flex-direction: column;
@@ -30,8 +30,8 @@ html {
 }
 
 .comment-body {
-    background-color: #F8F4EA;
-    border: 1px solid #ECE8DD;
+    background-color: #EEEEEE;
+    border: 1px solid #DDDDDD;
     border-radius: 5px;
     margin: 10px 0;
     padding: 10px 10px;
@@ -44,7 +44,6 @@ html {
 }
 
 .comment-username {
-    color: #B46060;
     font-weight: bold;
     margin: 0 10px;
 }
