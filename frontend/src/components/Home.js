@@ -1,4 +1,4 @@
-import '../Style/Home.css'
+import '../style/Home.css'
 import { Button } from 'antd';
 
 export default function Home() {
