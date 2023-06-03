@@ -1,6 +1,6 @@
 import React from 'react';
 import '../Style/Dashboard.css'
-import CreateThreadButton from './CreateThreadButton';
+import CreateThreadButton from './CreateThread/CreateThreadButton';
 import { Layout, Menu } from 'antd';
 const { Header, Sider, Content} = Layout;
 

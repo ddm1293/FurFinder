@@ -1,0 +1,12 @@
+.pet-type {
+    margin-bottom: 0;
+}
+
+.pet-species {
+    width: 50%
+}
+
+.pet-breed {
+    width: 100%;
+    margin-bottom: -20px;
+}
