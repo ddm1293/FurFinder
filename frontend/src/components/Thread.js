@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Avatar, Card } from 'antd';
-import './Thread.css';
+import '../style/Thread.css';
 
 const { Meta } = Card;
 
