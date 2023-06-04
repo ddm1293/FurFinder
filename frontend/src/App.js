@@ -4,6 +4,7 @@ import './App.css';
 import Navbar from "./components/Navbar/Navbar";
 
 
+// edited for thread component test
 function App() {
   return (
     <div className="App">
