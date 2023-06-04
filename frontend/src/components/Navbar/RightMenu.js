@@ -1,5 +1,5 @@
 import React from "react";
-import "./navbar.css";
+import "../../style/Navbar.css";
 import { Menu, Avatar } from "antd";
 import { UserOutlined, CodeOutlined, LogoutOutlined } from "@ant-design/icons";
 

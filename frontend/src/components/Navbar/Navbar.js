@@ -3,8 +3,8 @@ import { Layout, Button, Drawer } from "antd";
 import LeftMenu from "./LeftMenu";
 import RightMenu from "./RightMenu";
 import { MenuOutlined } from "@ant-design/icons";
-import icon from "./icon.png";
-import "./navbar.css";
+import icon from "../../static/icon.png";
+import "../../style/Navbar.css";
 const Navbar = () => {
     const [visible, setVisible] = useState(false);
     const showDrawer = () => {
