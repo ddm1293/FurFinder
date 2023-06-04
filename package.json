@@ -6,7 +6,11 @@
   "author": "dingmandeng <makemake1293@gmail.com>",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
+    "@ant-design/icons": "^5.1.4",
+=======
     "antd": "^5.5.2",
+>>>>>>> HC_merge_frontend
     "async": "^3.2.4",
     "date-fns": "^2.30.0",
     "express": "^4.18.2",
