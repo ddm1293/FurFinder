@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {addComment} from "./commentSlice";
+import {addComment} from "../../store/commentSlice";
 import {Input, Button} from "antd";
 
 const {TextArea} = Input;
