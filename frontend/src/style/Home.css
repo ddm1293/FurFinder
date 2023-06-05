@@ -1,0 +1,73 @@
+:root {
+  --split-height: 85vh;
+}
+
+#split .split__sides {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: calc(var(--split-height) / 2); /* prob need to change to accomodate About */
+  overflow: hidden; /* prevent image from overflowing when hovered */
+}
+
+#split .split__image {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  -webkit-filter: brightness(100%);
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease all;
+}
+
+#split .split__image:hover {
+  -webkit-filter: brightness(95%); 
+  transform: scale(1.1);
+  transition: 0.25s ease all;
+}
+
+.split__image--lost {
+  background: url('../static/home-background-image-1.jpg');
+}
+
+.split__image--witness {
+  background: url('../static/home-background-image-2.jpg');
+}
+
+.split__button {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+#about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#about h1 {
+  height: 100vh - var(--split-height);
+}
+
+#about p {
+  margin-top: 0;
+  width: 75%;
+}
+
+@media screen and (min-width: 1000px) {
+  #split {
+    display: flex;
+  }
+  
+  #split .split__sides {
+    width: 50%;
+    height: var(--split-height); /* prob need to change to accomodate About */
+  }
+}
