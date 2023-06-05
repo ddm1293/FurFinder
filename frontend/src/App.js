@@ -1,6 +1,7 @@
 import React from "react";
 import Home from './components/Home';
 // import Thread from './components/Thread';
+// import CommentView from "./comments/features/CommentView";
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
 
@@ -10,6 +11,7 @@ function App() {
     <div className="App">
       <Navbar/>
       {/* <Thread /> */}
+      {/* <CommentView /> */}
       <Home />
     </div>
   );
