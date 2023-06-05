@@ -1,6 +1,6 @@
 import {useSelector} from 'react-redux';
 import CommentInput from "./CommentInput"
-import "../comments.css";
+import "../../style/Comments.css";
 import {Avatar} from "antd";
 import {UserOutlined} from "@ant-design/icons";
 
