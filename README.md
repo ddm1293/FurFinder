@@ -47,8 +47,8 @@ What is some additional functionality you can add/remove based on time constrain
 - under a thread, other users can reply to any comments as well
 
 ## Sketch Prototypes
-![page1](pictures/Page1.jpg)
-![page2](pictures/Page2.jpg)
-![page3](pictures/Page3.jpg)
+![page1](public/Page1.jpg)
+![page2](public/Page2.jpg)
+![page3](public/Page3.jpg)
 
 
