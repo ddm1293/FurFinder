@@ -1,5 +1,6 @@
 import React from "react";
-import Home from './components/Home';
+import { Route, Routes } from 'react-router-dom';
+import Home from './routes/Home';
 // import Thread from './components/Thread';
 // import CommentView from "./components/Comments/CommentView";
 import './App.css';
@@ -10,9 +11,11 @@ function App() {
   return (
     <div className="App">
       <Navbar/>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
       {/* <Thread /> */}
       {/* <CommentView /> */}
-      <Home />
     </div>
   );
 }
