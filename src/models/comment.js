@@ -1,10 +1,14 @@
 import mongoose from 'mongoose';
 
 const CommentSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
+  id: {
+    type: String,
+    required: true,
+    unique: true
+  },
   commenterId: String,
   content: String,
-  date: Date,
+  date: Date
 });
 
-export const CommentModel = mongoose.model('threads', CommentSchema);
+export const CommentModel = mongoose.model('Comment', CommentSchema);
