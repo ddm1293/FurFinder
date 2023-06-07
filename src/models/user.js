@@ -4,8 +4,14 @@ const { Schema } = mongoose;
 const UserSchema = new mongoose.Schema({
   username: String,
   password: String,
-  threads: [{
+  myThreads: [{
     type: Schema.Types.ObjectId,
-    ref: 'Thread',
+    ref: 'Thread'
+  }],
+  favoredThreads: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Thread'
   }]
 });
+
+export const UserModel = mongoose.model('User', UserSchema);

@@ -1,18 +1,9 @@
 import express from 'express';
+import * as userController from '../controllers/userController.js'
 
 const userRouter = express.Router();
 
-// TODO:
-const registerUser = async (req, res) => {
-  console.log('Server::registerUser');
-};
-
-// TODO:
-const userLogin = async (req, res) => {
-  console.log('Server::userLogin');
-};
-
-userRouter.post('/auth/register', registerUser);
-userRouter.post('/auth/login', userLogin);
+userRouter.post('/auth/register', userController.registerUser);
+userRouter.post('/auth/login', userController.userLogin);
 
 export default userRouter;
