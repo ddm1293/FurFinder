@@ -1,4 +1,5 @@
 import express from 'express';
+import { ThreadModel } from '../models/thread.js';
 
 const threadRouter = express.Router();
 
@@ -10,6 +11,18 @@ const createThread = async (req, res) => {
 // TODO:
 const getThread = async (req, res) => {
   console.log('Server::getThread');
+};
+
+// TODO:
+const getAllThreads = async (req, res) => {
+  try {
+    console.log('Server::getAllThreads');
+    res.status(200).json({
+
+    });
+  } catch (err) {
+
+  }
 };
 
 // TODO:
@@ -34,6 +47,7 @@ const deleteThread = async (req, res) => {
 
 threadRouter.post('/thread/:id/:kind', createThread);
 threadRouter.get('/thread/:id', getThread);
+threadRouter.get('/thread/getAllThreads', getAllThreads);
 threadRouter.put('/thread/:id', updateThread);
 threadRouter.patch('/thread/:id', patchThread);
 threadRouter.put('/thread/:id/archive', archiveThread);

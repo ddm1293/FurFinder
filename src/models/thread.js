@@ -1,10 +1,23 @@
 import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
+// TODO: possibly create two separate schema for lost pet threads and witness threads
 const ThreadSchema = new mongoose.Schema({
-  id: { type: String, required: true, unique: true },
-  title: String,
+  title: {
+    type: String,
+    required: true
+  },
   postDate: Date,
-  originalPosterId: String
+  originalPoster: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  content: String,
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
+  }]
 });
 
-export const ThreadModel = mongoose.model('threads', ThreadSchema);
+export const ThreadModel = mongoose.model('Thread', ThreadSchema);
