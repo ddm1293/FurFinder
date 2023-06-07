@@ -14,6 +14,11 @@ const getThread = async (req, res) => {
 };
 
 // TODO:
+const getThreadsByUser = async (req, res) => {
+  console.log('Server::getThreadsByUser');
+};
+
+// TODO:
 const getAllThreads = async (req, res) => {
   try {
     console.log('Server::getAllThreads');
@@ -45,12 +50,13 @@ const deleteThread = async (req, res) => {
   console.log('Server::deleteThread');
 };
 
-threadRouter.post('/thread/:id/:kind', createThread);
-threadRouter.get('/thread/:id', getThread);
-threadRouter.get('/thread/getAllThreads', getAllThreads);
-threadRouter.put('/thread/:id', updateThread);
-threadRouter.patch('/thread/:id', patchThread);
-threadRouter.put('/thread/:id/archive', archiveThread);
-threadRouter.delete('/thread/:id', deleteThread);
+threadRouter.post('/', createThread);
+threadRouter.get('/:id', getThread);
+threadRouter.get('/userId/:id', getThreadsByUser);
+threadRouter.get('/getAllThreads', getAllThreads);
+threadRouter.put('/:id', updateThread);
+threadRouter.patch('/:id', patchThread);
+threadRouter.put('/:id/archive', archiveThread);
+threadRouter.delete('/:id', deleteThread);
 
 export default threadRouter;
