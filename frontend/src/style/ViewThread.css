@@ -1,0 +1,39 @@
+img {
+    width: 150px;
+    height: 300px;
+}
+
+.view-thread-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.view-thread-content {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.view-as-card {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.side-container {
+    flex: 1;
+    margin: 0 50px;
+}
+
+.side-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.thread {
+    margin: 10px;
+}
+
+.custom-breadcrumb {
+    margin: 20px 0 20px 50px;
+    font-size: 1rem;
+}
