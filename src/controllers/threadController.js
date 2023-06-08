@@ -1,11 +1,17 @@
 import ThreadService from '../services/threadService.js';
 
-// TODO:
 export const createThread = async (req, res) => {
   try {
+    console.log('Server::Creating a thread - running createThread');
     const thread = await ThreadService.createThread(req.body);
-    res.status(200).json({ body: req.body, thread });
-  } catch (err) {}
+    res.status(200).json({
+      message: 'The thread is created successfully',
+      threadCreated: thread
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send('Error Creating this thread');
+  }
 };
 
 // TODO:
@@ -18,7 +24,6 @@ export const getThreadsByUser = async (req, res) => {
   console.log('Server::getThreadsByUser');
 };
 
-// TODO:
 export const getThreads = async (req, res) => {
   try {
     console.log('Server::getThreads');
