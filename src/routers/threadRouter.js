@@ -1,15 +1,30 @@
 import express from 'express';
 import * as threadController from '../controllers/threadController.js';
+import { processPet } from '../middleware/threadMiddleware.js';
 
 const threadRouter = express.Router();
 
-threadRouter.post('/', threadController.createThread);
-threadRouter.get('/:id', threadController.getThread);
+// GET APIS
 threadRouter.get('/userId/:id', threadController.getThreadsByUser);
-threadRouter.get('/getAllThreads', threadController.getAllThreads);
+threadRouter.get('/getThreads', threadController.getThreads);
+threadRouter.get('/:id', threadController.getThread);
+
+// POST APIS
+threadRouter.post('/', processPet, threadController.createThread);
+
+// PUT APIS
+threadRouter.put('/archive/:id', threadController.archiveThread);
 threadRouter.put('/:id', threadController.updateThread);
+
+// PATCH APIS
 threadRouter.patch('/:id', threadController.patchThread);
-threadRouter.put('/:id/archive', threadController.archiveThread);
+
+// DELETE APIS
 threadRouter.delete('/:id', threadController.deleteThread);
+
+
+
+
+
 
 export default threadRouter;
