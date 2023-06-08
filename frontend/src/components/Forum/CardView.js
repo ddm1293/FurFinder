@@ -1,5 +1,5 @@
 import { Avatar, Card } from 'antd'
-import { ExpandOutlined, StarOutlined } from '@ant-design/icons'
+import { MessageOutlined, StarOutlined, UserOutlined } from '@ant-design/icons'
 
 const { Meta } = Card
 
@@ -14,13 +14,13 @@ function CardView ({ items }) {
                 cover={<img src={card.img} alt="pet" />}
                 actions={[
                   <StarOutlined key="star" />,
-                  <ExpandOutlined key="expand" />
+                  <MessageOutlined key="message" />,
                 ]}
           >
             <Meta
-              avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
-              title={card.title}
-              description={card.description}
+              avatar={<Avatar size={30} icon={<UserOutlined />} />}
+              title={<a href="">{card.title}</a>}
+              description= {card.description.length>30? card.description.slice(0, 30) + "..." : card.description}
             />
           </Card>
         ))}
