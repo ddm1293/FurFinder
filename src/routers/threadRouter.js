@@ -22,9 +22,4 @@ threadRouter.patch('/:id', threadController.patchThread);
 // DELETE APIS
 threadRouter.delete('/:id', threadController.deleteThread);
 
-
-
-
-
-
 export default threadRouter;
