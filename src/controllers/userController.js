@@ -1,5 +1,5 @@
 import UserService from '../services/userService.js';
-import { UserModel } from '../models/user.js';
+import { UserModel } from '../models/userModel.js';
 import bcrypt from 'bcrypt';
 
 export const getAllUsers = async (req, res) => {

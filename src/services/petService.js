@@ -1,4 +1,4 @@
-import { PetModel } from '../models/pet.js';
+import { PetModel } from '../models/petModel.js';
 
 class PetService {
   static createPet(body) {
