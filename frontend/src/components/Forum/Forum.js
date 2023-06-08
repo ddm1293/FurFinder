@@ -1,8 +1,9 @@
-import Navbar from '../Navbar/Navbar'
 import FilterThreads from './FilterThreads'
 import SearchThreads from './SearchThreads'
 import CardView from './CardView'
-import { Breadcrumb, Layout, Pagination } from 'antd'
+import ListView from './ListView'
+import { Breadcrumb, Layout, Pagination, Menu } from 'antd'
+import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum.css'
 import { useState } from 'react'
 import { threads } from '../../mocks/forumMock'
@@ -10,15 +11,41 @@ import { threads } from '../../mocks/forumMock'
 const { Content } = Layout
 
 function Forum () {
+  //reference: ChatGPT (separate list of items into different pages)
   const [currentPage, setCurrentPage] = useState(1)
-  const cardsPerPage = 6 //reference: ChatGPT (separate list of items into different pages)
+  const cardsPerPage = 6
   const startIndex = (currentPage - 1) * cardsPerPage
   const endIndex = startIndex + cardsPerPage
   const displayedCards = threads.slice(startIndex, endIndex)
 
+  // render different views
+  const [selectedKey, setSelectedKey] = useState('')
+  const viewOptions = [{
+    key: 'grid',
+    label: 'Grid View',
+    icon: <AppstoreOutlined />
+  }, {
+    key: 'list',
+    label: 'List View',
+    icon: <BarsOutlined />
+  }, {
+    key: 'map',
+    label: 'Map View',
+    icon: <EnvironmentOutlined />
+  }]
+  const render = () => {
+    switch (selectedKey) {
+      case 'list':
+        return <ListView items={displayedCards} />
+      case 'map':
+        return null
+      default: // grid
+        return <CardView items={displayedCards} />
+    }
+  }
+
   return (
     <Layout>
-      <Navbar />
       <Breadcrumb className="custom-breadcrumb"
                   items={[
                     { title: 'Home' },
@@ -34,15 +61,19 @@ function Forum () {
         </div>
         <div className="forum-content">
           <h2>View</h2>
+          <div className="forum-view">
+            <Menu onClick={(event) => {setSelectedKey(event.key)}}
+                  selectedKeys={[selectedKey]}
+                  mode="horizontal"
+                  items={viewOptions} />
+            <div>{render()}</div>
+          </div>
           <Pagination
             current={currentPage}
             pageSize={cardsPerPage}
             total={threads.length}
-            onChange={(page) => {
-              setCurrentPage(page)
-            }}
+            onChange={(page) => {setCurrentPage(page)}}
           />
-          <CardView items={displayedCards} />
         </div>
       </Content>
     </Layout>
