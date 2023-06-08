@@ -7,10 +7,14 @@ const ThreadSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  postDate: Date,
-  originalPoster: {
+  poster: {
     type: Schema.Types.ObjectId,
     ref: 'User',
+    required: true
+  },
+  pet: {
+    type: Schema.Types.ObjectId,
+    ref: 'Pet',
     required: true
   },
   content: String,
@@ -18,6 +22,8 @@ const ThreadSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Comment'
   }]
+}, {
+  timestamps: true
 });
 
 export const ThreadModel = mongoose.model('Thread', ThreadSchema);

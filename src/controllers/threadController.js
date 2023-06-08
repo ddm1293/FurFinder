@@ -1,6 +1,11 @@
+import ThreadService from '../services/threadService.js';
+
 // TODO:
 export const createThread = async (req, res) => {
-  console.log('Server::createThread');
+  try {
+    const thread = await ThreadService.createThread(req.body);
+    res.status(200).json({ body: req.body, thread });
+  } catch (err) {}
 };
 
 // TODO:
@@ -14,14 +19,21 @@ export const getThreadsByUser = async (req, res) => {
 };
 
 // TODO:
-export const getAllThreads = async (req, res) => {
+export const getThreads = async (req, res) => {
   try {
-    console.log('Server::getAllThreads');
+    console.log('Server::getThreads');
+    const { page, limit } = req.query;
+    const threads = await ThreadService.getThreads(page, limit);
+    const totalThreads = await ThreadService.totalNumber();
     res.status(200).json({
-
+      currentPage: page,
+      totalPages: Math.ceil(totalThreads / limit),
+      threads
     });
   } catch (err) {
-
+    res.status(400).json({
+      error: err.message
+    });
   }
 };
 

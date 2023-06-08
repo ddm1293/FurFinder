@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-const { Schema } = mongoose;
 
 // TODO: finish using discriminator
 const PetSchema = new mongoose.Schema({
@@ -22,4 +21,4 @@ const PetSchema = new mongoose.Schema({
   discriminatorKey: 'species'
 });
 
-const PetModel = mongoose.model('Pet', PetSchema);
+export const PetModel = mongoose.model('Pet', PetSchema);
