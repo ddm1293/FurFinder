@@ -16,4 +16,11 @@ app.use('/comment', commentRouter);
 
 app.listen(3001, () => console.log('SERVER STARTED!!!'));
 
-mongoose.connect('mongodb+srv://makemake1293:Oops1293!@furfinder.61gyfvo.mongodb.net/?retryWrites=true&w=majority');
+mongoose.connect('mongodb+srv://makemake1293:Oops1293!@furfinder.61gyfvo.mongodb.net/furfinder?retryWrites=true&w=majority');
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function() {
+  console.log('Successfully connected to MongoDB!');
+});
