@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { threads } from '../mocks/viewMock'
+import { threads } from '../mocks/forumMock'
 
 const initialState = {
   threads: threads,
   filteredThreads: []
 }
 
-const viewSlice = createSlice({
-  name: 'viewthread',
+const forumSlice = createSlice({
+  name: 'forum',
   initialState,
   reducers: {
     searchThread: (state, action) => {
@@ -18,8 +18,8 @@ const viewSlice = createSlice({
     }
   }
 })
-export default viewSlice.reducer
+export default forumSlice.reducer
 export const {
   searchThread,
   filterThread
-} = viewSlice.actions
+} = forumSlice.actions
