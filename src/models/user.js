@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const UserSchema = new mongoose.Schema({
-  username: String,
+  username: {
+    type: String,
+    unique: true
+  },
   password: String,
   myThreads: [{
     type: Schema.Types.ObjectId,
@@ -14,4 +17,4 @@ const UserSchema = new mongoose.Schema({
   }]
 });
 
-export const UserModel = mongoose.model('User', UserSchema);
+export const UserModel = mongoose.model('User', UserSchema, 'users');
