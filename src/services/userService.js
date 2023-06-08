@@ -1,4 +1,4 @@
-import { UserModel } from '../models/user.js';
+import { UserModel } from '../models/userModel.js';
 
 class UserService {
   static async getUser(username) {

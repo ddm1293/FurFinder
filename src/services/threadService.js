@@ -1,4 +1,4 @@
-import { ThreadModel } from '../models/thread.js';
+import { ThreadModel } from '../models/threadModel.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
