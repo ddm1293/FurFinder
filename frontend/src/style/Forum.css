@@ -3,33 +3,30 @@ img {
     height: 300px;
 }
 
-.view-thread-container {
+.forum-container {
     display: flex;
     flex-direction: row;
 }
 
-.view-thread-content {
+.forum-content {
     display: flex;
     flex-direction: column;
     flex: 2;
 }
 
-.view-as-card {
+.side-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 50px;
+}
+
+.card-view {
     display: flex;
     flex-wrap: wrap;
 }
 
-.side-container {
-    flex: 1;
-    margin: 0 50px;
-}
-
-.side-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.thread {
+.cards {
     margin: 10px;
 }
 

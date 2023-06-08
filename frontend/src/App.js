@@ -5,7 +5,7 @@ import Home from './routes/Home';
 // import CommentView from "./components/Comments/CommentView";
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
-import ViewThread from "./components/ViewThread/ViewThread"
+import Forum from "./components/Forum/Forum"
 
 // edited for thread component test
 function App() {
@@ -17,7 +17,7 @@ function App() {
       {/* </Routes> */}
       {/* <Thread /> */}
       {/* <CommentView /> */}
-      <ViewThread/>
+      <Forum/>
     </div>
   );
 }
