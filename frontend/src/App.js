@@ -5,17 +5,19 @@ import Home from './routes/Home';
 // import CommentView from "./components/Comments/CommentView";
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
+import Forum from "./components/Forum/Forum"
 
 // edited for thread component test
 function App() {
   return (
     <div className="App">
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      {/* <Navbar/> */}
+      {/* <Routes> */}
+      {/*   <Route path="/" element={<Home />} /> */}
+      {/* </Routes> */}
       {/* <Thread /> */}
       {/* <CommentView /> */}
+      <Forum/>
     </div>
   );
 }
