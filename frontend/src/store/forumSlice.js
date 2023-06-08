@@ -14,7 +14,11 @@ const forumSlice = createSlice({
       state.filteredThreads = state.threads.filter((thread) => thread.title === thread.payload)
     },
     filterThread: (state, action) => {
-      state.filteredThreads = state.threads.filter((thread) => thread.type === action.payload)
+      if (action.payload === 'all') {
+        state.filteredThreads = state.threads
+      } else {
+        state.filteredThreads = state.threads.filter((thread) => thread.type === action.payload)
+      }
     }
   }
 })

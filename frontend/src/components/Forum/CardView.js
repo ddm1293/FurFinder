@@ -7,11 +7,11 @@ function CardView ({ items }) {
   return (
     <div>
       <div className="card-view">
-        {items.map((card, index) => (
+        {items.map((item, index) => (
           <Card className="cards"
                 key={index}
                 style={{ width: 400 }}
-                cover={<img src={card.img} alt="pet" />}
+                cover={<img src={item.img} alt="pet" />}
                 actions={[
                   <StarOutlined key="star" />,
                   <MessageOutlined key="message" />,
@@ -19,8 +19,14 @@ function CardView ({ items }) {
           >
             <Meta
               avatar={<Avatar size={30} icon={<UserOutlined />} />}
-              title={<a href="">{card.title}</a>}
-              description= {card.description.length>30? card.description.slice(0, 30) + "..." : card.description}
+              title={<a href="">{item.title}</a>}
+              // description= {item.description.length>30? item.description.slice(0, 30) + "..." : item.description}
+              description={
+                <div>
+                  <div className="breed">{`Breed: ${item.breed}`}</div>
+                  <div className="sex">{`Sex: ${item.sex}`}</div>
+                </div>
+              }
             />
           </Card>
         ))}
