@@ -6,6 +6,7 @@ export const createThread = async (req, res) => {
     const thread = await ThreadService.createThread(req.body);
     res.status(200).json({
       message: 'The thread is created successfully',
+      petCreated: res.petCreated,
       threadCreated: thread
     });
   } catch (err) {
@@ -14,9 +15,17 @@ export const createThread = async (req, res) => {
   }
 };
 
-// TODO:
 export const getThread = async (req, res) => {
-  console.log('Server::getThread');
+  try {
+    console.log('Server::Getting a thread - running getThread');
+    const id = req.params.id;
+    const thread = await ThreadService.getThread(id);
+    res.status(200).json({ thread });
+  } catch (err) {
+    res.status(400).json({
+      error: err.message
+    });
+  }
 };
 
 // TODO:
