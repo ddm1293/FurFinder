@@ -3,7 +3,18 @@ import Forum from "../components/Forum/Forum";
 
 function Threads() {
   const location = useLocation();
-  const { filterOptions, shouldOpenCreateThreadForm, threadType } = location.state;
+  let filterOptions;
+  let shouldOpenCreateThreadForm;
+  let threadType;
+
+  if (location.state) {
+    filterOptions = location.state.filterOptions;
+    shouldOpenCreateThreadForm = location.state.shouldOpenCreateThreadForm;
+    threadType = location.state.threadType;
+  } else {
+    filterOptions = 'all';
+    shouldOpenCreateThreadForm = false;
+  }
 
   return (
     <Forum

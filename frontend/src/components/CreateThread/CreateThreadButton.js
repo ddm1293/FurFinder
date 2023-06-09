@@ -40,6 +40,8 @@ function CreateThreadButton (props) {
     if (props.shouldOpenCreateThreadForm) {
       updateThreadType(props.threadType);
       setOpen(true);
+    } else {
+      setOpen(false);
     }
   }, [props]);
 

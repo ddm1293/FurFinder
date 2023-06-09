@@ -69,6 +69,10 @@ function Forum (props) {
         </div>
         <div className="forum-content">
           <h2>View</h2>
+          <CreateThreadButton
+            shouldOpenCreateThreadForm={props.shouldOpenCreateThreadForm}
+            threadType={props.threadType}
+          />
           <div className="forum-view">
             <Menu onClick={(event) => {
               setSelectedKey(event.key)
@@ -86,11 +90,6 @@ function Forum (props) {
               setCurrentPage(page)
             }}
           />
-          <CreateThreadButton
-            shouldOpenCreateThreadForm={props.shouldOpenCreateThreadForm}
-            threadType={props.threadType}
-          />
-          {/* <CardView items={displayedCards} /> */}
         </div>
       </Content>
     </Layout>
