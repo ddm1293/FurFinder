@@ -4,7 +4,7 @@ class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
 
   static async getThread(id) {
-    return ThreadModel.findOne({ _id: id });
+    return ThreadModel.findById(id);
   }
 
   // TODO: update User's threads field after they create a thread
@@ -19,6 +19,31 @@ class ThreadService {
       .skip(skip)
       .limit(limit * 1)
       .exec();
+  }
+
+  // TODO: add validation to body; potentially increment versionkey
+  static async updateThread(id, body) {
+    return ThreadModel.findByIdAndUpdate(id, body, { new: true, upsert: true });
+  }
+
+  static async patchThread(id, body) {
+    const toPatch = await ThreadService.getThread(id);
+    for (const prop in body) {
+      if (prop in toPatch) {
+        toPatch[prop] = body[prop];
+      }
+    }
+    return toPatch.save();
+  }
+
+  static async archiveThread(id) {
+    const toArchive = await ThreadService.getThread(id);
+    toArchive.archived = true;
+    return toArchive.save();
+  }
+
+  static async deleteThread(id) {
+    return ThreadModel.findByIdAndDelete(id);
   }
 }
 

@@ -35,7 +35,7 @@ export const getThreadsByUser = async (req, res) => {
 
 export const getThreads = async (req, res) => {
   try {
-    console.log('Server::getThreads');
+    console.log('Server::Getting threads - running getThreads');
     const { page, limit } = req.query;
     const threads = await ThreadService.getThreads(page, limit);
     const totalThreads = await ThreadService.totalNumber();
@@ -51,22 +51,54 @@ export const getThreads = async (req, res) => {
   }
 };
 
-// TODO:
 export const updateThread = async (req, res) => {
-  console.log('Server::updateThread');
+  try {
+    console.log('Server::Updating a thread - running updateThread');
+    const id = req.params.id;
+    const updated = await ThreadService.updateThread(id, req.body);
+    res.status(200).json({ message: 'Successfully updated', updated });
+  } catch (err) {
+    res.status(400).json({
+      error: err.message
+    });
+  }
 };
 
-// TODO:
 export const patchThread = async (req, res) => {
-  console.log('Server::patchThread');
+  try {
+    console.log('Server::Patching a thread - running patchThread');
+    const id = req.params.id;
+    const patched = await ThreadService.patchThread(id, req.body);
+    res.status(200).json({ message: 'Successfully patched', patched });
+  } catch (err) {
+    res.status(400).json({
+      error: err.message
+    });
+  }
 };
 
-// TODO:
 export const archiveThread = async (req, res) => {
-  console.log('Server::archiveThread');
+  try {
+    console.log('Server::Archiving a thread - running archiveThread');
+    const id = req.params.id;
+    const archived = await ThreadService.archiveThread(id);
+    res.status(200).json({ message: 'Successfully archived', archived });
+  } catch (err) {
+    res.status(400).json({
+      error: err.message
+    });
+  }
 };
 
-// TODO:
 export const deleteThread = async (req, res) => {
-  console.log('Server::deleteThread');
+  try {
+    console.log('Server::Deleting a thread - running deleteThread');
+    const id = req.params.id;
+    await ThreadService.deleteThread(id);
+    res.status(200).json({ message: 'Successfully deleted' });
+  } catch (err) {
+    res.status(400).json({
+      error: err.message
+    });
+  }
 };

@@ -21,7 +21,11 @@ const ThreadSchema = new mongoose.Schema({
   comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'
-  }]
+  }],
+  archived: {
+    type: Boolean,
+    default: false
+  }
 }, {
   timestamps: true
 });
