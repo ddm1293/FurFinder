@@ -19,6 +19,8 @@
     ],
     "rules": {
         "semi": ["error", "always"],
-        "no-unused-vars": "warn"
+        "no-unused-vars": "warn",
+        "quotes": ["warn", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
+        "space-before-function-paren": "off"
     }
 }
