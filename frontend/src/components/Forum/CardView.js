@@ -1,5 +1,5 @@
 import { Avatar, Card } from 'antd'
-import { ExpandOutlined, StarOutlined } from '@ant-design/icons'
+import { MessageOutlined, StarOutlined, UserOutlined } from '@ant-design/icons'
 
 const { Meta } = Card
 
@@ -7,20 +7,26 @@ function CardView ({ items }) {
   return (
     <div>
       <div className="card-view">
-        {items.map((card, index) => (
+        {items.map((item, index) => (
           <Card className="cards"
                 key={index}
                 style={{ width: 400 }}
-                cover={<img src={card.img} alt="pet" />}
+                cover={<img src={item.img} alt="pet" />}
                 actions={[
                   <StarOutlined key="star" />,
-                  <ExpandOutlined key="expand" />
+                  <MessageOutlined key="message" />,
                 ]}
           >
             <Meta
-              avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
-              title={card.title}
-              description={card.description}
+              avatar={<Avatar size={30} icon={<UserOutlined />} />}
+              title={<a href="">{item.title}</a>}
+              // description= {item.description.length>30? item.description.slice(0, 30) + "..." : item.description}
+              description={
+                <div>
+                  <div className="breed">{`Breed: ${item.breed}`}</div>
+                  <div className="sex">{`Sex: ${item.sex}`}</div>
+                </div>
+              }
             />
           </Card>
         ))}
