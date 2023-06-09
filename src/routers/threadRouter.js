@@ -13,10 +13,10 @@ threadRouter.get('/:id', threadController.getThread);
 threadRouter.post('/', processPet, threadController.createThread);
 
 // PUT APIS
-threadRouter.put('/archive/:id', threadController.archiveThread);
 threadRouter.put('/:id', threadController.updateThread);
 
 // PATCH APIS
+threadRouter.patch('/archive/:id', threadController.archiveThread);
 threadRouter.patch('/:id', threadController.patchThread);
 
 // DELETE APIS
