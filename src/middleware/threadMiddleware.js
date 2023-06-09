@@ -5,6 +5,7 @@ export const processPet = async (req, res, next) => {
     const petData = req.body.pet;
     const pet = await PetService.createPet(petData);
     req.body.pet = pet._id;
+    res.petCreated = pet;
     next();
   } catch (err) {
     console.error(err);

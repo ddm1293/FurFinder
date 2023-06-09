@@ -3,6 +3,10 @@ import { ThreadModel } from '../models/threadModel.js';
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
 
+  static async getThread(id) {
+    return ThreadModel.findOne({ _id: id });
+  }
+
   // TODO: update User's threads field after they create a thread
   static async createThread(body) {
     return ThreadModel.create(body);
