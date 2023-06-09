@@ -1,42 +1,25 @@
 import express from 'express';
+import * as threadController from '../controllers/threadController.js';
+import { processPet } from '../middleware/threadMiddleware.js';
 
 const threadRouter = express.Router();
 
-// TODO:
-const createThread = async (req, res) => {
-  console.log('Server::createThread');
-};
+// GET APIS
+threadRouter.get('/userId', threadController.getThreadsByUser);
+threadRouter.get('/getThreads', threadController.getThreads);
+threadRouter.get('/:id', threadController.getThread);
 
-// TODO:
-const getThread = async (req, res) => {
-  console.log('Server::getThread');
-};
+// POST APIS
+threadRouter.post('/', processPet, threadController.createThread);
 
-// TODO:
-const updateThread = async (req, res) => {
-  console.log('Server::updateThread');
-};
+// PUT APIS
+threadRouter.put('/:id', threadController.updateThread);
 
-// TODO:
-const patchThread = async (req, res) => {
-  console.log('Server::patchThread');
-};
+// PATCH APIS
+threadRouter.patch('/archive/:id', threadController.archiveThread);
+threadRouter.patch('/:id', threadController.patchThread);
 
-// TODO:
-const archiveThread = async (req, res) => {
-  console.log('Server::archiveThread');
-};
-
-// TODO:
-const deleteThread = async (req, res) => {
-  console.log('Server::deleteThread');
-};
-
-threadRouter.post('/thread/:id/:kind', createThread);
-threadRouter.get('/thread/:id', getThread);
-threadRouter.put('/thread/:id', updateThread);
-threadRouter.patch('/thread/:id', patchThread);
-threadRouter.put('/thread/:id/archive', archiveThread);
-threadRouter.delete('/thread/:id', deleteThread);
+// DELETE APIS
+threadRouter.delete('/:id', threadController.deleteThread);
 
 export default threadRouter;

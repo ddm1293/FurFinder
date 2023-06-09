@@ -28,10 +28,10 @@ const deleteThread = async (req, res) => {
   console.log('Server::deleteThread');
 };
 
-threadRouter.post('/thread/:id/:kind', createComment);
-threadRouter.get('/thread/:id', getComment);
-threadRouter.put('/thread/:id', updateComment);
-threadRouter.patch('/thread/:id', patchComment);
-threadRouter.delete('/thread/:id', deleteThread);
+threadRouter.post('/', createComment);
+threadRouter.get('/:id', getComment);
+threadRouter.put('/:id', updateComment);
+threadRouter.patch('/:id', patchComment);
+threadRouter.delete('/:id', deleteThread);
 
 export default commentRouter;
