@@ -1,5 +1,5 @@
 :root {
-  --split-height: 85vh;
+  --split-height: 80vh;
 }
 
 #split .split__sides {
@@ -23,7 +23,7 @@
 }
 
 #split .split__image:hover {
-  -webkit-filter: brightness(95%); 
+  -webkit-filter: brightness(95%);
   transform: scale(1.1);
   transition: 0.25s ease all;
 }
@@ -46,26 +46,26 @@
   text-transform: uppercase;
 }
 
-#about {
+#about, #contact-us {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-#about h1 {
+#about h1, #contact-us h1 {
   height: 100vh - var(--split-height);
 }
 
-#about p {
+#about p, #contact-us p {
   margin-top: 0;
-  width: 75%;
+  width: 80%;
 }
 
 @media screen and (min-width: 1000px) {
   #split {
     display: flex;
   }
-  
+
   #split .split__sides {
     width: 50%;
     height: var(--split-height); /* prob need to change to accomodate About */

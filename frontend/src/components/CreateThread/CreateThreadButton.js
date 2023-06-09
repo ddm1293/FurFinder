@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import '../../style/CreateThread/CreaeteThreadButton.css'
+import React, { useState, useEffect } from 'react'
+import '../../style/CreateThread/CreateThreadButton.css'
 import { CaretDownOutlined } from '@ant-design/icons';
 import { Button, Dropdown, Space } from 'antd'
 import CreateThreadForm from './CreateThreadForm'
@@ -15,7 +15,7 @@ const items = [
   }
 ];
 
-function CreateThreadButton () {
+function CreateThreadButton (props) {
   const [open, setOpen] = useState(false);
   const [threadType, updateThreadType] = useState('unsetThreadType');
 
@@ -36,6 +36,15 @@ function CreateThreadButton () {
     setOpen(true);
   };
 
+  useEffect(() => {
+    if (props.shouldOpenCreateThreadForm) {
+      updateThreadType(props.threadType);
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  }, [props]);
+
   return (
     <div className='create-thread'>
       <Dropdown
@@ -43,7 +52,8 @@ function CreateThreadButton () {
           items: items,
           onClick: handleCreateClick,
         }}
-        autoAdjustOverflow>
+        autoAdjustOverflow
+      >
         <Button type="primary">
           <Space>
             <span className='create-button-text'>Create</span>

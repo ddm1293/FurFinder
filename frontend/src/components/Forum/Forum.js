@@ -1,6 +1,7 @@
 import FilterThreads from './FilterThreads'
 import SearchThreads from './SearchThreads'
 import CardView from './CardView'
+import CreateThreadButton from '../CreateThread/CreateThreadButton'
 import ListView from './ListView'
 import { Breadcrumb, Layout, Pagination, Menu } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
@@ -11,7 +12,7 @@ import { threads } from '../../mocks/forumMock'
 
 const { Content } = Layout
 
-function Forum () {
+function Forum (props) {
   //reference: ChatGPT (separate list of items into different pages)
   const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = 6
@@ -64,10 +65,14 @@ function Forum () {
         <div className="side-container">
           <h2>Side</h2>
           <SearchThreads />
-          <FilterThreads />
+          <FilterThreads filterOptions={props.filterOptions}/>
         </div>
         <div className="forum-content">
           <h2>View</h2>
+          <CreateThreadButton
+            shouldOpenCreateThreadForm={props.shouldOpenCreateThreadForm}
+            threadType={props.threadType}
+          />
           <div className="forum-view">
             <Menu onClick={(event) => {
               setSelectedKey(event.key)

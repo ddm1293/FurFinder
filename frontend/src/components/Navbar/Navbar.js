@@ -5,6 +5,7 @@ import RightMenu from "./RightMenu";
 import { MenuOutlined } from "@ant-design/icons";
 import icon from "../../static/icon.png";
 import "../../style/Navbar.css";
+import { Link } from 'react-router-dom'
 const Navbar = () => {
     const [visible, setVisible] = useState(false);
     const showDrawer = () => {
@@ -14,7 +15,9 @@ const Navbar = () => {
         <nav className="navbar">
             <Layout>
                 <Layout.Header className="nav-header">
-                    <img className="logo" src={icon} alt="icon"></img>
+                    <Link to="/">
+                        <img className="logo" src={icon} alt="icon"></img>
+                    </Link>
                     <div className="navbar-menu">
                         <div className="leftMenu">
                             <LeftMenu mode={"horizontal"} />

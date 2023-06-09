@@ -1,12 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { filterThread } from '../../store/forumSlice'
 import { DatePicker, Form, Radio } from 'antd'
 import { Button } from 'antd'
 
-function FilterThreads () {
-  const [option, setOption] = useState('all')
+function FilterThreads (props) {
+  const [option, setOption] = useState(props.filterOptions || 'all')
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    setOption(props.filterOptions);
+  }, [props]);
 
   return (
     <div className="filter-container">

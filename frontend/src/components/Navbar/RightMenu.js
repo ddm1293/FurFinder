@@ -1,7 +1,8 @@
 import React from "react";
-import "../../style/Navbar.css";
+import { Link } from 'react-router-dom';
 import { Menu, Avatar } from "antd";
 import { UserOutlined, CodeOutlined, LogoutOutlined } from "@ant-design/icons";
+import "../../style/Navbar.css";
 
 const RightMenu = ({ mode }) => {
     return (
@@ -15,10 +16,10 @@ const RightMenu = ({ mode }) => {
                 }
             >
                 <Menu.Item key="profile">
-                    <CodeOutlined /> Profile
+                    <CodeOutlined /> <Link to="/profile">Your Profile</Link>
                 </Menu.Item>
                 <Menu.Item key="personal-settings">
-                    <UserOutlined /> Personal Settings
+                    <UserOutlined /> <Link to="/settings">Settings</Link>
                 </Menu.Item>
                 <Menu.Item key="log-out">
                     <LogoutOutlined /> Logout
