@@ -9,8 +9,8 @@ class UserService {
 
   static async createUser(body) {
     const { username, email, password } = body;
-    console.log(username, email, password);
     const exist = await UserService.getUser(username);
+    // TODO check if email already exists as well
     if (exist) {
       throw new UserAlreadyExistException(`${username} with email: ${email} has already registered`);
     } else {
