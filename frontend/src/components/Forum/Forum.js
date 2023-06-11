@@ -13,7 +13,7 @@ import { threads } from '../../mocks/forumMock'
 const { Content } = Layout
 
 function Forum (props) {
-  //reference: ChatGPT (separate list of items into different pages)
+  // separate list of items into different pages
   const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = 6
   const startIndex = (currentPage - 1) * cardsPerPage

@@ -20,7 +20,6 @@ function CardView ({ items }) {
             <Meta
               avatar={<Avatar size={30} icon={<UserOutlined />} />}
               title={<a href="">{item.title}</a>}
-              // description= {item.description.length>30? item.description.slice(0, 30) + "..." : item.description}
               description={
                 <div>
                   <div className="breed">{`Breed: ${item.breed}`}</div>

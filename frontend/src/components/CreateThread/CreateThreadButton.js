@@ -43,7 +43,7 @@ function CreateThreadButton (props) {
     } else {
       setOpen(false);
     }
-  }, [props]);
+  }, [props.shouldOpenCreateThreadForm]);
 
   return (
     <div className='create-thread'>

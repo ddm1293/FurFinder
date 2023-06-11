@@ -36,7 +36,6 @@ function FilterThreads (props) {
           labelCol={{ span: 0 }}
           wrapperCol={{ span: 12 }} // width of form: 12 -> 50% of container space
           layout="horizontal"
-          // disabled={componentDisabled}
           style={{ maxWidth: 600 }}
         >
           <Form.Item label="Type">
