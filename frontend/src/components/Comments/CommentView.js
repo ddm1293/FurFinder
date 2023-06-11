@@ -1,8 +1,7 @@
 import {useSelector} from 'react-redux';
-import CommentInput from "./CommentInput"
 import "../../style/Comments.css";
-import {Avatar} from "antd";
-import {UserOutlined} from "@ant-design/icons";
+import CommentInput from "./CommentInput";
+import Comment from './Comment';
 
 function CommentView() {
     const comments = useSelector((state) => state.comments);
@@ -15,14 +14,7 @@ function CommentView() {
             </div>
             <div className="comment-list">
                 {comments.map((comment) => (
-                    <div className="comment-container" >
-                        <div className="comment-info">
-                            <Avatar icon={<UserOutlined/>}/>
-                            <div className="comment-username">{comment.userName}</div>
-                            <div className="comment-time">{comment.createdAt}</div>
-                        </div>
-                        <div className="comment-body">{comment.body}</div>
-                    </div>
+                    <Comment comment={comment} />
                 ))}
             </div>
         </div>
