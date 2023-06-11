@@ -14,7 +14,7 @@ function Thread() {
         <div className="thread-container">
             <div className="user-info">
                 <Avatar size={64} src={user.avatar} alt="user avatar" />
-                <h2 className="username">{user.username}</h2>
+                <h2 className="thread-username">{user.username}</h2>
             </div>
             <div className="thread-title-container">
                 <h3 className="thread-title">{thread.title}</h3>
