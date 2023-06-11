@@ -7,6 +7,8 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "@ant-design/icons": "^5.1.4",
+    "antd": "^5.5.2",
     "async": "^3.2.4",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
