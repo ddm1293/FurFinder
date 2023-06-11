@@ -29,6 +29,16 @@ class UserService {
     user.myThreads.push(threadId);
     await user.save();
   }
+
+  static async patchUser(userId, body) {
+    const toPatch = await UserService.getUserById(userId);
+    for (const prop in body) {
+      if (prop in toPatch) {
+        toPatch[prop] = body[prop];
+      }
+    }
+    return toPatch.save();
+  }
 }
 
 export default UserService;

@@ -37,6 +37,14 @@ export const getUser = async (req, res) => {
 };
 
 export const patchUser = async (req, res) => {
+  try {
+    console.log('Server::patchUser');
+    const user = await UserService.patchUser(req.params.id, req.body);
+    res.status(200).json({ message: 'Update user information Successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
 };
 
 // TODO:

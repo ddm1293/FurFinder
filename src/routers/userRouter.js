@@ -7,7 +7,7 @@ userRouter.post('/auth/register', userController.registerUser);
 userRouter.post('/auth/login', userController.userLogin);
 userRouter.get('/getAllUsers', userController.getAllUsers);
 userRouter.get('/:id', userController.getUser);
-userRouter.patch('/', userController.patchUser);
+userRouter.patch('/:id', userController.patchUser);
 
 // TODO: get a user by id
 
