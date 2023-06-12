@@ -1,5 +1,4 @@
 import { ThreadModel } from '../models/threadModel.js';
-import { UserModel } from '../models/userModel.js';
 import UserService from './userService.js';
 
 class ThreadService {
@@ -10,12 +9,15 @@ class ThreadService {
   }
 
   static async getThreadsOfUserById(userId) {
+    const user = await UserService.getUserById(userId);
+    return user.myThreads;
   }
 
-  static async getThreadsOfUserByName(userId) {
+  static async getThreadsOfUserByName(name) {
+    const user = await UserService.getUserByName(name);
+    return user.myThreads;
   }
 
-  // TODO: update User's threads field after they create a thread
   static async createThread(body) {
     const thread = await ThreadModel.create(body);
     await UserService.updateThread(body.poster, thread._id);

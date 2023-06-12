@@ -6,7 +6,7 @@ import userRouter from './routers/userRouter.js';
 import commentRouter from './routers/commentRouter.js';
 import dotenv from 'dotenv';
 
-const app = express();
+export const app = express();
 
 app.use(express.json());
 app.use(cors());
@@ -19,9 +19,7 @@ dotenv.config();
 
 app.listen(process.env.PORT, () => console.log('SERVER STARTED!!!'));
 
-mongoose.connect(
-  `mongodb+srv://${process.env.MONGOOSE_USERNAME}:${process.env.MONGOOSE_PASSWORD}@furfinder.61gyfvo.mongodb.net/furfinder?retryWrites=true&w=majority`
-);
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING);
 
 const db = mongoose.connection;
 
