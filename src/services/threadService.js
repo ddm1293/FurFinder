@@ -1,10 +1,18 @@
 import { ThreadModel } from '../models/threadModel.js';
+import { UserModel } from '../models/userModel.js';
+import UserService from './userService.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
 
   static async getThread(id) {
     return ThreadModel.findById(id);
+  }
+
+  static async getThreadsOfUserById(userId) {
+  }
+
+  static async getThreadsOfUserByName(userId) {
   }
 
   // TODO: update User's threads field after they create a thread
@@ -21,7 +29,7 @@ class ThreadService {
       .exec();
   }
 
-  // TODO: add validation to body; potentially increment versionkey
+  // TODO: add validation to body; potentially increment versionKey
   static async updateThread(id, body) {
     return ThreadModel.findByIdAndUpdate(id, body, { new: true, upsert: true });
   }

@@ -28,9 +28,17 @@ export const getThread = async (req, res) => {
   }
 };
 
-// TODO:
-export const getThreadsByUser = async (req, res) => {
-  console.log('Server::getThreadsByUser');
+export const getThreadsByUserId = async (req, res) => {
+  try {
+    console.log('Server::getThreadsByUser');
+    const threads = await ThreadService.getThreadsOfUserById(req.params.id);
+    res.status(200).json({ message: 'Successfully find the threads', threads });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      error: err.message
+    });
+  }
 };
 
 export const getThreads = async (req, res) => {
@@ -45,6 +53,7 @@ export const getThreads = async (req, res) => {
       threads
     });
   } catch (err) {
+    console.error(err);
     res.status(400).json({
       error: err.message
     });
@@ -58,6 +67,7 @@ export const updateThread = async (req, res) => {
     const updated = await ThreadService.updateThread(id, req.body);
     res.status(200).json({ message: 'Successfully updated', updated });
   } catch (err) {
+    console.error(err);
     res.status(400).json({
       error: err.message
     });
@@ -71,6 +81,7 @@ export const patchThread = async (req, res) => {
     const patched = await ThreadService.patchThread(id, req.body);
     res.status(200).json({ message: 'Successfully patched', patched });
   } catch (err) {
+    console.error(err);
     res.status(400).json({
       error: err.message
     });
@@ -84,6 +95,7 @@ export const archiveThread = async (req, res) => {
     const archived = await ThreadService.archiveThread(id);
     res.status(200).json({ message: 'Successfully archived', archived });
   } catch (err) {
+    console.error(err);
     res.status(400).json({
       error: err.message
     });
@@ -97,6 +109,7 @@ export const deleteThread = async (req, res) => {
     await ThreadService.deleteThread(id);
     res.status(200).json({ message: 'Successfully deleted' });
   } catch (err) {
+    console.error(err);
     res.status(400).json({
       error: err.message
     });
