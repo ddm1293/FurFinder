@@ -25,6 +25,28 @@ export const registerUser = async (req, res) => {
   }
 };
 
+export const getUser = async (req, res) => {
+  try {
+    console.log('Server::getUser');
+    const user = await UserService.getUserById(req.params.id);
+    res.status(200).json({ message: 'GetUser Successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
+
+export const patchUser = async (req, res) => {
+  try {
+    console.log('Server::patchUser');
+    const user = await UserService.patchUser(req.params.id, req.body);
+    res.status(200).json({ message: 'Update user information Successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
+
 // TODO:
 export const userLogin = async (req, res) => {
   console.log('Server::userLogin');
