@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-const CommentSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
   content: {
     type: String,
     required: true
@@ -26,4 +26,4 @@ const CommentSchema = new mongoose.Schema({
   }
 });
 
-export const commentModel = mongoose.model('Comment', CommentSchema);
+export const CommentModel = mongoose.model('Comment', commentSchema);
