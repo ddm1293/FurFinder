@@ -1,14 +1,27 @@
 import { commentModel } from '../models/commentModel.js';
+import { ThreadModel } from '../models/threadModel.js';
+import req from 'express/lib/request.js';
 
 class commentService {
-  // static totalNumber = async () => await commentModel.countDocuments();
+  static totalNumber = async () => await commentModel.countDocuments();
 
   static async getComment(id) {
     return commentModel.findById(id);
   }
 
-  static async createComment(body) {
-    return commentModel.create(body);
+  static async getCommentsByThread(threadId) {
+    return ThreadModel.findById(threadId)
+      .select('comments')
+      .populate('comments');
+  }
+
+  static async createComment(threadId, body) {
+    const comment = commentModel.create(body);
+    console.log(comment);
+    // return ThreadModel.findById(threadId)
+    //   .select('comments')
+    //   .set({ comments: comment });
+    await ThreadModel.findOneAndUpdate(threadId, { $push: { comments: comment } });
   }
 
   static async updateComment(id, body) {

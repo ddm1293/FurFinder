@@ -6,19 +6,19 @@ const CommentSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  commenterName: {
-    type: String,
-    required: true
+  author: {
+    id: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    commenterName: String
   },
-  authorID: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  threadID: {
+  threadId: {
     type: Schema.Types.ObjectId,
     ref: 'Thread',
-    required: true
+    required: true,
+    unique: true
   },
   date: {
     type: Date,
