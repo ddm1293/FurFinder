@@ -35,10 +35,39 @@ describe('Test thread APIs', () => {
     });
 
     it('should get the thread successfully', async () => {
-      const threadId = await setUpAThread();
+      const threadId = await createThread({
+        title: 'Help! my cat is lost',
+        content: 'Please help me find my cat named maomao.',
+        poster: await createUser({
+          username: 'UserForTest',
+          email: 'email@test.com',
+          password: 'testing'
+        }),
+        pet: {
+          name: 'xiaomao',
+          sex: 'male',
+          lastSeenTime: '2023-06-01T10:00:00.000Z'
+        }
+      });
       const res = await request(server).get(`/thread/${threadId}`);
       expect(res.status).toBe(200);
       expect(res.body.thread._id).toBe(threadId);
+    });
+  });
+
+  describe('GET /thread/userId/:id', () => {
+    it('should get the threads by a given user successfully', async () => {
+    });
+
+    it('should fail to get the threads by a non-existent user', async () => {
+    });
+  });
+
+  describe('GET /thread/getThreads', () => {
+    it('should get first 10 threads', async () => {
+    });
+
+    it('should get the second 10 threads', async () => {
     });
   });
 
@@ -46,7 +75,11 @@ describe('Test thread APIs', () => {
     let userId;
 
     beforeAll(async () => {
-      userId = await setUpAUser();
+      userId = await createUser({
+        username: 'UserForTest',
+        email: 'email@test.com',
+        password: 'testing'
+      });
     });
 
     it('should create a thread successfully', async () => {
@@ -68,30 +101,53 @@ describe('Test thread APIs', () => {
       expect(res.body.threadCreated.title).toBe('Help! my cat is lost');
       expect(res.body.threadCreated.pet).toBe(res.body.petCreated._id);
     });
+
+    it('should be able to update user\'s thread history: creating two threads', async () => {
+    });
   });
 
-  async function setUpAUser() {
-    const body = {
-      username: 'UserForTest',
-      email: 'email@test.com',
-      password: 'testing'
-    };
+  describe('PUT /thread/:id', () => {
+    it('should successfully update a thread', async () => {
+    });
+
+    it('should fail if the thread does not exist', async () => {
+
+    });
+  });
+
+  describe('PATCH /thread/:id', () => {
+    it('should successfully patch a thread', async () => {
+    });
+
+    it('should fail to patch if the thread does not exist', async () => {
+
+    });
+  });
+
+  describe('PATCH /thread/archive/:id', () => {
+    it('should successfully archive a thread', async () => {
+    });
+
+    it('should fail to archive if the thread does not exist', async () => {
+
+    });
+  });
+
+  describe('DELETE /thread/:id', () => {
+    it('should successfully delete a thread', async () => {
+    });
+
+    it('should fail to delete if the thread does not exist', async () => {
+
+    });
+  });
+
+  async function createUser(body) {
     const res = await request(server).post('/user/auth/register').send(body).set('Accept', 'application/json');
     return res.body.newUser._id;
   }
 
-  async function setUpAThread() {
-    const body = {
-      title: 'Help! my cat is lost',
-      content: 'Please help me find my cat named maomao.',
-      poster: await setUpAUser(),
-      pet: {
-        name: 'xiaomao',
-        sex: 'male',
-        lastSeenTime: '2023-06-01T10:00:00.000Z'
-      }
-    };
-
+  async function createThread(body) {
     const res = await request(server).post('/thread').send(body).set('Accept', 'application/json');
     return res.body.threadCreated._id;
   }
