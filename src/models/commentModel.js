@@ -11,8 +11,7 @@ const commentSchema = new mongoose.Schema({
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true
-    },
-    commenterName: String
+    }
   },
   threadId: {
     type: Schema.Types.ObjectId,
