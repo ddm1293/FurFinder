@@ -1,12 +1,25 @@
-// using redux to mock the user data
-
 import { createSlice } from "@reduxjs/toolkit";
-import { userMock } from "../mocks/userMock";
 
+const initialState = {
+    userName: null,
+    avatar: null,
+};
 const userSlice = createSlice({
     name: "user",
-    initialState: userMock,
-    reducers: {}
+    initialState,
+    reducers: {
+        setUser: (state, action) => {
+            const { userName, avatar } = action.payload;
+
+            state.userName = userName;
+            state.avatar = avatar;
+        },
+        logoutUser: (state) => {
+            state.username = null;
+            state.avatar = null;
+        }
+    }
 });
 
+export const { setUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
