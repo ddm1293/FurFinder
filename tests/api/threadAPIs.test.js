@@ -56,10 +56,52 @@ describe('Test thread APIs', () => {
   });
 
   describe('GET /thread/userId/:id', () => {
+    let userId;
+
+    beforeAll(async () => {
+      userId = await createUser({
+        username: 'UserForTest',
+        email: 'email@test.com',
+        password: 'testing'
+      });
+    });
+
     it('should get the threads by a given user successfully', async () => {
+      const first = await createThread({
+        title: 'first thread to test',
+        content: 'Please help me find my cat named first_pet.',
+        poster: userId,
+        pet: {
+          name: 'first_pet',
+          sex: 'male',
+          lastSeenTime: '2023-06-01T10:00:00.000Z'
+        }
+      });
+
+      const second = await createThread({
+        title: 'second thread to test',
+        content: 'Please help me find my cat named second_pet.',
+        poster: userId,
+        pet: {
+          name: 'second_pet',
+          sex: 'female',
+          lastSeenTime: '2023-06-01T10:00:00.000Z'
+        }
+      });
+
+      const res = await request(server).get(`/thread/userId/${userId}`);
+      console.log(res.body);
+      expect(res.status).toBe(200);
+      expect(res.body.threads).toHaveLength(2);
+      expect(res.body.threads).toEqual([first, second]);
     });
 
     it('should fail to get the threads by a non-existent user', async () => {
+      const id = new mongoose.Types.ObjectId();
+      const res = await request(server).get(`/thread/userId/${id}`);
+      console.log(res.body);
+      expect(res.status).toBe(404);
+      expect(res.body.error.errorType).toBe('UserDoesNotExistException');
     });
   });
 
@@ -100,9 +142,6 @@ describe('Test thread APIs', () => {
       expect(res.body.threadCreated.poster).toBe(userId);
       expect(res.body.threadCreated.title).toBe('Help! my cat is lost');
       expect(res.body.threadCreated.pet).toBe(res.body.petCreated._id);
-    });
-
-    it('should be able to update user\'s thread history: creating two threads', async () => {
     });
   });
 

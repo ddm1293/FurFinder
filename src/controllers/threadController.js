@@ -1,6 +1,7 @@
 import ThreadService from '../services/threadService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { handleError } from '../exceptions/handleError.js';
+import { UserDoesNotExistException } from '../exceptions/userException.js';
 
 export const createThread = async (req, res) => {
   try {
@@ -34,10 +35,7 @@ export const getThreadsByUserId = async (req, res) => {
     const threads = await ThreadService.getThreadsOfUserById(req.params.id);
     res.status(200).json({ message: 'Successfully find the threads', threads });
   } catch (err) {
-    console.error(err);
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, UserDoesNotExistException, 404);
   }
 };
 

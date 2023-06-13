@@ -1,6 +1,7 @@
 import { ThreadModel } from '../models/threadModel.js';
 import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
+import { UserDoesNotExistException } from '../exceptions/userException.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -16,7 +17,11 @@ class ThreadService {
 
   static async getThreadsOfUserById(userId) {
     const user = await UserService.getUserById(userId);
-    return user.myThreads;
+    if (user) {
+      return user.myThreads;
+    } else {
+      throw new UserDoesNotExistException(`user ${userId} does not exist`);
+    }
   }
 
   static async getThreadsOfUserByName(name) {
