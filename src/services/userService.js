@@ -25,7 +25,7 @@ class UserService {
 
   static async updateThread(userId, threadId) {
     const user = await UserService.getUserById(userId);
-    console.log(user);
+    console.log('updateThread in userService: ', user);
     user.myThreads.push(threadId);
     await user.save();
   }

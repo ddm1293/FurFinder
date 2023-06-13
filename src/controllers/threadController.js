@@ -1,4 +1,6 @@
 import ThreadService from '../services/threadService.js';
+import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
+import { handleError } from '../exceptions/handleError.js';
 
 export const createThread = async (req, res) => {
   try {
@@ -22,9 +24,7 @@ export const getThread = async (req, res) => {
     const thread = await ThreadService.getThread(id);
     res.status(200).json({ thread });
   } catch (err) {
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, ThreadDoesNotExistException, 404);
   }
 };
 
