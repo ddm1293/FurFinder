@@ -12,6 +12,16 @@ describe('Test thread APIs', () => {
     server = await createServer(process.env.TEST_PORT, process.env.MONGODB_TESTING_STRING);
   });
 
+  let userId;
+
+  beforeEach(async () => {
+    userId = await createUser({
+      username: 'UserForTest',
+      email: 'email@test.com',
+      password: 'testing'
+    });
+  });
+
   afterAll((done) => {
     mongoose.connection.close().then(() => {
       server.close(done);
@@ -38,11 +48,7 @@ describe('Test thread APIs', () => {
       const threadId = await createThread({
         title: 'Help! my cat is lost',
         content: 'Please help me find my cat named maomao.',
-        poster: await createUser({
-          username: 'UserForTest',
-          email: 'email@test.com',
-          password: 'testing'
-        }),
+        poster: userId,
         pet: {
           name: 'xiaomao',
           sex: 'male',
@@ -56,16 +62,6 @@ describe('Test thread APIs', () => {
   });
 
   describe('GET /thread/userId/:id', () => {
-    let userId;
-
-    beforeAll(async () => {
-      userId = await createUser({
-        username: 'UserForTest',
-        email: 'email@test.com',
-        password: 'testing'
-      });
-    });
-
     it('should get the threads by a given user successfully', async () => {
       const first = await createThread({
         title: 'first thread to test',
@@ -114,16 +110,6 @@ describe('Test thread APIs', () => {
   });
 
   describe('POST /thread', () => {
-    let userId;
-
-    beforeAll(async () => {
-      userId = await createUser({
-        username: 'UserForTest',
-        email: 'email@test.com',
-        password: 'testing'
-      });
-    });
-
     it('should create a thread successfully', async () => {
       const body = {
         title: 'Help! my cat is lost',
