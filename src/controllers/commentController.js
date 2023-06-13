@@ -1,16 +1,8 @@
 import commentService from '../services/commentService.js';
-import mongoose from 'mongoose';
-
 export const createComment = async (req, res) => {
   try {
     console.log('Server:: create the Comment');
     const id = req.params.threadId;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({
-        message: 'Invalid thread id',
-        data: {}
-      });
-    }
     const comment = await commentService.createComment(id, req.params, req.body);
     res.status(201).json({
       message: 'The comment is created successfully',
@@ -39,12 +31,6 @@ export const getCommentsByThread = async (req, res) => {
   try {
     console.log('Server::Getting comments - running getComments');
     const threadId = req.params.threadId;
-    if (!mongoose.Types.ObjectId.isValid(threadId)) {
-      return res.status(400).send({
-        message: 'Invalid thread id',
-        data: {}
-      });
-    }
     const comments = await commentService.getCommentsByThread(threadId);
     res.status(200).json({
       comments
