@@ -2,7 +2,6 @@ import request, {} from 'supertest';
 import { createServer } from '../../src/utils/serverSetup.js';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import { ThreadDoesNotExistException } from '../../src/exceptions/threadException.js';
 
 dotenv.config();
 
@@ -66,6 +65,7 @@ describe('Test thread APIs', () => {
       const res = await request(server).post('/thread').send(body).set('Accept', 'application/json');
       console.log(res.body);
       expect(res.body.petCreated.name).toBe('xiaomao');
+      expect(res.body.petCreated.ownerId).toBe(userId);
       expect(res.body.threadCreated.poster).toBe(userId);
       expect(res.body.threadCreated.title).toBe('Help! my cat is lost');
       expect(res.body.threadCreated.pet).toBe(res.body.petCreated._id);

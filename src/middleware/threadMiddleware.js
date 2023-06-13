@@ -3,7 +3,8 @@ import PetService from '../services/petService.js';
 export const processPet = async (req, res, next) => {
   try {
     const petData = req.body.pet;
-    const pet = await PetService.createPet(petData);
+    const ownerId = req.body.poster;
+    const pet = await PetService.createPet(petData, ownerId);
     req.body.pet = pet._id;
     res.petCreated = pet;
     next();
