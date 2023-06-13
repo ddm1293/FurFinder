@@ -5,7 +5,7 @@ import { processPet } from '../middleware/threadMiddleware.js';
 const threadRouter = express.Router();
 
 // GET APIS
-threadRouter.get('/userId', threadController.getThreadsByUser);
+threadRouter.get('/userId/:id', threadController.getThreadsByUserId);
 threadRouter.get('/getThreads', threadController.getThreads);
 threadRouter.get('/:id', threadController.getThread);
 
