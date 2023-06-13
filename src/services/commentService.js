@@ -15,44 +15,10 @@ class commentService {
   }
 
   static async createComment(id, params, body) {
-    // Method 1 - error : Cannot read properties of undefined (reading 'push')
-    // const comment = CommentModel.create(body);
-    // const threadRelated = ThreadModel.findById(id);
-    // threadRelated.comments.push(comment);
-
-    // Method 2- error : comment.save() is not a function; if delete save, same error with Method 1
-    // const comment = new CommentModel({
-    //   content: body.content,
-    //   threadId: id,
-    //   author: {
-    //     id: body.author.id,
-    //     commenterName: body.author.commenterName
-    //   }
-    // });
-    // await comment.save();
-    // const threadRelated = ThreadModel.findById(id);
-    // threadRelated.comments.push(comment);
-    // await threadRelated.save();
-
-    // Method 3 - error : No error but doesn't work on Postman
-    // const comment = CommentModel.create(body);
-    // return ThreadModel.findById(id)
-    //   .select('comments')
-    //   .set({ comments: comment });
-
-    // Method 4 - errors : No error but doesn't work, commentCreated: null on Postman
-    // const comment = CommentModel.create(body);
-    // const comment = new CommentModel({
-    //   content: body.content,
-    //   threadId: id,
-    //   author: {
-    //     id: body.author.id,
-    //     commenterName: body.author.commenterName
-    //   }
-    // });
-    // console.log(comment);
-    // const update = { comments: comment };
-    // return ThreadModel.findOneAndUpdate(params, update);
+    const comment = await CommentModel.create(body);
+    const threadRelated = await ThreadModel.findById(id);
+    threadRelated.comments.push(comment);
+    return threadRelated.save();
   }
 
   static async updateComment(id, body) {
