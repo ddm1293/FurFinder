@@ -1,6 +1,6 @@
 import UserService from '../services/userService.js';
 import { UserModel } from '../models/userModel.js';
-import bcrypt from 'bcrypt';
+import { UserAlreadyExistException } from '../exceptions/userException.js';
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -13,17 +13,38 @@ export const getAllUsers = async (req, res) => {
 export const registerUser = async (req, res) => {
   try {
     console.log('Server::registerUser');
-    const { username, password } = req.body;
-    const exist = await UserService.getUser(username);
-    if (exist) {
-      res.status(409).json({ message: 'User with the same username already exists.' });
+    const newUser = await UserService.createUser(req.body);
+    res.status(200).json({ message: 'Registered successfully!', newUser });
+  } catch (err) {
+    console.error(err);
+    if (err instanceof UserAlreadyExistException) {
+      res.status(409).send(err.message);
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      console.log(hashedPassword);
-      const newUser = await UserService.createUser(username, hashedPassword);
-      res.status(200).json({ message: 'Registered successfully!', newUser });
+      res.status(400).send(err.message);
     }
-  } catch (err) {}
+  }
+};
+
+export const getUser = async (req, res) => {
+  try {
+    console.log('Server::getUser');
+    const user = await UserService.getUserById(req.params.id);
+    res.status(200).json({ message: 'GetUser Successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
+
+export const patchUser = async (req, res) => {
+  try {
+    console.log('Server::patchUser');
+    const user = await UserService.patchUser(req.params.id, req.body);
+    res.status(200).json({ message: 'Update user information Successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
 };
 
 // TODO:

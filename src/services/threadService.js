@@ -1,4 +1,5 @@
 import { ThreadModel } from '../models/threadModel.js';
+import UserService from './userService.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -9,7 +10,9 @@ class ThreadService {
 
   // TODO: update User's threads field after they create a thread
   static async createThread(body) {
-    return ThreadModel.create(body);
+    const thread = await ThreadModel.create(body);
+    await UserService.updateThread(body.poster, thread._id);
+    return thread;
   }
 
   static async getThreads(page, limit) {

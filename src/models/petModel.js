@@ -11,7 +11,10 @@ const PetSchema = new mongoose.Schema({
   }],
   sex: {
     type: String,
-    enum: ['male', 'female', 'unknown']
+    enum: {
+      values: ['male', 'female', 'unknown'],
+      message: '{VALUE} is not supported'
+    }
   },
   lastSeenTime: {
     type: Date,
