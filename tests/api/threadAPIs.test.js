@@ -35,6 +35,10 @@ describe('Test thread APIs', () => {
     });
 
     it('should get the thread successfully', async () => {
+      const threadId = await setUpAThread();
+      const res = await request(server).get(`/thread/${threadId}`);
+      expect(res.status).toBe(200);
+      expect(res.body.thread._id).toBe(threadId);
     });
   });
 
@@ -42,13 +46,7 @@ describe('Test thread APIs', () => {
     let userId;
 
     beforeAll(async () => {
-      const body = {
-        username: 'UserForTest',
-        email: 'email@test.com',
-        password: 'testing'
-      };
-      const res = await request(server).post('/user/auth/register').send(body).set('Accept', 'application/json');
-      userId = res.body.newUser._id;
+      userId = await setUpAUser();
     });
 
     it('should create a thread successfully', async () => {
@@ -71,4 +69,30 @@ describe('Test thread APIs', () => {
       expect(res.body.threadCreated.pet).toBe(res.body.petCreated._id);
     });
   });
+
+  async function setUpAUser() {
+    const body = {
+      username: 'UserForTest',
+      email: 'email@test.com',
+      password: 'testing'
+    };
+    const res = await request(server).post('/user/auth/register').send(body).set('Accept', 'application/json');
+    return res.body.newUser._id;
+  }
+
+  async function setUpAThread() {
+    const body = {
+      title: 'Help! my cat is lost',
+      content: 'Please help me find my cat named maomao.',
+      poster: await setUpAUser(),
+      pet: {
+        name: 'xiaomao',
+        sex: 'male',
+        lastSeenTime: '2023-06-01T10:00:00.000Z'
+      }
+    };
+
+    const res = await request(server).post('/thread').send(body).set('Accept', 'application/json');
+    return res.body.threadCreated._id;
+  }
 });
