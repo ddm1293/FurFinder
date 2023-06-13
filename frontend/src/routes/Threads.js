@@ -10,7 +10,7 @@ function Threads() {
   let threadType;
 
   if (location.state) {
-    if (location.state.shouldOpenCreateThreadForm && !user.userName) {
+    if (location.state.shouldOpenCreateThreadForm && !user.username) {
       return <Navigate to="/login" replace />;
     } else {
       filterOptions = location.state.filterOptions;

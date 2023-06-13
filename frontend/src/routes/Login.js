@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { setUser } from '../store/userSlice'; // import the setUser action creator from your userSlice file
 import { Form, Input, Button, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import jwt_decode from 'jwt-decode';
@@ -7,6 +9,7 @@ import '../style/Login.css';
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
@@ -14,8 +17,8 @@ export default function Login() {
 
   function handleCallbackResponse(response) {
     const userObject = jwt_decode(response.credential);
-    console.log(userObject);
 
+    dispatch(setUser({ username: userObject.name, avatar: userObject.picture }));
     navigate("/profile");
   }
 

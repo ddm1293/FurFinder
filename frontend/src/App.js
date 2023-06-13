@@ -14,7 +14,7 @@ import Settings from './routes/Settings';
 const ProtectedRoute = ({ children }) => {
   const user = useSelector((state) => state.user);
 
-  if (!user.userName) {
+  if (!user.username) {
     return <Navigate to="/login" replace />;
   }
 
