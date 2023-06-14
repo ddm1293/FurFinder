@@ -78,6 +78,9 @@ class ThreadService {
       throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
     }
   }
+
+  static async searchThreads() {
+  }
 }
 
 export default ThreadService;

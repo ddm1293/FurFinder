@@ -15,18 +15,6 @@ export function createServer(port, dbUrl) {
   app.use('/user', userRouter);
   app.use('/comment', commentRouter);
 
-  // const server = app.listen(port, () => console.log('SERVER STARTED!!!'));
-  //
-  // mongoose.connect(dbUrl);
-  //
-  // const db = mongoose.connection;
-  //
-  // db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-  // db.once('open', function () {
-  //   console.log('Successfully connected to MongoDB!');
-  // });
-  //
-  // return server;
   return new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
       console.log(`SERVER STARTED!!! port: ${port}`);

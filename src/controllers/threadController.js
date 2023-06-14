@@ -101,3 +101,13 @@ export const deleteThread = async (req, res) => {
     handleError(err, res, ThreadDoesNotExistException, 404);
   }
 };
+
+export const searchThreads = async (req, res) => {
+  try {
+    console.log('Server::Searching a thread - running searchThreads');
+    const searched = await ThreadService.searchThreads();
+    res.status(200).json({ message: 'Successfully found the threads', searched });
+  } catch (err) {
+    handleError(err, res);
+  }
+};

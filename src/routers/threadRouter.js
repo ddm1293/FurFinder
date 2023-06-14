@@ -7,6 +7,7 @@ const threadRouter = express.Router();
 // GET APIS
 threadRouter.get('/userId/:id', threadController.getThreadsByUserId);
 threadRouter.get('/getThreads', threadController.getThreads);
+threadRouter.get('/search', threadController.searchThreads);
 threadRouter.get('/:id', threadController.getThread);
 
 // POST APIS
