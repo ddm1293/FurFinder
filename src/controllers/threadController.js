@@ -65,10 +65,7 @@ export const updateThread = async (req, res) => {
     const updated = await ThreadService.updateThread(id, req.body);
     res.status(200).json({ message: 'Successfully updated', updated });
   } catch (err) {
-    console.error(err);
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, ThreadDoesNotExistException, 404);
   }
 };
 

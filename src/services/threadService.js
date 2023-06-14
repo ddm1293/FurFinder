@@ -46,7 +46,12 @@ class ThreadService {
 
   // TODO: add validation to body; potentially increment versionKey
   static async updateThread(id, body) {
-    return ThreadModel.findByIdAndUpdate(id, body, { new: true, upsert: true });
+    const updated = await ThreadModel.findByIdAndUpdate(id, body, { new: true });
+    if (updated) {
+      return updated;
+    } else {
+      throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
   }
 
   static async patchThread(id, body) {

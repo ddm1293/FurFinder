@@ -133,10 +133,50 @@ describe('Test thread APIs', () => {
 
   describe('PUT /thread/:id', () => {
     it('should successfully update a thread', async () => {
+      const threadId = await createThread({
+        title: 'The thread to test',
+        content: 'Please help me find my cat named xiaomao.',
+        poster: userId,
+        pet: {
+          name: 'xiaomao',
+          sex: 'male',
+          lastSeenTime: '2023-06-01T10:00:00.000Z'
+        }
+      });
+
+      await request(server).get(`/thread/${threadId}`);
+
+      const body = {
+        title: 'My Dog is Lost, please help!!!',
+        poster: '6488ffbc533c15562df45193',
+        pet: '6488ffbc533c15562df45195',
+        content: 'Please Help!!!! my Dog named Qianqian went missing today!',
+        comments: [],
+        createdAt: '2023-06-08T23:35:25.920Z',
+        updatedAt: '2023-06-08T23:35:25.920Z',
+        __v: 0
+      };
+      const res = await request(server).put(`/thread/${threadId}`).send(body).set('Accept', 'application/json');
+      console.log(res.body);
+      expect(res.body.updated.title).toBe('My Dog is Lost, please help!!!');
     });
 
     it('should fail if the thread does not exist', async () => {
+      const id = new mongoose.Types.ObjectId();
+      const body = {
+        title: 'My Dog is Lost, please help!!!',
+        poster: '6488ffbc533c15562df45193',
+        pet: '6488ffbc533c15562df45195',
+        content: 'Please Help!!!! my Dog named Qianqian went missing today!',
+        comments: [],
+        createdAt: '2023-06-08T23:35:25.920Z',
+        updatedAt: '2023-06-08T23:35:25.920Z',
+        __v: 0
+      };
 
+      const res = await request(server).put(`/thread/${id}`).send(body).set('Accept', 'application/json');
+      expect(res.status).toBe(404);
+      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 
