@@ -144,7 +144,8 @@ describe('Test thread APIs', () => {
         }
       });
 
-      await request(server).get(`/thread/${threadId}`);
+      const prevRes = await request(server).get(`/thread/${threadId}`);
+      expect(prevRes.body.thread.title).toBe('The thread to test');
 
       const body = {
         title: 'My Dog is Lost, please help!!!',
@@ -159,6 +160,7 @@ describe('Test thread APIs', () => {
       const res = await request(server).put(`/thread/${threadId}`).send(body).set('Accept', 'application/json');
       console.log(res.body);
       expect(res.body.updated.title).toBe('My Dog is Lost, please help!!!');
+      expect(res.body.updated._id).toBe(prevRes.body.thread._id);
     });
 
     it('should fail if the thread does not exist', async () => {
@@ -182,28 +184,96 @@ describe('Test thread APIs', () => {
 
   describe('PATCH /thread/:id', () => {
     it('should successfully patch a thread', async () => {
+      const threadId = await createThread({
+        title: 'The thread to test',
+        content: 'Please help me find my cat named xiaomao.',
+        poster: userId,
+        pet: {
+          name: 'xiaomao',
+          sex: 'male',
+          lastSeenTime: '2023-06-01T10:00:00.000Z'
+        }
+      });
+
+      const prevRes = await request(server).get(`/thread/${threadId}`);
+      expect(prevRes.body.thread.title).toBe('The thread to test');
+
+      const res = await request(server)
+        .patch(`/thread/${threadId}`)
+        .send({ title: 'Updated Title' })
+        .set('Accept', 'application/json');
+      expect(res.body.patched.title).toBe('Updated Title');
+      expect(res.body.patched._id).toBe(prevRes.body.thread._id);
     });
 
     it('should fail to patch if the thread does not exist', async () => {
-
+      const id = new mongoose.Types.ObjectId();
+      const res = await request(server)
+        .patch(`/thread/${id}`)
+        .send({ title: 'Updated Title' })
+        .set('Accept', 'application/json');
+      expect(res.status).toBe(404);
+      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 
   describe('PATCH /thread/archive/:id', () => {
     it('should successfully archive a thread', async () => {
+      const threadId = await createThread({
+        title: 'The thread to test',
+        content: 'Please help me find my cat named xiaomao.',
+        poster: userId,
+        pet: {
+          name: 'xiaomao',
+          sex: 'male',
+          lastSeenTime: '2023-06-01T10:00:00.000Z'
+        }
+      });
+
+      const prevRes = await request(server).get(`/thread/${threadId}`);
+      expect(prevRes.body.thread.archived).toBe(false);
+
+      const res = await request(server).patch(`/thread/archive/${threadId}`);
+      expect(res.body.archived.archived).toBe(true);
     });
 
     it('should fail to archive if the thread does not exist', async () => {
-
+      const id = new mongoose.Types.ObjectId();
+      const res = await request(server).patch(`/thread/archive/${id}`);
+      expect(res.status).toBe(404);
+      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 
   describe('DELETE /thread/:id', () => {
     it('should successfully delete a thread', async () => {
+      const threadId = await createThread({
+        title: 'The thread to test',
+        content: 'Please help me find my cat named xiaomao.',
+        poster: userId,
+        pet: {
+          name: 'xiaomao',
+          sex: 'male',
+          lastSeenTime: '2023-06-01T10:00:00.000Z'
+        }
+      });
+
+      const prevRes = await request(server).get(`/thread/${threadId}`);
+      expect(prevRes.body.thread.title).toBe('The thread to test');
+
+      const res = await request(server).delete(`/thread/${threadId}`);
+      expect(res.status).toBe(200);
+
+      const postRes = await request(server).get(`/thread/${threadId}`);
+      expect(postRes.status).toBe(404);
+      expect(postRes.body.error.errorType).toBe('ThreadDoesNotExistException');
     });
 
     it('should fail to delete if the thread does not exist', async () => {
-
+      const id = new mongoose.Types.ObjectId();
+      const res = await request(server).delete(`/thread/${id}`);
+      expect(res.status).toBe(404);
+      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 

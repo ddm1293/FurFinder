@@ -76,10 +76,7 @@ export const patchThread = async (req, res) => {
     const patched = await ThreadService.patchThread(id, req.body);
     res.status(200).json({ message: 'Successfully patched', patched });
   } catch (err) {
-    console.error(err);
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, ThreadDoesNotExistException, 404);
   }
 };
 
@@ -90,10 +87,7 @@ export const archiveThread = async (req, res) => {
     const archived = await ThreadService.archiveThread(id);
     res.status(200).json({ message: 'Successfully archived', archived });
   } catch (err) {
-    console.error(err);
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, ThreadDoesNotExistException, 404);
   }
 };
 
@@ -101,12 +95,9 @@ export const deleteThread = async (req, res) => {
   try {
     console.log('Server::Deleting a thread - running deleteThread');
     const id = req.params.id;
-    await ThreadService.deleteThread(id);
-    res.status(200).json({ message: 'Successfully deleted' });
+    const deleted = await ThreadService.deleteThread(id);
+    res.status(200).json({ message: 'Successfully deleted', deleted });
   } catch (err) {
-    console.error(err);
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, ThreadDoesNotExistException, 404);
   }
 };

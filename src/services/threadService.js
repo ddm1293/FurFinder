@@ -44,7 +44,7 @@ class ThreadService {
       .exec();
   }
 
-  // TODO: add validation to body; potentially increment versionKey
+  // TODO: do we really need to update the whole? or should pet and user should remain the same?
   static async updateThread(id, body) {
     const updated = await ThreadModel.findByIdAndUpdate(id, body, { new: true });
     if (updated) {
@@ -71,7 +71,12 @@ class ThreadService {
   }
 
   static async deleteThread(id) {
-    return ThreadModel.findByIdAndDelete(id);
+    const deleted = await ThreadModel.findByIdAndDelete(id);
+    if (deleted) {
+      return deleted;
+    } else {
+      throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
   }
 }
 
