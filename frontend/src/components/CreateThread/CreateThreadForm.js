@@ -4,17 +4,22 @@ import CreateThreadContent from './CreateThreadContent'
 import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from './CreateThreadPetInfo'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
+import { useDispatch } from 'react-redux';
+import { createThread } from '../../actions/threadActions';
 
 function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   const [threadType, updateThreadType] = useState(initialType);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     updateThreadType(initialType);
   }, [initialType])
 
   // TODO: after the form is submitted, send the form data for the next step
-  const onFinish = (e) => {
-    console.log('form got submitted:', e)
+  const onFinish = (values) => {
+    console.log('form got submitted:', values);
+    dispatch(createThread(values));
   }
 
   const [form] = Form.useForm();
@@ -26,9 +31,9 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
            okText='Create'
            onOk={() => {
              form.validateFields()
-               .then(() => {
-               form.submit();
-               form.resetFields();
+               .then((values) => {
+                 form.resetFields();
+                 dispatch(createThread(values));
                onCreate();
              })
                .catch((reason) => {
