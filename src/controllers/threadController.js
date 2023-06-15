@@ -5,7 +5,18 @@ import { handleError } from '../exceptions/handleError.js';
 export const createThread = async (req, res) => {
   try {
     console.log('Server::Creating a thread - running createThread');
-    const thread = await ThreadService.createThread(req.body);
+
+    const threadData = {
+      title: req.body['thread-title'],
+      poster: '64825969872e0755ecd445ef', // TODO change this to actual poster id some time
+      pet: req.body.pet, // The pet id we just created and saved in req.body.pet
+      content: req.body['thread-main-content'],
+      comments: [], // Initialize with an empty array if comments are not passed in req.body
+      archived: false // Initialize as false, or you could set this based on req.body if applicable
+    };
+
+    const thread = await ThreadService.createThread(threadData);
+
     res.status(200).json({
       message: 'The thread is created successfully',
       petCreated: res.petCreated,

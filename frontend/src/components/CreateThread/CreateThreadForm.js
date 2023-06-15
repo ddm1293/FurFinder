@@ -1,5 +1,6 @@
 import React, { useEffect,  useState } from 'react'
 import { Form, Modal, Divider } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import CreateThreadContent from './CreateThreadContent'
 import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from './CreateThreadPetInfo'
@@ -9,18 +10,25 @@ import { createThread } from '../../actions/threadActions';
 
 function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   const [threadType, updateThreadType] = useState(initialType);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     updateThreadType(initialType);
   }, [initialType])
 
-  // TODO: after the form is submitted, send the form data for the next step
   const onFinish = (values) => {
     console.log('form got submitted:', values);
-    dispatch(createThread(values));
-  }
+    dispatch(createThread(values))
+      .then(response => {
+        const threadId = response.data.threadCreated._id;
+        navigate(`/threads/${threadId}`);
+        onCreate();
+      })
+      .catch(error => {
+        console.log('Cannot open the new Thread.' + error);
+      });
+  };
 
   const [form] = Form.useForm();
 
@@ -31,11 +39,13 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
            okText='Create'
            onOk={() => {
              form.validateFields()
+               // .then((values) => {
+               //   form.resetFields();
+               //   dispatch(createThread(values));
+               // onCreate();
                .then((values) => {
-                 form.resetFields();
-                 dispatch(createThread(values));
-               onCreate();
-             })
+                 form.submit();
+               })
                .catch((reason) => {
                  console.log('Validate Failed:', reason);
                })

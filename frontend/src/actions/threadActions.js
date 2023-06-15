@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export const CREATE_THREAD_REQUEST = 'CREATE_THREAD_REQUEST';
 export const CREATE_THREAD_SUCCESS = 'CREATE_THREAD_SUCCESS';
 export const CREATE_THREAD_FAILURE = 'CREATE_THREAD_FAILURE';
@@ -19,13 +20,18 @@ export const DELETE_THREAD_FAILURE = 'DELETE_THREAD_FAILURE';
 export const createThread = (threadData) => {
   return (dispatch) => {
     dispatch(createThreadRequest());
-    axios.post('http://localhost:3001/thread', threadData)
+    console.log(threadData);
+    // note that axios.post returns a promise
+    return axios.post('http://localhost:3001/thread', threadData)
       .then(response => {
         const thread = response.data;
+        console.log(thread);
         dispatch(createThreadSuccess(thread));
+        return response;
       })
       .catch(error => {
         dispatch(createThreadFailure(error.message));
+        throw error; // you should also throw the error to make the promise reject when there's an error
       });
   };
 };
