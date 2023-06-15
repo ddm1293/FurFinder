@@ -1,6 +1,7 @@
 import { ThreadModel } from '../models/threadModel.js';
 import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
+import { UserModel } from '../models/userModel.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -42,6 +43,12 @@ class ThreadService {
   // TODO: add validation to body; potentially increment versionKey
   static async updateThread(id, body) {
     return ThreadModel.findByIdAndUpdate(id, body, { new: true, upsert: true });
+  }
+
+  static async favoriteThread(id, userId) {
+    const user = await UserModel.findById(userId);
+    await user._favorites.threads(id);
+    console.log(user);
   }
 
   static async patchThread(id, body) {

@@ -11,6 +11,7 @@ threadRouter.get('/:id', threadController.getThread);
 
 // POST APIS
 threadRouter.post('/', processPet, threadController.createThread);
+threadRouter.post('/:id/favorite', threadController.favoriteThread);
 
 // PUT APIS
 threadRouter.put('/:id', threadController.updateThread);

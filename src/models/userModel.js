@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ThreadModel } from './threadModel.js';
 const { Schema } = mongoose;
 
 const validateEmail = (email) => {
@@ -29,5 +30,20 @@ const UserSchema = new mongoose.Schema({
     ref: 'Thread'
   }]
 });
+
+UserSchema.methods = {
+  _favorites: {
+    async threads(threadId) {
+      if (this.favoredThreads.indexOf(threadId) >= 0) {
+        this.favoredThreads.remove(threadId);
+        await ThreadModel.decFavoriteCount(threadId);
+      } else {
+        await ThreadModel.incFavoriteCount(threadId);
+        this.favoredThreads.push(threadId);
+      }
+      return this.save();
+    }
+  }
+};
 
 export const UserModel = mongoose.model('User', UserSchema, 'users');
