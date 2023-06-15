@@ -109,6 +109,13 @@ describe('Test thread APIs', () => {
     });
   });
 
+  describe('GET /thread/search', () => {
+    it('should fail when query is invalid', async () => {
+      const res = await request(server).get('/thread/search?keyword=');
+      expect(res.body.errors[0].msg).toBe('Keyword must not be empty');
+    });
+  });
+
   describe('POST /thread', () => {
     it('should create a thread successfully', async () => {
       const body = {

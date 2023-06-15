@@ -2,6 +2,7 @@ import ThreadService from '../services/threadService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { handleError } from '../exceptions/handleError.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
+import { validationResult } from 'express-validator';
 
 export const createThread = async (req, res) => {
   try {
@@ -105,8 +106,13 @@ export const deleteThread = async (req, res) => {
 export const searchThreads = async (req, res) => {
   try {
     console.log('Server::Searching a thread - running searchThreads');
-    const searched = await ThreadService.searchThreads();
-    res.status(200).json({ message: 'Successfully found the threads', searched });
+    const validationRes = validationResult(req);
+    if (!validationRes.isEmpty()) {
+      res.status(400).send({ errors: validationRes.array() });
+    } else {
+      // const searched = await ThreadService.searchThreads();
+      res.status(200).json({ message: 'Successfully found the threads' });
+    }
   } catch (err) {
     handleError(err, res);
   }

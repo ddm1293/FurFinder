@@ -1,13 +1,13 @@
 import express from 'express';
 import * as threadController from '../controllers/threadController.js';
-import { processPet } from '../middleware/threadMiddleware.js';
+import { processPet, searchQueryValidator } from '../middleware/threadMiddleware.js'
 
 const threadRouter = express.Router();
 
 // GET APIS
 threadRouter.get('/userId/:id', threadController.getThreadsByUserId);
 threadRouter.get('/getThreads', threadController.getThreads);
-threadRouter.get('/search', threadController.searchThreads);
+threadRouter.get('/search', searchQueryValidator, threadController.searchThreads);
 threadRouter.get('/:id', threadController.getThread);
 
 // POST APIS
