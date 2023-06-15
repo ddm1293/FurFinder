@@ -1,6 +1,7 @@
 import PetService from '../services/petService.js';
-import { checkSchema, query } from 'express-validator';
+import { query, validationResult } from 'express-validator';
 import _ from 'lodash';
+import { InvalidQueryException } from '../exceptions/threadException.js';
 
 export const processPet = async (req, res, next) => {
   try {
@@ -37,40 +38,14 @@ export const searchQueryValidator = [
         _.difference(where, allowed).length === 0 &&
         _.uniq(where).length === where.length;
     })
-    .withMessage('Invalid or duplicate values in searchOn parameter')
-];
+    .withMessage('Invalid or duplicate values in searchOn parameter'),
 
-// export const searchQueryValidator = () => {
-//   checkSchema({
-//     keyword: {
-//       optional: true,
-//       trim: true,
-//       isLength: {
-//         options: { min: 1 },
-//         errorMessage: 'Keyword must not be empty'
-//       }
-//     },
-//     searchOn: {
-//       optional: true,
-//       if: query('keyword').exists('null'),
-//       exists: {
-//         options: 'null',
-//         if: query('keyword')
-//       },
-//       isLength: {
-//         options: { min: 1 },
-//         errorMessage: 'SearchOn must not be empty'
-//       },
-//       custom: {
-//         options: (value) => {
-//           const allowed = ['title', 'content'];
-//           const where = value.split(',');
-//           return where.length <= allowed.length &&
-//             _.difference(where, allowed).length === 0 &&
-//             _.uniq(where).length === where.length;
-//         },
-//         errorMessage: 'Invalid or duplicate values in searchOn parameter'
-//       }
-//     }
-//   }, ['query']);
-// };
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      next(new InvalidQueryException(errors.array()));
+    } else {
+      next();
+    }
+  }
+];
