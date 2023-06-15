@@ -100,7 +100,7 @@ export const searchThreads = async (req, res, next) => {
   try {
     console.log('Server::Searching a thread - running searchThreads');
     const data = matchedData(req);
-    console.log(data.keyword, data.searchOn);
+    console.log('see keyword and searchOn', data.keyword, data.searchOn);
     // const searched = await ThreadService.searchThreads();
     res.status(200).json({ message: 'Successfully found the threads' });
   } catch (err) {

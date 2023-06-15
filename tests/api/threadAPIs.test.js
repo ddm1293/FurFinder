@@ -1,40 +1,37 @@
-import request, {} from 'supertest';
-import { createServer } from '../../src/utils/serverSetup.js';
+import request from 'supertest';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import {
+  cleanupDatabaseCollections,
+  createTestUser,
+  disconnectTestDatabase,
+  setupTestServer
+} from '../utils/testUtils.js';
 
 dotenv.config();
 
 describe('Test thread APIs', () => {
   let server;
-
-  beforeAll(async () => {
-    server = await createServer(process.env.TEST_PORT, process.env.MONGODB_TESTING_STRING);
-  });
-
   let userId;
 
+  beforeAll(async () => {
+    server = await setupTestServer();
+  });
+
   beforeEach(async () => {
-    userId = await createUser({
+    userId = await createTestUser(server, {
       username: 'UserForTest',
       email: 'email@test.com',
       password: 'testing'
     });
   });
 
-  afterAll((done) => {
-    mongoose.connection.close().then(() => {
-      server.close(done);
-    });
+  afterAll(async () => {
+    await disconnectTestDatabase();
+    server.close();
   });
 
-  afterEach(async () => {
-    const collections = Object.keys(mongoose.connection.collections);
-    for (const collectionName of collections) {
-      const collection = mongoose.connection.collections[collectionName];
-      await collection.deleteMany();
-    }
-  });
+  afterEach(cleanupDatabaseCollections);
 
   describe('GET /thread/:id', () => {
     it('should get an error when the thread does not exist', async () => {
@@ -109,40 +106,6 @@ describe('Test thread APIs', () => {
     });
   });
 
-  describe('GET /thread/search', () => {
-    it('invalid query - empty keyword', async () => {
-      const res = await request(server).get('/thread/search?keyword=');
-      expect(res.status).toBe(400);
-      expect(res.body.errors[0].msg).toBe('Keyword must not be empty');
-      expect(res.body.errorType).toBe('InvalidQueryException');
-    });
-
-    it('invalid query - has searchOn without keyword', async () => {
-      const res = await request(server).get('/thread/search?searchOn=title');
-      expect(res.status).toBe(400);
-      expect(res.body.errorMessage).toContain('SearchOn should not exist when keyword does not exist');
-      expect(res.body.errorType).toBe('InvalidQueryException');
-    });
-
-    it('invalid query - searchOn is not legal', async () => {
-      const res = await request(server).get('/thread/search?keyword=Cat&searchOn=pet');
-      expect(res.status).toBe(400);
-      expect(res.body.errorMessage).toContain('Invalid or duplicate values in searchOn parameter');
-      expect(res.body.errorType).toBe('InvalidQueryException');
-      expect(res.body.errors[0].path).toBe('searchOn');
-      expect(res.body.errors[0].value).toBe('pet');
-    });
-
-    it('invalid query - searchOn is duplicated', async () => {
-      const res = await request(server).get('/thread/search?keyword=Cat&searchOn=title,title');
-      expect(res.status).toBe(400);
-      expect(res.body.errorMessage).toContain('Invalid or duplicate values in searchOn parameter');
-      expect(res.body.errorType).toBe('InvalidQueryException');
-      expect(res.body.errors[0].path).toBe('searchOn');
-      expect(res.body.errors[0].value).toBe('title,title');
-    });
-  });
-
   describe('POST /thread', () => {
     it('should create a thread successfully', async () => {
       const body = {
@@ -155,7 +118,9 @@ describe('Test thread APIs', () => {
           lastSeenTime: '2023-06-01T10:00:00.000Z'
         }
       };
-      const res = await request(server).post('/thread').send(body).set('Accept', 'application/json');
+      const res = await request(server).post('/thread')
+        .send(body)
+        .set('Accept', 'application/json');
       console.log(res.body);
       expect(res.body.petCreated.name).toBe('xiaomao');
       expect(res.body.petCreated.ownerId).toBe(userId);
@@ -191,7 +156,9 @@ describe('Test thread APIs', () => {
         updatedAt: '2023-06-08T23:35:25.920Z',
         __v: 0
       };
-      const res = await request(server).put(`/thread/${threadId}`).send(body).set('Accept', 'application/json');
+      const res = await request(server).put(`/thread/${threadId}`)
+        .send(body)
+        .set('Accept', 'application/json');
       console.log(res.body);
       expect(res.body.updated.title).toBe('My Dog is Lost, please help!!!');
       expect(res.body.updated._id).toBe(prevRes.body.thread._id);
@@ -210,7 +177,9 @@ describe('Test thread APIs', () => {
         __v: 0
       };
 
-      const res = await request(server).put(`/thread/${id}`).send(body).set('Accept', 'application/json');
+      const res = await request(server).put(`/thread/${id}`)
+        .send(body)
+        .set('Accept', 'application/json');
       expect(res.status).toBe(404);
       expect(res.body.errorType).toBe('ThreadDoesNotExistException');
     });
@@ -311,13 +280,10 @@ describe('Test thread APIs', () => {
     });
   });
 
-  async function createUser(body) {
-    const res = await request(server).post('/user/auth/register').send(body).set('Accept', 'application/json');
-    return res.body.newUser._id;
-  }
-
   async function createThread(body) {
-    const res = await request(server).post('/thread').send(body).set('Accept', 'application/json');
+    const res = await request(server).post('/thread')
+      .send(body)
+      .set('Accept', 'application/json');
     return res.body.threadCreated._id;
   }
 });

@@ -1,5 +1,5 @@
 import PetService from '../services/petService.js';
-import { query, validationResult } from 'express-validator';
+import { matchedData, query, validationResult } from 'express-validator'
 import _ from 'lodash';
 import { InvalidQueryException } from '../exceptions/threadException.js';
 
@@ -17,17 +17,27 @@ export const processPet = async (req, res, next) => {
   }
 };
 
-export const searchQueryValidator = [
-  // validate keyword
-  query('keyword')
-    .optional()
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage('Keyword must not be empty'),
+export const threadTypeValidator = query('threadType')
+  .trim()
+  .isLength({ min: 1 })
+  .withMessage('threadType must exist')
+  .bail()
+  .custom((value) => {
+    const allowed = ['lostPetThread', 'witnessThread'];
+    return allowed.includes(value);
+  })
+  .withMessage('threadType can be either lostPetThread or witnessThread');
 
-  // validate searchOn
+const keywordValidator = query('keyword')
+  .optional()
+  .trim()
+  .isLength({ min: 1 })
+  .withMessage('Keyword must not be empty');
+
+const searchOnWhereValidator = [
   query('searchOn')
-    .if(query('keyword').not().exists())
+    .if(query('keyword').not()
+      .exists())
     .not()
     .exists()
     .withMessage('SearchOn should not exist when keyword does not exist'),
@@ -44,14 +54,21 @@ export const searchQueryValidator = [
         _.difference(where, allowed).length === 0 &&
         _.uniq(where).length === where.length;
     })
-    .withMessage('Invalid or duplicate values in searchOn parameter'),
+    .withMessage('Invalid or duplicate values in searchOn parameter')
+];
 
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      next(new InvalidQueryException(errors.array()));
-    } else {
-      next();
-    }
+export const invalidQueryHandler = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    next(new InvalidQueryException(errors.array()));
+  } else {
+    next();
   }
+};
+
+export const searchQueryValidator = [
+  keywordValidator,
+  ...searchOnWhereValidator,
+  threadTypeValidator,
+  invalidQueryHandler
 ];
