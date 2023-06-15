@@ -33,6 +33,7 @@
     "prettier": "2.8.8"
   },
   "scripts": {
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "test": "jest ./tests/**/*test.js"
   }
 }

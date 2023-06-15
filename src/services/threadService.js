@@ -1,14 +1,34 @@
 import { ThreadModel } from '../models/threadModel.js';
 import UserService from './userService.js';
+import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
+import { UserDoesNotExistException } from '../exceptions/userException.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
 
   static async getThread(id) {
-    return ThreadModel.findById(id);
+    const thread = await ThreadModel.findById(id);
+    if (thread) {
+      return thread;
+    } else {
+      throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
   }
 
-  // TODO: update User's threads field after they create a thread
+  static async getThreadsOfUserById(userId) {
+    const user = await UserService.getUserById(userId);
+    if (user) {
+      return user.myThreads;
+    } else {
+      throw new UserDoesNotExistException(`user ${userId} does not exist`);
+    }
+  }
+
+  static async getThreadsOfUserByName(name) {
+    const user = await UserService.getUserByName(name);
+    return user.myThreads;
+  }
+
   static async createThread(body) {
     const thread = await ThreadModel.create(body);
     await UserService.updateThread(body.poster, thread._id);
@@ -24,9 +44,14 @@ class ThreadService {
       .exec();
   }
 
-  // TODO: add validation to body; potentially increment versionkey
+  // TODO: do we really need to update the whole? or should pet and user should remain the same?
   static async updateThread(id, body) {
-    return ThreadModel.findByIdAndUpdate(id, body, { new: true, upsert: true });
+    const updated = await ThreadModel.findByIdAndUpdate(id, body, { new: true });
+    if (updated) {
+      return updated;
+    } else {
+      throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
   }
 
   static async patchThread(id, body) {
@@ -46,7 +71,12 @@ class ThreadService {
   }
 
   static async deleteThread(id) {
-    return ThreadModel.findByIdAndDelete(id);
+    const deleted = await ThreadModel.findByIdAndDelete(id);
+    if (deleted) {
+      return deleted;
+    } else {
+      throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
   }
 }
 
