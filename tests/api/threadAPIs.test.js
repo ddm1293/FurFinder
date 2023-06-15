@@ -110,10 +110,36 @@ describe('Test thread APIs', () => {
   });
 
   describe('GET /thread/search', () => {
-    it('should fail when query is invalid', async () => {
+    it('invalid query - empty keyword', async () => {
       const res = await request(server).get('/thread/search?keyword=');
+      expect(res.status).toBe(400);
       expect(res.body.errors[0].msg).toBe('Keyword must not be empty');
       expect(res.body.errorType).toBe('InvalidQueryException');
+    });
+
+    it('invalid query - has searchOn without keyword', async () => {
+      const res = await request(server).get('/thread/search?searchOn=title');
+      expect(res.status).toBe(400);
+      expect(res.body.errorMessage).toContain('SearchOn should not exist when keyword does not exist');
+      expect(res.body.errorType).toBe('InvalidQueryException');
+    });
+
+    it('invalid query - searchOn is not legal', async () => {
+      const res = await request(server).get('/thread/search?keyword=Cat&searchOn=pet');
+      expect(res.status).toBe(400);
+      expect(res.body.errorMessage).toContain('Invalid or duplicate values in searchOn parameter');
+      expect(res.body.errorType).toBe('InvalidQueryException');
+      expect(res.body.errors[0].path).toBe('searchOn');
+      expect(res.body.errors[0].value).toBe('pet');
+    });
+
+    it('invalid query - searchOn is duplicated', async () => {
+      const res = await request(server).get('/thread/search?keyword=Cat&searchOn=title,title');
+      expect(res.status).toBe(400);
+      expect(res.body.errorMessage).toContain('Invalid or duplicate values in searchOn parameter');
+      expect(res.body.errorType).toBe('InvalidQueryException');
+      expect(res.body.errors[0].path).toBe('searchOn');
+      expect(res.body.errors[0].value).toBe('title,title');
     });
   });
 

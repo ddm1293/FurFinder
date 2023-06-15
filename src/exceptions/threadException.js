@@ -10,8 +10,10 @@ export class ThreadDoesNotExistException extends Error {
 
 export class InvalidQueryException extends Error {
   constructor (errors) {
-    const errMsg = _.join(_.map(errors, (err) => err.msg), ', and ');
-    super('Invalid Query Because: ' + errMsg);
+    const errMsg = _.join(
+      _.map(errors, (err) => `${err.msg}: at: ${err.path} with value being: ${err.value}`),
+      ', and ');
+    super('Invalid Query Because - ' + errMsg);
     this.errors = errors;
     this.statusCode = 400;
     this.type = 'InvalidQueryException';
