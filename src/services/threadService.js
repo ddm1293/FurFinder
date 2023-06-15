@@ -2,6 +2,8 @@ import { ThreadModel } from '../models/threadModel.js';
 import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { UserModel } from '../models/userModel.js';
+import { UserDoesNotExistException } from '../exceptions/userException.js';
+
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -17,7 +19,11 @@ class ThreadService {
 
   static async getThreadsOfUserById(userId) {
     const user = await UserService.getUserById(userId);
-    return user.myThreads;
+    if (user) {
+      return user.myThreads;
+    } else {
+      throw new UserDoesNotExistException(`user ${userId} does not exist`);
+    }
   }
 
   static async getThreadsOfUserByName(name) {
@@ -40,9 +46,14 @@ class ThreadService {
       .exec();
   }
 
-  // TODO: add validation to body; potentially increment versionKey
+  // TODO: do we really need to update the whole? or should pet and user should remain the same?
   static async updateThread(id, body) {
-    return ThreadModel.findByIdAndUpdate(id, body, { new: true, upsert: true });
+    const updated = await ThreadModel.findByIdAndUpdate(id, body, { new: true });
+    if (updated) {
+      return updated;
+    } else {
+      throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
   }
 
   static async favoriteThread(id, userId) {
@@ -68,7 +79,12 @@ class ThreadService {
   }
 
   static async deleteThread(id) {
-    return ThreadModel.findByIdAndDelete(id);
+    const deleted = await ThreadModel.findByIdAndDelete(id);
+    if (deleted) {
+      return deleted;
+    } else {
+      throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
   }
 }
 
