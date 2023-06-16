@@ -14,7 +14,7 @@ class commentService {
       .populate('comments');
   }
 
-  static async createComment(id, params, body) {
+  static async createComment(id, body) {
     const comment = await CommentModel.create(body);
     const threadRelated = await ThreadModel.findById(id);
     threadRelated.comments.push(comment);
