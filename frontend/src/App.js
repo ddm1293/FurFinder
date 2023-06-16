@@ -6,6 +6,7 @@ import store from './store';
 import Navbar from "./components/Navbar/Navbar";
 import Home from './routes/Home';
 import Login from './routes/Login';
+import Signup from './routes/Signup';
 import Threads from './routes/Threads';
 import ThreadView from './routes/ThreadView';
 import YourProfile from './routes/YourProfile';
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={
               <ProtectedRoute>
                 <YourProfile />

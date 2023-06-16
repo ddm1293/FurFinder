@@ -14,7 +14,10 @@ export const getAllUsers = async (req, res) => {
 export const registerUser = async (req, res) => {
   try {
     console.log('Server::registerUser');
-    const newUser = await UserService.createUser(req.body);
+    console.log(req.body);
+    let newUser = await UserService.createUser(req.body);
+    newUser = newUser.toObject();
+    delete newUser.password;
     res.status(200).json({ message: 'Registered successfully!', newUser });
   } catch (err) {
     console.error(err);

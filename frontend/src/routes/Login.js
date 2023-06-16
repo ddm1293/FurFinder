@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { Form, Input, Button, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
@@ -24,6 +24,7 @@ export default function Login() {
           password: values.password,
         },
       });
+      console.log(res.data);
 
       if (res.data.user) {
         dispatch(setUser({ username: res.data.user.username })); // TODO: store and handle exp field, among other fields from the db
@@ -74,7 +75,7 @@ export default function Login() {
   }, [usernameField, passwordField]);
 
   return (
-    <div id="login-form">
+    <div id="login-form-container">
       <h1>Log In</h1>
       <Form
         form={form}
@@ -121,7 +122,7 @@ export default function Login() {
           </a>
         </Form.Item>
         <Form.Item id="login-form__register">
-          <a href="">New? Register now!</a>
+          <Link to="/signup">New? Register now!</Link>
         </Form.Item>
       </Form>
       <Divider>OR</Divider>
