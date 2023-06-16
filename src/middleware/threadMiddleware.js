@@ -1,5 +1,5 @@
 import PetService from '../services/petService.js';
-import { matchedData, query, validationResult } from 'express-validator'
+import { query, validationResult } from 'express-validator';
 import _ from 'lodash';
 import { InvalidQueryException } from '../exceptions/threadException.js';
 
@@ -17,7 +17,7 @@ export const processPet = async (req, res, next) => {
   }
 };
 
-export const threadTypeValidator = query('threadType')
+const threadTypeValidator = query('threadType')
   .trim()
   .isLength({ min: 1 })
   .withMessage('threadType must exist')
@@ -57,7 +57,7 @@ const searchOnWhereValidator = [
     .withMessage('Invalid or duplicate values in searchOn parameter')
 ];
 
-export const invalidQueryHandler = (req, res, next) => {
+const invalidQueryHandler = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     next(new InvalidQueryException(errors.array()));

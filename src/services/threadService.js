@@ -79,7 +79,7 @@ class ThreadService {
     }
   }
 
-  static async searchThreads() {
+  static async searchThreads(threadType, keyword, searchOn) {
   }
 }
 
