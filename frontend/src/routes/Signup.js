@@ -47,7 +47,13 @@ export default function Signup() {
       console.log(res);
 
       if (res.data.newUser) {
-        dispatch(setUser({ username: res.data.newUser.username })); // TODO: store and handle exp field, among other fields from the db
+        dispatch(setUser({
+          id: res.data.newUser._id,
+          username: res.data.newUser.username,
+          favoredThreads: res.data.newUser.favoredThreads,
+          myThreads: res.data.newUser.myThreads,
+          accessToken: res.data.accessToken,
+        })); // TODO: store and handle exp field, among other fields from the db
         navigate("/profile");
       } else {
         setIncorrectWarning(res.data.message);

@@ -29,7 +29,13 @@ export default function Login() {
       console.log(res.data);
 
       if (res.data.user) {
-        dispatch(setUser({ username: res.data.user.username })); // TODO: store and handle exp field, among other fields from the db
+        dispatch(setUser({
+          id: res.data.user._id,
+          username: res.data.user.username,
+          favoredThreads: res.data.user.favoredThreads,
+          myThreads: res.data.user.myThreads,
+          accessToken: res.data.accessToken,
+        })); // TODO: store and handle exp field, among other fields from the db
         navigate("/profile");
       } else {
         setIncorrectWarning(res.data.message);
@@ -54,7 +60,14 @@ export default function Login() {
       });
       console.log(res.data);
 
-      dispatch(setUser({ username: res.data.user.username, avatar: userObject.picture })); // TODO: store and handle exp field, among other fields from the db
+      dispatch(setUser({
+        id: res.data.user._id,
+        username: res.data.user.username,
+        avatar: userObject.picture,
+        favoredThreads: res.data.user.favoredThreads,
+        myThreads: res.data.user.myThreads,
+        accessToken: res.data.accessToken,
+      })); // TODO: store and handle exp field, among other fields from the db
       navigate("/profile");
     } catch (e) {
       console.error(e);
