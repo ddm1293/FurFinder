@@ -37,14 +37,14 @@ export default function Signup() {
   const signup = async (values) => {
     try {
       const res = await axios({
-        url: `http://localhost:3001/user/auth/register`, // TODO: better handling of baseURL?
+        url: `http://localhost:3001/auth/register`, // TODO: better handling of baseURL?
         method: 'post',
         data: {
           username: values.username,
           password: values.password,
         }
       });
-      // console.log(res);
+      console.log(res);
 
       if (res.data.newUser) {
         dispatch(setUser({ username: res.data.newUser.username })); // TODO: store and handle exp field, among other fields from the db

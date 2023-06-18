@@ -19,10 +19,12 @@ export default function Login() {
   const login = async (values) => {
     try {
       const res = await axios({
-        url: `http://localhost:3001/user/${values.username}`, // TODO: better handling of baseURL?
-        params: {
+        url: `http://localhost:3001/auth/login`, // TODO: better handling of baseURL?
+        method: 'post',
+        data: {
+          username: values.username,
           password: values.password,
-        },
+        }
       });
       console.log(res.data);
 
@@ -43,10 +45,12 @@ export default function Login() {
 
     try {
       const res = await axios({
-        url: `http://localhost:3001/user/${userObject.email}`, // TODO: better handling of baseURL?
-        params: {
+        url: `http://localhost:3001/auth/login`, // TODO: better handling of baseURL?
+        method: 'post',
+        data: {
+          username: userObject.email,
           didSignInFromGoogle: true,
-        },
+        }
       });
       console.log(res.data);
 

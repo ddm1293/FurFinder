@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
+import authRouter from '../routers/authRouter.js';
 import threadRouter from '../routers/threadRouter.js';
 import userRouter from '../routers/userRouter.js';
 import commentRouter from '../routers/commentRouter.js';
@@ -10,7 +12,9 @@ export function createServer(port, dbUrl) {
 
   app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
 
+  app.use('/auth', authRouter);
   app.use('/thread', threadRouter);
   app.use('/user', userRouter);
   app.use('/comment', commentRouter);
