@@ -17,11 +17,14 @@ const userSlice = createSlice({
 
             return { id, username, avatar, favoredThreads, myThreads, accessToken };
         },
+        setAccessToken: (state, action) => {
+            return { ...state, accessToken: action.payload };
+        },
         logoutUser: (state) => {
             return initialState;
         }
     }
 });
 
-export const { setUser, logoutUser } = userSlice.actions;
+export const { setUser, setAccessToken, logoutUser } = userSlice.actions;
 export default userSlice.reducer;

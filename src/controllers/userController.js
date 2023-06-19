@@ -12,7 +12,10 @@ export const getAllUsers = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     console.log('Server::getUser');
-    const user = await UserService.getUserById(req.params.id);
+    // console.log(req.headers.authorization);
+    // console.log(req.cookies);
+    let user = await UserService.getUserById(req.params.id);
+    user = UserService.getLeanUser(user);
     res.status(200).json({ message: 'GetUser Successfully', user });
   } catch (err) {
     console.error(err);
@@ -31,8 +34,3 @@ export const patchUser = async (req, res) => {
   }
 };
 
-function getUserObject(user) {
-  const userObject = user.toObject();
-  delete userObject.password;
-  return userObject;
-}

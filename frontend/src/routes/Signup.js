@@ -42,9 +42,11 @@ export default function Signup() {
         data: {
           username: values.username,
           password: values.password,
-        }
+        },
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true, // this is what actually sets the cookie in the subsequent request header
       });
-      console.log(res);
+      console.log(res.data);
 
       if (res.data.newUser) {
         dispatch(setUser({
@@ -53,7 +55,7 @@ export default function Signup() {
           favoredThreads: res.data.newUser.favoredThreads,
           myThreads: res.data.newUser.myThreads,
           accessToken: res.data.accessToken,
-        })); // TODO: store and handle exp field, among other fields from the db
+        }));
         navigate("/profile");
       } else {
         setIncorrectWarning(res.data.message);

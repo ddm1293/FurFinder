@@ -24,7 +24,9 @@ export default function Login() {
         data: {
           username: values.username,
           password: values.password,
-        }
+        },
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true, // this is what actually sets the cookie in the subsequent request header
       });
       console.log(res.data);
 
@@ -35,7 +37,7 @@ export default function Login() {
           favoredThreads: res.data.user.favoredThreads,
           myThreads: res.data.user.myThreads,
           accessToken: res.data.accessToken,
-        })); // TODO: store and handle exp field, among other fields from the db
+        }));
         navigate("/profile");
       } else {
         setIncorrectWarning(res.data.message);
@@ -56,7 +58,9 @@ export default function Login() {
         data: {
           username: userObject.email,
           didSignInFromGoogle: true,
-        }
+        },
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true, // this is what actually sets the cookie in the subsequent request header
       });
       console.log(res.data);
 
@@ -67,7 +71,7 @@ export default function Login() {
         favoredThreads: res.data.user.favoredThreads,
         myThreads: res.data.user.myThreads,
         accessToken: res.data.accessToken,
-      })); // TODO: store and handle exp field, among other fields from the db
+      })); // TODO: store and handle exp field?
       navigate("/profile");
     } catch (e) {
       console.error(e);

@@ -1,8 +1,26 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import '../style/YourProfile.css'
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
+import '../style/YourProfile.css';
 
 export default function YourProfile() {
   const user = useSelector((state) => state.user);
+  const axiosPrivate = useAxiosPrivate();
+
+  const test = () => {
+    if (user.username) {
+      setTimeout(async () => {
+        const res = await axiosPrivate({
+          url: `/user/${user.id}`,
+        });
+        console.log(res.data);
+      }, 1000);
+    }
+  }
+
+  useEffect(() => {
+    test();
+  }, []);
 
   return (
     <div id="your-profile">

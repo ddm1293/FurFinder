@@ -17,10 +17,9 @@ export const userLogin = async (req, res) => {
     if (user && (
       req.body.didSignInFromGoogle || (!req.body.didSignInFromGoogle && await bcrypt.compare(req.body.password, user.password))
     )) {
-      user = getUserObject(user);
-      const refreshToken = getRefreshToken(user);
       const accessToken = getAccessToken(user);
-      // TODO: need to write refreshToken to DB
+      const refreshToken = await saveRefreshToken(user);
+      user = UserService.getLeanUser(user);
       res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
       res.status(200).json({ message: 'UserLogin Successfully', user, accessToken });
     } else {
@@ -34,13 +33,11 @@ export const userLogin = async (req, res) => {
 
 export const registerUser = async (req, res) => {
   console.log('Server::registerUser');
-  console.log(req.body);
   try {
     let newUser = await UserService.createUser(req.body);
-    newUser = getUserObject(newUser);
-    const refreshToken = getRefreshToken(newUser);
     const accessToken = getAccessToken(newUser);
-    // TODO: need to write refreshToken to DB
+    const refreshToken = await saveRefreshToken(newUser);
+    newUser = UserService.getLeanUser(newUser);
     res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
     res.status(200).json({ message: 'Registered successfully!', newUser, accessToken });
   } catch (err) {
@@ -53,17 +50,34 @@ export const registerUser = async (req, res) => {
   }
 };
 
-function getUserObject(user) {
-  const userObject = user.toObject();
-  delete userObject.password;
-  return userObject;
-}
+export const refreshUser = async (req, res) => {};
+
+export const logoutUser = async (req, res) => {
+  console.log('Server::logoutUser');
+  const cookies = req.cookies;
+  // console.log(cookies);
+  if (cookies && !cookies.jwt) { return res.sendStatus(204); } // no content
+  /* Is refreshToken in db? If so, clear it; clear cookie regardless */
+  try {
+    const refreshToken = cookies.jwt;
+    const foundUser = await UserService.getUserByRefreshToken(refreshToken);
+    if (foundUser) {
+      foundUser.refreshToken = '';
+      await foundUser.save();
+    }
+    res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
+    res.sendStatus(204);
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
 
 function getAccessToken(user) {
   return jwt.sign(
     { username: user.username },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '120s' }
+    { expiresIn: '10s' }
   );
 }
 
@@ -73,4 +87,12 @@ function getRefreshToken(user) {
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '1d' }
   );
+}
+async function saveRefreshToken(user) {
+  const refreshToken = getRefreshToken(user);
+
+  user.refreshToken = refreshToken;
+  await user.save();
+
+  return refreshToken;
 }

@@ -5,15 +5,20 @@ import { Menu, Avatar } from "antd";
 import { UserOutlined, CodeOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
 import { logoutUser } from '../../store/userSlice';
 import "../../style/Navbar.css";
+import axios from 'axios';
 
 const RightMenu = ({ mode }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
 
-    function logout() {
-        dispatch(logoutUser());
-        navigate("/");
+    async function logout() {
+      await axios.get('http://localhost:3001/auth/logout', { // TODO: better handling of url
+        withCredentials: true
+      });
+
+      dispatch(logoutUser());
+      navigate("/");
     }
 
     function login() {
