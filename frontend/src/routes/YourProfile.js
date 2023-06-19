@@ -14,7 +14,7 @@ export default function YourProfile() {
           url: `/user/${user.id}`,
         });
         console.log(res.data);
-      }, 1000);
+      }, 12000); //
     }
   }
 
@@ -29,7 +29,7 @@ export default function YourProfile() {
       <h2>Post History</h2>
       <p>My threads: {user.myThreads}</p>
       <p>My favourites: {user.favoredThreads}</p>
-      <p>Access token: {user.accessToken.substring(0, 20) + '...'}</p>
+      <p>Access token: {'...' + user.accessToken.split('.')[2]}</p>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
   );

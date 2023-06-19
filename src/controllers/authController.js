@@ -50,7 +50,25 @@ export const registerUser = async (req, res) => {
   }
 };
 
-export const refreshUser = async (req, res) => {};
+export const refreshAccessToken = async (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.sendStatus(401);
+  const refreshToken = cookies.jwt;
+
+  let foundUser = await UserService.getUserByRefreshToken(refreshToken);
+  if (!foundUser) { return res.sendStatus(403); } // forbidden
+  /* Otherwise, evaluate jwt */
+  jwt.verify(
+    refreshToken,
+    process.env.REFRESH_TOKEN_SECRET,
+    (err, decoded) => {
+      if (err || foundUser.username !== decoded.username) { return res.sendStatus(403); }
+      const accessToken = getAccessToken(foundUser);
+      foundUser = UserService.getLeanUser(foundUser);
+      res.status(200).json({ message: 'RefreshToken Successfully', user: foundUser, accessToken });
+    }
+  );
+};
 
 export const logoutUser = async (req, res) => {
   console.log('Server::logoutUser');
