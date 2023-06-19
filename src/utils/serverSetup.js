@@ -23,11 +23,12 @@ export function createServer(port, dbUrl) {
 
     mongoose.connect(dbUrl).then(() => {
       console.log('Successfully connected to MongoDB!');
-    }).catch((err) => {
-      console.error('Error connecting to MongoDB:', err);
-      server.close(() => {
-        reject(err);
+    })
+      .catch((err) => {
+        console.error('Error connecting to MongoDB:', err);
+        server.close(() => {
+          reject(err);
+        });
       });
-    });
   });
 }
