@@ -13,7 +13,7 @@ const commentSchema = new mongoose.Schema({
       required: true
     }
   },
-  thread: {
+  threadId: {
     type: Schema.Types.ObjectId,
     ref: 'Thread',
     required: true,
