@@ -59,8 +59,8 @@ describe('Test comment APIs', () => {
       const commentId = comment.commentId._id;
       const res = await request(server).get(`/comment/${commentId}`);
       expect(res.status).toBe(200);
-      // expect(res.body.comment._id).toBe(commentId);
-      // expect(res.body.comment.content).toBe('I saw your cat !!!');
+      expect(res.body.comment._id).toBe(commentId);
+      expect(res.body.comment.content).toBe('I saw your cat !!!');
     });
 
     it('should get an error when the comment does not exist', async () => {
@@ -136,8 +136,8 @@ describe('Test comment APIs', () => {
       const res = await request(server).put(`/comment/${commentid}`).send(body).set('Accept', 'application/json');
       console.log(res);
       expect(res.status).toBe(200);
-      // expect(res.body.content).toBe('Updated test');
-      // expect(res.body.threadId).toBe(prevRes.body.comment.threadId);
+      // expect(res.body.comment.content).toBe('Updated test');
+      // expect(res.body.comment.threadId).toBe(prevRes.body.comment.threadId);
     });
 
     it('should fail if the comment does not exist', async () => {
@@ -164,7 +164,7 @@ describe('Test comment APIs', () => {
       const commentid = comment.commentId._id;
       const prevRes = await request(server).get(`/comment/${commentid}`);
       expect(prevRes.status).toBe(200);
-      // expect(prevRes.body.content).toBe('comment to test !!!');
+      // expect(prevRes.body.comment.content).toBe('comment to test !!!');
 
       const res = await request(server)
         .patch(`/comment/${commentid}`)
@@ -198,7 +198,7 @@ describe('Test comment APIs', () => {
       const prevRes = await request(server).get(`/comment/${commentid}`);
       console.log(prevRes);
       expect(prevRes.status).toBe(200);
-      // expect(prevRes.body._id).toBe(commentid);
+      // expect(prevRes.body.comment._id).toBe(commentid);
       // expect(prevRes.body.comment.content).toBe('comment to test !!!');
 
       const res = await request(server).delete(`/comment/${commentid}`);
@@ -208,7 +208,7 @@ describe('Test comment APIs', () => {
       const postRes = await request(server).get(`/comment/${commentid}`);
       console.log(postRes);
       expect(postRes.status).toBe(404);
-      // expect(postRes.body.error.errorType).toBe('CommentDoesNotExistException');
+      expect(postRes.body.error.errorType).toBe('CommentDoesNotExistException');
     });
 
     it('should fail to delete if the comment does not exist', async () => {
