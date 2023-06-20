@@ -79,7 +79,20 @@ class ThreadService {
     }
   }
 
-  static async searchThreads(threadType, keyword, searchOn) {
+  static async searchThreads(data) {
+    const { keyword, threadType } = data;
+    const searchOn = data.searchOn.split(',');
+    return ThreadModel.aggregate([
+      {
+        $search: {
+          index: 'default',
+          text: {
+            query: keyword,
+            path: searchOn
+          }
+        }
+      }
+    ]);
   }
 }
 

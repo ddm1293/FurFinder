@@ -99,10 +99,14 @@ export const deleteThread = async (req, res, next) => {
 export const searchThreads = async (req, res, next) => {
   try {
     console.log('Server::Searching a thread - running searchThreads');
-    const { threadType, keyword, searchOn } = matchedData(req);
-    console.log('see keyword and searchOn', threadType, keyword, searchOn);
-    const searched = await ThreadService.searchThreads(threadType, keyword, searchOn);
-    res.status(200).json({ message: 'Successfully found the threads' });
+    const data = matchedData(req);
+    console.log(data);
+    const searched = await ThreadService.searchThreads(data);
+    res.status(200).json({
+      message: 'Successfully found the threads',
+      found: searched.length,
+      result: searched
+    });
   } catch (err) {
     next(err);
   }
