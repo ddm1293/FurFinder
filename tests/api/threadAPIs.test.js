@@ -9,7 +9,7 @@ describe('Test thread APIs', () => {
   let server;
 
   beforeAll(async () => {
-    server = await createServer(process.env.TEST_PORT, 'mongodb+srv://makemake1293:Oops1293!@furfinder.61gyfvo.mongodb.net/test?retryWrites=true&w=majority');
+    server = await createServer(process.env.TEST_PORT, process.env.MONGODB_TESTING_STRING);
   });
 
   let userId;
