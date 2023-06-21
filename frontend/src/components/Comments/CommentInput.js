@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { Input, Button } from 'antd'
-import axios from 'axios'
+import { addCommentAsync } from '../../thunk/commentThunk'
+import { useDispatch } from 'react-redux'
 
 const { TextArea } = Input
 
 function CommentInput (props) {
   const [comment, setComment] = useState('')
   const isEmptyComment = comment.length === 0 // disable button when no comment
+  const dispatch = useDispatch()
 
   const handleChange = (event) => {
     setComment(event.target.value)
@@ -20,12 +22,9 @@ function CommentInput (props) {
       },
       threadId: props.threadID
     }
-    axios.post(`http://localhost:3001/comment/${props.threadID}/create`, newComment)
-      .then(function (response) {
-        setComment('')
-      })
-      .catch(function (error) {
-        console.log(error)
+    dispatch(addCommentAsync({ threadID: props.threadID, newComment: newComment}))
+      .then(() => {
+        setComment('');
       })
   }
 

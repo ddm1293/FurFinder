@@ -1,38 +1,28 @@
 import '../../style/Comments.css'
 import CommentInput from './CommentInput'
 import Comment from './Comment'
-import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteCommentAsync, getCommentsAsync } from '../../thunk/commentThunk'
 import { Button } from 'antd'
 
 function CommentView (props) {
-  const [comments, setComments] = useState([])
+  const commentList = useSelector((state) => state.comments.commentList)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    const getComments = () => {
-      axios
-        .get(`http://localhost:3001/comment/${props.threadID}/getComments`)
-        .then((response) => {
-          setComments(response.data.comments.comments) // comment list
-        })
-        .catch((error) => {
-          console.error(error)
-        })
-    };
-    getComments();
-    const interval = setInterval(getComments, 1000);
-    return () => clearInterval(interval);
-  }, [props.threadID]);
+    dispatch(getCommentsAsync(props.threadID))
+  }, [dispatch])
 
-  const handleDelete = (id) => {
-    axios
-      .delete(`http://localhost:3001/comment/${id}`)
-      .then((response) => {
-        setComments(response.data.comments.comments) // comment list
+  if (!commentList) {
+    return <div>Loading...</div>
+  }
+
+  const handleDelete = (commentId) => {
+    dispatch(deleteCommentAsync(commentId))
+      .then(() => {
+        dispatch(getCommentsAsync(props.threadID))
       })
-      .catch((error) => {
-      console.error(error)
-    })
   }
 
   return (
@@ -42,10 +32,12 @@ function CommentView (props) {
         <div><CommentInput threadID={props.threadID} /></div>
       </div>
       <div className="comment-list">
-        {comments.map((comment) => (
-          <div>
-            <Comment key={comment._id} comment={comment} />
-            <Button type="primary" onClick={() => {handleDelete(comment._id)}} style={{ marginRight: '10px', background: 'grey'}}>Delete</Button>
+        {commentList.map((comment) => (
+          <div key={comment._id}>
+            <Comment comment={comment} />
+            <Button type="primary" onClick={() => {handleDelete(comment._id)}}
+                    style={{ marginRight: '10px', background: 'grey' }}>Delete
+            </Button>
           </div>
         ))}
       </div>

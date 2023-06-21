@@ -4,13 +4,12 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 
 function Comment ({ comment }) {
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState('')
 
   useEffect(() => {
     axios
       .get(`http://localhost:3001/user/${comment.author.id}`)
       .then((response) => {
-
         setUserName(response.data.user.username)
       })
       .catch((error) => {
