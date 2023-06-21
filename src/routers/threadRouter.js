@@ -11,7 +11,6 @@ threadRouter.get('/:id', threadController.getThread);
 
 // POST APIS
 threadRouter.post('/', processPet, threadController.createThread);
-threadRouter.post('/:id/favorite', threadController.favoriteThread);
 
 // PUT APIS
 threadRouter.put('/:id', threadController.updateThread);
@@ -19,6 +18,7 @@ threadRouter.put('/:id', threadController.updateThread);
 // PATCH APIS
 threadRouter.patch('/archive/:id', threadController.archiveThread);
 threadRouter.patch('/:id', threadController.patchThread);
+threadRouter.patch('/:id/:userId/favorite', threadController.favoriteThread);
 
 // DELETE APIS
 threadRouter.delete('/:id', threadController.deleteThread);
