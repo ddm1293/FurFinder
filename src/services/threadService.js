@@ -42,15 +42,13 @@ class ThreadService {
 
   // TODO: add validation to body; potentially increment versionKey
   static async updateThread(id, body) {
-    return ThreadModel.findByIdAndUpdate(id, body, { new: true });
+    return ThreadModel.findByIdAndUpdate(id, body, { new: true, upsert: true });
   }
 
   static async favoriteThread(id, userId) {
-    // const user = await UserModel.findById(userId);
-    const user = await UserService.getUserFavoriteOrUnfavorite(userId, id);
-    return user;
-    // await user._favorites.threads(id);
-    // console.log(user);
+    const user = await UserModel.findById(userId);
+    await user._favorites.threads(id);
+    console.log(user);
   }
 
   static async patchThread(id, body) {
