@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// TODO: finish using discriminator
 const PetSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,6 +8,10 @@ const PetSchema = new mongoose.Schema({
   pic: [{
     type: Buffer
   }],
+  threadId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Thread'
+  },
   ownerId: {
     type: mongoose.Types.ObjectId,
     ref: 'User'

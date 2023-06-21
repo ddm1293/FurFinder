@@ -2,6 +2,7 @@ import { ThreadModel } from '../models/threadModel.js';
 import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
+import PetService from './petService.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -29,9 +30,10 @@ class ThreadService {
     return user.myThreads;
   }
 
-  static async createThread(body) {
+  static async createThread(body, res) {
     const thread = await ThreadModel.create(body);
     await UserService.updateThread(body.poster, thread._id);
+    res.petCreated = await PetService.updatePet(body.pet, thread._id);
     return thread;
   }
 

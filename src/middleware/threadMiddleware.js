@@ -14,7 +14,6 @@ export const processPet = async (req, res, next) => {
     const ownerId = req.body.poster;
     const pet = await PetService.createPet(petData, ownerId);
     req.body.pet = pet._id;
-    res.petCreated = pet;
     next();
   } catch (err) {
     console.error(err);
