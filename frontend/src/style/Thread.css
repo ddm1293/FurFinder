@@ -26,6 +26,10 @@
     margin-bottom: 0;
 }
 
+.delete-button {
+    margin-left: 80%;
+}
+
 .thread-title {
     font-weight: bold;
     margin-top: 20px;

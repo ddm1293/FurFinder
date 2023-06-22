@@ -4,6 +4,10 @@ class PetService {
   static createPet(body) {
     return PetModel.create(body);
   }
+
+  static async getPet(id) {
+    return PetModel.findById(id);
+  }
 }
 
 export default PetService;

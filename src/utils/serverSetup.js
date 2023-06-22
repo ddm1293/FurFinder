@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import threadRouter from '../routers/threadRouter.js';
 import userRouter from '../routers/userRouter.js';
 import commentRouter from '../routers/commentRouter.js';
+import petRouter from '../routers/petRouter.js';
 
 export function createServer(port, dbUrl) {
   const app = express();
@@ -14,6 +15,7 @@ export function createServer(port, dbUrl) {
   app.use('/thread', threadRouter);
   app.use('/user', userRouter);
   app.use('/comment', commentRouter);
+  app.use('/pet', petRouter);
 
   // const server = app.listen(port, () => console.log('SERVER STARTED!!!'));
   //

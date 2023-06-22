@@ -6,7 +6,7 @@ import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from './CreateThreadPetInfo'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import { useDispatch } from 'react-redux';
-import { createThread } from '../../actions/threadActions';
+import { createThreadAsync } from '../../thunk/threadThunk';
 
 function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   const [threadType, updateThreadType] = useState(initialType);
@@ -17,16 +17,32 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
     updateThreadType(initialType);
   }, [initialType])
 
+  // const onFinish = (values) => {
+  //   console.log('form got submitted:', values);
+  //   dispatch(createThread(values))
+  //     .then(response => {
+  //       const threadId = response.data.threadCreated._id;
+  //       navigate(`/threads/${threadId}`);
+  //       onCreate();
+  //     })
+  //     .catch(error => {
+  //       console.log('Cannot open the new Thread.' + error);
+  //     });
+  // };
+
   const onFinish = (values) => {
     console.log('form got submitted:', values);
-    dispatch(createThread(values))
-      .then(response => {
-        const threadId = response.data.threadCreated._id;
-        navigate(`/threads/${threadId}`);
-        onCreate();
-      })
-      .catch(error => {
-        console.log('Cannot open the new Thread.' + error);
+    dispatch(createThreadAsync(values))
+      .then(action => {
+        // check if the action completed successfully
+        if (createThreadAsync.fulfilled.match(action)) {
+          const threadId = action.payload._id;
+          navigate(`/threads/${threadId}`);
+          onCreate();
+        } else {
+          // handle the error
+          console.log('Cannot open the new Thread.' + action.error.message);
+        }
       });
   };
 
@@ -39,10 +55,6 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
            okText='Create'
            onOk={() => {
              form.validateFields()
-               // .then((values) => {
-               //   form.resetFields();
-               //   dispatch(createThread(values));
-               // onCreate();
                .then((values) => {
                  form.submit();
                })
