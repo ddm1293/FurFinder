@@ -3,6 +3,7 @@ import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
 import PetService from './petService.js';
+import { PetModel } from '../models/petModel.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -84,7 +85,8 @@ class ThreadService {
   static async searchThreads(data) {
     const { keyword, threadType } = data;
     const searchOn = data.searchOn.split(',');
-    return ThreadModel.aggregate([
+    const { breed, species, sex, petName, lastSeenStart, lastSeenEnd } = data;
+    const finalSearch = ThreadModel.aggregate([
       {
         $search: {
           index: 'default',
@@ -93,8 +95,55 @@ class ThreadService {
             path: searchOn
           }
         }
+      },
+      {
+        $lookup: {
+          from: 'pets',
+          localField: '_id',
+          foreignField: 'threadId',
+          as: 'target_pets',
+          pipeline: [{
+            $search: {
+              index: 'pets_index',
+              compound: {
+                filter: [
+                  {
+                    text: {
+                      query: petName,
+                      path: 'name'
+                    }
+                  },
+                  {
+                    text: {
+                      query: sex,
+                      path: 'sex'
+                    }
+                  },
+                  {
+                    text: {
+                      query: breed,
+                      path: 'breed'
+                    }
+                  },
+                  {
+                    text: {
+                      query: species,
+                      path: 'species'
+                    }
+                  }
+                ]
+              }
+            }
+          }]
+        }
+      },
+      {
+        $match: {
+          target_pets: { $ne: [] }
+        }
       }
     ]);
+    return finalSearch;
   }
 }
 
