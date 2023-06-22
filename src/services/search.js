@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const keywordSearch = (keyword, searchOn, threadType) => {
   return {
     $search: {
@@ -22,24 +24,39 @@ export const keywordSearch = (keyword, searchOn, threadType) => {
   };
 };
 
-export const petInformationSearch = (criteria, threadType) => {
+export const threadTypeMatch = (threadType) => {
+  return {
+    $match: {
+      kind: threadType
+    }
+  };
+};
+
+export const petInformationSearch = (criteria) => {
   const filters = [];
 
-  for (const criterion in criteria) {
-    if (criteria[criterion]) {
+  const textualCriteria = _.pickBy(criteria, _.isString);
+  const { lastSeenStart, lastSeenEnd } = _.pickBy(criteria, _.isDate);
+
+  for (const criterion in textualCriteria) {
+    if (textualCriteria[criterion]) {
       filters.push({
         text: {
-          query: threadType,
-          path: 'kind'
-        }
-      });
-      filters.push({
-        text: {
-          query: criteria[criterion],
+          query: textualCriteria[criterion],
           path: criterion
         }
       });
     }
+  }
+
+  if (lastSeenStart && lastSeenEnd) {
+    filters.push({
+      range: {
+        path: 'lastSeenTime',
+        gt: lastSeenStart,
+        lt: lastSeenEnd
+      }
+    });
   }
 
   return {

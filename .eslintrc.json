@@ -25,6 +25,7 @@
         "space-before-function-paren": "off",
         "newline-per-chained-call": "error",
         "no-trailing-spaces": "warn",
-        "prefer-promise-reject-errors": "warn"
+        "prefer-promise-reject-errors": "warn",
+        "brace-style": "off"
     }
 }

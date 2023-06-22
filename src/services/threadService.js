@@ -4,7 +4,7 @@ import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
 import PetService from './petService.js';
 import _ from 'lodash';
-import { keywordSearch, petInformationSearch } from './search.js';
+import { keywordSearch, petInformationSearch, threadTypeMatch } from './search.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -85,16 +85,31 @@ class ThreadService {
 
   static async searchThreads(data) {
     const { keyword, threadType, searchOn, breed, species, sex, petName: name, lastSeenStart, lastSeenEnd } = data;
+    const criteria = { species, breed, name, sex, lastSeenStart, lastSeenEnd };
+    const filterExist = _.some(criteria, _.negate(_.isUndefined));
+
     const pipeline = [];
 
-    if (keyword) {
+    if (keyword && !filterExist) {
+      console.log('search case 1: keyword only');
       pipeline.push(keywordSearch(keyword, searchOn.split(','), threadType));
     }
 
-    const criteria = { species, breed, name, sex };
-    const filterExist = _.some(criteria, _.negate(_.isUndefined));
-    if (filterExist) {
-      pipeline.push(petInformationSearch(criteria, threadType));
+    else if (!keyword && filterExist) {
+      console.log('search case 2: filter only');
+      pipeline.push(threadTypeMatch(threadType));
+      pipeline.push(petInformationSearch(criteria));
+      pipeline.push({
+        $match: {
+          target_pets: { $ne: [] }
+        }
+      });
+    }
+
+    else if (keyword && filterExist) {
+      console.log('search case 3: both');
+      pipeline.push(keywordSearch(keyword, searchOn.split(','), threadType));
+      pipeline.push(petInformationSearch(criteria));
       pipeline.push({
         $match: {
           target_pets: { $ne: [] }
