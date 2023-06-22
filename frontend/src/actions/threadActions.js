@@ -67,7 +67,7 @@ export const updateThread = (threadId, threadData) => {
 export const deleteThread = (threadId) => {
   return (dispatch) => {
     dispatch(deleteThreadRequest());
-    axios.delete(`/api/threads/${threadId}`)
+    axios.delete(`http://localhost:3001/thread/${threadId}`)
       .then(response => {
         dispatch(deleteThreadSuccess(threadId));
       })
