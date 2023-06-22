@@ -3,7 +3,8 @@ import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
 import PetService from './petService.js';
-import { PetModel } from '../models/petModel.js';
+import _ from 'lodash';
+import { keywordSearch, petInformationSearch } from './search.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -83,67 +84,25 @@ class ThreadService {
   }
 
   static async searchThreads(data) {
-    const { keyword, threadType } = data;
-    const searchOn = data.searchOn.split(',');
-    const { breed, species, sex, petName, lastSeenStart, lastSeenEnd } = data;
-    const finalSearch = ThreadModel.aggregate([
-      {
-        $search: {
-          index: 'default',
-          text: {
-            query: keyword,
-            path: searchOn
-          }
-        }
-      },
-      {
-        $lookup: {
-          from: 'pets',
-          localField: '_id',
-          foreignField: 'threadId',
-          as: 'target_pets',
-          pipeline: [{
-            $search: {
-              index: 'pets_index',
-              compound: {
-                filter: [
-                  {
-                    text: {
-                      query: petName,
-                      path: 'name'
-                    }
-                  },
-                  {
-                    text: {
-                      query: sex,
-                      path: 'sex'
-                    }
-                  },
-                  {
-                    text: {
-                      query: breed,
-                      path: 'breed'
-                    }
-                  },
-                  {
-                    text: {
-                      query: species,
-                      path: 'species'
-                    }
-                  }
-                ]
-              }
-            }
-          }]
-        }
-      },
-      {
+    const { keyword, threadType, searchOn, breed, species, sex, petName: name, lastSeenStart, lastSeenEnd } = data;
+    const pipeline = [];
+
+    if (keyword) {
+      pipeline.push(keywordSearch(keyword, searchOn.split(','), threadType));
+    }
+
+    const criteria = { species, breed, name, sex };
+    const filterExist = _.some(criteria, _.negate(_.isUndefined));
+    if (filterExist) {
+      pipeline.push(petInformationSearch(criteria, threadType));
+      pipeline.push({
         $match: {
           target_pets: { $ne: [] }
         }
-      }
-    ]);
-    return finalSearch;
+      });
+    }
+
+    return ThreadModel.aggregate(pipeline);
   }
 }
 
