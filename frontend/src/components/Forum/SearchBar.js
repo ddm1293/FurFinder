@@ -3,12 +3,11 @@ import { searchThread } from '../../store/forumSlice'
 import { Input } from 'antd'
 
 const { Search } = Input
-function SearchThreads () {
+function SearchBar () {
   const dispatch = useDispatch()
 
   return (
       <div className="search-container">
-        <h3>Search</h3>
         <Search
           placeholder="input search text"
           allowClear
@@ -21,4 +20,4 @@ function SearchThreads () {
     </div>
   )
 }
-export default SearchThreads
+export default SearchBar

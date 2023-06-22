@@ -1,9 +1,9 @@
 import FilterThreads from './FilterThreads'
-import SearchThreads from './SearchThreads'
+import SearchBar from './SearchBar'
 import CardView from './CardView'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
 import ListView from './ListView'
-import { Breadcrumb, Layout, Pagination, Menu } from 'antd'
+import { Breadcrumb, Layout, Pagination, Menu, Divider } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum.css'
 import { useSelector } from 'react-redux'
@@ -53,46 +53,37 @@ function Forum (props) {
   }
 
   return (
-    <Layout>
-      <Breadcrumb className="custom-breadcrumb"
-                  items={[
-                    { title: <a href="">Home</a> },
-                    { title: <a href="">Forum</a> }, // TODO: add link
-                    { title: 'View' }
-                  ]}
-      />
-      <Content className="forum-container">
-        <div className="side-container">
-          <h2>Side</h2>
-          <SearchThreads />
-          <FilterThreads filterOptions={props.filterOptions}/>
+    <div className='forum-container'>
+      <div className="forum-content">
+        <div className="forum-view">
+          <Menu
+            className='forum-view-menu'
+            onClick={(event) => {
+            setSelectedKey(event.key)
+          }}
+            selectedKeys={[selectedKey]}
+            mode="horizontal"
+            items={viewOptions} />
+          <SearchBar />
         </div>
-        <div className="forum-content">
-          <h2>View</h2>
-          <CreateThreadButton
-            shouldOpenCreateThreadForm={props.shouldOpenCreateThreadForm}
-            threadType={props.threadType}
-          />
-          <div className="forum-view">
-            <Menu onClick={(event) => {
-              setSelectedKey(event.key)
-            }}
-                  selectedKeys={[selectedKey]}
-                  mode="horizontal"
-                  items={viewOptions} />
-            <div>{render()}</div>
-          </div>
-          <Pagination
-            current={currentPage}
-            pageSize={cardsPerPage}
-            total={threads.length}
-            onChange={(page) => {
-              setCurrentPage(page)
-            }}
-          />
+
+        <Divider className='forum-divider'/>
+
+        <div className='forum-main-content-view'>
+          {render()}
         </div>
-      </Content>
-    </Layout>
+
+        <Pagination
+          current={currentPage}
+          pageSize={cardsPerPage}
+          total={threads.length}
+          onChange={(page) => {
+            setCurrentPage(page)
+          }}
+        />
+      </div>
+
+    </div>
   )
 }
 
