@@ -16,6 +16,10 @@ img {
     padding: 20px;
 }
 
+.forum-view {
+    margin-top: -20px;
+}
+
 .forum-view,
 .forum-main-content-view {
     display: flex;
@@ -33,10 +37,6 @@ img {
 .forum-divider {
     margin-bottom: auto;
     margin-top: auto;
-}
-
-.search-container {
-    height: 48px;
 }
 
 .pagination {
