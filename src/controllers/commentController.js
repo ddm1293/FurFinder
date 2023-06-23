@@ -1,12 +1,17 @@
 import commentService from '../services/commentService.js';
+import { handleError } from '../exceptions/handleError.js';
+import { CommentDoesNotExistException } from '../exceptions/commentException.js';
+import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 export const createComment = async (req, res) => {
   try {
     console.log('Server:: create the Comment');
-    const id = req.params.threadId;
-    const comment = await commentService.createComment(id, req.params, req.body);
+    const threadId = req.params.threadId;
+    console.log(threadId);
+    const comment = await commentService.createComment(threadId, req.body);
     res.status(201).json({
       message: 'The comment is created successfully',
-      commentCreated: comment
+      commentCreated: comment,
+      commentId: comment.comments.slice(-1)[0]
     });
   } catch (err) {
     console.error(err);
@@ -21,9 +26,7 @@ export const getComment = async (req, res) => {
     const comment = await commentService.getComment(id);
     res.status(200).json({ comment });
   } catch (err) {
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, CommentDoesNotExistException, 404);
   }
 };
 
@@ -32,13 +35,9 @@ export const getCommentsByThread = async (req, res) => {
     console.log('Server::Getting comments - running getComments');
     const threadId = req.params.threadId;
     const comments = await commentService.getCommentsByThread(threadId);
-    res.status(200).json({
-      comments
-    });
+    res.status(200).json({ message: 'Successfully find the comments', comments });
   } catch (err) {
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, ThreadDoesNotExistException, 404);
   }
 };
 
@@ -49,9 +48,7 @@ export const updateComment = async (req, res) => {
     const updated = await commentService.updateComment(id, req.body);
     res.status(200).json({ message: 'Successfully updated', updated });
   } catch (err) {
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, CommentDoesNotExistException, 404);
   }
 };
 
@@ -62,9 +59,7 @@ export const patchComment = async (req, res) => {
     const patched = await commentService.patchComment(id, req.body);
     res.status(200).json({ message: 'Successfully patched', patched });
   } catch (err) {
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, CommentDoesNotExistException, 404);
   }
 };
 
@@ -72,11 +67,9 @@ export const deleteComment = async (req, res) => {
   try {
     console.log('Server::delete the comment');
     const id = req.params.id;
-    await commentService.deleteComment(id);
-    res.status(204).json({ message: 'Successfully deleted' });
+    const deleted = await commentService.deleteComment(id);
+    res.status(204).json({ message: 'Successfully deleted', deleted });
   } catch (err) {
-    res.status(400).json({
-      error: err.message
-    });
+    handleError(err, res, CommentDoesNotExistException, 404);
   }
 };
