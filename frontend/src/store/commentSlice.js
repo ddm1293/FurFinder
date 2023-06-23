@@ -18,7 +18,7 @@ const commentSlice = createSlice({
         state.commentList.push(action.payload);
       })
       .addCase(deleteCommentAsync.fulfilled, (state, action) => {
-        state.commentList = state.commentList.filter((item) => item.id !== action.payload);
+        state.commentList = state.commentList.filter((item) => item._id !== action.payload);
       })
   }
 })
