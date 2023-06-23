@@ -12,7 +12,9 @@ const LeftMenu = ({ mode }) => {
             <Menu.Item key="features">
               <Link to="/threads" state={{ filterOptions: "witness" }}>Witnesses</Link>
             </Menu.Item>
-            <Menu.Item key="about"><a href="/#about">About</a></Menu.Item>
+            <Menu.Item key="about">
+              <Link to="/">About</Link>
+            </Menu.Item>
         </Menu>
     );
 };
