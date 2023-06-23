@@ -33,7 +33,8 @@ export function createServer(port, dbUrl) {
       resolve(server);
     });
 
-    mongoose.connect(dbUrl).then(() => {
+    mongoose.connect(dbUrl
+    ).then(() => {
       console.log('Successfully connected to MongoDB!');
     }).catch((err) => {
       console.error('Error connecting to MongoDB:', err);
