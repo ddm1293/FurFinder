@@ -12,8 +12,6 @@ export const getAllUsers = async (req, res) => {
 export const getUser = async (req, res) => {
   try {
     console.log('Server::getUser');
-    // console.log(req.headers.authorization);
-    // console.log(req.cookies);
     let user = await UserService.getUserById(req.params.id);
     user = UserService.getLeanUser(user);
     res.status(200).json({ message: 'GetUser Successfully', user });

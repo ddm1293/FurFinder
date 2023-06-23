@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const verifyJWT = (req, res, next) => {
-  const authHeader = req.headers.authorization || req.headers.Authorization;
-  // console.log('HELLO: ' + authHeader); // Bearer token
+  const authHeader = req.headers.authorization || req.headers.Authorization; // bearer token
   if (authHeader && !authHeader.startsWith('Bearer ')) { return res.sendStatus(401); } // unauthorized
   const token = authHeader.split(' ')[1];
   jwt.verify(

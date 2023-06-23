@@ -49,7 +49,6 @@ export default function Login() {
 
   async function loginFromGoogle(response) {
     const userObject = jwt_decode(response.credential);
-    // console.log(userObject);
 
     try {
       const res = await axios({

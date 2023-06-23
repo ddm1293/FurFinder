@@ -73,7 +73,6 @@ export const refreshAccessToken = async (req, res) => {
 export const logoutUser = async (req, res) => {
   console.log('Server::logoutUser');
   const cookies = req.cookies;
-  // console.log(cookies);
   if (cookies && !cookies.jwt) { return res.sendStatus(204); } // no content
   /* Is refreshToken in db? If so, clear it; clear cookie regardless */
   try {
