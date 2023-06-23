@@ -95,7 +95,7 @@ function getAccessToken(user) {
   return jwt.sign(
     { username: user.username },
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '10s' }
+    { expiresIn: '10s' } // 10s for testing purposes; can be longer
   );
 }
 

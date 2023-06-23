@@ -20,7 +20,7 @@ export function createServer(port, dbUrl) {
   app.use(cookieParser());
 
   app.use('/auth', authRouter);
-  // app.use(verifyJWT);
+  // app.use(verifyJWT); // add this middleware wherever a route needs to be protected
   app.use('/thread', threadRouter);
   app.use('/user', userRouter);
   app.use('/comment', commentRouter);

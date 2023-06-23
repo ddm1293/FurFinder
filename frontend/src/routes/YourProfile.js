@@ -14,7 +14,7 @@ export default function YourProfile() {
           url: `/user/${user.id}`,
         });
         console.log(res.data);
-      }, 12000); //
+      }, 1000); // make it larger to refresh auth token
     }
   }
 
