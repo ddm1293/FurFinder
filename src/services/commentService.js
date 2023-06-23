@@ -36,6 +36,10 @@ class commentService {
   }
 
   static async deleteComment(id) {
+    const comment = await CommentModel.findById(id);
+    const threadRelated = await ThreadModel.findById(comment.threadId);
+    threadRelated.comments.pull(comment._id);
+    await threadRelated.save();
     return CommentModel.findByIdAndDelete(id);
   }
 }
