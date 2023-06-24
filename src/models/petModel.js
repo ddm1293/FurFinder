@@ -27,6 +27,10 @@ const PetSchema = new mongoose.Schema({
   pic: [{
     type: Buffer
   }],
+  ownerId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
+  },
   sex: {
     type: String,
     enum: {
