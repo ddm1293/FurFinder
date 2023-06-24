@@ -4,7 +4,7 @@ import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 
-function CreateThreadPetInfo ( {threadType} ) {
+function CreateThreadPetInfo ({ threadType }) {
 
   const normFile = (e) => {
     console.log('Upload event:', e);
@@ -17,7 +17,7 @@ function CreateThreadPetInfo ( {threadType} ) {
   return (
     <Form.Item className="create-thread-petInfo">
       {
-        threadType === 'lost-pet-thread' &&
+        threadType === 'lostPetThread' &&
         <Form.Item name='pet-name'
                  label='Name'
                  rules={[{

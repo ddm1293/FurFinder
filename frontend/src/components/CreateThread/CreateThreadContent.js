@@ -15,10 +15,10 @@ function CreateThreadContent ({ threadType, handleThreadTypeUpdate }) {
       <Form.Item name='select-thread-type'
                  label='Alter The Type of Thread You Are Creating'>
         <Select onChange={onThreadTypeChange}>
-          <Select.Option value="lost-pet-thread">
+          <Select.Option value="lostPetThread">
             Lost Pet Thread
           </Select.Option>
-          <Select.Option value="witness-thread">
+          <Select.Option value="witnessThread">
             Witness Thread
           </Select.Option>
         </Select>

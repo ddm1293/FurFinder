@@ -8,7 +8,7 @@ export default function Home() {
       <div id="split">
         <div className="split__sides split__sides--lost">
           <div className="split__image split__image--lost">
-            <Link to="/threads" state={{ filterOptions: "lost", shouldOpenCreateThreadForm: true, threadType: 'lost-pet-thread' }}>
+            <Link to="/threads" state={{ filterOptions: "lost", shouldOpenCreateThreadForm: true, threadType: 'lostPetThread' }}>
               <Button className="split__button" type="primary" size="large">
                 Report Lost Pet
               </Button>
@@ -17,7 +17,7 @@ export default function Home() {
         </div>
         <div className="split__sides split__sides--witness">
           <div className="split__image split__image--witness">
-            <Link to="/threads" state={{ filterOptions: "witness", shouldOpenCreateThreadForm: true, threadType: 'witness-thread' }}>
+            <Link to="/threads" state={{ filterOptions: "witness", shouldOpenCreateThreadForm: true, threadType: 'witnessThread' }}>
               <Button className="split__button" type="primary" size="large">Report Witness</Button>
             </Link>
           </div>

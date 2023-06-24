@@ -1,5 +1,4 @@
-import FilterThreads from './FilterThreads'
-import SearchBar from './SearchBar'
+import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
 import ListView from './ListView'
@@ -9,10 +8,11 @@ import '../../style/Forum.css'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { threads } from '../../mocks/forumMock'
+import AdvancedSearchButton from './Search/AdvancedSearchButton'
 
 const { Content } = Layout
 
-function Forum (props) {
+function Forum ({ threadType }) {
   // separate list of items into different pages
   const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = 6
@@ -52,10 +52,15 @@ function Forum (props) {
     }
   }
 
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const clickAdvancedSearch = () => {
+    setShowAdvancedSearch(true);
+  }
+
   return (
     <div className='forum-container'>
       <div className="forum-content">
-        <div className="forum-view">
+        <div className="forum-menu-bar">
           <Menu
             className='forum-view-menu'
             onClick={(event) => {
@@ -64,7 +69,8 @@ function Forum (props) {
             selectedKeys={[selectedKey]}
             mode="horizontal"
             items={viewOptions} />
-          <SearchBar />
+          <SearchBar threadType={threadType}/>
+          <AdvancedSearchButton onClick={clickAdvancedSearch}/>
         </div>
 
         <Divider className='forum-divider'/>
