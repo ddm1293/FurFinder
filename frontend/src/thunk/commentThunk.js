@@ -6,7 +6,7 @@ export const getCommentsAsync = createAsyncThunk(
   async (threadID) => {
     try {
       const res = await axios.get(`http://localhost:3001/comment/${threadID}/getComments`)
-      return res.data.comments.comments;
+      return res.data.comments;
     } catch (e) {
       console.log(e)
     }
@@ -17,8 +17,9 @@ export const addCommentAsync = createAsyncThunk(
   'POST_COMMENTS',
   async ({ threadID, newComment }) => {
     try {
-      await axios.post(`http://localhost:3001/comment/${threadID}/create`, newComment);
-      return newComment;
+      const res = await axios.post(`http://localhost:3001/comment/${threadID}/create`, newComment);
+      console.log(res);
+      return res.data.commentCreated;
     } catch (e) {
       console.log(e);
     }
@@ -29,7 +30,8 @@ export const deleteCommentAsync = createAsyncThunk(
   'DELETE_ITEM',
   async (commentID) => {
     try {
-      await axios.delete(`http://localhost:3001/comment/${commentID}`)
+      const res = await axios.delete(`http://localhost:3001/comment/${commentID}`);
+      console.log(res, commentID);
       return commentID;
     } catch (e) {
       console.log(e);

@@ -17,12 +17,10 @@ class commentService {
   }
 
   static async getCommentsByThread(threadId) {
-    // return ThreadModel.findById(threadId)
-    //   .select('comments')
-    //   .populate('comments');
     const thread = await ThreadModel.findById(threadId);
     if (thread) {
-      return thread.comments;
+      const comments = await CommentModel.find({ threadId: threadId });
+      return comments;
     } else {
       throw new ThreadDoesNotExistException(`thread ${threadId} does not exist`);
     }
@@ -31,10 +29,9 @@ class commentService {
   static async createComment(threadId, body) {
     const comment = await CommentModel.create(body);
     const thread = await ThreadModel.findById(threadId);
-    console.log(thread);
     thread.comments.push(comment);
     await thread.save();
-    return thread;
+    return comment;
   }
 
   static async updateComment(id, body) {
