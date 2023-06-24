@@ -5,13 +5,14 @@ import CreateThreadContent from './CreateThreadContent'
 import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from './CreateThreadPetInfo'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { createThreadAsync } from '../../thunk/threadThunk';
 
 function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   const [threadType, updateThreadType] = useState(initialType);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
 
   useEffect(() => {
     updateThreadType(initialType);
@@ -31,8 +32,9 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   // };
 
   const onFinish = (values) => {
-    console.log('form got submitted:', values);
-    dispatch(createThreadAsync(values))
+    const valuesWithPoster = { ...values, poster: user.id };
+    console.log('form got submitted:', valuesWithPoster);
+    dispatch(createThreadAsync(valuesWithPoster))
       .then(action => {
         // check if the action completed successfully
         if (createThreadAsync.fulfilled.match(action)) {
