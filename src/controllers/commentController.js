@@ -11,7 +11,7 @@ export const createComment = async (req, res) => {
     res.status(201).json({
       message: 'The comment is created successfully',
       commentCreated: comment,
-      commentId: comment.comments.slice(-1)[0]
+      commentId: comment._id
     });
   } catch (err) {
     console.error(err);
