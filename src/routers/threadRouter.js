@@ -18,6 +18,7 @@ threadRouter.put('/:id', threadController.updateThread);
 // PATCH APIS
 threadRouter.patch('/archive/:id', threadController.archiveThread);
 threadRouter.patch('/:id', threadController.patchThread);
+threadRouter.patch('/:id/:userId/favorite', threadController.favoriteThread);
 
 // DELETE APIS
 threadRouter.delete('/:id', threadController.deleteThread);

@@ -2,6 +2,7 @@ import { ThreadModel } from '../models/threadModel.js';
 import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
+import { UserModel } from '../models/userModel.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
@@ -51,6 +52,16 @@ class ThreadService {
       return updated;
     } else {
       throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
+  }
+
+  static async favoriteThread(id, userId) {
+    const user = await UserModel.findById(userId);
+    if (user) {
+      await UserService.getUserFavoriteOrUnfavorite(userId, id);
+      return user;
+    } else {
+      throw new UserDoesNotExistException(`user ${userId} does not exist`);
     }
   }
 
