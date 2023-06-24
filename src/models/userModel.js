@@ -27,7 +27,8 @@ const UserSchema = new mongoose.Schema({
   favoredThreads: [{
     type: Schema.Types.ObjectId,
     ref: 'Thread'
-  }]
+  }],
+  refreshToken: String
 });
 
 export const UserModel = mongoose.model('User', UserSchema, 'users');

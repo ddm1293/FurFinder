@@ -11,6 +11,10 @@ class UserService {
     return UserModel.findById(userId);
   }
 
+  static async getUserByRefreshToken(refreshToken) {
+    return UserModel.findOne({ refreshToken });
+  }
+
   static async createUser(body) {
     const { username, email, password } = body;
     const exist = await UserService.getUserByName(username);
@@ -38,6 +42,13 @@ class UserService {
       }
     }
     return toPatch.save();
+  }
+
+  static getLeanUser(user) {
+    const userObject = user.toObject();
+    delete userObject.password;
+    delete userObject.refreshToken;
+    return userObject;
   }
 }
 

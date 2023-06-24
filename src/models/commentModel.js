@@ -16,8 +16,7 @@ const commentSchema = new mongoose.Schema({
   threadId: {
     type: Schema.Types.ObjectId,
     ref: 'Thread',
-    required: true,
-    unique: true
+    required: true
   },
   date: {
     type: Date,
