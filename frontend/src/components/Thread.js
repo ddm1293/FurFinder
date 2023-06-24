@@ -32,7 +32,7 @@ function Thread() {
       axios.get(`http://localhost:3001/user/${thread.poster}`)
         .then(response => {
           setPoster(response.data.user);
-          //console.log('poster: ', response.data.user);
+          console.log('poster: ', response.data.user);
         })
         .catch(error => {
           console.error('Error fetching poster data', error);
@@ -62,6 +62,9 @@ function Thread() {
   };
 
   if (!thread || !poster || !pet) {
+    console.log('thread: ', thread);
+    console.log('poster: ', poster);
+    console.log('pet: ', pet);
     return 'Loading...';
   }
 
@@ -86,7 +89,7 @@ function Thread() {
           title={<span className="id-card-title">Name: {pet.name}</span>}
           description={
             <div className="id-card-info">
-              <p>ID: {pet.ID}</p>
+              <p>ID: {pet.id}</p>
               <p>Breed: {pet.breed}</p>
               <p>Sex: {pet.sex}</p>
               <p>Last Seen Time: {pet.lastSeenTime}</p>

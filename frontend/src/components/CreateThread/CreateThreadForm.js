@@ -78,7 +78,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
         <CreateThreadContent threadType={threadType}
                              handleThreadTypeUpdate={updateThreadType}/>
         <Divider />
-        <CreateThreadPetInfo threadType={threadType}/>
+        <CreateThreadPetInfo threadType={threadType} form={form}/>
       </Form>
     </Modal>
   )
