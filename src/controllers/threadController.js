@@ -74,6 +74,7 @@ export const favoriteThread = async (req, res) => {
     console.log('Server::favorite a thread - running favoriteThread');
     const id = req.params.id;
     const userId = req.params.userId;
+    console.log(req);
     const favorite = await ThreadService.favoriteThread(id, userId);
     res.status(200).json({ message: 'Successfully favorite or unfavorite', favorite });
   } catch (err) {

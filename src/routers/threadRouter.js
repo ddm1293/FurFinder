@@ -1,6 +1,7 @@
 import express from 'express';
 import * as threadController from '../controllers/threadController.js';
 import { processPet } from '../middleware/threadMiddleware.js';
+import verifyJWT from '../middleware/verifyJwt.js';
 
 const threadRouter = express.Router();
 
