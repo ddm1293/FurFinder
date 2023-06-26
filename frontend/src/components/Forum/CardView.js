@@ -10,7 +10,7 @@ function CardView ({ items }) {
         {items.map((item, index) => (
           <Card className="cards"
                 key={index}
-                style={{ width: 400 }}
+                style={{ width: 300 }}
                 cover={<img src={item.img} alt="pet" />}
                 actions={[
                   <StarOutlined key="star" />,

@@ -1,9 +1,7 @@
 import { useDispatch } from 'react-redux'
-import { searchThread } from '../../../store/forumSlice'
 import { Button, Input, Tooltip } from 'antd'
-import CheckableTag from 'antd/es/tag/CheckableTag'
 import { useEffect, useState } from 'react'
-import '../../../style/SearchBar.css'
+import '../../../style/Forum/SearchBar.css'
 import SearchOnTags from './SearchOnTags'
 
 const { Search } = Input

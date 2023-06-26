@@ -1,8 +1,8 @@
 import React from 'react'
 import { Button, Tooltip } from 'antd'
-import '../../../style/SearchBar.css'
+import '../../../style/Forum/SearchBar.css'
 
-function AdvancedSearchButton (props) {
+function AdvancedSearchButton ({ clickAdvancedSearch }) {
   return (
     <div>
       <Tooltip title='Advanced Search'
@@ -12,6 +12,7 @@ function AdvancedSearchButton (props) {
           className='search-bar-advanced-search'
           size='small'
           type="primary"
+          onClick={clickAdvancedSearch}
         >
           Advanced
         </Button>

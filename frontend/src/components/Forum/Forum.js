@@ -1,14 +1,14 @@
 import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
-import CreateThreadButton from '../CreateThread/CreateThreadButton'
 import ListView from './ListView'
-import { Breadcrumb, Layout, Pagination, Menu, Divider } from 'antd'
+import { Layout, Pagination, Menu, Divider } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
-import '../../style/Forum.css'
+import '../../style/Forum/Forum.css'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import { threads } from '../../mocks/forumMock'
 import AdvancedSearchButton from './Search/AdvancedSearchButton'
+import AdvancedSearchSiderPanel from './Search/AdvancedSearchSiderbar'
 
 const { Content } = Layout
 
@@ -54,7 +54,11 @@ function Forum ({ threadType }) {
 
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const clickAdvancedSearch = () => {
+    console.log('open advanced search');
     setShowAdvancedSearch(true);
+  }
+  const handleCloseAdvancedSearch = () => {
+    setShowAdvancedSearch(false);
   }
 
   return (
@@ -70,13 +74,21 @@ function Forum ({ threadType }) {
             mode="horizontal"
             items={viewOptions} />
           <SearchBar threadType={threadType}/>
-          <AdvancedSearchButton onClick={clickAdvancedSearch}/>
+          <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
         </div>
 
         <Divider className='forum-divider'/>
 
         <div className='forum-main-content-view'>
-          {render()}
+          <div className='forum-main-content' style={{paddingRight: '20px'}}>
+            {render()}
+          </div>
+
+          <div className='advanced-search-container' style={{borderLeft: '1px solid black', paddingLeft:'20px'}}>
+            { showAdvancedSearch &&
+              <AdvancedSearchSiderPanel />
+            }
+          </ div>
         </div>
 
         <Pagination

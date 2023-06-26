@@ -66,3 +66,7 @@ img {
 .ant-btn {
     margin-bottom: 1em;
 }
+
+.forum-main-content-view {
+    align-items: flex-start;
+}
