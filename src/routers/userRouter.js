@@ -4,8 +4,9 @@ import verifyJWT from '../middleware/verifyJwt.js';
 
 const userRouter = express.Router();
 
+userRouter.get('/me', verifyJWT, userController.getUser);
 userRouter.get('/getAllUsers', userController.getAllUsers);
-userRouter.get('/:id', verifyJWT, userController.getUser);
+userRouter.get('/:id', userController.getPublicUser);
 userRouter.patch('/:id', userController.patchUser);
 
 // TODO: get a user by id
