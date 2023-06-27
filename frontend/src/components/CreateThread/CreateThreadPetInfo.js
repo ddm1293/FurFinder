@@ -3,6 +3,7 @@ import { Form, Input, Radio, Select, Divider, DatePicker, Upload, Space } from '
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
+import BreedSelector from './BreedSelector'
 
 function CreateThreadPetInfo ({ threadType }) {
 
@@ -31,41 +32,7 @@ function CreateThreadPetInfo ({ threadType }) {
       <Form.Item name='pet-type'
                  className='pet-type'
                  label='Breed'>
-        <Space.Compact block>
-          <Form.Item className='pet-species'
-                     name='pet-species'
-                     rules={[{
-                       required: true,
-                       message: 'Please choose the pet species' }]}>
-            <Select placeholder="Select pet species">
-              <Select.Option value="cat">Cat</Select.Option>
-              <Select.Option value="dog">Dog</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item className='pet-breed'
-                     name='pet-breed'>
-            <Form.Item shouldUpdate={(prevValues, currentValues) =>
-              prevValues['pet-species'] !== currentValues['pet-species']
-            }>
-              {({ getFieldValue }) => getFieldValue('pet-species') === 'cat' ? (
-                <Form.Item name='cat-breed'>
-                  <Select placeholder="Select a cat breed">
-                    <Select.Option value="cat">Persian Cat</Select.Option>
-                    <Select.Option value="dog">Ragdoll</Select.Option>
-                  </Select>
-                </Form.Item>
-              ) : (
-                <Form.Item name='dog-breed'>
-                  <Select placeholder="Select a dog breed">
-                    <Select.Option value="cat">Beagle</Select.Option>
-                    <Select.Option value="dog">Golden Retrievers</Select.Option>
-                  </Select>
-                </Form.Item>
-              )}
-            </Form.Item>
-          </Form.Item>
-        </Space.Compact>
+        <BreedSelector required={true} />
       </Form.Item>
 
       <Form.Item name='pet-sex' label='Sex'>

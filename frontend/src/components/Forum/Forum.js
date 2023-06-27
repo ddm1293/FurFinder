@@ -54,7 +54,6 @@ function Forum ({ threadType }) {
 
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const clickAdvancedSearch = () => {
-    console.log('open advanced search');
     setShowAdvancedSearch(true);
   }
   const handleCloseAdvancedSearch = () => {
@@ -86,7 +85,7 @@ function Forum ({ threadType }) {
 
           <div className='advanced-search-container' style={{borderLeft: '1px solid black', paddingLeft:'20px'}}>
             { showAdvancedSearch &&
-              <AdvancedSearchSiderPanel />
+              <AdvancedSearchSiderPanel onClose={handleCloseAdvancedSearch}/>
             }
           </ div>
         </div>
