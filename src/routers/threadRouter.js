@@ -1,7 +1,7 @@
 import express from 'express';
 import * as threadController from '../controllers/threadController.js';
 import { processPet } from '../middleware/threadMiddleware.js';
-import verifyJWT from '../middleware/verifyJwt.js';
+import verifyJwt from '../middleware/verifyJwt.js';
 
 const threadRouter = express.Router();
 
@@ -19,7 +19,7 @@ threadRouter.put('/:id', threadController.updateThread);
 // PATCH APIS
 threadRouter.patch('/archive/:id', threadController.archiveThread);
 threadRouter.patch('/:id', threadController.patchThread);
-threadRouter.patch('/:id/:userId/favorite', threadController.favoriteThread);
+threadRouter.patch('/:id/:userId/favorite', verifyJwt, threadController.favoriteThread);
 
 // DELETE APIS
 threadRouter.delete('/:id', threadController.deleteThread);
