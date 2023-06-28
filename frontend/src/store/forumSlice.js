@@ -12,16 +12,6 @@ const forumSlice = createSlice({
   name: 'forum',
   initialState,
   reducers: {
-    searchThread: (state, action) => {
-      state.filteredThreads = state.threads.filter((thread) => thread.title === thread.payload)
-    },
-    filterThread: (state, action) => {
-      if (action.payload === 'all') {
-        state.filteredThreads = state.threads
-      } else {
-        state.filteredThreads = state.threads.filter((thread) => thread.type === action.payload)
-      }
-    }
   },
   extraReducers(builder){
     builder.addCase(searchThreadsAsync.fulfilled, (state, action) => {
@@ -30,7 +20,3 @@ const forumSlice = createSlice({
   }
 })
 export default forumSlice.reducer
-export const {
-  searchThread,
-  filterThread
-} = forumSlice.actions

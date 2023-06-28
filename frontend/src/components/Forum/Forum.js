@@ -18,19 +18,18 @@ function Forum ({ threadType }) {
   const cardsPerPage = 6
   const startIndex = (currentPage - 1) * cardsPerPage
   const endIndex = startIndex + cardsPerPage
-  let displayedCards = threads.slice(startIndex, endIndex)
+  let displayedCards = []
 
-  // render filtered threads
-  const filteredThreads = useSelector((state) => state.forum.filteredThreads);
-  if (filteredThreads.length > 1) {
-    displayedCards = filteredThreads.slice(startIndex, endIndex)
+  const searchResults = useSelector((state) => state.forum.searchResults);
+  if (searchResults) {
+    displayedCards = searchResults.slice(startIndex, endIndex);
   }
 
   // render threads in different views
   const [selectedKey, setSelectedKey] = useState('')
   const viewOptions = [{
-    key: 'grid',
-    label: 'Grid View',
+    key: 'card',
+    label: 'Card View',
     icon: <AppstoreOutlined />
   }, {
     key: 'list',
