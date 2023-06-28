@@ -1,21 +1,52 @@
 import React, { useEffect,  useState } from 'react'
 import { Form, Modal, Divider } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import CreateThreadContent from './CreateThreadContent'
 import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from './CreateThreadPetInfo'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
+import { useDispatch, useSelector} from 'react-redux';
+import { createThreadAsync } from '../../thunk/threadThunk';
 
 function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   const [threadType, updateThreadType] = useState(initialType);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
 
   useEffect(() => {
     updateThreadType(initialType);
   }, [initialType])
 
-  // TODO: after the form is submitted, send the form data for the next step
-  const onFinish = (e) => {
-    console.log('form got submitted:', e)
-  }
+  // const onFinish = (values) => {
+  //   console.log('form got submitted:', values);
+  //   dispatch(createThread(values))
+  //     .then(response => {
+  //       const threadId = response.data.threadCreated._id;
+  //       navigate(`/threads/${threadId}`);
+  //       onCreate();
+  //     })
+  //     .catch(error => {
+  //       console.log('Cannot open the new Thread.' + error);
+  //     });
+  // };
+
+  const onFinish = (values) => {
+    const valuesWithPoster = { ...values, poster: user.id };
+    console.log('form got submitted:', valuesWithPoster);
+    dispatch(createThreadAsync(valuesWithPoster))
+      .then(action => {
+        // check if the action completed successfully
+        if (createThreadAsync.fulfilled.match(action)) {
+          const threadId = action.payload._id;
+          navigate(`/threads/${threadId}`);
+          onCreate();
+        } else {
+          // handle the error
+          console.log('Cannot open the new Thread.' + action.error.message);
+        }
+      });
+  };
 
   const [form] = Form.useForm();
 
@@ -26,11 +57,9 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
            okText='Create'
            onOk={() => {
              form.validateFields()
-               .then(() => {
-               form.submit();
-               form.resetFields();
-               onCreate();
-             })
+               .then((values) => {
+                 form.submit();
+               })
                .catch((reason) => {
                  console.log('Validate Failed:', reason);
                })
@@ -51,7 +80,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
         <CreateThreadContent threadType={threadType}
                              handleThreadTypeUpdate={updateThreadType}/>
         <Divider />
-        <CreateThreadPetInfo threadType={threadType}/>
+        <CreateThreadPetInfo threadType={threadType} form={form}/>
       </Form>
     </Modal>
   )

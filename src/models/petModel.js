@@ -2,9 +2,27 @@ import mongoose from 'mongoose';
 
 // TODO: finish using discriminator
 const PetSchema = new mongoose.Schema({
+  id: {
+    type: String
+  },
   name: {
     type: String,
     required: true
+  },
+  species: {
+    type: String,
+    required: true
+  },
+  breed: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String
   },
   pic: [{
     type: Buffer
@@ -16,7 +34,7 @@ const PetSchema = new mongoose.Schema({
   sex: {
     type: String,
     enum: {
-      values: ['male', 'female', 'unknown'],
+      values: ['male', 'female', 'unknown', 'enby', 'not-sure-sex'],
       message: '{VALUE} is not supported'
     }
   },

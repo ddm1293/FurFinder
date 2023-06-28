@@ -1,10 +1,18 @@
-import React from 'react'
-import { Form, Input, Radio, Select, Divider, DatePicker, Upload, Space } from 'antd';
+import React, { useEffect } from 'react'
+import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 
-function CreateThreadPetInfo ( {threadType} ) {
+function CreateThreadPetInfo ({ threadType, form }) {
+
+  useEffect(() => {
+    if (threadType === 'witness-thread') {
+      form.setFieldsValue({ 'pet-name': 'Unknown' });
+    } else {
+      form.setFieldsValue({ 'pet-name': '' });
+    }
+  }, [threadType, form]);
 
   const normFile = (e) => {
     console.log('Upload event:', e);
@@ -16,27 +24,26 @@ function CreateThreadPetInfo ( {threadType} ) {
 
   return (
     <Form.Item className="create-thread-petInfo">
-      {
-        threadType === 'lost-pet-thread' &&
-        <Form.Item name='pet-name'
-                 label='Name'
-                 rules={[{
-                   required: true,
-                   message: 'Please enter the pet name'
-                 }]}>
+      <Form.Item
+        name='pet-name'
+        label='Pet Name'
+        rules={[{
+          required: true,
+          message: 'Please enter the pet name'
+        }]}
+      >
         <Input />
       </Form.Item>
-      }
 
-      <Form.Item name='pet-type'
-                 className='pet-type'
-                 label='Breed'>
+      <Form.Item name='id' label='ID'>
+        <Input placeholder='Enter the pet ID (optional)' />
+      </Form.Item>
+
+      <Form.Item className='pet-breed' label='Breed'>
         <Space.Compact block>
           <Form.Item className='pet-species'
                      name='pet-species'
-                     rules={[{
-                       required: true,
-                       message: 'Please choose the pet species' }]}>
+                     rules={[{ required: true, message: 'Please choose the pet species' }]}>
             <Select placeholder="Select pet species">
               <Select.Option value="cat">Cat</Select.Option>
               <Select.Option value="dog">Dog</Select.Option>
@@ -44,29 +51,28 @@ function CreateThreadPetInfo ( {threadType} ) {
           </Form.Item>
 
           <Form.Item className='pet-breed'
-                     name='pet-breed'>
-            <Form.Item shouldUpdate={(prevValues, currentValues) =>
-              prevValues['pet-species'] !== currentValues['pet-species']
-            }>
-              {({ getFieldValue }) => getFieldValue('pet-species') === 'cat' ? (
-                <Form.Item name='cat-breed'>
-                  <Select placeholder="Select a cat breed">
-                    <Select.Option value="cat">Persian Cat</Select.Option>
-                    <Select.Option value="dog">Ragdoll</Select.Option>
-                  </Select>
-                </Form.Item>
-              ) : (
-                <Form.Item name='dog-breed'>
-                  <Select placeholder="Select a dog breed">
-                    <Select.Option value="cat">Beagle</Select.Option>
-                    <Select.Option value="dog">Golden Retrievers</Select.Option>
-                  </Select>
-                </Form.Item>
-              )}
-            </Form.Item>
+                     shouldUpdate={(prevValues, currentValues) =>
+            prevValues['pet-species'] !== currentValues['pet-species']
+          }>
+            {({ getFieldValue }) => getFieldValue('pet-species') === 'cat' ? (
+              <Form.Item name='pet-breed'>
+                <Select placeholder="Select a cat breed">
+                  <Select.Option value="Persian">Persian Cat</Select.Option>
+                  <Select.Option value="Ragdoll">Ragdoll</Select.Option>
+                </Select>
+              </Form.Item>
+            ) : (
+              <Form.Item name='pet-breed'>
+                <Select placeholder="Select a dog breed">
+                  <Select.Option value="Beagle">Beagle</Select.Option>
+                  <Select.Option value="Golden">Golden Retrievers</Select.Option>
+                </Select>
+              </Form.Item>
+            )}
           </Form.Item>
         </Space.Compact>
       </Form.Item>
+
 
       <Form.Item name='pet-sex' label='Sex'>
         <Radio.Group>
@@ -78,7 +84,7 @@ function CreateThreadPetInfo ( {threadType} ) {
       </Form.Item>
 
       <Form.Item name='missing-date' label="Last Seen Time">
-        <DatePicker showTime/>
+        <DatePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
       </Form.Item>
 
       <Form.Item label='Upload Pet Picture'>
