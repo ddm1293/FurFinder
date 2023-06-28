@@ -3,7 +3,7 @@ import { Button, Input, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import '../../../style/Forum/SearchBar.css'
 import SearchOnTags from './SearchOnTags'
-import { searchThreadsAsync } from '../../../thunk/searchThunk'
+import { searchThreadsAsync } from '../../../thunk/forumThunk'
 
 const { Search } = Input
 function SearchBar ({ threadType }) {

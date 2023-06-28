@@ -22,8 +22,9 @@ function ListView ({ items }) {
               title={<a href="">{item.title}</a>} // TODO: add link to thread
               description={
                 <div>
-                  <div className="breed">{`Breed: ${item.breed}`}</div>
-                  <div className="sex">{`Sex: ${item.sex}`}</div>
+                  <div className="name">{`Name: ${item.pet.name}`}</div>
+                  <div className="breed">{`Breed: ${item.pet.breed}`}</div>
+                  <div className="sex">{`Sex: ${item.pet.sex}`}</div>
                 </div>
               }
             />

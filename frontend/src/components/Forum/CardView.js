@@ -8,8 +8,8 @@ function CardView ({ items }) {
     <div>
       <div className="card-view">
         {items.map((item, index) => {
-          console.log('see item here: ', item)
-          return (
+          if (!item.archived) {
+            return (
               <Card className="cards"
                     key={index}
                     style={{ width: 300 }}
@@ -32,7 +32,7 @@ function CardView ({ items }) {
                 />
               </Card>
             )
-          }
+          }}
         )}
       </div>
     </div>

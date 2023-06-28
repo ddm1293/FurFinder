@@ -1,14 +1,15 @@
 import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
 import ListView from './ListView'
-import { Layout, Pagination, Menu, Divider } from 'antd'
+import { Layout, Pagination, Menu, Divider, Button } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum/Forum.css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { threads } from '../../mocks/forumMock'
 import AdvancedSearchButton from './Search/AdvancedSearchButton'
 import AdvancedSearchSiderPanel from './Search/AdvancedSearchSiderbar'
+import { clearSearchResults } from '../../store/forumSlice'
 
 const { Content } = Layout
 
@@ -55,8 +56,15 @@ function Forum ({ threadType }) {
   const clickAdvancedSearch = () => {
     setShowAdvancedSearch(true);
   }
+
   const handleCloseAdvancedSearch = () => {
     setShowAdvancedSearch(false);
+  }
+
+  const dispatch = useDispatch();
+  const resetSearch = () => {
+    console.log('reset search');
+    dispatch(clearSearchResults());
   }
 
   return (
@@ -73,6 +81,14 @@ function Forum ({ threadType }) {
             items={viewOptions} />
           <SearchBar threadType={threadType}/>
           <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
+          <Button
+            className='search-bar-reset-button'
+            size='small'
+            type='primary'
+            onClick={resetSearch}
+          >
+            Reset
+          </Button>
         </div>
 
         <Divider className='forum-divider'/>
