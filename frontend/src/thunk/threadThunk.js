@@ -18,11 +18,7 @@ export const createThreadAsync = createAsyncThunk(
       }
     }
 
-    const response = await axios.post('http://localhost:3001/thread', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await axios.post('http://localhost:3001/thread', formData);
     console.log('response', response.data.threadCreated);
     return response.data.threadCreated;
   }

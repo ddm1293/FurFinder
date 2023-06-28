@@ -70,10 +70,10 @@ function CreateThreadPetInfo ({ threadType, form }) {
                    valuePropName='fileList'
                    getValueFromEvent={normFile}
                    noStyle>
-          <Upload.Dragger name="pet-pic-dragger" customRequest={dummyRequest} accept=".jpg">
+          <Upload.Dragger name="pet-pic-dragger" customRequest={dummyRequest} accept=".jpg" maxCount={1}>
             <p className="pet-pic-drag-icon"><InboxOutlined /></p>
             <p className="pet-pic-upload-text">Click or drag file to this area to upload</p>
-            <p className="pet-pic-upload-hint">Support for a single or bulk upload.</p>
+            <p className="pet-pic-upload-hint">Support for a single upload.</p>
           </Upload.Dragger>
         </Form.Item>
       </Form.Item>
