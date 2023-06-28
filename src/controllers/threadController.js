@@ -6,7 +6,8 @@ import { UserDoesNotExistException } from '../exceptions/userException.js';
 export const createThread = async (req, res) => {
   try {
     console.log('Server::Creating a thread - running createThread');
-    console.log('Server::Creating a thread req: ', req);
+    console.log('Server::Creating a thread req: ', req.body);
+    // console.log(req.files);
 
     const threadData = {
       title: req.body['thread-title'],

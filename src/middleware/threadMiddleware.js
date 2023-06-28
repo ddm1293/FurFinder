@@ -27,7 +27,10 @@ export const processPet = async (req, res, next) => {
       description: req.body.description,
       sex: req.body['pet-sex'],
       lastSeenTime: req.body['missing-date'],
-      pic: []
+      pic: [{
+        data: req.files[0].buffer,
+        contentType: req.files[0].mimetype
+      }]
     };
     console.log('missing-date:', req.body['missing-date']);
     const pet = await PetService.createPet(petData);

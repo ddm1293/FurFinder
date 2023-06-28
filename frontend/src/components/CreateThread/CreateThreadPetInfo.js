@@ -5,7 +5,6 @@ import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 
 function CreateThreadPetInfo ({ threadType, form }) {
-
   useEffect(() => {
     if (threadType === 'witness-thread') {
       form.setFieldsValue({ 'pet-name': 'Unknown' });
@@ -21,6 +20,12 @@ function CreateThreadPetInfo ({ threadType, form }) {
     }
     return e?.fileList;
   };
+
+  function dummyRequest({ file, onSuccess }) {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  }
 
   return (
     <Form.Item className="create-thread-petInfo">
@@ -92,7 +97,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
                    valuePropName='fileList'
                    getValueFromEvent={normFile}
                    noStyle>
-          <Upload.Dragger name="pet-pic-dragger" action="/upload.do">
+          <Upload.Dragger name="pet-pic-dragger" customRequest={dummyRequest} accept=".jpg">
             <p className="pet-pic-drag-icon"><InboxOutlined /></p>
             <p className="pet-pic-upload-text">Click or drag file to this area to upload</p>
             <p className="pet-pic-upload-hint">Support for a single or bulk upload.</p>
