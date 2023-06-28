@@ -45,6 +45,17 @@
     margin: 0 10px;
 }
 
-.comment-button {
-    display: flex;
+.comment-replies {
+    margin-left: 30px;
 }
+
+comment-actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+

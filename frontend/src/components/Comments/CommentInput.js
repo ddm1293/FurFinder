@@ -21,11 +21,15 @@ function CommentInput (props) {
       author: {
         id: user.id
       },
-      threadId: props.threadID
+      threadId: props.threadID,
+      parentId: props.parentID,
     }
     dispatch(addCommentAsync({ threadID: props.threadID, newComment: newComment}))
       .then(() => {
         setComment('');
+        if (props.handleSubmit) {
+          props.handleSubmit();
+        }
       })
   }
 

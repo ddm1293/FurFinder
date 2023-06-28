@@ -13,6 +13,11 @@ const commentSchema = new mongoose.Schema({
       required: true
     }
   },
+  // authorId: { // TODO: change to id?
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   required: true
+  // },
   threadId: {
     type: Schema.Types.ObjectId,
     ref: 'Thread',
@@ -21,6 +26,11 @@ const commentSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  parentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Comment',
+    default: null
   }
 });
 
