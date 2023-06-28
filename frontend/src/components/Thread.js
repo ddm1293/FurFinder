@@ -14,15 +14,11 @@ function Thread() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  const thread = useSelector((state) => {
-    return state.threads.threadList.find(t => t._id === id);
-  });
+  const thread = useSelector((state) => state.threads.threadList.find(t => t._id === id));
   const poster = useSelector(state => state.user);
   const [pet, setPet] = useState(null);
 
   function getPetPicUrl() {
-    console.log(pet);
-
     if (pet && pet.pic) {
       const base64String = Buffer.from(pet.pic[0].data, 'binary').toString('base64');
       const imageUrl = `data:${pet.pic.contentType};base64,${base64String}`;
