@@ -15,10 +15,6 @@
     margin-right: 30px;
 }
 
-.comment-button {
-    margin-top: 10px;
-}
-
 .comment-list {
     display: flex;
     flex-direction: column;
@@ -47,4 +43,8 @@
 .comment-username {
     font-weight: bold;
     margin: 0 10px;
+}
+
+.comment-button {
+    display: flex;
 }

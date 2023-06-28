@@ -1,7 +1,7 @@
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+// import axios from 'axios'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 function Comment ({ comment }) {
