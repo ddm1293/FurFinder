@@ -3,6 +3,7 @@ import { Button, Input, Tooltip } from 'antd'
 import { useEffect, useState } from 'react'
 import '../../../style/Forum/SearchBar.css'
 import SearchOnTags from './SearchOnTags'
+import { searchThreadsAsync } from '../../../thunk/searchThunk'
 
 const { Search } = Input
 function SearchBar ({ threadType }) {
@@ -19,12 +20,16 @@ function SearchBar ({ threadType }) {
         allowClear
         size='small'
         onSearch={(keyword) => {
+          let searchOn = selectedTags.join();
+          if (!searchOn) {
+            searchOn = 'title,content'
+          }
           const params = {
             threadType,
             keyword,
-            searchOn: selectedTags
+            searchOn
           }
-          console.log("see params: ", params);
+          dispatch(searchThreadsAsync(params));
         }}
       />
     </div>

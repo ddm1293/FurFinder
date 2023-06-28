@@ -15,7 +15,6 @@ export const threadTypeValidator = query('threadType')
   .withMessage('threadType can be either lostPetThread or witnessThread');
 
 export const keywordValidator = query('keyword')
-  .optional()
   .trim()
   .isLength({ min: 1 })
   .withMessage('Keyword must not be empty');
