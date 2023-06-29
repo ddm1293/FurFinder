@@ -23,9 +23,7 @@ function CommentView (props) {
     <div className="comment-main">
       <h3>Comments</h3>
       {isLogin && (
-        <div className="comment-add">
-          <div><CommentInput threadID={props.threadID} parentID={null}/></div>
-        </div>
+        <CommentInput threadID={props.threadID} parentID={null}/>
       )}
       <CommentList threadID={props.threadID} userID={user.id} commentList={commentList}/>
     </div>

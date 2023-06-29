@@ -12,15 +12,10 @@ function CommentList (props) {
 
   return (
       <div className="comment-list">
-        {parentComments.map((comment) => {
-          return (
-            <div className="comment-content">
-              <Comment key={comment._id} comment={comment} replies={getReplies(comment._id)}
-                       userID={props.userID} threadID={props.threadID}
-              />
-            </div>
-          )})
-        }
+        {parentComments.map((comment) => (
+          <Comment key={comment._id} comment={comment} replies={getReplies(comment._id)}
+                   userID={props.userID} threadID={props.threadID} />
+        ))}
       </div>
   )
 }

@@ -10,11 +10,6 @@
     width: 80%;
 }
 
-.comment-add {
-    margin-bottom: 30px;
-    margin-right: 30px;
-}
-
 .comment-list {
     display: flex;
     flex-direction: column;
@@ -22,11 +17,11 @@
 }
 
 .comment-container {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     width: 600px;
 }
 
-.comment-body {
+.comment-content {
     background-color: #EEEEEE;
     border: 1px solid #DDDDDD;
     border-radius: 5px;
@@ -41,19 +36,14 @@
 }
 
 .comment-username {
+    margin-left: 10px;
     font-weight: bold;
-    margin: 0 10px;
 }
 
 .comment-replies {
-    margin-left: 30px;
+    margin: 10px 0 10px 30px;
     border-left: 1px solid #EEEEEE;
     padding-left: 10px;
-}
-
-comment-actions {
-    display: flex;
-    flex-direction: column;
 }
 
 .comment-buttons {
