@@ -30,10 +30,12 @@ function Comment (props) {
       <div className="comment-info">
         <Avatar icon={<UserOutlined />} />
         <div className="comment-username">{userName}</div>
-        <div className="comment-time">{props.comment.date}</div>
+        <div className="comment-time" style={{ marginLeft: "auto" }}>
+          {props.comment.date.replace(/T/, ' ').substring(0, 19)}
+        </div>
       </div>
-      <div className="comment-body">{props.comment.content}</div>
-      <div className="comment-actions">
+      <div className="comment-content">{props.comment.content}</div>
+      <div>
         <div className="comment-buttons">
           {isAuthor && (
             <div onClick={() => { dispatch(deleteCommentAsync(props.comment))}}
