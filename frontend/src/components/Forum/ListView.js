@@ -1,8 +1,19 @@
 import { List } from 'antd'
 import { Avatar } from 'antd'
-import { MessageOutlined, StarOutlined, UserOutlined } from '@ant-design/icons'
+import { MessageOutlined, StarOutlined, StarTwoTone, UserOutlined } from '@ant-design/icons'
+import { useState } from 'react'
 
 function ListView ({ items }) {
+  const [isActive, setIsActive] = useState(false);
+  const [favourite, updateFavorite] = useState([]);
+
+  const handleClick= (event) => {
+    if (isActive) {
+      setIsActive(!isActive)
+    } else {
+      setIsActive(!isActive)
+    }
+  }
   return (
     <div>
       <List
@@ -13,7 +24,8 @@ function ListView ({ items }) {
           <List.Item className="list-item"
                      key={index}
                      actions={[
-                       <StarOutlined key="star" />,
+                       // <StarOutlined key="star" />,
+                       <StarTwoTone key = "star"  onClick={handleClick} twoToneColor={isActive? "grey" : "lightgrey" } />,
                        <MessageOutlined key="message" />
                      ]}
           >
