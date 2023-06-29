@@ -13,7 +13,7 @@ function Comment (props) {
   const isLogin = props.userID !== null;
   const isAuthor = props.userID === props.comment.author.id;
   const [reply, setReply] = useState('');
-  const isReply = reply && (reply._id === props.comment._id); // where to render comment form
+  const isReplying = reply && (reply._id === props.comment._id); // where to render comment form
 
   useEffect(() => {
     axiosPrivate({
@@ -48,7 +48,7 @@ function Comment (props) {
             </div>)
           }
         </div>
-        {isReply && (
+        {isReplying && (
           <CommentInput threadID={props.threadID} parentID={reply._id}
                         handleSubmit={() => setReply("")}/>
         )}
