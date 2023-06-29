@@ -17,14 +17,20 @@ function Forum ({ threadType }) {
   const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
   const pagesFromSlice = useSelector((state) => state.forum.pages);
-  let displayedCards = pagesFromSlice[currentPage];
+  let displayedCards = pagesFromSlice[currentPage] || [];
   const displayStatus = useSelector((state) => state.forum.displayStatus);
   const [totalThreadNum, setTotalThreadNum] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   console.log('see isLoading: ', isLoading);
+  //   console.log('see pagesFromSlice: ', pagesFromSlice);
+  //   console.log('see displayedCard with let', displayedCards);
+  // }, [pagesFromSlice])
 
   useEffect(() => {
-    console.log('see pagesFromSlice: ', pagesFromSlice);
-    console.log('see displayedCard with let', displayedCards);
-  }, [pagesFromSlice])
+    console.log('see currentPage:', currentPage);
+  }, [currentPage])
 
 
   useEffect( () => {
@@ -36,7 +42,9 @@ function Forum ({ threadType }) {
 
   useEffect(() => {
     console.log('get called cardsPerPage: ', currentPage, cardsPerPage);
-    dispatch(getThreadsAsync({page: currentPage, limit: cardsPerPage}));
+    dispatch(getThreadsAsync({page: currentPage, limit: cardsPerPage})).then(() => {
+      setLoading(false)
+    })
   }, [currentPage])
 
   const startIndex = (currentPage - 1) * cardsPerPage
@@ -114,9 +122,17 @@ function Forum ({ threadType }) {
         <Divider className='forum-divider'/>
 
         <div className='forum-main-content-view'>
-          <div className='forum-main-content' style={{paddingRight: '20px'}}>
-            {render()}
-          </div>
+          {
+            isLoading &&
+            <div>...Loading</div>
+          }
+
+          {
+            !isLoading &&
+            <div className='forum-main-content' style={{paddingRight: '20px'}}>
+              {render()}
+            </div>
+          }
 
           <div className='advanced-search-container' style={{borderLeft: '1px solid black', paddingLeft:'20px'}}>
             { showAdvancedSearch &&
@@ -130,7 +146,7 @@ function Forum ({ threadType }) {
           pageSize={cardsPerPage}
           total={totalThreadNum}
           onChange={(page) => {
-            setCurrentPage(page)
+            setCurrentPage(page);
           }}
         />
       </div>
