@@ -1,28 +1,49 @@
 import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
 import ListView from './ListView'
-import { Layout, Pagination, Menu, Divider, Button } from 'antd'
+import { Pagination, Menu, Divider, Button } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum/Forum.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
-import { threads } from '../../mocks/forumMock'
+import { useState, useEffect } from 'react'
 import AdvancedSearchButton from './Search/AdvancedSearchButton'
 import AdvancedSearchSiderPanel from './Search/AdvancedSearchSiderbar'
 import { clearSearchResults } from '../../store/forumSlice'
-
-const { Content } = Layout
+import { getThreadsAsync } from '../../thunk/forumThunk'
+import axios from 'axios'
 
 function Forum ({ threadType }) {
-  // separate list of items into different pages
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1)
-  const cardsPerPage = 6
+  const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
+  const pagesFromSlice = useSelector((state) => state.forum.pages);
+  let displayedCards = pagesFromSlice[currentPage];
+  const displayStatus = useSelector((state) => state.forum.displayStatus);
+  const [totalThreadNum, setTotalThreadNum] = useState(null);
+
+  useEffect(() => {
+    console.log('see pagesFromSlice: ', pagesFromSlice);
+    console.log('see displayedCard with let', displayedCards);
+  }, [pagesFromSlice])
+
+
+  useEffect( () => {
+    (async () => {
+      const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
+      setTotalThreadNum(res.data);
+    })();
+  }, [])
+
+  useEffect(() => {
+    console.log('get called cardsPerPage: ', currentPage, cardsPerPage);
+    dispatch(getThreadsAsync({page: currentPage, limit: cardsPerPage}));
+  }, [currentPage])
+
   const startIndex = (currentPage - 1) * cardsPerPage
   const endIndex = startIndex + cardsPerPage
-  let displayedCards = []
-
   const searchResults = useSelector((state) => state.forum.searchResults);
-  if (searchResults) {
+  if (searchResults && searchResults.length > 0) {
+    console.log('is this your fault?')
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
 
@@ -61,7 +82,6 @@ function Forum ({ threadType }) {
     setShowAdvancedSearch(false);
   }
 
-  const dispatch = useDispatch();
   const resetSearch = () => {
     console.log('reset search');
     dispatch(clearSearchResults());
@@ -108,7 +128,7 @@ function Forum ({ threadType }) {
         <Pagination
           current={currentPage}
           pageSize={cardsPerPage}
-          total={threads.length}
+          total={totalThreadNum}
           onChange={(page) => {
             setCurrentPage(page)
           }}

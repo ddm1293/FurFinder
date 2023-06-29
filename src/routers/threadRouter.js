@@ -2,12 +2,14 @@ import express from 'express';
 import * as threadController from '../controllers/threadController.js';
 import { processPet, searchQueryValidator } from '../middleware/threadMiddleware.js';
 import { handleError } from '../middleware/handleError.js';
+import { getTotalThreadNumber } from '../controllers/threadController.js'
 
 const threadRouter = express.Router();
 
 // GET APIS
 threadRouter.get('/userId/:id', threadController.getThreadsByUserId, handleError);
 threadRouter.get('/getThreads', threadController.getThreads, handleError);
+threadRouter.get('/getTotalThreadNumber', threadController.getTotalThreadNumber, handleError);
 threadRouter.get('/search', searchQueryValidator, threadController.searchThreads, handleError);
 threadRouter.get('/:id', threadController.getThread, handleError);
 

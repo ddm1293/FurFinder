@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { threads } from '../mocks/forumMock'
-import { searchThreadsAsync } from '../thunk/forumThunk'
+import { getThreadsAsync, searchThreadsAsync } from '../thunk/forumThunk'
 
 const initialState = {
+  pageSizeCard: 6,
   searchResults: [],
-  threads: threads,
-  filteredThreads: []
+  pages: {},
+  displayStatus: 'idle',
+  error: null
 }
 
 const forumSlice = createSlice({
@@ -17,9 +18,21 @@ const forumSlice = createSlice({
     }
   },
   extraReducers(builder){
-    builder.addCase(searchThreadsAsync.fulfilled, (state, action) => {
+    builder
+      .addCase(searchThreadsAsync.fulfilled, (state, action) => {
       state.searchResults = action.payload;
     })
+      .addCase(getThreadsAsync.pending, (state, action) => {
+        state.displayStatus = 'loading';
+      })
+      .addCase(getThreadsAsync.fulfilled, (state, action) => {
+        state.displayStatus = 'succeeded';
+        state.pages[action.payload.page] = action.payload.threads;
+      })
+      .addCase(getThreadsAsync.rejected, (state, action) => {
+        state.displayStatus = 'failed';
+        state.error = action.error.message;
+      })
   }
 })
 export default forumSlice.reducer

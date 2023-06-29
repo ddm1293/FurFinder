@@ -41,12 +41,20 @@ export const getThreads = async (req, res, next) => {
     console.log('Server::Getting threads - running getThreads');
     const { page, limit } = req.query;
     const threads = await ThreadService.getThreads(page, limit);
-    const totalThreads = await ThreadService.totalNumber();
     res.status(200).json({
       currentPage: page,
-      totalPages: Math.ceil(totalThreads / limit),
       threads
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getTotalThreadNumber = async (req, res, next) => {
+  try {
+    console.log('Server::Getting total thread number - running getTotalThreadNumber');
+    const totalThreads = await ThreadService.totalNumber();
+    res.status(200).json(totalThreads);
   } catch (err) {
     next(err);
   }

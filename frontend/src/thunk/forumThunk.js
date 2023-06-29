@@ -1,5 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { store } from '../store'
+
+export const getThreadsAsync = createAsyncThunk(
+  'forumSlice/getThreads',
+  async ({page, limit}) => {
+    console.log('see if getThreadsAsync is running')
+      const { pages } = store.getState().forum;
+      if (!pages[page]) {
+        const res = await axios.get(`http://localhost:3001/thread/getThreads?page=${page}&limit=${limit}`)
+        console.log('see results of thunk: ', res.data.threads);
+        return {page, threads: res.data.threads}
+      } else {
+        console.log('the pages existed route');
+        return {page, threads: pages[page]}
+      }
+  }
+)
 
 export const searchThreadsAsync = createAsyncThunk(
   'forumSlice/searchThreads',
