@@ -59,6 +59,7 @@ class ThreadService {
     const user = await UserModel.findById(userId);
     if (user) {
       await UserService.getUserFavoriteOrUnfavorite(userId, id);
+      // const thread = await ThreadModel.findById(id);
       return user;
     } else {
       throw new UserDoesNotExistException(`user ${userId} does not exist`);
