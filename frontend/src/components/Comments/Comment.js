@@ -1,15 +1,16 @@
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate.js';
 
 function Comment ({ comment }) {
   const [userName, setUserName] = useState('')
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/user/${comment.author.id}`)
-      .then((response) => {
+    axiosPrivate({
+      url: `http://localhost:3001/user/${comment.author.id}`,
+    }).then((response) => {
         setUserName(response.data.user.username)
       })
       .catch((error) => {

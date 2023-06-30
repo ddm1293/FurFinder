@@ -1,4 +1,5 @@
 import ThreadService from '../services/threadService.js';
+import PetService from '../services/petService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { handleError } from '../exceptions/handleError.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
@@ -73,11 +74,31 @@ export const getThreads = async (req, res) => {
 export const updateThread = async (req, res) => {
   try {
     console.log('Server::Updating a thread - running updateThread');
-    const id = req.params.id;
-    const updated = await ThreadService.updateThread(id, req.body);
-    res.status(200).json({ message: 'Successfully updated', updated });
+    const threadId = req.params.id;
+    const formBody = req.body;
+
+    // Separate thread data and pet data
+    const threadData = {
+      title: formBody['thread-title'],
+      content: formBody['thread-main-content']
+    };
+
+    const petData = {
+      name: formBody['pet-name'],
+      species: formBody['pet-species'],
+      breed: formBody['pet-breed']
+    };
+
+    // Update thread
+    const updatedThread = await ThreadService.updateThread(threadId, threadData);
+
+    // Update pet
+    const petId = updatedThread.pet; // assuming the pet id is available here
+    await PetService.updatePet(petId, petData);
+
+    res.status(200).json({ message: 'Successfully updated', updatedThread });
   } catch (err) {
-    handleError(err, res, ThreadDoesNotExistException, 404);
+    handleError(err, res);
   }
 };
 

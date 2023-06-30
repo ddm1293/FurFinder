@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Card, Button } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getThreadAsync, deleteThreadAsync } from '../thunk/threadThunk';
 import '../style/Thread.css';
+import useAxiosPrivate from '../hooks/useAxiosPrivate.js';
 import axios from 'axios';
 import { format } from 'date-fns';
 
@@ -12,16 +13,36 @@ const { Meta } = Card;
 function Thread() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
   const { id } = useParams();
-  const thread = useSelector((state) => state.threads.threadList.find(t => t._id === id));
-  const poster = useSelector(state => state.user);
+  const [thread, setThread] = useState(null);
+  const [poster, setPoster] = useState(null);
   const [pet, setPet] = useState(null);
+  const user = useSelector((state) => state.user);
+  console.log("user: ", user);
 
   useEffect(() => {
-    if (!thread) {
-      dispatch(getThreadAsync(id));
+    dispatch(getThreadAsync(id)).then(({payload}) => {
+      setThread(payload.thread);
+    });
+  }, [dispatch, id]);
+
+  console.log("thread: ", thread);
+
+  useEffect(() => {
+    if (thread && thread.poster) {
+      axiosPrivate({
+        url: `http://localhost:3001/user/${thread.poster}`,
+      }).then(response => {
+          setPoster(response.data.user);
+        })
+        .catch(error => {
+          console.error('Error fetching user data', error);
+        });
     }
-  }, [dispatch, id, thread]);
+  }, [axiosPrivate, thread]);
+
+  console.log("poster: ", poster);
 
   useEffect(() => {
     if (thread && thread.pet) {
@@ -35,10 +56,16 @@ function Thread() {
     }
   }, [thread]);
 
+  console.log("pet: ", pet);
+
   const handleDelete = () => {
     dispatch(deleteThreadAsync(id)).then(() => {
       navigate('/threads');
     });
+  };
+
+  const handleEdit = () => {
+    // We'll implement this later.
   };
 
   if (!thread || !poster || !pet) {
@@ -52,7 +79,12 @@ function Thread() {
       <div className="user-info">
         <Avatar size={64} src={poster.avatar} alt="user avatar" />
         <h2 className="thread-username">{poster.username}</h2>
-        <Button className="delete-button" onClick={handleDelete}>Delete Thread</Button>
+        {user && user.id === poster._id && (
+          <div className="button-wrapper">
+            <Button className="edit-button" onClick={handleEdit}>Edit Thread</Button>
+            <Button className="delete-button" onClick={handleDelete}>Delete Thread</Button>
+          </div>
+        )}
       </div>
       <div className="thread-title-container">
         <h3 className="thread-title">{title}</h3>

@@ -8,6 +8,10 @@ class PetService {
   static async getPet(id) {
     return PetModel.findById(id);
   }
+
+  static async updatePet(id, body) {
+    return PetModel.findByIdAndUpdate(id, body, { new: true });
+  }
 }
 
 export default PetService;
