@@ -1,11 +1,19 @@
-import React from 'react'
-import { Form, Input, Radio, Select, Divider, DatePicker, Upload, Space } from 'antd';
+import React, { useEffect } from 'react'
+import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 import BreedSelector from './BreedSelector'
 
-function CreateThreadPetInfo ({ threadType }) {
+function CreateThreadPetInfo ({ threadType, form }) {
+
+  useEffect(() => {
+    if (threadType === 'witnessThread') {
+      form.setFieldsValue({ 'pet-name': 'Unknown' });
+    } else {
+      form.setFieldsValue({ 'pet-name': '' });
+    }
+  }, [threadType, form]);
 
   const normFile = (e) => {
     console.log('Upload event:', e);
@@ -35,6 +43,10 @@ function CreateThreadPetInfo ({ threadType }) {
         <BreedSelector required={true} />
       </Form.Item>
 
+      <Form.Item name='id' label='ID'>
+        <Input placeholder='Enter the pet ID (optional)' />
+      </Form.Item>
+
       <Form.Item name='pet-sex' label='Sex'>
         <Radio.Group>
           <Radio value="female"> Female </Radio>
@@ -45,7 +57,7 @@ function CreateThreadPetInfo ({ threadType }) {
       </Form.Item>
 
       <Form.Item name='missing-date' label="Last Seen Time">
-        <DatePicker showTime/>
+        <DatePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
       </Form.Item>
 
       <Form.Item label='Upload Pet Picture'>

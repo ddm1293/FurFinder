@@ -15,6 +15,10 @@ class PetService {
     pet.threadId = threadId;
     return await pet.save();
   }
+
+  static async getPet(id) {
+    return PetModel.findById(id);
+  }
 }
 
 export default PetService;

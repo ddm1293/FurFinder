@@ -4,7 +4,18 @@ import { matchedData } from 'express-validator';
 export const createThread = async (req, res, next) => {
   try {
     console.log('Server::Creating a thread - running createThread');
-    const thread = await ThreadService.createThread(req.body, res);
+
+    const threadData = {
+      title: req.body['thread-title'],
+      poster: req.body.poster,
+      pet: req.body.pet, // The pet id we just created and saved in req.body.pet
+      content: req.body['thread-main-content'],
+      comments: [], // Initialize with an empty array if comments are not passed in req.body
+      archived: false // Initialize as false, or you could set this based on req.body if applicable
+    };
+
+    const thread = await ThreadService.createThread(threadData, res);
+
     res.status(200).json({
       message: 'The thread is created successfully',
       petCreated: res.petCreated,
