@@ -3,12 +3,12 @@ import { Form, Select, Space } from 'antd'
 function BreedSelector ({ required }) {
   return (
     <Form.Item shouldUpdate={(prevValues, currentValues) =>
-      prevValues['pet-species'] !== currentValues['pet-species']
+      prevValues['species'] !== currentValues['species']
     }>
       {({ getFieldValue }) =>
         <Space.Compact block>
           <Form.Item className='pet-species'
-                     name='pet-species'
+                     name='species'
                      rules={[{
                        required: required,
                        message: 'Please choose the pet species' }]}>
@@ -18,8 +18,8 @@ function BreedSelector ({ required }) {
             </Select>
           </Form.Item>
 
-          {getFieldValue('pet-species') === 'cat' ? (
-            <Form.Item name='pet-breed'>
+          {getFieldValue('species') === 'cat' ? (
+            <Form.Item name='breed'>
               <Select placeholder="Select a cat breed">
                 <Select.Option value="persian-cat">Persian Cat</Select.Option>
                 <Select.Option value="ragdoll">Ragdoll</Select.Option>
@@ -27,7 +27,7 @@ function BreedSelector ({ required }) {
               </Select>
             </Form.Item>
           ) : (
-            <Form.Item name='pet-breed'>
+            <Form.Item name='breed'>
               <Select placeholder="Select a dog breed">
                 <Select.Option value="beagle">Beagle</Select.Option>
                 <Select.Option value="golden_retrievers">Golden Retrievers</Select.Option>

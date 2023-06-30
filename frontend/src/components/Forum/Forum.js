@@ -136,7 +136,10 @@ function Forum ({ threadType }) {
 
           <div className='advanced-search-container' style={{borderLeft: '1px solid black', paddingLeft:'20px'}}>
             { showAdvancedSearch &&
-              <AdvancedSearchSiderPanel onClose={handleCloseAdvancedSearch}/>
+              <AdvancedSearchSiderPanel
+                onClose={handleCloseAdvancedSearch}
+                threadType={threadType}
+              />
             }
           </ div>
         </div>

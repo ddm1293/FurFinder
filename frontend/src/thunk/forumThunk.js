@@ -33,6 +33,7 @@ export const searchThreadsAsync = createAsyncThunk(
     console.log(searchUrl);
     const res = await axios.get(searchUrl);
     const searched = res.data.result;
+    console.log('see result: ', searched);
     return await fetchPetFromThread(searched);
   }
 )
