@@ -19,7 +19,7 @@ function Thread() {
   const [poster, setPoster] = useState(null);
   const [pet, setPet] = useState(null);
   const user = useSelector((state) => state.user);
-  console.log("user: ", user);
+  console .log("user: ", user);
 
   useEffect(() => {
     dispatch(getThreadAsync(id)).then(({payload}) => {
