@@ -1,29 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { threads } from '../mocks/forumMock'
+import { getThreadsAsync, searchThreadsAsync } from '../thunk/forumThunk'
 
 const initialState = {
-  threads: threads,
-  filteredThreads: []
+  pageSizeCard: 6,
+  searchResults: [],
+  pages: {},
+  displayStatus: 'idle',
+  error: null
 }
 
 const forumSlice = createSlice({
   name: 'forum',
   initialState,
   reducers: {
-    searchThread: (state, action) => {
-      state.filteredThreads = state.threads.filter((thread) => thread.title === thread.payload)
-    },
-    filterThread: (state, action) => {
-      if (action.payload === 'all') {
-        state.filteredThreads = state.threads
-      } else {
-        state.filteredThreads = state.threads.filter((thread) => thread.type === action.payload)
-      }
+    clearSearchResults: (state, action) => {
+      state.searchResults = [];
     }
+  },
+  extraReducers(builder){
+    builder
+      .addCase(searchThreadsAsync.fulfilled, (state, action) => {
+      state.searchResults = action.payload;
+    })
+      .addCase(getThreadsAsync.pending, (state, action) => {
+        state.displayStatus = 'loading';
+      })
+      .addCase(getThreadsAsync.fulfilled, (state, action) => {
+        state.displayStatus = 'succeeded';
+        state.pages[action.payload.page] = action.payload.threads;
+      })
+      .addCase(getThreadsAsync.rejected, (state, action) => {
+        state.displayStatus = 'failed';
+        state.error = action.error.message;
+      })
   }
 })
 export default forumSlice.reducer
-export const {
-  searchThread,
-  filterThread
-} = forumSlice.actions
+export const { clearSearchResults } = forumSlice.actions

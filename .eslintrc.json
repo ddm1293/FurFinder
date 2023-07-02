@@ -22,6 +22,10 @@
         "semi": ["error", "always"],
         "no-unused-vars": "warn",
         "quotes": ["warn", "single", { "avoidEscape": true, "allowTemplateLiterals": true }],
-        "space-before-function-paren": "off"
+        "space-before-function-paren": "off",
+        "newline-per-chained-call": "error",
+        "no-trailing-spaces": "warn",
+        "prefer-promise-reject-errors": "warn",
+        "brace-style": "off"
     }
 }

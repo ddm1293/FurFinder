@@ -1,0 +1,44 @@
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 24px;
+    margin-top: 0;
+}
+
+.search-tag-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-tag-label {
+    font-size: 0.9rem;
+    margin-right: 8px;
+}
+
+.search-bar-keyword-input {
+    margin-top: 15px;
+    width: 200px;
+    margin-right: 8px;
+}
+
+.search-bar-keyword-input ::placeholder {
+    font-size: 0.9rem;
+}
+
+.search-bar-advanced-search {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.ant-tag-checkable {
+    font-size: 0.9rem;
+    margin-right: 10px;
+    border-color: #1890ff;
+    color: #1890ff;
+}
+
+.ant-tag-checkable-checked {
+    background-color: #1890ff;
+    color: white;
+}
