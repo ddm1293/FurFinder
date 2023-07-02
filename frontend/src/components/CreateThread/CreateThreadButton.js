@@ -29,9 +29,9 @@ function CreateThreadButton (props) {
 
   const handleCreateClick = (e) => {
     if (e.key === 'create-lost-pet') {
-      updateThreadType('lost-pet-thread');
+      updateThreadType('lostPetThread');
     } else {
-      updateThreadType('witness-thread');
+      updateThreadType('witnessThread');
     }
     setOpen(true);
   };

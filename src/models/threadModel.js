@@ -27,7 +27,16 @@ const ThreadSchema = new mongoose.Schema({
     default: false
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  discriminatorKey: 'kind'
 });
 
 export const ThreadModel = mongoose.model('Thread', ThreadSchema);
+
+const LostPetThreadSchema = new mongoose.Schema({});
+
+export const LostPetThreadModel = ThreadModel.discriminator('LostPetThread', LostPetThreadSchema);
+
+const WitnessThreadSchema = new mongoose.Schema({});
+
+export const WitnessThreadModel = ThreadModel.discriminator('WitnessThread', WitnessThreadSchema);
