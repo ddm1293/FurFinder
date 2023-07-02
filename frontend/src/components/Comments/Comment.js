@@ -12,6 +12,7 @@ function Comment (props) {
   const dispatch = useDispatch();
   const isLogin = props.userID !== null;
   const isAuthor = props.userID === props.comment.author.id;
+  const isReply = props.comment.parentId !== null;
   const [reply, setReply] = useState('');
   const isReplying = reply && (reply._id === props.comment._id); // where to render comment form
 
@@ -43,7 +44,7 @@ function Comment (props) {
               <DeleteOutlined /> Delete
             </div>)
           }
-          {isLogin && (
+          {(isLogin && !isReply) && (
             <div onClick={() => {setReply(props.comment)}}
                  style={{ marginRight: '10px', cursor: 'pointer', fontSize: '10pt'}}>
               <MessageOutlined /> Reply
