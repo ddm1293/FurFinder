@@ -1,14 +1,12 @@
-import petService from '../services/petService.js';
+import PetService from '../services/petService.js';
 
-export const getPet = async (req, res) => {
+export const getPet = async (req, res, next) => {
   try {
-    console.log('Server::get the pet');
-    const id = req.params.id;
-    const pet = await petService.getPet(id);
-    res.status(200).json({ pet });
+    console.log('Server::Getting a pet\'s information - running getPet');
+    const petId = req.params.id;
+    const pet = await PetService.getPetById(petId);
+    res.status(200).json(pet);
   } catch (err) {
-    res.status(400).json({
-      error: err.message
-    });
+    next(err);
   }
 };

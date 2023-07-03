@@ -1,27 +1,31 @@
 import express from 'express';
 import multer from 'multer';
 import * as threadController from '../controllers/threadController.js';
-import { processPet } from '../middleware/threadMiddleware.js';
+import { processPet, searchQueryValidator } from '../middleware/threadMiddleware.js';
+import { handleError } from '../middleware/handleError.js';
+import { getTotalThreadNumber } from '../controllers/threadController.js'
 
 const threadRouter = express.Router();
 const upload = multer();
 
 // GET APIS
-threadRouter.get('/userId/:id', threadController.getThreadsByUserId);
-threadRouter.get('/getThreads', threadController.getThreads);
-threadRouter.get('/:id', threadController.getThread);
+threadRouter.get('/userId/:id', threadController.getThreadsByUserId, handleError);
+threadRouter.get('/getThreads', threadController.getThreads, handleError);
+threadRouter.get('/getTotalThreadNumber', threadController.getTotalThreadNumber, handleError);
+threadRouter.get('/search', searchQueryValidator, threadController.searchThreads, handleError);
+threadRouter.get('/:id', threadController.getThread, handleError);
 
 // POST APIS
-threadRouter.post('/', upload.any(), processPet, threadController.createThread);
+threadRouter.post('/', upload.any(), processPet, threadController.createThread, handleError);
 
 // PUT APIS
-threadRouter.put('/:id', threadController.updateThread);
+threadRouter.put('/:id', threadController.updateThread, handleError);
 
 // PATCH APIS
-threadRouter.patch('/archive/:id', threadController.archiveThread);
-threadRouter.patch('/:id', threadController.patchThread);
+threadRouter.patch('/archive/:id', threadController.archiveThread, handleError);
+threadRouter.patch('/:id', threadController.patchThread, handleError);
 
 // DELETE APIS
-threadRouter.delete('/:id', threadController.deleteThread);
+threadRouter.delete('/:id', threadController.deleteThread, handleError);
 
 export default threadRouter;

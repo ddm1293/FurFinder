@@ -3,10 +3,11 @@ import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
+import BreedSelector from './BreedSelector'
 
 function CreateThreadPetInfo ({ threadType, form }) {
   useEffect(() => {
-    if (threadType === 'witness-thread') {
+    if (threadType === 'witnessThread') {
       form.setFieldsValue({ 'pet-name': 'Unknown' });
     } else {
       form.setFieldsValue({ 'pet-name': '' });
@@ -29,55 +30,27 @@ function CreateThreadPetInfo ({ threadType, form }) {
 
   return (
     <Form.Item className="create-thread-petInfo">
-      <Form.Item
-        name='pet-name'
-        label='Pet Name'
-        rules={[{
-          required: true,
-          message: 'Please enter the pet name'
-        }]}
-      >
+      {
+        threadType === 'lostPetThread' &&
+        <Form.Item name='pet-name'
+                 label='Name'
+                 rules={[{
+                   required: true,
+                   message: 'Please enter the pet name'
+                 }]}>
         <Input />
+      </Form.Item>
+      }
+
+      <Form.Item name='pet-type'
+                 className='pet-type'
+                 label='Breed'>
+        <BreedSelector required={true} />
       </Form.Item>
 
       <Form.Item name='id' label='ID'>
         <Input placeholder='Enter the pet ID (optional)' />
       </Form.Item>
-
-      <Form.Item className='pet-breed' label='Breed'>
-        <Space.Compact block>
-          <Form.Item className='pet-species'
-                     name='pet-species'
-                     rules={[{ required: true, message: 'Please choose the pet species' }]}>
-            <Select placeholder="Select pet species">
-              <Select.Option value="cat">Cat</Select.Option>
-              <Select.Option value="dog">Dog</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item className='pet-breed'
-                     shouldUpdate={(prevValues, currentValues) =>
-            prevValues['pet-species'] !== currentValues['pet-species']
-          }>
-            {({ getFieldValue }) => getFieldValue('pet-species') === 'cat' ? (
-              <Form.Item name='pet-breed'>
-                <Select placeholder="Select a cat breed">
-                  <Select.Option value="Persian">Persian Cat</Select.Option>
-                  <Select.Option value="Ragdoll">Ragdoll</Select.Option>
-                </Select>
-              </Form.Item>
-            ) : (
-              <Form.Item name='pet-breed'>
-                <Select placeholder="Select a dog breed">
-                  <Select.Option value="Beagle">Beagle</Select.Option>
-                  <Select.Option value="Golden">Golden Retrievers</Select.Option>
-                </Select>
-              </Form.Item>
-            )}
-          </Form.Item>
-        </Space.Compact>
-      </Form.Item>
-
 
       <Form.Item name='pet-sex' label='Sex'>
         <Radio.Group>

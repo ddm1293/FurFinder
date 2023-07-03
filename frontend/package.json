@@ -10,6 +10,8 @@
     "antd": "^5.5.2",
     "axios": "^1.4.0",
     "buffer": "^6.0.3",
+    "dayjs": "^1.11.8",
+    "immer": "^10.0.2",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -44,8 +46,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "dotenv": "^16.1.4"
   }
 }

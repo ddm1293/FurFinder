@@ -1,47 +1,44 @@
-import request, {} from 'supertest';
-import { createServer } from '../../src/utils/serverSetup.js';
+import request from 'supertest';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import {
+  cleanupDatabaseCollections,
+  createTestUser,
+  disconnectTestDatabase,
+  setupTestServer
+} from '../utils/testUtils.js';
 
 dotenv.config();
 
 describe('Test thread APIs', () => {
   let server;
-
-  beforeAll(async () => {
-    server = await createServer(process.env.TEST_PORT, process.env.MONGODB_TESTING_STRING);
-  });
-
   let userId;
 
+  beforeAll(async () => {
+    server = await setupTestServer();
+  });
+
   beforeEach(async () => {
-    userId = await createUser({
+    userId = await createTestUser(server, {
       username: 'UserForTest',
       email: 'email@test.com',
       password: 'testing'
     });
   });
 
-  afterAll((done) => {
-    mongoose.connection.close().then(() => {
-      server.close(done);
-    });
+  afterAll(async () => {
+    await disconnectTestDatabase();
+    server.close();
   });
 
-  afterEach(async () => {
-    const collections = Object.keys(mongoose.connection.collections);
-    for (const collectionName of collections) {
-      const collection = mongoose.connection.collections[collectionName];
-      await collection.deleteMany();
-    }
-  });
+  afterEach(cleanupDatabaseCollections);
 
   describe('GET /thread/:id', () => {
     it('should get an error when the thread does not exist', async () => {
       const id = new mongoose.Types.ObjectId();
       const res = await request(server).get(`/thread/${id}`);
       expect(res.status).toBe(404);
-      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
+      expect(res.body.errorType).toBe('ThreadDoesNotExistException');
     });
 
     it('should get the thread successfully', async () => {
@@ -97,7 +94,7 @@ describe('Test thread APIs', () => {
       const res = await request(server).get(`/thread/userId/${id}`);
       console.log(res.body);
       expect(res.status).toBe(404);
-      expect(res.body.error.errorType).toBe('UserDoesNotExistException');
+      expect(res.body.errorType).toBe('UserDoesNotExistException');
     });
   });
 
@@ -121,7 +118,9 @@ describe('Test thread APIs', () => {
           lastSeenTime: '2023-06-01T10:00:00.000Z'
         }
       };
-      const res = await request(server).post('/thread').send(body).set('Accept', 'application/json');
+      const res = await request(server).post('/thread')
+        .send(body)
+        .set('Accept', 'application/json');
       console.log(res.body);
       expect(res.body.petCreated.name).toBe('xiaomao');
       expect(res.body.petCreated.ownerId).toBe(userId);
@@ -157,7 +156,9 @@ describe('Test thread APIs', () => {
         updatedAt: '2023-06-08T23:35:25.920Z',
         __v: 0
       };
-      const res = await request(server).put(`/thread/${threadId}`).send(body).set('Accept', 'application/json');
+      const res = await request(server).put(`/thread/${threadId}`)
+        .send(body)
+        .set('Accept', 'application/json');
       console.log(res.body);
       expect(res.body.updated.title).toBe('My Dog is Lost, please help!!!');
       expect(res.body.updated._id).toBe(prevRes.body.thread._id);
@@ -176,9 +177,11 @@ describe('Test thread APIs', () => {
         __v: 0
       };
 
-      const res = await request(server).put(`/thread/${id}`).send(body).set('Accept', 'application/json');
+      const res = await request(server).put(`/thread/${id}`)
+        .send(body)
+        .set('Accept', 'application/json');
       expect(res.status).toBe(404);
-      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
+      expect(res.body.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 
@@ -213,7 +216,7 @@ describe('Test thread APIs', () => {
         .send({ title: 'Updated Title' })
         .set('Accept', 'application/json');
       expect(res.status).toBe(404);
-      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
+      expect(res.body.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 
@@ -241,7 +244,7 @@ describe('Test thread APIs', () => {
       const id = new mongoose.Types.ObjectId();
       const res = await request(server).patch(`/thread/archive/${id}`);
       expect(res.status).toBe(404);
-      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
+      expect(res.body.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 
@@ -266,24 +269,21 @@ describe('Test thread APIs', () => {
 
       const postRes = await request(server).get(`/thread/${threadId}`);
       expect(postRes.status).toBe(404);
-      expect(postRes.body.error.errorType).toBe('ThreadDoesNotExistException');
+      expect(postRes.body.errorType).toBe('ThreadDoesNotExistException');
     });
 
     it('should fail to delete if the thread does not exist', async () => {
       const id = new mongoose.Types.ObjectId();
       const res = await request(server).delete(`/thread/${id}`);
       expect(res.status).toBe(404);
-      expect(res.body.error.errorType).toBe('ThreadDoesNotExistException');
+      expect(res.body.errorType).toBe('ThreadDoesNotExistException');
     });
   });
 
-  async function createUser(body) {
-    const res = await request(server).post('/user/auth/register').send(body).set('Accept', 'application/json');
-    return res.body.newUser._id;
-  }
-
   async function createThread(body) {
-    const res = await request(server).post('/thread').send(body).set('Accept', 'application/json');
+    const res = await request(server).post('/thread')
+      .send(body)
+      .set('Accept', 'application/json');
     return res.body.threadCreated._id;
   }
 });
