@@ -4,8 +4,8 @@ import { UserModel } from '../models/userModel.js';
 export const getUser = async (req, res) => {
   try {
     console.log('Server::getUser');
-    let user = await UserService.getUserByName(req.user);
-    user = UserService.getLeanUser(user);
+    let user = await UserService.getUserByName(req.user.username);
+    user = UserService.getPrivateProfile(user);
     res.status(200).json({ message: 'GetUser Successfully', user });
   } catch (err) {
     console.error(err);

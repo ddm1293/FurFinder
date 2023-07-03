@@ -45,10 +45,11 @@ class UserService {
     return toPatch.save();
   }
 
-  static getLeanUser(user) {
+  static getPrivateProfile(user) {
     const userObject = user.toObject();
     delete userObject.password;
     delete userObject.refreshToken;
+    delete userObject.__v;
     return userObject;
   }
 
