@@ -30,6 +30,7 @@ function Comment (props) {
     <div className="comment-container">
       <div className="comment-info">
         <Avatar icon={<UserOutlined />} />
+        {/* TODO: add user avatar */}
         <div className="comment-username">{userName}</div>
         <div className="comment-time" style={{ marginLeft: "auto" }}>
           {props.comment.date.replace(/T/, ' ').substring(0, 19)}
