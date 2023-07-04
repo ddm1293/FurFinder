@@ -28,11 +28,11 @@ export const addCommentAsync = createAsyncThunk(
 
 export const deleteCommentAsync = createAsyncThunk(
   'DELETE_ITEM',
-  async (commentID) => {
+  async (comment) => {
     try {
-      const res = await axios.delete(`http://localhost:3001/comment/${commentID}`);
-      console.log(res, commentID);
-      return commentID;
+      const res = await axios.delete(`http://localhost:3001/comment/${comment._id}`);
+      console.log(res, comment._id);
+      return comment._id;
     } catch (e) {
       console.log(e);
     }

@@ -21,6 +21,11 @@ const commentSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
+  },
+  parentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Comment',
+    default: null
   }
 });
 
