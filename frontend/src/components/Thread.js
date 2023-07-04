@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Buffer } from 'buffer';
 import { Avatar, Card, Button } from 'antd';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getThreadAsync, deleteThreadAsync } from '../thunk/threadThunk';
@@ -16,6 +17,16 @@ function Thread() {
   const thread = useSelector((state) => state.threads.threadList.find(t => t._id === id));
   const poster = useSelector(state => state.user);
   const [pet, setPet] = useState(null);
+
+  function getPetPicUrl() {
+    if (pet && pet.pic) {
+      const base64String = Buffer.from(pet.pic[0].data, 'binary').toString('base64');
+      const imageUrl = `data:${pet.pic.contentType};base64,${base64String}`;
+      return imageUrl;
+    }
+
+    return null;
+  }
 
   useEffect(() => {
     if (!thread) {
@@ -34,6 +45,9 @@ function Thread() {
         });
     }
   }, [thread]);
+
+  useEffect(() => {
+  }, [pet]);
 
   const handleDelete = () => {
     dispatch(deleteThreadAsync(id)).then(() => {
@@ -59,7 +73,7 @@ function Thread() {
       </div>
       <Card
         className="id-card"
-        cover={<img className="id-card-img" alt="pet" src={pet.pic} />}
+        cover={<img className="id-card-img" alt="pet" src={getPetPicUrl()} />}
       >
         <Meta
           title={<span className="id-card-title">Name: {pet.name}</span>}

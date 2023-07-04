@@ -4,7 +4,21 @@ import axios from 'axios'
 export const createThreadAsync = createAsyncThunk(
   'thread/create',
   async (threadData) => {
-    const response = await axios.post('http://localhost:3001/thread', threadData);
+    // convert threadData object to FormData
+    const formData = new FormData();
+    for (const key in threadData) {
+      if (threadData.hasOwnProperty(key)) {
+        if (key === 'pet-pic') {
+          // append the file to the FormData object
+          formData.append(key, threadData[key][0].originFileObj, threadData[key][0].originFileObj.name);
+        } else {
+          // append other fields to the FormData object
+          formData.append(key, threadData[key]);
+        }
+      }
+    }
+
+    const response = await axios.post('http://localhost:3001/thread', formData);
     console.log('response', response.data.threadCreated);
     return response.data.threadCreated;
   }

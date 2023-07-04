@@ -31,4 +31,9 @@ const UserSchema = new mongoose.Schema({
   refreshToken: String
 });
 
+UserSchema.methods.getPublicProfile = function() {
+  const { _id, username } = this;
+  return { _id, username };
+};
+
 export const UserModel = mongoose.model('User', UserSchema, 'users');

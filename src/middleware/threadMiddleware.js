@@ -8,24 +8,8 @@ import {
   threadTypeValidator
 } from './queryValidator.js';
 
-// export const processPet = async (req, res, next) => {
-//   try {
-//     const petData = req.body.pet;
-//     const pet = await PetService.createPet(petData);
-//     req.body.pet = pet._id;
-//     res.petCreated = pet;
-//     next();
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'Failed to process pet data' });
-//   }
-// };
-
 export const processPet = async (req, res, next) => {
   try {
-    // const petData = req.body.pet;
-    // const ownerId = req.body.poster;
-    // const pet = await PetService.createPet(petData, ownerId);
     const petData = {
       id: req.body.id,
       name: req.body['pet-name'],
@@ -35,7 +19,10 @@ export const processPet = async (req, res, next) => {
       description: req.body.description,
       sex: req.body['pet-sex'],
       lastSeenTime: req.body['missing-date'],
-      pic: []
+      pic: [{
+        data: req.files[0].buffer,
+        contentType: req.files[0].mimetype
+      }]
     };
     console.log('missing-date:', req.body['missing-date']);
     const pet = await PetService.createPet(petData);
