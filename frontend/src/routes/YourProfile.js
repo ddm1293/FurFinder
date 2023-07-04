@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import '../style/YourProfile.css';
 
@@ -11,9 +12,11 @@ export default function YourProfile() {
     if (user.username) {
       setTimeout(async () => {
         const res = await axiosPrivate({
-          url: `/user/${user.id}`,
+          url: `/user/me`,
         });
+        const res2 = await axios.get(`http://localhost:3001/user/64823ca71623f19e8667501e`);
         console.log(res.data);
+        console.log(res2.data);
       }, 1000); // make it larger to refresh auth token
     }
   }

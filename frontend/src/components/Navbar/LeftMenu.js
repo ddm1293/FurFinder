@@ -7,10 +7,10 @@ const LeftMenu = ({ mode }) => {
     return (
         <Menu mode={mode}>
             <Menu.Item key="Lost Pets">
-              <Link to="/threads" state={{ filterOptions: "lost" }}>Lost Pets</Link>
+              <Link to="/threads" state={{ filterOptions: "lost", shouldOpenCreateThreadForm: false, threadType: 'lostPetThread' }}>Lost Pets</Link>
             </Menu.Item>
             <Menu.Item key="features">
-              <Link to="/threads" state={{ filterOptions: "witness" }}>Witnesses</Link>
+              <Link to="/threads" state={{ filterOptions: "witness", shouldOpenCreateThreadForm: false, threadType: 'witnessThread' }}>Witnesses</Link>
             </Menu.Item>
             <Menu.Item key="about">
               <Link to="/">About</Link>

@@ -1,0 +1,5 @@
+.advanced-search-main-content {
+    display: flex;
+    width: 30vw;
+    border-left: 10px black;
+}

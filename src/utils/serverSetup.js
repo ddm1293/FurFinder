@@ -9,6 +9,7 @@ import threadRouter from '../routers/threadRouter.js';
 import userRouter from '../routers/userRouter.js';
 import commentRouter from '../routers/commentRouter.js';
 import mongoose from 'mongoose';
+import petRouter from '../routers/petRouter.js'
 
 export function createServer(port, dbUrl) {
   const app = express();
@@ -21,22 +22,11 @@ export function createServer(port, dbUrl) {
 
   app.use('/auth', authRouter);
   // app.use(verifyJWT); // add this middleware wherever a route needs to be protected
-  app.use('/thread', threadRouter);
   app.use('/user', userRouter);
+  app.use('/thread', threadRouter);
   app.use('/comment', commentRouter);
+  app.use('/pet', petRouter);
 
-  // const server = app.listen(port, () => console.log('SERVER STARTED!!!'));
-  //
-  // mongoose.connect(dbUrl);
-  //
-  // const db = mongoose.connection;
-  //
-  // db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-  // db.once('open', function () {
-  //   console.log('Successfully connected to MongoDB!');
-  // });
-  //
-  // return server;
   return new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
       console.log(`SERVER STARTED!!! port: ${port}`);
@@ -46,11 +36,12 @@ export function createServer(port, dbUrl) {
     mongoose.connect(dbUrl
     ).then(() => {
       console.log('Successfully connected to MongoDB!');
-    }).catch((err) => {
-      console.error('Error connecting to MongoDB:', err);
-      server.close(() => {
-        reject(err);
+    })
+      .catch((err) => {
+        console.error('Error connecting to MongoDB:', err);
+        server.close(() => {
+          reject(err);
+        });
       });
-    });
   });
 }

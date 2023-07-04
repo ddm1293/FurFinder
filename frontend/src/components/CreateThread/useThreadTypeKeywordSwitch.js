@@ -17,10 +17,10 @@ const useThreadTypeKeywordSwitch = (threadType) => {
   }
 
   return useCallback((placeCalled) => {
-    if (threadType === 'lost-pet-thread') {
+    if (threadType === 'lostPetThread') {
       return keywords[placeCalled].lostPet;
     }
-    if (threadType === 'witness-thread') {
+    if (threadType === 'witnessThread') {
       return keywords[placeCalled].witness;
     }
     return 'Error'

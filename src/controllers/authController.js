@@ -7,6 +7,7 @@ export const userLogin = async (req, res) => {
   console.log('Server::userLogin');
   try {
     let user = await UserService.getUserByName(req.body.username);
+
     if (!user && req.body.didSignInFromGoogle) {
       user = await UserService.createUser({
         username: req.body.username,
@@ -14,13 +15,15 @@ export const userLogin = async (req, res) => {
         password: ''
       });
     }
+
     if (user && (
       req.body.didSignInFromGoogle || (!req.body.didSignInFromGoogle && await bcrypt.compare(req.body.password, user.password))
     )) {
-      const accessToken = getAccessToken(user);
       const refreshToken = await saveRefreshToken(user);
-      user = UserService.getLeanUser(user);
       res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+
+      user = UserService.getPrivateProfile(user);
+      const accessToken = getAccessToken(user);
       res.status(200).json({ message: 'UserLogin Successfully', user, accessToken });
     } else {
       res.status(200).json({ message: 'Incorrect username or password!', user: null });
@@ -35,10 +38,12 @@ export const registerUser = async (req, res) => {
   console.log('Server::registerUser');
   try {
     let newUser = await UserService.createUser(req.body);
-    const accessToken = getAccessToken(newUser);
+
     const refreshToken = await saveRefreshToken(newUser);
-    newUser = UserService.getLeanUser(newUser);
     res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
+
+    newUser = UserService.getPrivateProfile(newUser);
+    const accessToken = getAccessToken(newUser);
     res.status(200).json({ message: 'Registered successfully!', newUser, accessToken });
   } catch (err) {
     console.error(err);
@@ -63,8 +68,9 @@ export const refreshAccessToken = async (req, res) => {
     process.env.REFRESH_TOKEN_SECRET,
     (err, decoded) => {
       if (err || foundUser.username !== decoded.username) { return res.sendStatus(403); }
+
+      foundUser = UserService.getPrivateProfile(foundUser);
       const accessToken = getAccessToken(foundUser);
-      foundUser = UserService.getLeanUser(foundUser);
       res.status(200).json({ message: 'RefreshToken Successfully', user: foundUser, accessToken });
     }
   );
@@ -90,11 +96,11 @@ export const logoutUser = async (req, res) => {
   }
 };
 
-function getAccessToken(user) {
+function getAccessToken(privateUserProfile) {
   return jwt.sign(
-    { username: user.username },
+    privateUserProfile,
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '10s' } // 10s for testing purposes; can be longer
+    { expiresIn: '900s' } // 10s for testing purposes; can be longer
   );
 }
 
