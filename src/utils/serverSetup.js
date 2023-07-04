@@ -22,8 +22,8 @@ export function createServer(port, dbUrl) {
 
   app.use('/auth', authRouter);
   // app.use(verifyJWT); // add this middleware wherever a route needs to be protected
-  app.use('/thread', threadRouter);
   app.use('/user', userRouter);
+  app.use('/thread', threadRouter);
   app.use('/comment', commentRouter);
   app.use('/pet', petRouter);
 

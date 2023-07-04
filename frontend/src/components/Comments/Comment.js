@@ -1,14 +1,13 @@
 import { Avatar } from 'antd'
 import { DeleteOutlined, MessageOutlined, UserOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { deleteCommentAsync } from '../../thunk/commentThunk'
 import { useDispatch } from 'react-redux'
 import CommentInput from './CommentInput'
+import axios from 'axios'
 
 function Comment (props) {
   const [userName, setUserName] = useState('')
-  const axiosPrivate = useAxiosPrivate();
   const dispatch = useDispatch();
   const isLogin = props.userID !== null;
   const isAuthor = props.userID === props.comment.author.id;
@@ -17,13 +16,14 @@ function Comment (props) {
   const isReplying = reply && (reply._id === props.comment._id); // where to render comment form
 
   useEffect(() => {
-    axiosPrivate({
-      url: `http://localhost:3001/user/${props.comment.author.id}`,
-    }).then((response) => {
-      setUserName(response.data.user.username)
-    }).catch((error) => {
-      console.error(error)
-    });
+    axios
+      .get(`http://localhost:3001/user/${props.comment.author.id}`)
+      .then((response) => {
+        setUserName(response.data.user.username)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   }, [props.comment.author])
 
   return (
