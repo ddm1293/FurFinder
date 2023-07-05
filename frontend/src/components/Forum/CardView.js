@@ -10,8 +10,6 @@ const { Meta } = Card
 function CardView ({ items }) {
   const petAttributes = ['name', 'breed', 'sex'];
   const user = useSelector((state) => state.user);
-  // const [activeItem, setActiveItem] = useState(null);
-  // const [isActive, setIsActive] = useState(false);
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const verifyValidPet = (pet) => {
@@ -26,7 +24,7 @@ function CardView ({ items }) {
   useEffect(() => {
     console.log(user);
     axiosPrivate({
-      url: `http://localhost:3001/user/${user.id}`,
+      url: `http://localhost:3001/user/me`,
     }).then((response) => {
       console.log(response);
       setFavorite(response.data.user.favoredThreads);
@@ -51,7 +49,6 @@ function CardView ({ items }) {
       })
     }
 
-  // { isActive && (activeItem === item._id)? <StarFilled key="star" /> : <StarOutlined key="star" />}
   return (
     <div>
       <div className="card-view">
