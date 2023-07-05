@@ -14,7 +14,7 @@ function ListView ({ items }) {
   useEffect(() => {
     console.log(user);
     axiosPrivate({
-      url: `http://localhost:3001/user/${user.id}`,
+      url: `http://localhost:3001/user/me`,
     }).then((response) => {
       console.log(response);
       setFavorite(response.data.user.favoredThreads);
