@@ -23,9 +23,16 @@ const PetSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  pic: [{
-    type: Buffer
-  }],
+  pic: [
+    {
+      data: {
+        type: Buffer
+      },
+      contentType: {
+        type: String
+      }
+    }
+  ],
   threadId: {
     type: mongoose.Types.ObjectId,
     ref: 'Thread'

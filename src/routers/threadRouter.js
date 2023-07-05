@@ -1,10 +1,12 @@
 import express from 'express';
+import multer from 'multer';
 import * as threadController from '../controllers/threadController.js';
 import { processPet, searchQueryValidator } from '../middleware/threadMiddleware.js';
 import { handleError } from '../middleware/handleError.js';
 import { getTotalThreadNumber } from '../controllers/threadController.js';
 
 const threadRouter = express.Router();
+const upload = multer();
 
 // GET APIS
 threadRouter.get('/userId/:id', threadController.getThreadsByUserId, handleError);
@@ -14,7 +16,7 @@ threadRouter.get('/search', searchQueryValidator, threadController.searchThreads
 threadRouter.get('/:id', threadController.getThread, handleError);
 
 // POST APIS
-threadRouter.post('/', processPet, threadController.createThread, handleError);
+threadRouter.post('/', upload.any(), processPet, threadController.createThread, handleError);
 
 // PUT APIS
 threadRouter.put('/:id', threadController.updateThread, handleError);
