@@ -7,6 +7,7 @@ import '../style/Thread.css';
 import useAxiosPrivate from '../hooks/useAxiosPrivate.js';
 import axios from 'axios';
 import { format } from 'date-fns';
+import UpdateThreadForm from './UpdateThread/UpdateThreadForm';
 
 const { Meta } = Card;
 
@@ -19,7 +20,8 @@ function Thread() {
   const [poster, setPoster] = useState(null);
   const [pet, setPet] = useState(null);
   const user = useSelector((state) => state.user);
-  console .log("user: ", user);
+  const [editModalVisible, setEditModalVisible] = useState(false);
+  // console .log("user: ", user);
 
   useEffect(() => {
     dispatch(getThreadAsync(id)).then(({payload}) => {
@@ -27,7 +29,7 @@ function Thread() {
     });
   }, [dispatch, id]);
 
-  console.log("thread: ", thread);
+  // console.log("thread: ", thread);
 
   useEffect(() => {
     if (thread && thread.poster) {
@@ -42,7 +44,7 @@ function Thread() {
     }
   }, [axiosPrivate, thread]);
 
-  console.log("poster: ", poster);
+ //  console.log("poster: ", poster);
 
   useEffect(() => {
     if (thread && thread.pet) {
@@ -56,7 +58,7 @@ function Thread() {
     }
   }, [thread]);
 
-  console.log("pet: ", pet);
+  // console.log("pet: ", pet);
 
   const handleDelete = () => {
     dispatch(deleteThreadAsync(id)).then(() => {
@@ -65,8 +67,17 @@ function Thread() {
   };
 
   const handleEdit = () => {
-    // We'll implement this later.
+    setEditModalVisible(true);
   };
+
+  const handleUpdate = () => {
+    setEditModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setEditModalVisible(false);
+  };
+
 
   if (!thread || !poster || !pet) {
     return 'Loading...';
@@ -112,6 +123,11 @@ function Thread() {
       <div className="thread-text-container">
         <p className="thread-text">{content}</p>
       </div>
+      <UpdateThreadForm open={editModalVisible}
+                        onUpdate={handleUpdate}
+                        onCancel={handleCancel}
+                        threadId={id}
+      />
     </div>
   );
 }

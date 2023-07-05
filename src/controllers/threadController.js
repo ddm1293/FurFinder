@@ -11,6 +11,7 @@ export const createThread = async (req, res) => {
 
     const threadData = {
       title: req.body['thread-title'],
+      kind: req.body['select-thread-type'],
       poster: req.body.poster,
       pet: req.body.pet, // The pet id we just created and saved in req.body.pet
       content: req.body['thread-main-content'],
@@ -74,29 +75,41 @@ export const getThreads = async (req, res) => {
 export const updateThread = async (req, res) => {
   try {
     console.log('Server::Updating a thread - running updateThread');
+    // console.log('req: ', req);
     const threadId = req.params.id;
     const formBody = req.body;
+    console.log('threadId: ', threadId);
+    console.log('formBody: ', formBody);
 
     // Separate thread data and pet data
     const threadData = {
       title: formBody['thread-title'],
-      content: formBody['thread-main-content']
+      content: formBody['thread-main-content'],
+      kind: formBody['select-thread-type']
     };
 
     const petData = {
       name: formBody['pet-name'],
       species: formBody['pet-species'],
-      breed: formBody['pet-breed']
+      breed: formBody['pet-breed'],
+      id: formBody.id,
+      type: formBody['select-thread-type'],
+      description: formBody.description,
+      sex: formBody['pet-sex'],
+      lastSeenTime: formBody['missing-date'],
+      pic: formBody['pet-pic']
     };
 
     // Update thread
     const updatedThread = await ThreadService.updateThread(threadId, threadData);
+    console.log('UpdatedThread from backend: ', updatedThread);
 
     // Update pet
     const petId = updatedThread.pet; // assuming the pet id is available here
-    await PetService.updatePet(petId, petData);
+    const updatedPet = await PetService.updatePet(petId, petData);
+    console.log('UpdatedPet from backend: ', updatedPet);
 
-    res.status(200).json({ message: 'Successfully updated', updatedThread });
+    res.status(200).json({ message: 'Successfully updated', updated: updatedThread });
   } catch (err) {
     handleError(err, res);
   }

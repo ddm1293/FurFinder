@@ -18,6 +18,7 @@ const ThreadSchema = new mongoose.Schema({
     required: true
   },
   content: String,
+  kind: String,
   comments: [{
     type: Schema.Types.ObjectId,
     ref: 'Comment'

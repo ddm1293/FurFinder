@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 
 function CreateThreadPetInfo ({ threadType, form }) {
+  const [originalName, setOriginalName] = useState('');
+
+
 
   useEffect(() => {
     if (threadType === 'witness-thread') {
+      setOriginalName(form.getFieldValue('pet-name'));
       form.setFieldsValue({ 'pet-name': 'Unknown' });
-    } else {
-      form.setFieldsValue({ 'pet-name': '' });
+    } else if (originalName) {
+      form.setFieldsValue({ 'pet-name': originalName });
     }
   }, [threadType, form]);
 
