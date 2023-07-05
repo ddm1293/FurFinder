@@ -1,10 +1,10 @@
-import { List } from 'antd'
-import { Avatar } from 'antd'
-import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { useSelector } from 'react-redux'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import { List } from 'antd';
+import { Avatar } from 'antd';
+import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 function ListView ({ items }) {
   const user = useSelector((state) => state.user);

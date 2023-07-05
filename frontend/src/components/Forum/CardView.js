@@ -1,9 +1,9 @@
-import { Avatar, Card } from 'antd'
-import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
+import { Avatar, Card } from 'antd';
+import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { useSelector } from 'react-redux'
-import axios from 'axios'
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const { Meta } = Card
 
