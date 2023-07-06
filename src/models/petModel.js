@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-// TODO: finish using discriminator
 const PetSchema = new mongoose.Schema({
   id: {
     type: String
@@ -24,9 +23,20 @@ const PetSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  pic: [{
-    type: Buffer
-  }],
+  pic: [
+    {
+      data: {
+        type: Buffer
+      },
+      contentType: {
+        type: String
+      }
+    }
+  ],
+  threadId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'Thread'
+  },
   ownerId: {
     type: mongoose.Types.ObjectId,
     ref: 'User'
@@ -47,3 +57,19 @@ const PetSchema = new mongoose.Schema({
 });
 
 export const PetModel = mongoose.model('Pet', PetSchema);
+
+const CatSchema = new mongoose.Schema({
+  breed: {
+    type: String
+  }
+});
+
+export const CatModel = PetModel.discriminator('Cat', CatSchema);
+
+const DogSchema = new mongoose.Schema({
+  breed: {
+    type: String
+  }
+});
+
+export const DogModel = PetModel.discriminator('Dog', DogSchema);

@@ -3,6 +3,7 @@ import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
+import BreedSelector from './BreedSelector'
 
 function CreateThreadPetInfo ({ threadType, form }) {
   const [originalName, setOriginalName] = useState('');
@@ -10,8 +11,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
 
 
   useEffect(() => {
-    if (threadType === 'witness-thread') {
-      setOriginalName(form.getFieldValue('pet-name'));
+    if (threadType === 'witnessThread') {
       form.setFieldsValue({ 'pet-name': 'Unknown' });
     } else if (originalName) {
       form.setFieldsValue({ 'pet-name': originalName });
@@ -26,11 +26,17 @@ function CreateThreadPetInfo ({ threadType, form }) {
     return e?.fileList;
   };
 
+  function dummyRequest({ file, onSuccess }) {
+    setTimeout(() => {
+      onSuccess('ok');
+    }, 0);
+  }
+
   return (
     <Form.Item className="create-thread-petInfo">
       <Form.Item
         name='pet-name'
-        label='Pet Name'
+        label='Name'
         rules={[{
           required: true,
           message: 'Please enter the pet name'
@@ -38,45 +44,17 @@ function CreateThreadPetInfo ({ threadType, form }) {
       >
         <Input />
       </Form.Item>
+      }
+
+      <Form.Item name='pet-type'
+                 className='pet-type'
+                 label='Breed'>
+        <BreedSelector required={true} />
+      </Form.Item>
 
       <Form.Item name='id' label='ID'>
         <Input placeholder='Enter the pet ID (optional)' />
       </Form.Item>
-
-      <Form.Item className='pet-breed' label='Breed'>
-        <Space.Compact block>
-          <Form.Item className='pet-species'
-                     name='pet-species'
-                     rules={[{ required: true, message: 'Please choose the pet species' }]}>
-            <Select placeholder="Select pet species">
-              <Select.Option value="cat">Cat</Select.Option>
-              <Select.Option value="dog">Dog</Select.Option>
-            </Select>
-          </Form.Item>
-
-          <Form.Item className='pet-breed'
-                     shouldUpdate={(prevValues, currentValues) =>
-            prevValues['pet-species'] !== currentValues['pet-species']
-          }>
-            {({ getFieldValue }) => getFieldValue('pet-species') === 'cat' ? (
-              <Form.Item name='pet-breed'>
-                <Select placeholder="Select a cat breed">
-                  <Select.Option value="Persian">Persian Cat</Select.Option>
-                  <Select.Option value="Ragdoll">Ragdoll</Select.Option>
-                </Select>
-              </Form.Item>
-            ) : (
-              <Form.Item name='pet-breed'>
-                <Select placeholder="Select a dog breed">
-                  <Select.Option value="Beagle">Beagle</Select.Option>
-                  <Select.Option value="Golden">Golden Retrievers</Select.Option>
-                </Select>
-              </Form.Item>
-            )}
-          </Form.Item>
-        </Space.Compact>
-      </Form.Item>
-
 
       <Form.Item name='pet-sex' label='Sex'>
         <Radio.Group>
@@ -96,10 +74,10 @@ function CreateThreadPetInfo ({ threadType, form }) {
                    valuePropName='fileList'
                    getValueFromEvent={normFile}
                    noStyle>
-          <Upload.Dragger name="pet-pic-dragger" action="/upload.do">
+          <Upload.Dragger name="pet-pic-dragger" customRequest={dummyRequest} accept=".jpg" maxCount={1}>
             <p className="pet-pic-drag-icon"><InboxOutlined /></p>
             <p className="pet-pic-upload-text">Click or drag file to this area to upload</p>
-            <p className="pet-pic-upload-hint">Support for a single or bulk upload.</p>
+            <p className="pet-pic-upload-hint">Support for a single upload.</p>
           </Upload.Dragger>
         </Form.Item>
       </Form.Item>

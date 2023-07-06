@@ -1,7 +1,6 @@
 import { CommentModel } from '../models/commentModel.js';
 import { ThreadModel } from '../models/threadModel.js';
 import { CommentDoesNotExistException } from '../exceptions/commentException.js';
-import ThreadService from './threadService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 
 class commentService {
@@ -55,15 +54,24 @@ class commentService {
 
   static async deleteComment(id) {
     const comment = await CommentModel.findById(id);
-    const threadRelated = await ThreadModel.findById(comment.threadId);
-    threadRelated.comments.pull(comment._id);
-    await threadRelated.save();
-    const deleted = await CommentModel.findByIdAndDelete(id);
-    if (deleted) {
-      return deleted;
-    } else {
+    if (!comment) {
       throw new CommentDoesNotExistException(`comment ${id} does not exist`);
     }
+    const threadRelated = await ThreadModel.findById(comment.threadId);
+    if (!threadRelated) {
+      throw new ThreadDoesNotExistException(`thread ${comment.threadId} does not exist`);
+    }
+    const replies = await CommentModel.find({ parentId: comment._id });
+    if (replies.length > 0) { // delete replies associated with comment from thread
+      for (const reply of replies) {
+        threadRelated.comments.pull(reply._id);
+        await CommentModel.findByIdAndDelete(reply._id);
+      }
+    }
+    threadRelated.comments.pull(comment._id); // delete comment from thread
+    await threadRelated.save();
+    const deleted = await CommentModel.findByIdAndDelete(id);
+    return deleted;
   }
 }
 

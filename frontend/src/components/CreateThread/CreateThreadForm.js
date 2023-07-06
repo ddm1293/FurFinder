@@ -18,19 +18,6 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
     updateThreadType(initialType);
   }, [initialType])
 
-  // const onFinish = (values) => {
-  //   console.log('form got submitted:', values);
-  //   dispatch(createThread(values))
-  //     .then(response => {
-  //       const threadId = response.data.threadCreated._id;
-  //       navigate(`/threads/${threadId}`);
-  //       onCreate();
-  //     })
-  //     .catch(error => {
-  //       console.log('Cannot open the new Thread.' + error);
-  //     });
-  // };
-
   const onFinish = (values) => {
     const valuesWithPoster = { ...values, poster: user.id };
     console.log('form got submitted:', valuesWithPoster);
