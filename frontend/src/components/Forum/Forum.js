@@ -11,8 +11,9 @@ import AdvancedSearchSiderPanel from './Search/AdvancedSearchSiderbar'
 import { clearSearchResults } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
+import CreateThreadButton from '../CreateThread/CreateThreadButton'
 
-function Forum ({ threadType }) {
+function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
@@ -107,6 +108,10 @@ function Forum ({ threadType }) {
             selectedKeys={[selectedKey]}
             mode="horizontal"
             items={viewOptions} />
+          <CreateThreadButton
+            shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
+            threadType={threadType}
+          />
           <SearchBar threadType={threadType}/>
           <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
           <Button
