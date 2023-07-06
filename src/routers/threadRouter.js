@@ -23,6 +23,7 @@ threadRouter.put('/:id', threadController.updateThread, handleError);
 // PATCH APIS
 threadRouter.patch('/archive/:id', threadController.archiveThread, handleError);
 threadRouter.patch('/:id', threadController.patchThread, handleError);
+threadRouter.patch('/:id/:userId/favorite', threadController.favoriteThread, handleError);
 
 // DELETE APIS
 threadRouter.delete('/:id', threadController.deleteThread, handleError);
