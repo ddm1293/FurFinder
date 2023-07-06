@@ -28,7 +28,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
         .get(`http://localhost:3001/pet/${thread.pet}`)
         .then((response) => {
           console.log("Got pet data: ", response);
-          const pet = response.data.pet;
+          const pet = response.data;
           console.log('pet from update: ', pet);
           if (!pet) return; // Add check here
 
@@ -38,8 +38,8 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
             'thread-title': thread.title,
             'thread-main-content': thread.content,
             'pet-name': pet.name,
-            'pet-species': pet.species,
-            'pet-breed': pet.breed,
+            'species': pet.species,
+            'breed': pet.breed,
             'id': pet.id,
             'description': pet.description,
             'pet-sex': pet.sex,

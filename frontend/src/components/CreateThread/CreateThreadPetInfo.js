@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
+import { Form, Input, Radio, DatePicker, Upload} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
@@ -12,6 +12,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
 
   useEffect(() => {
     if (threadType === 'witnessThread') {
+      setOriginalName(form.getFieldValue('pet-name'));
       form.setFieldsValue({ 'pet-name': 'Unknown' });
     } else if (originalName) {
       form.setFieldsValue({ 'pet-name': originalName });
@@ -45,14 +46,14 @@ function CreateThreadPetInfo ({ threadType, form }) {
         <Input />
       </Form.Item>
 
+      <Form.Item name='id' label='ID'>
+        <Input placeholder='Enter the pet ID (optional)' />
+      </Form.Item>
+
       <Form.Item name='pet-type'
                  className='pet-type'
                  label='Breed'>
         <BreedSelector required={true} />
-      </Form.Item>
-
-      <Form.Item name='id' label='ID'>
-        <Input placeholder='Enter the pet ID (optional)' />
       </Form.Item>
 
       <Form.Item name='pet-sex' label='Sex'>

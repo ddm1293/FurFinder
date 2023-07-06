@@ -22,7 +22,7 @@ function Thread() {
   const [pet, setPet] = useState(null);
   const user = useSelector((state) => state.user);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  // console .log("user: ", user);
+  console .log("user: ", user);
 
   useEffect(() => {
     dispatch(getThreadAsync(id)).then(({payload}) => {
@@ -30,17 +30,7 @@ function Thread() {
     });
   }, [dispatch, id]);
 
-  // console.log("thread: ", thread);
-
-  function getPetPicUrl() {
-    if (pet && pet.pic) {
-      const base64String = Buffer.from(pet.pic[0].data, 'binary').toString('base64');
-      const imageUrl = `data:${pet.pic.contentType};base64,${base64String}`;
-      return imageUrl;
-    }
-
-    return null;
-  }
+  console.log("thread: ", thread);
 
   useEffect(() => {
     if (thread && thread.poster) {
@@ -55,19 +45,22 @@ function Thread() {
     }
   }, [axiosPrivate, thread]);
 
- //  console.log("poster: ", poster);
+ console.log("poster: ", poster);
 
   useEffect(() => {
     if (thread && thread.pet) {
       axios.get(`http://localhost:3001/pet/${thread.pet}`)
         .then(response => {
-          setPet(response.data.pet);
+          // console.log("response data: ", response);
+          setPet(response.data);
         })
         .catch(error => {
           console.error('Error fetching pet data', error);
         });
     }
   }, [thread]);
+
+  console.log("pet: ", pet);
 
   useEffect(() => {
   }, [pet]);
@@ -93,6 +86,16 @@ function Thread() {
 
   if (!thread || !poster || !pet) {
     return 'Loading...';
+  }
+
+  function getPetPicUrl() {
+    if (pet && pet.pic && pet.pic.length > 0) {
+      const base64String = Buffer.from(pet.pic[0].data, 'binary').toString('base64');
+      const imageUrl = `data:${pet.pic.contentType};base64,${base64String}`;
+      return imageUrl;
+    }
+
+    return null;
   }
 
   const {title, content} = thread;
