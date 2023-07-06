@@ -44,7 +44,6 @@ function CreateThreadPetInfo ({ threadType, form }) {
       >
         <Input />
       </Form.Item>
-      }
 
       <Form.Item name='pet-type'
                  className='pet-type'
