@@ -10,7 +10,6 @@ import userRouter from '../routers/userRouter.js';
 import commentRouter from '../routers/commentRouter.js';
 import mongoose from 'mongoose';
 import petRouter from '../routers/petRouter.js';
-import { PetModel } from '../models/petModel.js';
 
 export function createServer(port, dbUrl) {
   const app = express();
@@ -27,34 +26,6 @@ export function createServer(port, dbUrl) {
   app.use('/thread', threadRouter);
   app.use('/comment', commentRouter);
   app.use('/pet', petRouter);
-
-  // app.put('/testUpdatePet', async (req, res) => {
-  //   console.log(req.body);
-  //   const petId = req.body._id;
-  //   const newSpecies = req.body.species;
-  //
-  //   console.log(`Updating petId ${petId} with species ${newSpecies}`);
-  //
-  //   const updatedPet = await PetModel.findByIdAndUpdate(petId, { species: newSpecies }, { new: true });
-  //
-  //   console.log('UpdatedPet from backend: ', updatedPet);
-  //
-  //   res.json(updatedPet);
-  // });
-
-  app.put('/testUpdatePet', async (req, res) => {
-    console.log(req.body);
-    const petId = req.body._id;
-    const petData = req.body.data;
-
-    console.log(`Updating petId ${petId} with species ${petData}`);
-
-    const updatedPet = await PetModel.findByIdAndUpdate(petId, petData, { overwriteDiscriminatorKey: true, new: true });
-
-    console.log('UpdatedPet from backend: ', updatedPet);
-
-    res.json(updatedPet);
-  });
 
   return new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
