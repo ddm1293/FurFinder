@@ -13,12 +13,12 @@ function BreedSelector ({ required }) {
                        required: required,
                        message: 'Please choose the pet species' }]}>
             <Select placeholder="Select pet species">
-              <Select.Option value="cat">Cat</Select.Option>
-              <Select.Option value="dog">Dog</Select.Option>
+              <Select.Option value="Cat">Cat</Select.Option>
+              <Select.Option value="Dog">Dog</Select.Option>
             </Select>
           </Form.Item>
 
-          {getFieldValue('species') === 'cat' ? (
+          {getFieldValue('species') === 'Cat' ? (
             <Form.Item name='breed'>
               <Select placeholder="Select a cat breed">
                 <Select.Option value="persian-cat">Persian Cat</Select.Option>
@@ -30,7 +30,7 @@ function BreedSelector ({ required }) {
             <Form.Item name='breed'>
               <Select placeholder="Select a dog breed">
                 <Select.Option value="beagle">Beagle</Select.Option>
-                <Select.Option value="golden_retrievers">Golden Retrievers</Select.Option>
+                <Select.Option value="golden retrievers">Golden Retrievers</Select.Option>
               </Select>
             </Form.Item>
           )}

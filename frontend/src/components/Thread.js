@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Buffer } from 'buffer';
-import { Avatar, Card, Button } from 'antd';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getThreadAsync, deleteThreadAsync } from '../thunk/threadThunk';
-import '../style/Thread.css';
-import useAxiosPrivate from '../hooks/useAxiosPrivate.js';
-import axios from 'axios';
-import { format } from 'date-fns';
-import UpdateThreadForm from './UpdateThread/UpdateThreadForm';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Buffer } from 'buffer'
+import { Avatar, Button, Card } from 'antd'
+import { useNavigate, useParams } from 'react-router-dom'
+import { deleteThreadAsync, getThreadAsync } from '../thunk/threadThunk'
+import '../style/Thread.css'
+import useAxiosPrivate from '../hooks/useAxiosPrivate.js'
+import axios from 'axios'
+import { format } from 'date-fns'
+import UpdateThreadForm from './UpdateThread/UpdateThreadForm'
 
 const { Meta } = Card;
 
@@ -22,7 +22,7 @@ function Thread() {
   const [pet, setPet] = useState(null);
   const user = useSelector((state) => state.user);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  console .log("user: ", user);
+  // console .log("user: ", user);
 
   useEffect(() => {
     dispatch(getThreadAsync(id)).then(({payload}) => {
@@ -45,7 +45,7 @@ function Thread() {
     }
   }, [axiosPrivate, thread]);
 
- console.log("poster: ", poster);
+ // console.log("poster: ", poster);
 
   useEffect(() => {
     if (thread && thread.pet) {
@@ -61,9 +61,6 @@ function Thread() {
   }, [thread]);
 
   console.log("pet: ", pet);
-
-  useEffect(() => {
-  }, [pet]);
 
   const handleDelete = () => {
     dispatch(deleteThreadAsync(id)).then(() => {
@@ -91,8 +88,7 @@ function Thread() {
   function getPetPicUrl() {
     if (pet && pet.pic && pet.pic.length > 0) {
       const base64String = Buffer.from(pet.pic[0].data, 'binary').toString('base64');
-      const imageUrl = `data:${pet.pic.contentType};base64,${base64String}`;
-      return imageUrl;
+      return `data:${pet.pic.contentType};base64,${base64String}`;
     }
 
     return null;
@@ -124,7 +120,7 @@ function Thread() {
           description={
             <div className="id-card-info">
               <p><span className="id-card-label">ID: </span>{pet.id}</p>
-              {pet.species === 'cat' ?
+              {pet.species === 'Cat' ?
                 <p><span className="id-card-label">Cat Breed: </span>{pet.breed}</p> :
                 <p><span className="id-card-label">Dog Breed: </span>{pet.breed}</p>
               }

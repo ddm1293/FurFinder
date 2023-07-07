@@ -91,8 +91,8 @@ export const updateThread = async (req, res, next) => {
 
     const petData = {
       name: formBody['pet-name'],
-      species: formBody['pet-species'],
-      breed: formBody['pet-breed'],
+      species: formBody.species,
+      breed: formBody.breed,
       id: formBody.id,
       type: formBody['select-thread-type'],
       description: formBody.description,
@@ -101,6 +101,7 @@ export const updateThread = async (req, res, next) => {
       pic: formBody['pet-pic']
     };
 
+    console.log('Pet data: ', petData);
     // Update thread
     const updatedThread = await ThreadService.updateThread(threadId, threadData);
     console.log('UpdatedThread from backend: ', updatedThread);

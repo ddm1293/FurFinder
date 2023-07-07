@@ -13,8 +13,8 @@ export const processPet = async (req, res, next) => {
     const petData = {
       id: req.body.id,
       name: req.body['pet-name'],
-      species: req.body['pet-species'],
-      breed: req.body['pet-breed'] || req.body['cat-breed'] || req.body['dog-breed'],
+      species: req.body.species,
+      breed: req.body.breed,
       type: req.body['select-thread-type'],
       description: req.body.description,
       sex: req.body['pet-sex'],
