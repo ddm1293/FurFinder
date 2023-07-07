@@ -43,3 +43,20 @@ export const patchUser = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
+
+export const updateAvatar = async (req, res) => {
+  try {
+    console.log('Server::updateAvatar');
+    const userId = req.params.id;
+    const file = req.files[0];
+    const avatar = {
+      data: file.buffer,
+      contentType: file.mimetype
+    };
+    const user = await UserService.updateAvatar(userId, avatar);
+    res.status(200).json({ message: 'Update user avatar Successfully', user });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};

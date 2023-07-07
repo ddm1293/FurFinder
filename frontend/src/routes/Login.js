@@ -34,6 +34,7 @@ export default function Login() {
         dispatch(setUser({
           id: res.data.user._id,
           username: res.data.user.username,
+          avatar: res.data.user.avatar, // TODO: cathy
           favoredThreads: res.data.user.favoredThreads,
           myThreads: res.data.user.myThreads,
           accessToken: res.data.accessToken,
@@ -70,6 +71,7 @@ export default function Login() {
         favoredThreads: res.data.user.favoredThreads,
         myThreads: res.data.user.myThreads,
         accessToken: res.data.accessToken,
+        email: userObject.email, // TODO: cathy
       })); // TODO: store and handle exp field?
       navigate("/profile");
     } catch (e) {
