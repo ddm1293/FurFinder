@@ -4,6 +4,8 @@ import PlaceAutocomplete from './PlaceAutocomplete'
 
 function Map ({ handleMapInfo }) {
   const [selected, setSelected] = useState(null);
+  const [searched, setSearched] = useState(null);
+  const [pinned, setPinned] = useState(null);
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEYS,
@@ -12,7 +14,21 @@ function Map ({ handleMapInfo }) {
   })
 
   useEffect(() => {
-    console.log('see selected: ', selected)
+    if (pinned) {
+      setSelected(pinned);
+      setSearched(null);
+    }
+  }, [pinned]);
+
+  useEffect(() => {
+    if (searched) {
+      setSelected(searched);
+      setPinned(null);
+    }
+  }, [searched])
+
+  useEffect(() => {
+    console.log('see pinned, searched, selected: ', pinned, searched, selected)
     handleMapInfo(selected);
   }, [selected])
 
@@ -20,6 +36,11 @@ function Map ({ handleMapInfo }) {
     lat: 49.2827,
     lng: -123.1207
   }), []);
+
+  const setPin = (e) => {
+    const latLng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    setPinned(latLng);
+  }
 
   if (!isLoaded) {
     return <div>
@@ -29,13 +50,15 @@ function Map ({ handleMapInfo }) {
     return (
       <div className='map-container'>
         <div className='places-container'>
-          <PlaceAutocomplete setSelected={setSelected} />
+          <PlaceAutocomplete searched={searched} setSearched={setSearched} />
         </div>
 
         <GoogleMap
           zoom={10}
           center={selected || defaultCenter}
-          mapContainerStyle={{ width: '400px', height: '300px' }}>
+          mapContainerStyle={{ width: '400px', height: '300px' }}
+          onRightClick={setPin}
+        >
           {
             selected &&
             <Marker position={selected} />
