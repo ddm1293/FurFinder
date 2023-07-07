@@ -1,0 +1,11 @@
+.profile {
+    width: 80vw;
+}
+
+.edit-profile-picture {
+    display: flex;
+}
+
+Button {
+    margin: 10px 10px 0 0;
+}
