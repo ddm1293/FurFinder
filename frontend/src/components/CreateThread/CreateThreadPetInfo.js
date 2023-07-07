@@ -29,6 +29,10 @@ function CreateThreadPetInfo ({ threadType, form }) {
     }, 0);
   }
 
+  const handleMapInfo = (latLng) => {
+    form.setFieldsValue({ lastSeenLocation: latLng });
+  }
+
   return (
     <Form.Item className="create-thread-petInfo">
       {
@@ -80,7 +84,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
       </Form.Item>
 
       <Form.Item name='lastSeenLocation' label='Last Seen Location'>
-        <Map />
+        <Map handleMapInfo={handleMapInfo} />
       </Form.Item>
 
       <Form.Item name='description'

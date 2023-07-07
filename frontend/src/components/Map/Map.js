@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
 import PlaceAutocomplete from './PlaceAutocomplete'
 
-function Map (props) {
+function Map ({ handleMapInfo }) {
   const [selected, setSelected] = useState(null);
 
   const { isLoaded } = useLoadScript({
@@ -13,6 +13,7 @@ function Map (props) {
 
   useEffect(() => {
     console.log('see selected: ', selected)
+    handleMapInfo(selected);
   }, [selected])
 
   const defaultCenter = useMemo(() => ({

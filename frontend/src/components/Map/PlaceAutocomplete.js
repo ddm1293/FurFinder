@@ -1,19 +1,27 @@
-import { useEffect } from 'react'
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import { AutoComplete } from 'antd'
+import { useEffect } from 'react'
 
 function PlaceAutocomplete ({ setSelected }) {
+  const google = window.google;
+  const southwest = { lat: 48.224, lng: -123.758 };
+  const northeast = { lat: 49.612, lng: -121.438 };
+  const bounds = new google.maps.LatLngBounds(southwest, northeast);
+
   const {
     ready,
     value,
     setValue,
     suggestions: { status, data },
     clearSuggestions
-  } = usePlacesAutocomplete();
-
-  useEffect(() => {
-    // console.log('see value change: ', value);
-  }, [value])
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      types: ['geocode'],
+      componentRestrictions: { country: 'ca' },
+      bounds,
+      strictBounds: true
+    }
+  });
 
   const formattedSuggestions = data.map(suggestion => ({
     value: suggestion.place_id,
@@ -30,8 +38,12 @@ function PlaceAutocomplete ({ setSelected }) {
 
     const results = await getGeocode({ placeId: selected });
     const { lat, lng } = await getLatLng(results[0]);
-    console.log('see lat, lng: ', lat, lng)
     setSelected({ lat, lng });
+  }
+
+  const onClear = () => {
+    setValue(null);
+    setSelected(null);
   }
 
   return (
@@ -44,6 +56,8 @@ function PlaceAutocomplete ({ setSelected }) {
         disabled={!ready}
         value={value}
         placeholder='search an address'
+        allowClear
+        onClear={onClear}
       />
     </div>
   )

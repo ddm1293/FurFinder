@@ -52,7 +52,6 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const endIndex = startIndex + cardsPerPage
   const searchResults = useSelector((state) => state.forum.searchResults);
   if (searchResults && searchResults.length > 0) {
-    console.log('is this your fault?')
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
 
