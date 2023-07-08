@@ -2,7 +2,7 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { AutoComplete } from 'antd'
 import { useEffect } from 'react'
 
-function PlaceAutocomplete ({ searched, setSearched }) {
+function PlaceAutocomplete ({ setSearched, searchText, setSearchText }) {
   const google = window.google;
   const southwest = { lat: 48.224, lng: -123.758 };
   const northeast = { lat: 49.612, lng: -121.438 };
@@ -30,10 +30,12 @@ function PlaceAutocomplete ({ searched, setSearched }) {
 
   const onSearch = (searchText) => {
     setValue(searchText);
+    setSearchText(searchText);
   }
 
   const onSelect = async (selected, option) => {
     setValue(option.label, false);
+    setSearchText(option.label);
     clearSuggestions();
 
     const results = await getGeocode({ placeId: selected });
@@ -44,6 +46,7 @@ function PlaceAutocomplete ({ searched, setSearched }) {
   const onClear = () => {
     setValue(null);
     setSearched(null);
+    setSearchText('');
   }
 
   return (
@@ -54,7 +57,7 @@ function PlaceAutocomplete ({ searched, setSearched }) {
         onSelect={onSelect}
         onSearch={onSearch}
         disabled={!ready}
-        value={value}
+        value={searchText}
         placeholder='search an address'
         allowClear
         onClear={onClear}

@@ -6,6 +6,7 @@ function Map ({ handleMapInfo }) {
   const [selected, setSelected] = useState(null);
   const [searched, setSearched] = useState(null);
   const [pinned, setPinned] = useState(null);
+  const [searchText, setSearchText] = useState('');
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEYS,
@@ -14,21 +15,16 @@ function Map ({ handleMapInfo }) {
   })
 
   useEffect(() => {
-    if (pinned) {
-      setSelected(pinned);
-      setSearched(null);
-    }
+    setSelected(pinned);
+    setSearchText('');
   }, [pinned]);
 
   useEffect(() => {
-    if (searched) {
-      setSelected(searched);
-      setPinned(null);
-    }
+    setSelected(searched);
   }, [searched])
 
   useEffect(() => {
-    console.log('see pinned, searched, selected: ', pinned, searched, selected)
+    console.log('see selected: ', selected)
     handleMapInfo(selected);
   }, [selected])
 
@@ -50,7 +46,11 @@ function Map ({ handleMapInfo }) {
     return (
       <div className='map-container'>
         <div className='places-container'>
-          <PlaceAutocomplete searched={searched} setSearched={setSearched} />
+          <PlaceAutocomplete
+            setSearched={setSearched}
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
         </div>
 
         <GoogleMap
