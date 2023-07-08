@@ -8,10 +8,6 @@ const PetSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  species: {
-    type: String,
-    required: true
-  },
   breed: {
     type: String,
     required: true
@@ -44,7 +40,7 @@ const PetSchema = new mongoose.Schema({
   sex: {
     type: String,
     enum: {
-      values: ['male', 'female', 'unknown', 'enby', 'not-sure-sex'],
+      values: ['male', 'female', 'unknown'],
       message: '{VALUE} is not supported'
     }
   },

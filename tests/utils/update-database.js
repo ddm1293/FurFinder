@@ -5,6 +5,7 @@ import { ThreadModel } from '../../src/models/threadModel.js';
 import { PetModel } from '../../src/models/petModel.js';
 import { CommentModel } from '../../src/models/commentModel.js';
 import { faker } from '@faker-js/faker';
+import axios from 'axios';
 
 async function createComment({ commentId, content, authorId, threadId }) {
   await CommentModel.create({
@@ -19,8 +20,6 @@ async function createComment({ commentId, content, authorId, threadId }) {
 }
 
 async function createPet(petProperties) {
-  const petSex = ['male', 'female', 'unknown', 'enby', 'not-sure-sex'][Math.floor(Math.random() * 5)];
-
   await PetModel.create({
     _id: petProperties.petId,
     name: petProperties.petName,
@@ -30,7 +29,7 @@ async function createPet(petProperties) {
     description: petProperties.petDescription,
     threadId: petProperties.threadId,
     ownerId: petProperties.ownerId,
-    sex: petSex,
+    sex: petProperties.petSex,
     lastSeenTime: petProperties.lastSeenTime
   });
   console.log('Create pet success');
@@ -43,6 +42,7 @@ async function createThread(threadProperties) {
     _id: threadProperties.threadId,
     title: `${threadProperties.titlePrefix}Lost ${threadProperties.petName} in ${threadProperties.lastSeenLocation} on ${threadProperties.lastSeenDate}!${threadProperties.titleSuffix}`,
     poster: threadProperties.poster,
+    kind: threadProperties.kind,
     pet: petId,
     content: `${threadProperties.petName} is a ${threadProperties.petBreed} ${threadProperties.petSpecies} that went missing on ${threadProperties.lastSeenDate} near ${threadProperties.lastSeenLocation}. It is ${threadProperties.petDescription}. If you have any information about ${threadProperties.petName}'s whereabouts, please contact us. We miss it dearly and want to bring it back home safely.`,
     comments: []
@@ -54,6 +54,7 @@ async function createThread(threadProperties) {
     petName: threadProperties.petName,
     petSpecies: threadProperties.petSpecies,
     petBreed: threadProperties.petBreed,
+    petSex: threadProperties.petSex,
     petDescription: threadProperties.petDescription,
     threadId: threadProperties.threadId,
     ownerId: threadProperties.poster,
@@ -70,6 +71,10 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
     console.log('Successfully connected to MongoDB!');
 
     const users = await UserModel.find({});
+    const catApiRes = await axios.get('https://api.thecatapi.com/v1/breeds');
+    const dogApiRes = await axios.get('https://api.thedogapi.com/v1/breeds');
+    const catBreeds = catApiRes.data.map((breed) => breed.name);
+    const dogBreeds = dogApiRes.data.map((breed) => breed.name);
 
     for (const user of users) {
       const threadIds = user.myThreads || [];
@@ -78,33 +83,45 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
         const foundThread = await ThreadModel.findById(threadId);
 
         // new/updated properties
-        const titlePrefix = ['Help please!! ', '救命!!!! ', 'Please Help! ', ''][Math.floor(Math.random() * 4)];
-        const titleSuffix = [' 1000 furPoint wanted', '', ''][Math.floor(Math.random() * 3)];
         const petName = faker.person.firstName();
-        const petSpecies = ['Cat', 'Dog'][Math.floor(Math.random() * 2)]; // should this be capitalized for discriminator?
+        const petSpecies = ['Cat', 'Dog'][Math.floor(Math.random() * 2)]; // should be capitalized for discriminator
         const petBreed = petSpecies === 'Cat'
-          ? ['Persian', 'Ragdoll', 'Bengal'][Math.floor(Math.random() * 3)]
-          : ['Beagle', 'Golden'][Math.floor(Math.random() * 2)];
+          ? catBreeds[Math.floor(Math.random() * catBreeds.length)]
+          : dogBreeds[Math.floor(Math.random() * dogBreeds.length)];
+        const petSex = ['male', 'female', 'unknown'][Math.floor(Math.random() * 3)];
         const petDescription = `a friendly and ${faker.word.adjective()} ${petSpecies} with a ${faker.color.human()} coat`;
         const lastSeenLocation = faker.location.city();
         const lastSeenDate = faker.date.past().toLocaleDateString();
+        const titlePrefix = ['Help please!! ', 'Please Help! ', '救命!! ', ''][Math.floor(Math.random() * 4)];
+        const titleSuffix = [
+          ` ${Math.floor(Math.random() * 1000) + 1} furPoint wanted`,
+          ''
+        ][Math.floor(Math.random() * 2)];
+        const threadKind = ['LostPetThread', 'WitnessThread'][Math.floor(Math.random() * 2)];
+        const threadTitle = threadKind === 'LostPetThread'
+          ? `${titlePrefix}Lost ${petName} in ${lastSeenLocation} on ${lastSeenDate}!${titleSuffix}`
+          : `${titlePrefix}Saw a ${petSpecies} in ${lastSeenLocation} on ${lastSeenDate}!${titleSuffix}`;
+        const threadContent = threadKind === 'LostPetThread'
+          ? `${petName} is a ${petBreed} ${petSpecies} that went missing on ${lastSeenDate} near ${lastSeenLocation}. It is ${petDescription}. If you have any information about ${petName}'s whereabouts, please contact us. We miss it dearly and want to bring it back home safely.`
+          : `I believe I've found a ${petBreed} ${petSpecies} on ${lastSeenDate} near ${lastSeenLocation}. It is ${petDescription}. Message me if you want more info.`;
         const threadComment = [
-          'I hope you find your pet soon!',
+          'I hope you find it soon!',
           'Sending positive vibes your way.',
-          'Good luck in finding your furry friend!',
-          'Wishing you the best in the search for your pet.',
-          'My thoughts are with you. I hope your pet is found safe.',
+          'Good luck!',
+          'Wishing you the best in the search.',
+          'My thoughts are with you.',
           'Don\'t lose hope. Many lost pets are reunited with their owners.',
-          'Stay strong and keep searching. Your pet is counting on you!'
+          'Stay strong and keep searching!'
         ][Math.floor(Math.random() * 7)];
 
         if (foundThread) {
           // update foundThread
           await ThreadModel.findByIdAndUpdate(foundThread._id, {
-            title: `${titlePrefix}Lost ${petName} in ${lastSeenLocation} on ${lastSeenDate}!${titleSuffix}`,
-            content: `${petName} is a ${petBreed} ${petSpecies} that went missing on ${lastSeenDate} near ${lastSeenLocation}. It is ${petDescription}. If you have any information about ${petName}'s whereabouts, please contact us. We miss it dearly and want to bring it back home safely.`,
+            title: threadTitle,
+            kind: threadKind,
+            content: threadContent,
             archived: false
-          });
+          }, { overwriteDiscriminatorKey: true, new: true });
           console.log('Update thread success');
 
           // update or create pet
@@ -114,6 +131,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
               name: petName,
               species: petSpecies,
               breed: petBreed,
+              sex: petSex,
               description: petDescription,
               lastSeenTime: new Date(lastSeenDate)
             }, { overwriteDiscriminatorKey: true, new: true });
@@ -124,6 +142,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
               petName,
               petSpecies,
               petBreed,
+              petSex,
               petDescription,
               threadId,
               ownerId: user._id,
@@ -153,14 +172,16 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
           await createThread({
             threadId,
             poster: user._id,
-            titlePrefix,
-            titleSuffix,
             petName,
             petSpecies,
             petBreed,
+            petSex,
             petDescription,
             lastSeenLocation,
-            lastSeenDate
+            lastSeenDate,
+            titlePrefix,
+            titleSuffix,
+            kind: threadKind
           });
         }
       }
