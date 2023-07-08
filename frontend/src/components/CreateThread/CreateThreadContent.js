@@ -3,7 +3,7 @@ import { Divider, Form, Input, Select, Typography } from 'antd'
 import '../../style/CreateThread/CreateThreadContent.css'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 
-function CreateThreadContent ({ threadType, handleThreadTypeUpdate}) {
+function CreateThreadContent ({ threadType, handleThreadTypeUpdate }) {
   const onThreadTypeChange = (e) => {
     console.log("see change type of thread change: ", e);
     handleThreadTypeUpdate(e);

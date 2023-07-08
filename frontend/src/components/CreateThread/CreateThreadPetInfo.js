@@ -8,8 +8,6 @@ import BreedSelector from './BreedSelector'
 function CreateThreadPetInfo ({ threadType, form }) {
   const [originalName, setOriginalName] = useState('');
 
-
-
   useEffect(() => {
     if (threadType === 'witnessThread') {
       setOriginalName(form.getFieldValue('pet-name'));
