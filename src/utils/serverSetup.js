@@ -9,7 +9,7 @@ import threadRouter from '../routers/threadRouter.js';
 import userRouter from '../routers/userRouter.js';
 import commentRouter from '../routers/commentRouter.js';
 import mongoose from 'mongoose';
-import petRouter from '../routers/petRouter.js'
+import petRouter from '../routers/petRouter.js';
 
 export function createServer(port, dbUrl) {
   const app = express();

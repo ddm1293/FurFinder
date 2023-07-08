@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react'
-import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Form, Input, Radio, DatePicker, Upload} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 import BreedSelector from './BreedSelector'
 
 function CreateThreadPetInfo ({ threadType, form }) {
+  const [originalName, setOriginalName] = useState('');
+
   useEffect(() => {
     if (threadType === 'witnessThread') {
+      setOriginalName(form.getFieldValue('pet-name'));
       form.setFieldsValue({ 'pet-name': 'Unknown' });
-    } else {
-      form.setFieldsValue({ 'pet-name': '' });
+    } else if (originalName) {
+      form.setFieldsValue({ 'pet-name': originalName });
     }
   }, [threadType, form]);
 
@@ -30,26 +33,25 @@ function CreateThreadPetInfo ({ threadType, form }) {
 
   return (
     <Form.Item className="create-thread-petInfo">
-      {
-        threadType === 'lostPetThread' &&
-        <Form.Item name='pet-name'
-                 label='Name'
-                 rules={[{
-                   required: true,
-                   message: 'Please enter the pet name'
-                 }]}>
+      <Form.Item
+        name='pet-name'
+        label='Name'
+        rules={[{
+          required: true,
+          message: 'Please enter the pet name'
+        }]}
+      >
         <Input />
       </Form.Item>
-      }
+
+      <Form.Item name='id' label='ID'>
+        <Input placeholder='Enter the pet ID (optional)' />
+      </Form.Item>
 
       <Form.Item name='pet-type'
                  className='pet-type'
                  label='Breed'>
         <BreedSelector required={true} />
-      </Form.Item>
-
-      <Form.Item name='id' label='ID'>
-        <Input placeholder='Enter the pet ID (optional)' />
       </Form.Item>
 
       <Form.Item name='pet-sex' label='Sex'>
