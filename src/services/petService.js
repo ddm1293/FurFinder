@@ -9,12 +9,12 @@ class PetService {
     return PetModel.findById(petId);
   }
 
-  // static async updatePet(petId, threadId) {
-  //   const pet = await PetService.getPetById(petId);
-  //   console.log('updatePet in petService: ', pet);
-  //   pet.threadId = threadId;
-  //   return await pet.save();
-  // }
+  static async updatePetByThreadId(petId, threadId) {
+    const pet = await PetService.getPetById(petId);
+    console.log('updatePet in petService: ', pet);
+    pet.threadId = threadId;
+    return await pet.save();
+  }
 
   static async getPet(id) {
     return PetModel.findById(id);
