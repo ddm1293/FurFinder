@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from 'react'
-import { GoogleMap, Marker, useLoadScript } from '@react-google-maps/api'
+import { GoogleMap, Marker, useLoadScript, InfoWindow } from '@react-google-maps/api'
 import PlaceAutocomplete from './PlaceAutocomplete'
+import { Typography } from 'antd'
 
 function Map ({ handleMapInfo }) {
   const [selected, setSelected] = useState(null);
@@ -59,6 +60,14 @@ function Map ({ handleMapInfo }) {
           mapContainerStyle={{ width: '400px', height: '300px' }}
           onRightClick={setPin}
         >
+          {
+            !selected &&
+              <InfoWindow position={defaultCenter}>
+                <div className='map-infoWindow'>
+                  <Typography.Text>Search above or Right click to pin the last seen location</Typography.Text>
+                </div>
+              </InfoWindow>
+          }
           {
             selected &&
             <Marker position={selected} />
