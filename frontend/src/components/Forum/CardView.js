@@ -1,5 +1,6 @@
 import { Avatar, Card } from 'antd'
 import { MessageOutlined, StarOutlined, UserOutlined } from '@ant-design/icons'
+import icon from "../../static/icon.png";
 
 const { Meta } = Card
 
@@ -13,6 +14,11 @@ function CardView ({ items }) {
     }
     return true;
   }
+
+  function getItemImgUrl(item) {
+    return `http://localhost:3001/pet/${item.pet._id}/image`;
+  }
+
   return (
     <div>
       <div className="card-view">
@@ -22,7 +28,10 @@ function CardView ({ items }) {
               <Card className="cards"
                     key={index}
                     style={{ width: 300 }}
-                    cover={<img src={item.img} alt="pet" />}
+                    cover={<img src={getItemImgUrl(item)} alt="pet" onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = icon;
+                    }}/>}
                     actions={[
                       <StarOutlined key="star" />,
                       <MessageOutlined key="message" />,

@@ -19,10 +19,8 @@ function Thread() {
   const [pet, setPet] = useState(null);
 
   function getPetPicUrl() {
-    if (pet && pet.pic) {
-      const base64String = Buffer.from(pet.pic[0].data, 'binary').toString('base64');
-      const imageUrl = `data:${pet.pic.contentType};base64,${base64String}`;
-      return imageUrl;
+    if (pet) {
+      return `http://localhost:3001/pet/${pet._id}/image`;
     }
 
     return null;
@@ -45,9 +43,6 @@ function Thread() {
         });
     }
   }, [thread]);
-
-  useEffect(() => {
-  }, [pet]);
 
   const handleDelete = () => {
     dispatch(deleteThreadAsync(id)).then(() => {
