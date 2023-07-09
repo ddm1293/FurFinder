@@ -36,7 +36,7 @@ class ThreadService {
   static async createThread(body, res) {
     const thread = await ThreadModel.create(body);
     await UserService.updateThread(body.poster, thread._id);
-    res.petCreated = await PetService.updatePet(body.pet, thread._id);
+    res.petCreated = await PetService.updatePetByThreadId(body.pet, thread._id);
     return thread;
   }
 

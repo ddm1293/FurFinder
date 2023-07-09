@@ -40,3 +40,13 @@ export const deleteThreadAsync = createAsyncThunk(
     return threadId;
   }
 );
+
+export const updateThreadAsync = createAsyncThunk(
+  'thread/update',
+  async ({ threadId, updateData }) => {
+    // console.log('threadID from thunk: ', threadId);
+    // console.log('updateData from thunk: ', updateData);
+    const response = await axios.put(`http://localhost:3001/thread/${threadId}`, updateData);
+    return response.data.updated;
+  }
+);
