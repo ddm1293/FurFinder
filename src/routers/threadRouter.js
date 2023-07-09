@@ -3,7 +3,6 @@ import multer from 'multer';
 import * as threadController from '../controllers/threadController.js';
 import { processPet, searchQueryValidator } from '../middleware/threadMiddleware.js';
 import { handleError } from '../middleware/handleError.js';
-import { getTotalThreadNumber } from '../controllers/threadController.js';
 
 const threadRouter = express.Router();
 const upload = multer();

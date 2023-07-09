@@ -4,6 +4,7 @@ import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 import BreedSelector from './BreedSelector'
+import Map from '../Map/Map'
 
 function CreateThreadPetInfo ({ threadType, form }) {
   const [originalName, setOriginalName] = useState('');
@@ -29,6 +30,10 @@ function CreateThreadPetInfo ({ threadType, form }) {
     setTimeout(() => {
       onSuccess('ok');
     }, 0);
+  }
+
+  const handleMapInfo = (latLng) => {
+    form.setFieldsValue({ lastSeenLocation: latLng });
   }
 
   return (
@@ -78,6 +83,10 @@ function CreateThreadPetInfo ({ threadType, form }) {
             <p className="pet-pic-upload-hint">Support for a single upload.</p>
           </Upload.Dragger>
         </Form.Item>
+      </Form.Item>
+
+      <Form.Item name='lastSeenLocation' label='Last Seen Location'>
+        <Map handleMapInfo={handleMapInfo} />
       </Form.Item>
 
       <Form.Item name='description'
