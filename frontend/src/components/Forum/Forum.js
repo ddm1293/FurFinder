@@ -15,43 +15,18 @@ import axios from 'axios'
 function Forum ({ threadType }) {
   const dispatch = useDispatch();
 
-  const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
+  const searchResults = useSelector((state) => state.forum.searchResults);
   const pagesFromSlice = useSelector((state) => state.forum.pages);
-  let displayedCards = pagesFromSlice[currentPage] || [];
   const displayStatus = useSelector((state) => state.forum.displayStatus);
+
+  const [currentPage, setCurrentPage] = useState(1)
   const [totalThreadNum, setTotalThreadNum] = useState(null);
   const [isLoading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   console.log('see isLoading: ', isLoading);
-  //   console.log('see pagesFromSlice: ', pagesFromSlice);
-  //   console.log('see displayedCard with let', displayedCards);
-  // }, [pagesFromSlice])
-
-  useEffect( () => {
-    dispatch(clearSearchResults()); // reset search result on refresh
-
-    (async () => {
-      const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
-      setTotalThreadNum(res.data);
-    })();
-  }, [])
-
-  useEffect(() => {
-    console.log('see currentPage:', currentPage);
-  }, [currentPage])
-
-  useEffect(() => {
-    console.log('get called cardsPerPage: ', currentPage, cardsPerPage);
-    dispatch(getThreadsAsync({page: currentPage, limit: cardsPerPage})).then(() => {
-      setLoading(false)
-    })
-  }, [currentPage])
+  let displayedCards = pagesFromSlice[currentPage] || [];
 
   const startIndex = (currentPage - 1) * cardsPerPage
   const endIndex = startIndex + cardsPerPage
-  const searchResults = useSelector((state) => state.forum.searchResults);
   if (searchResults && searchResults.length > 0) {
     console.log('is this your fault?')
     displayedCards = searchResults.slice(startIndex, endIndex);
@@ -96,6 +71,45 @@ function Forum ({ threadType }) {
     console.log('reset search');
     dispatch(clearSearchResults());
   }
+
+  // useEffect(() => {
+  //   console.log('see isLoading: ', isLoading);
+  //   console.log('see pagesFromSlice: ', pagesFromSlice);
+  //   console.log('see displayedCard with let', displayedCards);
+  // }, [pagesFromSlice])
+
+  useEffect( () => {
+    dispatch(clearSearchResults()); // reset search result on refresh
+
+    (async () => {
+      const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
+      setTotalThreadNum(res.data);
+    })();
+  }, [])
+
+  useEffect(() => {
+    console.log('see currentPage:', currentPage);
+  }, [currentPage])
+
+  useEffect(() => {
+    console.log('get called cardsPerPage: ', currentPage, cardsPerPage);
+    dispatch(getThreadsAsync({page: currentPage, limit: cardsPerPage})).then(() => {
+      setLoading(false)
+    })
+  }, [currentPage])
+
+  useEffect(() => {
+    if (searchResults.length) {
+      setTotalThreadNum(searchResults.length);
+      setCurrentPage(1);
+    } else {
+      (async () => {
+        const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
+        setTotalThreadNum(res.data);
+        setCurrentPage(1);
+      })();
+    }
+  }, [searchResults]);
 
   return (
     <div className='forum-container'>
