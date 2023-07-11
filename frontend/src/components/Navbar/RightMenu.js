@@ -6,6 +6,7 @@ import { UserOutlined, CodeOutlined, LogoutOutlined, LoginOutlined } from "@ant-
 import { logoutUser } from '../../store/userSlice';
 import "../../style/Navbar.css";
 import axios from 'axios';
+import DisplayAvatar from '../User/DisplayAvatar'
 
 const RightMenu = ({ mode }) => {
     const navigate = useNavigate();
@@ -31,7 +32,7 @@ const RightMenu = ({ mode }) => {
                 title={
                     <>
                         {user.username
-                            ? <Avatar src={user.avatar} />
+                            ? <DisplayAvatar user={user}/>
                             : <Avatar icon={<UserOutlined />} />
                         }
                         <span className="username">{

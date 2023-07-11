@@ -43,7 +43,7 @@ export default function EditAvatar () {
     <div className="profile">
       {user.avatar && user.avatar.data ?
         <Avatar src={<img src={getAvatar(user.avatar)} alt="user avatar" />} size={150} />:
-        <Avatar src={<img src={defaultAvatar} alt="user avatar" />} size={150} />
+        <Avatar src={<img src={defaultAvatar} alt="default user avatar" />} size={150} />
       }
       <Form className="edit-profile-picture" onFinish={onFinish}>
 
