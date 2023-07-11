@@ -32,7 +32,6 @@ const UserSchema = new mongoose.Schema({
   avatar: {
     data: {
       type: Schema.Types.Mixed // Buffer or String
-      // default: '../../static/avatar.png'
     },
     contentType: {
       type: String

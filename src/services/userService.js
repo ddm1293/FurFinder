@@ -41,7 +41,8 @@ class UserService {
         toPatch[prop] = body[prop];
       }
     }
-    return toPatch.save();
+    await toPatch.save();
+    return toPatch;
   }
 
   static async updateAvatar(userId, avatar) {
@@ -49,13 +50,12 @@ class UserService {
     if (!user) {
       throw new UserDoesNotExistException(`User ${userId} does not exist`);
     }
-    if (!user.avatar) { // TODO: setup avatar when create user?
+    if (!user.avatar) {
       user.avatar = {};
     }
     user.avatar.data = Buffer.from(avatar.data, 'base64');
     user.avatar.contentType = avatar.contentType;
-    await user.save();
-    return user;
+    return await user.save();
   }
 
   static getPrivateProfile(user) {

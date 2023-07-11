@@ -54,7 +54,17 @@ export const updateAvatar = async (req, res) => {
       contentType: file.mimetype
     };
     const user = await UserService.updateAvatar(userId, avatar);
-    res.status(200).json({ message: 'Update user avatar Successfully', user });
+    const base64String = avatar.data.toString('base64');
+    res.status(200).json({
+      message: 'Update user avatar Successfully',
+      user: {
+        ...user.toObject(),
+        avatar: {
+          ...user.avatar,
+          data: base64String
+        }
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(400).send(err.message);

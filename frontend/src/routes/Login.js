@@ -28,13 +28,12 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true, // this is what actually sets the cookie in the subsequent request header
       });
-      console.log(res.data);
 
       if (res.data.user) {
         dispatch(setUser({
           id: res.data.user._id,
           username: res.data.user.username,
-          avatar: res.data.user.avatar, // TODO: cathy
+          avatar: res.data.user.avatar, // TODO: check
           favoredThreads: res.data.user.favoredThreads,
           myThreads: res.data.user.myThreads,
           accessToken: res.data.accessToken,
@@ -71,7 +70,6 @@ export default function Login() {
         favoredThreads: res.data.user.favoredThreads,
         myThreads: res.data.user.myThreads,
         accessToken: res.data.accessToken,
-        email: userObject.email, // TODO: cathy
       })); // TODO: store and handle exp field?
       navigate("/profile");
     } catch (e) {
