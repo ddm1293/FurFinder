@@ -1,20 +1,24 @@
 import '../../style/EditProfile.css'
 import defaultAvatar from "../../static/avatar.png";
 import { Avatar } from 'antd'
+import { useSelector } from 'react-redux'
 
-export default function DisplayAvatar (props) {
-  const user = props.user;
+export default function DisplayAvatar () {
+  const user = useSelector((state) => state.user);
 
   const getAvatar = (userAvatar) => {
     return `data:${userAvatar.contentType};base64,${userAvatar.data}`;
   }
 
+  const getImageURL = (userAvatar) => {
+    if (userAvatar && userAvatar.data) {
+      return getAvatar(userAvatar);
+    } else {
+      return defaultAvatar;
+    }
+  }
+
   return (
-    <div >
-      {user.avatar && user.avatar.data ?
-        <Avatar src={<img src={getAvatar(user.avatar)} alt="user avatar" />} />:
-        <Avatar src={<img src={defaultAvatar} alt="user avatar" />} />
-      }
-    </div>
+    <Avatar src={<img src={getImageURL(user.avatar)} alt="user avatar" />} />
   )
 };

@@ -32,7 +32,7 @@ const RightMenu = ({ mode }) => {
                 title={
                     <>
                         {user.username
-                            ? <DisplayAvatar user={user}/>
+                            ? <DisplayAvatar />
                             : <Avatar icon={<UserOutlined />} />
                         }
                         <span className="username">{
