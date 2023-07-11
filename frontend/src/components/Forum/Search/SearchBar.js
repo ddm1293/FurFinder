@@ -20,16 +20,19 @@ function SearchBar ({ threadType }) {
         allowClear
         size='small'
         onSearch={(keyword) => {
-          let searchOn = selectedTags.join();
-          if (!searchOn) {
-            searchOn = 'title,content'
+          if (keyword) {
+            let searchOn = selectedTags.join();
+            if (!searchOn) {
+              searchOn = 'title,content'
+            }
+            const params = {
+              threadType,
+              keyword,
+              searchOn
+            }
+            
+            dispatch(searchThreadsAsync(params));
           }
-          const params = {
-            threadType,
-            keyword,
-            searchOn
-          }
-          dispatch(searchThreadsAsync(params));
         }}
       />
     </div>
