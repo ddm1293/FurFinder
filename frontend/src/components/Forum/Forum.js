@@ -14,6 +14,7 @@ import axios from 'axios'
 
 function Forum ({ threadType }) {
   const dispatch = useDispatch();
+
   const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
   const pagesFromSlice = useSelector((state) => state.forum.pages);
@@ -28,17 +29,18 @@ function Forum ({ threadType }) {
   //   console.log('see displayedCard with let', displayedCards);
   // }, [pagesFromSlice])
 
-  useEffect(() => {
-    console.log('see currentPage:', currentPage);
-  }, [currentPage])
-
-
   useEffect( () => {
+    dispatch(clearSearchResults()); // reset search result on refresh
+
     (async () => {
       const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
       setTotalThreadNum(res.data);
     })();
   }, [])
+
+  useEffect(() => {
+    console.log('see currentPage:', currentPage);
+  }, [currentPage])
 
   useEffect(() => {
     console.log('get called cardsPerPage: ', currentPage, cardsPerPage);

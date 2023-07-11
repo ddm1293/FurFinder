@@ -30,7 +30,7 @@ function SearchBar ({ threadType }) {
               keyword,
               searchOn
             }
-            
+
             dispatch(searchThreadsAsync(params));
           }
         }}
