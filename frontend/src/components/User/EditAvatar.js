@@ -1,10 +1,10 @@
 import '../../style/EditProfile.css'
-import defaultAvatar from "../../static/avatar.png";
-import { Avatar, Button, Form, Upload } from 'antd'
+import { Button, Form, Upload } from 'antd'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUser } from '../../store/userSlice'
 import axios from 'axios'
+import DisplayAvatar from './DisplayAvatar'
 
 export default function EditAvatar () {
   const user = useSelector((state) => state.user);
@@ -35,18 +35,10 @@ export default function EditAvatar () {
     return e?.fileList;
   }
 
-  const getAvatar = (userAvatar) => {
-    return `data:${userAvatar.contentType};base64,${userAvatar.data}`;
-  }
-
   return (
     <div className="profile">
-      {user.avatar && user.avatar.data ?
-        <Avatar src={<img src={getAvatar(user.avatar)} alt="user avatar" />} size={150} />:
-        <Avatar src={<img src={defaultAvatar} alt="default user avatar" />} size={150} />
-      }
+      <DisplayAvatar size={150}/>
       <Form className="edit-profile-picture" onFinish={onFinish}>
-
         <Form.Item name="avatar" valuePropName="fileList" getValueFromEvent={normFile}
                    rules={[{required: true, message: "Please upload your profile picture"}]}>
           <Upload name="upload-avatar" action="" accept=".jpg,.png,.jpeg" listType="picture"

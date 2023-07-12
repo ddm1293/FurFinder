@@ -3,7 +3,7 @@ import defaultAvatar from "../../static/avatar.png";
 import { Avatar } from 'antd'
 import { useSelector } from 'react-redux'
 
-export default function DisplayAvatar () {
+export default function DisplayAvatar (props) {
   const user = useSelector((state) => state.user);
 
   const getAvatar = (userAvatar) => {
@@ -12,13 +12,15 @@ export default function DisplayAvatar () {
 
   const getImageURL = (userAvatar) => {
     if (userAvatar && userAvatar.data) {
-      return getAvatar(userAvatar);
+      return getImageURL(getAvatar(userAvatar));
+    } else if (userAvatar) { // google login
+      return userAvatar;
     } else {
       return defaultAvatar;
     }
   }
 
   return (
-    <Avatar src={<img src={getImageURL(user.avatar)} alt="user avatar" />} />
+    <Avatar src={getImageURL(user.avatar)} size={props.size}/>
   )
 };
