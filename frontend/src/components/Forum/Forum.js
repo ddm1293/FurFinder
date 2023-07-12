@@ -1,13 +1,13 @@
 import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
 import ListView from './ListView'
-import { Pagination, Menu, Divider, Button } from 'antd'
+import { Pagination, Menu, Divider, Button, Form } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum/Forum.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import AdvancedSearchButton from './Search/AdvancedSearchButton'
-import AdvancedSearchSiderPanel from './Search/AdvancedSearchSiderbar'
+import AdvancedSearchSidePanel from './Search/AdvancedSearchSidebar'
 import { clearSearchResults } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
@@ -20,20 +20,14 @@ function Forum ({ threadType }) {
   const pagesFromSlice = useSelector((state) => state.forum.pages);
   const displayStatus = useSelector((state) => state.forum.displayStatus);
 
-  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedKey, setSelectedKey] = useState('');
   const [totalThreadNum, setTotalThreadNum] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setLoading] = useState(true);
-  let displayedCards = pagesFromSlice[currentPage] || [];
-
-  const startIndex = (currentPage - 1) * cardsPerPage
-  const endIndex = startIndex + cardsPerPage
-  if (searchResults && searchResults.length > 0) {
-    console.log('is this your fault?')
-    displayedCards = searchResults.slice(startIndex, endIndex);
-  }
+  const [searchBarId, setSearchBarId] = useState(Date.now()); // for resetting search bar input; see below
+  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
   // render threads in different views
-  const [selectedKey, setSelectedKey] = useState('')
   const viewOptions = [{
     key: 'card',
     label: 'Card View',
@@ -46,7 +40,16 @@ function Forum ({ threadType }) {
     key: 'map',
     label: 'Map View',
     icon: <EnvironmentOutlined />
-  }]
+  }];
+  const startIndex = (currentPage - 1) * cardsPerPage;
+  const endIndex = startIndex + cardsPerPage;
+  let displayedCards = pagesFromSlice[currentPage] || [];
+  if (searchResults && searchResults.length > 0) {
+    console.log('is this your fault?')
+    displayedCards = searchResults.slice(startIndex, endIndex);
+  }
+  const [advancedSearchForm] = Form.useForm(); // targets advanced search form
+
   const render = () => {
     switch (selectedKey) {
       case 'list':
@@ -58,17 +61,20 @@ function Forum ({ threadType }) {
     }
   }
 
-  const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const clickAdvancedSearch = () => {
     setShowAdvancedSearch(true);
   }
 
   const handleCloseAdvancedSearch = () => {
+    advancedSearchForm.resetFields();
     setShowAdvancedSearch(false);
   }
 
   const resetSearch = () => {
     console.log('reset search');
+
+    setSearchBarId(Date.now()); // this is a hack, but this requires the least effort to reset search bar input
+    if (showAdvancedSearch) { advancedSearchForm.resetFields(); }
     dispatch(clearSearchResults());
   }
 
@@ -79,7 +85,7 @@ function Forum ({ threadType }) {
   // }, [pagesFromSlice])
 
   useEffect( () => {
-    dispatch(clearSearchResults()); // reset search result on refresh
+    dispatch(clearSearchResults()); // reset search result on refresh and app exit
 
     (async () => {
       const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
@@ -123,7 +129,7 @@ function Forum ({ threadType }) {
             selectedKeys={[selectedKey]}
             mode="horizontal"
             items={viewOptions} />
-          <SearchBar threadType={threadType}/>
+          <SearchBar key={searchBarId} threadType={threadType} />
           <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
           <Button
             className='search-bar-reset-button'
@@ -152,9 +158,10 @@ function Forum ({ threadType }) {
 
           <div className='advanced-search-container' style={{borderLeft: '1px solid black', paddingLeft:'20px'}}>
             { showAdvancedSearch &&
-              <AdvancedSearchSiderPanel
+              <AdvancedSearchSidePanel
                 onClose={handleCloseAdvancedSearch}
                 threadType={threadType}
+                form={advancedSearchForm}
               />
             }
           </ div>
