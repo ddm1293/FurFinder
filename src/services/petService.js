@@ -1,8 +1,8 @@
 import { PetModel } from '../models/petModel.js';
 
 class PetService {
-  static async createPet(body, ownerId) {
-    return PetModel.create({ ...body, ownerId });
+  static async createPet(body) {
+    return PetModel.create(body);
   }
 
   static async getPetById(petId) {
@@ -11,7 +11,6 @@ class PetService {
 
   static async updatePetByThreadId(petId, threadId) {
     const pet = await PetService.getPetById(petId);
-    console.log('updatePet in petService: ', pet);
     pet.threadId = threadId;
     return await pet.save();
   }

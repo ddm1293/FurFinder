@@ -5,19 +5,7 @@ import { matchedData } from 'express-validator';
 export const createThread = async (req, res, next) => {
   try {
     console.log('Server::Creating a thread - running createThread');
-
-    const threadData = {
-      title: req.body['thread-title'],
-      kind: req.body['select-thread-type'],
-      poster: req.body.poster,
-      pet: req.body.pet, // The pet id we just created and saved in req.body.pet
-      content: req.body['thread-main-content'],
-      comments: [], // Initialize with an empty array if comments are not passed in req.body
-      archived: false // Initialize as false, or you could set this based on req.body if applicable
-    };
-
-    const thread = await ThreadService.createThread(threadData, res);
-
+    const thread = await ThreadService.createThread(req.body, res);
     res.status(200).json({
       message: 'The thread is created successfully',
       petCreated: res.petCreated,
@@ -84,21 +72,21 @@ export const updateThread = async (req, res, next) => {
 
     // Separate thread data and pet data
     const threadData = {
-      title: formBody['thread-title'],
-      content: formBody['thread-main-content'],
-      kind: formBody['select-thread-type']
+      title: formBody.title,
+      content: formBody.content,
+      threadType: formBody.threadType
     };
 
     const petData = {
-      name: formBody['pet-name'],
+      name: formBody.name,
       species: formBody.species,
       breed: formBody.breed,
       id: formBody.id,
-      type: formBody['select-thread-type'],
+      threadType: formBody.threadType,
       description: formBody.description,
-      sex: formBody['pet-sex'],
-      lastSeenTime: formBody['missing-date'],
-      pic: formBody['pet-pic']
+      sex: formBody.sex,
+      lastSeenTime: formBody.lastSeenTime,
+      pic: formBody.pic
     };
 
     console.log('Pet data: ', petData);
