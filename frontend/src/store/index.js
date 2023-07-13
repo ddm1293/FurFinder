@@ -9,13 +9,15 @@ import formReducer from './formSlice'
 import threadReducer from './threadSlice'
 import commentReducer from './commentSlice'
 import forumReducer from './forumSlice'
+import mapViewReducer from './mapViewSlice'
 
 const rootReducer = combineReducers({
   user: userReducer,
   form: formReducer,
   threads: threadReducer,
   comments: commentReducer,
-  forum: forumReducer
+  forum: forumReducer,
+  mapView: mapViewReducer,
 });
 
 const persistConfig = {

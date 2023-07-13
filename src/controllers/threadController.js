@@ -51,6 +51,20 @@ export const getThreads = async (req, res, next) => {
   }
 };
 
+export const getAllThreads = async (req, res, next) => {
+  try {
+    console.log('Server::Getting all threads - running getAllThreads');
+    const threads = await ThreadService.getAllThreads();
+    const totalNumber = await ThreadService.totalNumber();
+    res.status(200).json({
+      totalNumber,
+      threads
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getTotalThreadNumber = async (req, res, next) => {
   try {
     console.log('Server::Getting total thread number - running getTotalThreadNumber');

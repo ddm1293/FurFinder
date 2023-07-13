@@ -1,6 +1,7 @@
 import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
 import ListView from './ListView'
+import MapView from './MapView'
 import { Pagination, Menu, Divider, Button } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum/Forum.css'
@@ -22,12 +23,6 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const displayStatus = useSelector((state) => state.forum.displayStatus);
   const [totalThreadNum, setTotalThreadNum] = useState(null);
   const [isLoading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   console.log('see isLoading: ', isLoading);
-  //   console.log('see pagesFromSlice: ', pagesFromSlice);
-  //   console.log('see displayedCard with let', displayedCards);
-  // }, [pagesFromSlice])
 
   useEffect(() => {
     console.log('see currentPage:', currentPage);
@@ -75,7 +70,7 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
       case 'list':
         return <ListView items={displayedCards} />
       case 'map':
-        return null
+        return <MapView />
       default: // grid
         return <CardView items={displayedCards} />
     }
