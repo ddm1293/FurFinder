@@ -1,5 +1,5 @@
 import '../style/ThreadView.css';
-import Thread from '../components/Thread';
+import Thread from '../components/Thread/Thread';
 import CommentView from "../components/Comments/CommentView";
 import { useParams } from 'react-router-dom';
 

@@ -77,7 +77,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
   return (
     <Modal className='update-thread-modal'
            open={open}
-           title={`Update ${useThreadTypeKeywordSwitch(threadType)('threadType')} Thread`}
+           title={`Update Your Thread`}
            okText='Update'
            onOk={() => {
              form.validateFields()

@@ -1,0 +1,115 @@
+/** {*/
+/*    font-family: Helvetica, Arial, sans-serif;*/
+/*}*/
+
+/*.thread-container {*/
+/*    width: 80%;*/
+/*    margin: auto;*/
+/*    background-color: rgba(240, 240, 240, 0.6);*/
+/*}*/
+
+/*.user-info {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    gap: 10px;*/
+/*    background-color: rgba(200, 200, 200, 0.3);*/
+/*    padding: 20px;*/
+/*}*/
+
+/*.avatar {*/
+/*    border-radius: 50%;*/
+/*    margin-left: 1.5%;*/
+/*}*/
+
+/*.thread-username {*/
+/*    font-size: 1.4em;*/
+/*    margin-bottom: 0;*/
+/*}*/
+
+/*.edit-button {*/
+/*    margin-right: 3%;*/
+/*}*/
+
+/*.button-wrapper {*/
+/*    margin-left: auto;*/
+/*    display: flex;*/
+/*}*/
+
+/*.thread-title {*/
+/*    font-weight: bold;*/
+/*    margin-top: 20px;*/
+/*    font-size: 2.5em;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.id-card {*/
+/*    display: flex;*/
+/*    border: 1px solid grey;*/
+/*    margin-top: 20px;*/
+/*    position: relative;*/
+/*    width: 33%;*/
+/*    margin-left: 3%;*/
+/*    background-color: rgba(200, 200, 200, 0.3);*/
+/*    flex-direction: column;*/
+/*    align-items: flex-start;*/
+/*    text-align: left;*/
+/*}*/
+
+/*.id-card-label {*/
+/*    font-weight:bold;*/
+/*}*/
+
+/*.id-card-img {*/
+/*    width: 100%;*/
+/*    height: auto;*/
+/*    margin-bottom: 10px;*/
+/*}*/
+
+/*.id-card .ant-card-meta-title{*/
+/*    font-size: 1.4em;*/
+/*}*/
+
+/*.id-card-info {*/
+/*    display: block;*/
+/*    flex-direction: column;*/
+/*    width: 100%;*/
+/*    font-size: 1.2em;*/
+/*    color: black;*/
+/*    line-height: 0.8;*/
+/*}*/
+
+/*.thread-text {*/
+/*    margin-top: 20px;*/
+/*    font-size: 1.2em;*/
+/*    margin-left: 3%;*/
+/*    text-align: left;*/
+/*}*/
+
+/*@media screen and (max-width: 768px) {*/
+/*    .thread-username {*/
+/*        font-size: 1.2em;*/
+/*    }*/
+
+/*    .thread-title {*/
+/*        font-size: 2em;*/
+/*    }*/
+
+/*    .id-card-info {*/
+/*        font-size: 1em;*/
+/*    }*/
+
+/*    .thread-text {*/
+/*        font-size: 1em;*/
+/*    }*/
+/*}*/
+
+* {
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.thread-container {
+    width: 80%;
+    margin: auto;
+    background-color: rgba(240, 240, 240, 0.6);
+}
+
