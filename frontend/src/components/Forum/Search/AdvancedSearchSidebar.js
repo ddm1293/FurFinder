@@ -35,7 +35,10 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
         draft.lastSeenEnd = lastSeenEnd;
       }
     });
-    dispatch(searchThreadsAsync(params));
+
+    if (params.breed || params.lastSeenRange || params.lastSeenStart || params.lastSeenEnd || params.petName || params.sex || params.species) {
+      dispatch(searchThreadsAsync(params));
+    }
   };
 
   return (
