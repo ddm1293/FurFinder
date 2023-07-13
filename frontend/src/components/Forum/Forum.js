@@ -151,7 +151,7 @@ function Forum ({ threadType }) {
 
           {
             !isLoading &&
-            <div className='forum-main-content' style={{paddingRight: '20px'}}>
+            <div className='forum-main-content'>
               {render()}
             </div>
           }
