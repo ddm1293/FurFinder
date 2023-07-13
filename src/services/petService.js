@@ -9,7 +9,7 @@ class PetService {
     return PetModel.findById(petId);
   }
 
-  static async updatePet(petId, threadId) {
+  static async updatePetByThreadId(petId, threadId) {
     const pet = await PetService.getPetById(petId);
     console.log('updatePet in petService: ', pet);
     pet.threadId = threadId;
@@ -18,6 +18,10 @@ class PetService {
 
   static async getPet(id) {
     return PetModel.findById(id);
+  }
+
+  static async updatePet(id, body) {
+    return PetModel.findByIdAndUpdate(id, body, { overwriteDiscriminatorKey: true, new: true });
   }
 }
 

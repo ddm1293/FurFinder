@@ -1,4 +1,5 @@
 import ThreadService from '../services/threadService.js';
+import PetService from '../services/petService.js';
 import { matchedData } from 'express-validator';
 
 export const createThread = async (req, res, next) => {
@@ -7,6 +8,7 @@ export const createThread = async (req, res, next) => {
 
     const threadData = {
       title: req.body['thread-title'],
+      kind: req.body['select-thread-type'],
       poster: req.body.poster,
       pet: req.body.pet, // The pet id we just created and saved in req.body.pet
       content: req.body['thread-main-content'],
@@ -74,9 +76,42 @@ export const getTotalThreadNumber = async (req, res, next) => {
 export const updateThread = async (req, res, next) => {
   try {
     console.log('Server::Updating a thread - running updateThread');
-    const id = req.params.id;
-    const updated = await ThreadService.updateThread(id, req.body);
-    res.status(200).json({ message: 'Successfully updated', updated });
+    // console.log('req: ', req);
+    const threadId = req.params.id;
+    const formBody = req.body;
+    console.log('threadId: ', threadId);
+    console.log('formBody: ', formBody);
+
+    // Separate thread data and pet data
+    const threadData = {
+      title: formBody['thread-title'],
+      content: formBody['thread-main-content'],
+      kind: formBody['select-thread-type']
+    };
+
+    const petData = {
+      name: formBody['pet-name'],
+      species: formBody.species,
+      breed: formBody.breed,
+      id: formBody.id,
+      type: formBody['select-thread-type'],
+      description: formBody.description,
+      sex: formBody['pet-sex'],
+      lastSeenTime: formBody['missing-date'],
+      pic: formBody['pet-pic']
+    };
+
+    console.log('Pet data: ', petData);
+    // Update thread
+    const updatedThread = await ThreadService.updateThread(threadId, threadData);
+    console.log('UpdatedThread from backend: ', updatedThread);
+
+    // Update pet
+    const petId = updatedThread.pet; // assuming the pet id is available here
+    const updatedPet = await PetService.updatePet(petId, petData);
+    console.log('UpdatedPet from backend: ', updatedPet);
+
+    res.status(200).json({ message: 'Successfully updated', updated: updatedThread });
   } catch (err) {
     next(err);
   }
@@ -128,5 +163,22 @@ export const searchThreads = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  }
+};
+
+export const favoriteThread = async (req, res) => {
+  try {
+    console.log('Server::favorite a thread - running favoriteThread');
+    const id = req.params.id;
+    const userId = req.params.userId;
+    // const userId = req.body;
+    console.log(req);
+    const favorite = await ThreadService.favoriteThread(id, userId);
+    res.status(200).json({ message: 'Successfully favorite or unfavorite', favorite });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      error: err.message
+    });
   }
 };

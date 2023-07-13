@@ -26,8 +26,13 @@
     margin-bottom: 0;
 }
 
-.delete-button {
+.edit-button {
+    margin-right: 3%;
+}
+
+.button-wrapper {
     margin-left: auto;
+    display: flex;
 }
 
 .thread-title {

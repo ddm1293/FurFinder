@@ -25,11 +25,26 @@ const ThreadSchema = new mongoose.Schema({
   archived: {
     type: Boolean,
     default: false
+  },
+  favoriteCount: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true,
   discriminatorKey: 'kind'
 });
+
+ThreadSchema.statics = {
+
+  incFavoriteCount(threadId) {
+    return this.findByIdAndUpdate(threadId, { $inc: { favoriteCount: 1 } });
+  },
+
+  decFavoriteCount(threadId) {
+    return this.findByIdAndUpdate(threadId, { $inc: { favoriteCount: -1 } });
+  }
+};
 
 export const ThreadModel = mongoose.model('Thread', ThreadSchema);
 

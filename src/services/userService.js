@@ -1,6 +1,7 @@
 import { UserModel } from '../models/userModel.js';
 import { UserAlreadyExistException, UserDoesNotExistException } from '../exceptions/userException.js';
 import bcrypt from 'bcrypt';
+import { ThreadModel } from '../models/threadModel.js';
 
 class UserService {
   static async getUserByName(username) {
@@ -67,6 +68,19 @@ class UserService {
     delete userObject.refreshToken;
     delete userObject.__v;
     return userObject;
+  }
+
+  static async getUserFavoriteOrUnfavorite (userId, threadId) {
+    const user = await UserService.getUserById(userId);
+    console.log('Favorite Or Unfavorite Thread in userService: ', user);
+    if (user.favoredThreads.indexOf(threadId) >= 0) {
+      user.favoredThreads.remove(threadId);
+      await ThreadModel.decFavoriteCount(threadId);
+    } else {
+      await ThreadModel.incFavoriteCount(threadId);
+      user.favoredThreads.push(threadId);
+    }
+    return user.save();
   }
 }
 
