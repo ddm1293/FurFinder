@@ -1,18 +1,12 @@
 import mongoose from 'mongoose';
+import { pointSchema } from './helperSchema.js';
 
 const PetSchema = new mongoose.Schema({
-  id: {
-    type: String
-  },
   name: {
     type: String,
     required: true
   },
-  breed: {
-    type: String,
-    required: true
-  },
-  type: {
+  threadType: {
     type: String,
     required: true
   },
@@ -46,6 +40,10 @@ const PetSchema = new mongoose.Schema({
   },
   lastSeenTime: {
     type: Date,
+    required: true
+  },
+  lastSeenLocation: {
+    type: pointSchema,
     required: true
   }
 }, {

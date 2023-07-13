@@ -5,10 +5,10 @@ import { UserDoesNotExistException } from '../exceptions/userException.js';
 import PetService from './petService.js';
 import _ from 'lodash';
 import { keywordSearch, petInformationSearch, threadTypeMatch } from './search.js';
+import { UserModel } from '../models/userModel.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
-
   static async getThread(id) {
     const thread = await ThreadModel.findById(id);
     if (thread) {
@@ -16,6 +16,10 @@ class ThreadService {
     } else {
       throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
     }
+  }
+
+  static async getAllThreads() {
+    return ThreadModel.find({});
   }
 
   static async getThreadsOfUserById(userId) {
@@ -35,7 +39,7 @@ class ThreadService {
   static async createThread(body, res) {
     const thread = await ThreadModel.create(body);
     await UserService.updateThread(body.poster, thread._id);
-    res.petCreated = await PetService.updatePet(body.pet, thread._id);
+    res.petCreated = await PetService.updatePetByThreadId(body.pet, thread._id);
     return thread;
   }
 
@@ -55,6 +59,17 @@ class ThreadService {
       return updated;
     } else {
       throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
+    }
+  }
+
+  static async favoriteThread(id, userId) {
+    const user = await UserModel.findById(userId);
+    if (user) {
+      await UserService.getUserFavoriteOrUnfavorite(userId, id);
+      // const thread = await ThreadModel.findById(id);
+      return user;
+    } else {
+      throw new UserDoesNotExistException(`user ${userId} does not exist`);
     }
   }
 

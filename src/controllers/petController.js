@@ -4,8 +4,8 @@ export const getPet = async (req, res, next) => {
   console.log('Server::Getting a pet\'s information - running getPet');
   try {
     const petId = req.params.id;
-    let pet = await PetService.getPetById(petId);
 
+    let pet = await PetService.getPetById(petId);
     pet = pet.toObject(); // need to remove pic property
     delete pet.pic;
 

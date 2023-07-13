@@ -1,21 +1,11 @@
 import ThreadService from '../services/threadService.js';
+import PetService from '../services/petService.js';
 import { matchedData } from 'express-validator';
 
 export const createThread = async (req, res, next) => {
   try {
     console.log('Server::Creating a thread - running createThread');
-
-    const threadData = {
-      title: req.body['thread-title'],
-      poster: req.body.poster,
-      pet: req.body.pet, // The pet id we just created and saved in req.body.pet
-      content: req.body['thread-main-content'],
-      comments: [], // Initialize with an empty array if comments are not passed in req.body
-      archived: false // Initialize as false, or you could set this based on req.body if applicable
-    };
-
-    const thread = await ThreadService.createThread(threadData, res);
-
+    const thread = await ThreadService.createThread(req.body, res);
     res.status(200).json({
       message: 'The thread is created successfully',
       petCreated: res.petCreated,
@@ -61,6 +51,20 @@ export const getThreads = async (req, res, next) => {
   }
 };
 
+export const getAllThreads = async (req, res, next) => {
+  try {
+    console.log('Server::Getting all threads - running getAllThreads');
+    const threads = await ThreadService.getAllThreads();
+    const totalNumber = await ThreadService.totalNumber();
+    res.status(200).json({
+      totalNumber,
+      threads
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getTotalThreadNumber = async (req, res, next) => {
   try {
     console.log('Server::Getting total thread number - running getTotalThreadNumber');
@@ -74,9 +78,42 @@ export const getTotalThreadNumber = async (req, res, next) => {
 export const updateThread = async (req, res, next) => {
   try {
     console.log('Server::Updating a thread - running updateThread');
-    const id = req.params.id;
-    const updated = await ThreadService.updateThread(id, req.body);
-    res.status(200).json({ message: 'Successfully updated', updated });
+    // console.log('req: ', req);
+    const threadId = req.params.id;
+    const formBody = req.body;
+    console.log('threadId: ', threadId);
+    console.log('formBody: ', formBody);
+
+    // Separate thread data and pet data
+    const threadData = {
+      title: formBody.title,
+      content: formBody.content,
+      threadType: formBody.threadType
+    };
+
+    const petData = {
+      name: formBody.name,
+      species: formBody.species,
+      breed: formBody.breed,
+      id: formBody.id,
+      threadType: formBody.threadType,
+      description: formBody.description,
+      sex: formBody.sex,
+      lastSeenTime: formBody.lastSeenTime,
+      pic: formBody.pic
+    };
+
+    console.log('Pet data: ', petData);
+    // Update thread
+    const updatedThread = await ThreadService.updateThread(threadId, threadData);
+    console.log('UpdatedThread from backend: ', updatedThread);
+
+    // Update pet
+    const petId = updatedThread.pet; // assuming the pet id is available here
+    const updatedPet = await PetService.updatePet(petId, petData);
+    console.log('UpdatedPet from backend: ', updatedPet);
+
+    res.status(200).json({ message: 'Successfully updated', updated: updatedThread });
   } catch (err) {
     next(err);
   }
@@ -128,5 +165,22 @@ export const searchThreads = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  }
+};
+
+export const favoriteThread = async (req, res) => {
+  try {
+    console.log('Server::favorite a thread - running favoriteThread');
+    const id = req.params.id;
+    const userId = req.params.userId;
+    // const userId = req.body;
+    console.log(req);
+    const favorite = await ThreadService.favoriteThread(id, userId);
+    res.status(200).json({ message: 'Successfully favorite or unfavorite', favorite });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      error: err.message
+    });
   }
 };

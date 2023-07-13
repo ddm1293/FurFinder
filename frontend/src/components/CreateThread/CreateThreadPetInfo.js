@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react'
-import { Form, Input, Radio, Select, DatePicker, Upload, Space} from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Form, Input, Radio, DatePicker, Upload} from 'antd';
 import { InboxOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 import BreedSelector from './BreedSelector'
+import Map from '../Map/Map'
 
 function CreateThreadPetInfo ({ threadType, form }) {
+  const [originalName, setOriginalName] = useState('');
+
   useEffect(() => {
     if (threadType === 'witnessThread') {
-      form.setFieldsValue({ 'pet-name': 'Unknown' });
-    } else {
-      form.setFieldsValue({ 'pet-name': '' });
+      setOriginalName(form.getFieldValue('name'));
+      form.setFieldsValue({ 'name': 'Unknown' });
+    } else if (originalName) {
+      form.setFieldsValue({ 'name': originalName });
     }
   }, [threadType, form]);
 
@@ -28,45 +32,42 @@ function CreateThreadPetInfo ({ threadType, form }) {
     }, 0);
   }
 
+  const handleMapInfo = (latLng) => {
+    form.setFieldsValue({ lastSeenLocation: latLng });
+  }
+
   return (
     <Form.Item className="create-thread-petInfo">
-      {
-        threadType === 'lostPetThread' &&
-        <Form.Item name='pet-name'
-                 label='Name'
-                 rules={[{
-                   required: true,
-                   message: 'Please enter the pet name'
-                 }]}>
+      <Form.Item
+        name='name'
+        label='Name'
+        rules={[{
+          required: true,
+          message: 'Please enter the pet name'
+        }]}
+      >
         <Input />
       </Form.Item>
-      }
 
-      <Form.Item name='pet-type'
-                 className='pet-type'
+      <Form.Item className='pet-type'
                  label='Breed'>
         <BreedSelector required={true} />
       </Form.Item>
 
-      <Form.Item name='id' label='ID'>
-        <Input placeholder='Enter the pet ID (optional)' />
-      </Form.Item>
-
-      <Form.Item name='pet-sex' label='Sex'>
+      <Form.Item name='sex' label='Sex'>
         <Radio.Group>
           <Radio value="female"> Female </Radio>
           <Radio value="male"> Male </Radio>
-          <Radio value="enby"> Non-binary </Radio>
-          <Radio value="not-sure-sex"> Not Sure </Radio>
+          <Radio value="unknown"> Not Sure </Radio>
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item name='missing-date' label="Last Seen Time">
+      <Form.Item name='lastSeenTime' label="Last Seen Time">
         <DatePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
       </Form.Item>
 
       <Form.Item label='Upload Pet Picture'>
-        <Form.Item name='pet-pic'
+        <Form.Item name='pic'
                    valuePropName='fileList'
                    getValueFromEvent={normFile}
                    noStyle>
@@ -76,6 +77,10 @@ function CreateThreadPetInfo ({ threadType, form }) {
             <p className="pet-pic-upload-hint">Support for a single upload.</p>
           </Upload.Dragger>
         </Form.Item>
+      </Form.Item>
+
+      <Form.Item name='lastSeenLocation' label='Last Seen Location'>
+        <Map handleMapInfo={handleMapInfo} />
       </Form.Item>
 
       <Form.Item name='description'

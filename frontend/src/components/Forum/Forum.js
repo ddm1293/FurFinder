@@ -2,6 +2,7 @@ import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
 import ListView from './ListView'
 import { Pagination, Menu, Divider, Button, Form } from 'antd'
+import MapView from './MapView'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum/Forum.css'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,8 +12,9 @@ import AdvancedSearchSidePanel from './Search/AdvancedSearchSidebar'
 import { clearSearchResults } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
+import CreateThreadButton from '../CreateThread/CreateThreadButton'
 
-function Forum ({ threadType }) {
+function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const dispatch = useDispatch();
 
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
@@ -45,7 +47,6 @@ function Forum ({ threadType }) {
   const endIndex = startIndex + cardsPerPage;
   let displayedCards = pagesFromSlice[currentPage] || [];
   if (searchResults && searchResults.length > 0) {
-    console.log('is this your fault?')
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
   const [advancedSearchForm] = Form.useForm(); // targets advanced search form
@@ -55,7 +56,7 @@ function Forum ({ threadType }) {
       case 'list':
         return <ListView items={displayedCards} />
       case 'map':
-        return null
+        return <MapView />
       default: // grid
         return <CardView items={displayedCards} />
     }
@@ -77,12 +78,6 @@ function Forum ({ threadType }) {
     if (showAdvancedSearch) { advancedSearchForm.resetFields(); }
     dispatch(clearSearchResults());
   }
-
-  // useEffect(() => {
-  //   console.log('see isLoading: ', isLoading);
-  //   console.log('see pagesFromSlice: ', pagesFromSlice);
-  //   console.log('see displayedCard with let', displayedCards);
-  // }, [pagesFromSlice])
 
   useEffect( () => {
     dispatch(clearSearchResults()); // reset search result on refresh and app exit
@@ -129,7 +124,11 @@ function Forum ({ threadType }) {
             selectedKeys={[selectedKey]}
             mode="horizontal"
             items={viewOptions} />
-          <SearchBar key={searchBarId} threadType={threadType} />
+          <CreateThreadButton
+            shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
+            threadType={threadType}
+          />
+          <SearchBar key={searchBarId} threadType={threadType}/>
           <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
           <Button
             className='search-bar-reset-button'
