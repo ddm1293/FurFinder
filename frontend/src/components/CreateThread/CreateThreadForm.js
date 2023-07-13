@@ -60,7 +60,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
             name='create-thread-form'
             form={form}
             initialValues={{
-              ['select-thread-type']: initialType,
+              ['threadType']: initialType,
             }}
             onFinish={onFinish}
             scrollToFirstError>

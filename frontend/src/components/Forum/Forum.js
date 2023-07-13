@@ -1,6 +1,7 @@
 import SearchBar from './Search/SearchBar'
 import CardView from './CardView'
 import ListView from './ListView'
+import MapView from './MapView'
 import { Pagination, Menu, Divider, Button } from 'antd'
 import { AppstoreOutlined, BarsOutlined, EnvironmentOutlined } from '@ant-design/icons'
 import '../../style/Forum/Forum.css'
@@ -11,8 +12,9 @@ import AdvancedSearchSiderPanel from './Search/AdvancedSearchSiderbar'
 import { clearSearchResults } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
+import CreateThreadButton from '../CreateThread/CreateThreadButton'
 
-function Forum ({ threadType }) {
+function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1)
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
@@ -21,12 +23,6 @@ function Forum ({ threadType }) {
   const displayStatus = useSelector((state) => state.forum.displayStatus);
   const [totalThreadNum, setTotalThreadNum] = useState(null);
   const [isLoading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   console.log('see isLoading: ', isLoading);
-  //   console.log('see pagesFromSlice: ', pagesFromSlice);
-  //   console.log('see displayedCard with let', displayedCards);
-  // }, [pagesFromSlice])
 
   useEffect(() => {
     console.log('see currentPage:', currentPage);
@@ -51,7 +47,6 @@ function Forum ({ threadType }) {
   const endIndex = startIndex + cardsPerPage
   const searchResults = useSelector((state) => state.forum.searchResults);
   if (searchResults && searchResults.length > 0) {
-    console.log('is this your fault?')
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
 
@@ -75,7 +70,7 @@ function Forum ({ threadType }) {
       case 'list':
         return <ListView items={displayedCards} />
       case 'map':
-        return null
+        return <MapView />
       default: // grid
         return <CardView items={displayedCards} />
     }
@@ -107,6 +102,10 @@ function Forum ({ threadType }) {
             selectedKeys={[selectedKey]}
             mode="horizontal"
             items={viewOptions} />
+          <CreateThreadButton
+            shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
+            threadType={threadType}
+          />
           <SearchBar threadType={threadType}/>
           <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
           <Button

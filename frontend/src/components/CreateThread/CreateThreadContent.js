@@ -9,10 +9,9 @@ function CreateThreadContent ({ threadType, handleThreadTypeUpdate }) {
     handleThreadTypeUpdate(e);
   }
 
-
   return (
     <Form.Item className='create-thread-content'>
-      <Form.Item name='select-thread-type'
+      <Form.Item name='threadType'
                  label='Alter The Type of Thread You Are Creating'>
         <Select onChange={onThreadTypeChange}>
           <Select.Option value="lostPetThread">
@@ -28,13 +27,13 @@ function CreateThreadContent ({ threadType, handleThreadTypeUpdate }) {
 
       <Typography.Title level={5}>Create Your Thread Content</Typography.Title>
 
-      <Form.Item name='thread-title'
+      <Form.Item name='title'
                  label="Thread Title">
         <Input placeholder='Please enter thread title'/>
       </Form.Item>
 
       <Form.Item className='thread-main-content'
-                 name='thread-main-content'
+                 name='content'
                  label="Thread Content">
         <Input.TextArea rows={3}
                         placeholder={useThreadTypeKeywordSwitch(threadType)('threadContent')}/>

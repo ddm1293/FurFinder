@@ -22,19 +22,19 @@ function CardView ({ items }) {
   }
 
   useEffect(() => {
-    console.log(user);
-    axiosPrivate({
-      url: `http://localhost:3001/user/me`,
-    }).then((response) => {
-      console.log(response);
-      setFavorite(response.data.user.favoredThreads);
-    }).catch((error) => {
-      console.log(error)
-    })
+    if (user) {
+      axiosPrivate({
+        url: `http://localhost:3001/user/me`,
+      }).then((response) => {
+        console.log(response);
+        setFavorite(response.data.user.favoredThreads);
+      }).catch((error) => {
+        console.log(error)
+      });
+    }
   }, [user])
 
   const handleClick= (id) => {
-    console.log(id);
     axios
         .patch(`http://localhost:3001/thread/${id}/${user.id}/favorite`)
         .then((response) => {

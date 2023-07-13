@@ -9,7 +9,6 @@ import { UserModel } from '../models/userModel.js';
 
 class ThreadService {
   static totalNumber = async () => await ThreadModel.countDocuments();
-
   static async getThread(id) {
     const thread = await ThreadModel.findById(id);
     if (thread) {
@@ -17,6 +16,10 @@ class ThreadService {
     } else {
       throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
     }
+  }
+
+  static async getAllThreads() {
+    return ThreadModel.find({});
   }
 
   static async getThreadsOfUserById(userId) {
