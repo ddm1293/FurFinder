@@ -8,11 +8,6 @@ import axios from 'axios'
 
 export default function EditProfile () {
   const user = useSelector((state) => state.user);
-  // const initial = {
-  //   username: false,
-  //   // password: false,
-  //   // email: false
-  // };
   const [editFields, setEditFields] = useState(false);
   const dispatch = useDispatch();
 
@@ -41,22 +36,6 @@ export default function EditProfile () {
               </div>
             }
           </Form.Item>
-          {/* <Form.Item label="Password" name="password"> */}
-          {/*   {editFields.password ? */}
-          {/*   <Input.Password />: */}
-          {/*     <div>********** */}
-          {/*       <EditOutlined onClick={() => setEditFields(prevState => ({ ...prevState, password: true }))} style={{ 'marginLeft': '10px' }}/> */}
-          {/*     </div> */}
-          {/*   } */}
-          {/* </Form.Item> */}
-          {/* <Form.Item label="Email" name="email"> */}
-          {/*   {editFields.email ? */}
-          {/*     <Input /> : */}
-          {/*     <div>{user.email} */}
-          {/*       <EditOutlined onClick={() => setEditFields(prevState => ({ ...prevState, email: true }))} style={{'marginLeft': '10px'}}/> */}
-          {/*     </div> */}
-          {/*   } */}
-          {/* </Form.Item> */}
           <Form.Item style={{ 'marginTop': '10px' }}>
             <Button type="primary" htmlType="submit">Save</Button>
             <Button type="primary" onClick={() => {setEditFields(false)}}>Cancel</Button>

@@ -53,6 +53,9 @@ class UserService {
     if (!user.avatar) {
       user.avatar = {};
     }
+    // if (typeof avatar.data === 'string' && avatar.data.startsWith('http')) {// google profile pic
+    //   user.avatar.data = avatar.data;
+    // }
     user.avatar.data = Buffer.from(avatar.data, 'base64');
     user.avatar.contentType = avatar.contentType;
     return await user.save();
