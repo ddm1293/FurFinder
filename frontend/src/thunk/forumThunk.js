@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { fetchPetFromThread } from './thunkHelper'
 import axios from 'axios'
 import { store } from '../store'
 
@@ -36,13 +37,3 @@ export const searchThreadsAsync = createAsyncThunk(
     return await fetchPetFromThread(searched);
   }
 )
-
-const fetchPetFromThread = async (threads) => {
-  const petPromises = threads.map((thread) => axios.get(`http://localhost:3001/pet/${thread.pet}`))
-  const petResponses = await Promise.all(petPromises);
-  const pets = petResponses.map((res) => res.data);
-  return threads.map((thread, index) => ({
-    ...thread,
-    pet: pets[index]
-  }));
-}
