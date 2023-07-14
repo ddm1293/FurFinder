@@ -15,7 +15,8 @@ export default function DisplayAvatar (props) {
         url: `http://localhost:3001/user/${user.id}/getAvatar`,
       }).then(response => {
         console.log("user avatar", response);
-        getAvatarURL(response);
+        const url = getAvatarURL(response);
+        setAvatarURL(url);
       }).catch(error => {
           console.error('Error fetching data', error);
         });
@@ -23,12 +24,12 @@ export default function DisplayAvatar (props) {
 
   const getAvatarURL = (response) => {
     if (response.data === "" && user.avatar) {
-      setAvatarURL(user.avatar);
+      return user.avatar;
     } else if (response.data === "") {
-      setAvatarURL(defaultAvatar);
+      return defaultAvatar;
     } else if (response.data && response.data.avatar) { // google
       const userAvatar = response.data.avatar;
-      setAvatarURL(`data:${userAvatar.contentType};base64,${userAvatar.data}`);
+      return`data:${userAvatar.contentType};base64,${userAvatar.data}`;
     }
   }
 

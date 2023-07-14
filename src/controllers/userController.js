@@ -57,7 +57,7 @@ export const getAvatar = async (req, res, next) => {
         avatar: { ...user.avatar, data: base64String }
       });
     } else {
-      res.sendStatus(204);
+      res.status(204).json();
     }
   } catch (err) {
     next(err);
