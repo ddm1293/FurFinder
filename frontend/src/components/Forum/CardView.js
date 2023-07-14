@@ -1,17 +1,20 @@
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Avatar, Card } from 'antd';
 import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import icon from "../../static/icon.png";
 
 const { Meta } = Card
 
 function CardView ({ items }) {
-  const petAttributes = ['name', 'breed', 'sex'];
   const user = useSelector((state) => state.user);
+  const petAttributes = ['name', 'breed', 'sex'];
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
+
   const verifyValidPet = (pet) => {
     for (const key in petAttributes) {
       if (!pet[key]) {
@@ -20,19 +23,6 @@ function CardView ({ items }) {
     }
     return true;
   }
-
-  useEffect(() => {
-    if (user) {
-      axiosPrivate({
-        url: `http://localhost:3001/user/me`,
-      }).then((response) => {
-        console.log(response);
-        setFavorite(response.data.user.favoredThreads);
-      }).catch((error) => {
-        console.log(error)
-      });
-    }
-  }, [user])
 
   const handleClick= (id) => {
     axios
@@ -49,6 +39,23 @@ function CardView ({ items }) {
       })
     }
 
+  function getItemImgUrl(item) {
+    return `http://localhost:3001/pet/${item.pet._id}/image`;
+  }
+
+  useEffect(() => {
+    if (user.username) { // if username property is filled, then so should the remaining fields of user object
+      axiosPrivate({
+        url: `http://localhost:3001/user/me`,
+      }).then((response) => {
+        console.log(response);
+        setFavorite(response.data.user.favoredThreads);
+      }).catch((error) => {
+        console.log(error)
+      });
+    }
+  }, [user])
+
   return (
     <div>
       <div className="card-view">
@@ -58,7 +65,10 @@ function CardView ({ items }) {
               <Card className="cards"
                     key={index}
                     style={{ width: 300 }}
-                    cover={<img src={item.img} alt="pet" />}
+                    cover={<img src={getItemImgUrl(item)} alt="pet" onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = icon;
+                    }}/>}
                     actions={[
                       <div onClick={() => {handleClick(item._id)}}>
                         {favourite.includes(item._id) ? <StarFilled key="star" /> : <StarOutlined key="star" />}
@@ -68,7 +78,7 @@ function CardView ({ items }) {
               >
                 <Meta
                   avatar={<Avatar size={30} icon={<UserOutlined />} />}
-                  title={<a href="">{item.title}</a>}
+                  title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
                   description={
                     <div>
                       <div className="name">{`Name: ${item.pet.name}`}</div>

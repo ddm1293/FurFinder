@@ -6,12 +6,9 @@ import { produce } from 'immer'
 import { useDispatch } from 'react-redux'
 import { searchThreadsAsync } from '../../../thunk/forumThunk'
 
-function AdvancedSearchSiderBar ({ onClose, threadType }) {
-  const [form] = Form.useForm();
+function AdvancedSearchSidebar ({ onClose, threadType, form }) {
   const dispatch = useDispatch();
-  const onReset = () => {
-    form.resetFields();
-  };
+
   const onFinish = (values) => {
     let lastSeenStart, lastSeenEnd;
     if (values.lastSeenRange) {
@@ -38,7 +35,10 @@ function AdvancedSearchSiderBar ({ onClose, threadType }) {
         draft.lastSeenEnd = lastSeenEnd;
       }
     });
-    dispatch(searchThreadsAsync(params));
+
+    if (params.breed || params.lastSeenRange || params.lastSeenStart || params.lastSeenEnd || params.petName || params.sex || params.species) {
+      dispatch(searchThreadsAsync(params));
+    }
   };
 
   return (
@@ -75,13 +75,10 @@ function AdvancedSearchSiderBar ({ onClose, threadType }) {
         </Form.Item>
 
         <Form.Item >
-          <Button type="primary" htmlType="submit">
+          <Button className="form-buttons" type="primary" htmlType="submit">
             Submit
           </Button>
-          <Button htmlType="button" onClick={onReset}>
-            Reset
-          </Button>
-          <Button htmlType="button" onClick={onClose}>
+          <Button className="form-buttons" htmlType="button" onClick={onClose}>
             Close
           </Button>
         </Form.Item>
@@ -90,4 +87,4 @@ function AdvancedSearchSiderBar ({ onClose, threadType }) {
   )
 }
 
-export default AdvancedSearchSiderBar
+export default AdvancedSearchSidebar
