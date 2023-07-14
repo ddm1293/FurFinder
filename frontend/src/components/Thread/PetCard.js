@@ -5,16 +5,15 @@ import '../../style/Thread/PetCard.css'
 
 const { Meta } = Card;
 
-const PetCard = ({ pet, picUrl }) => (
+const PetCard = ({ pet, src }) => (
   <Card
     className="id-card"
-    cover={<img className="id-card-img" alt="pet" src={picUrl} />}
+    cover={<img className="id-card-img" alt="pet" src={src} />}
   >
     <Meta
       title={<span className="id-card-title">Name: {pet.name}</span>}
       description={
         <div className="id-card-info">
-          <p><span className="id-card-label">ID: </span>{pet.id}</p>
           {pet.species === 'Cat' ?
             <p><span className="id-card-label">Cat Breed: </span>{pet.breed}</p> :
             <p><span className="id-card-label">Dog Breed: </span>{pet.breed}</p>

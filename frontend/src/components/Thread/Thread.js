@@ -10,6 +10,7 @@ import UserInfo from './UserInfo';
 import ThreadTitle from './ThreadTitle';
 import PetCard from './PetCard';
 import ThreadContent from './ThreadContent';
+import ThreadMap from './ThreadMap'
 
 function Thread() {
   const dispatch = useDispatch();
@@ -45,16 +46,8 @@ function Thread() {
     if (thread && thread.pet) {
       axios.get(`http://localhost:3001/pet/${thread.pet}`)
         .then(response => {
+          // console.log("response data: ", response);
           setPet(response.data);
-          // If the pic array is not empty, fetch the image data as base64
-          if (response.data.pic.length > 0) {
-            axios.get(`http://localhost:3001/pet/${thread.pet}/pic`)
-              .then(response => {
-                const url = `data:${response.data.contentType};base64,${response.data.base64}`;
-                // Update the pet state with the data URL for the image
-                setPet(prevPet => ({ ...prevPet, picUrl: url }));
-              });
-          }
         })
         .catch(error => {
           console.error('Error fetching pet data', error);
@@ -84,13 +77,28 @@ function Thread() {
     return 'Loading...';
   }
 
+  function getPetPicUrl() {
+    if (pet) {
+      return `http://localhost:3001/pet/${pet._id}/image`;
+    }
+  }
+
   const {title, content} = thread;
 
   return (
     <div className="thread-container">
       <UserInfo poster={poster} user={user} handleEdit={handleEdit} handleDelete={handleDelete} />
       <ThreadTitle title={title} />
-      <PetCard pet={pet} picUrl={pet.picUrl} /> {/* pass picUrl to PetCard */}
+
+      <div className="pet-info-container">
+        <PetCard pet={pet} src={getPetPicUrl()} /> {/* pass picUrl to PetCard */}
+        {pet && pet.lastSeenLocation &&
+          <ThreadMap
+            lastSeenLocation={{lat: pet.lastSeenLocation.coordinates[1], lng: pet.lastSeenLocation.coordinates[0]}}
+            species={pet.species}
+          />}
+      </div>
+
       <ThreadContent content={content} />
       <UpdateThreadForm open={editModalVisible}
                         onUpdate={handleUpdate}

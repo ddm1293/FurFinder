@@ -80,7 +80,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
       </Form.Item>
 
       <Form.Item name='lastSeenLocation' label='Last Seen Location'>
-        <Map handleMapInfo={handleMapInfo} />
+        <Map handleMapInfo={handleMapInfo} initialPosition={form.getFieldValue('lastSeenLocation')} />
       </Form.Item>
 
       <Form.Item name='description'

@@ -35,7 +35,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
 
           updateThreadType(thread.kind);
           form.setFieldsValue({
-            'threadType': thread.kind,
+            'threadType': thread.threadType,
             'title': thread.title,
             'content': thread.content,
             'name': pet.name,
@@ -45,7 +45,11 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
             'description': pet.description,
             'sex': pet.sex,
             'lastSeenTime': dayjs(pet.lastSeenTime),
-            'pic': pet.pic
+            'pic': pet.pic,
+            'lastSeenLocation': {
+              lat: pet.lastSeenLocation.coordinates[1],
+              lng: pet.lastSeenLocation.coordinates[0]
+            }
           });
         })
         .catch((error) => {
