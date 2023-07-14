@@ -1,0 +1,41 @@
+.id-card {
+    display: flex;
+    border: 1px solid grey;
+    margin-top: 20px;
+    position: relative;
+    width: 33%;
+    margin-left: 3%;
+    background-color: rgba(200, 200, 200, 0.3);
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.id-card-label {
+    font-weight:bold;
+}
+
+.id-card-img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.id-card .ant-card-meta-title{
+    font-size: 1.4em;
+}
+
+.id-card-info {
+    display: block;
+    flex-direction: column;
+    width: 100%;
+    font-size: 1.2em;
+    color: black;
+    line-height: 0.8;
+}
+
+@media screen and (max-width: 768px) {
+    .id-card-info {
+        font-size: 1em;
+    }
+}

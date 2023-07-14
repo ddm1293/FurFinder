@@ -91,6 +91,11 @@ export const updateThread = async (req, res, next) => {
       threadType: formBody.threadType
     };
 
+    const geoPoint = formBody.lastSeenLocation;
+    const lastSeenLocation = {
+      type: 'Point',
+      coordinates: [geoPoint.lng, geoPoint.lat]
+    };
     const petData = {
       name: formBody.name,
       species: formBody.species,
@@ -100,7 +105,8 @@ export const updateThread = async (req, res, next) => {
       description: formBody.description,
       sex: formBody.sex,
       lastSeenTime: formBody.lastSeenTime,
-      pic: formBody.pic
+      pic: formBody.pic,
+      lastSeenLocation
     };
 
     console.log('Pet data: ', petData);
