@@ -1,6 +1,5 @@
 import UserService from '../services/userService.js';
 import { UserModel } from '../models/userModel.js';
-import PetService from '../services/petService.js'
 
 export const getUser = async (req, res) => {
   try {
