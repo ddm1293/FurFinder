@@ -1,5 +1,6 @@
 import UserService from '../services/userService.js';
 import { UserModel } from '../models/userModel.js';
+import PetService from '../services/petService.js'
 
 export const getUser = async (req, res) => {
   try {
@@ -44,6 +45,26 @@ export const patchUser = async (req, res) => {
   }
 };
 
+export const getAvatar = async (req, res, next) => {
+  console.log('Server::getAvatar');
+  try {
+    const userId = req.params.id;
+    const user = await UserService.getUserById(userId);
+
+    if (user.avatar.data) {
+      const base64String = user.avatar.data.toString('base64');
+      res.status(200).json({
+        message: 'Get user avatar Successfully',
+        avatar: { ...user.avatar, data: base64String }
+      });
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateAvatar = async (req, res) => {
   try {
     console.log('Server::updateAvatar');
@@ -55,16 +76,9 @@ export const updateAvatar = async (req, res) => {
     };
     const user = await UserService.updateAvatar(userId, avatar);
     const base64String = avatar.data.toString('base64');
-    // res.status(200).json({ message: 'Update user avatar successfully', user });
     res.status(200).json({
       message: 'Update user avatar Successfully',
-      user: {
-        ...user.toObject(),
-        avatar: {
-          ...user.avatar,
-          data: base64String
-        }
-      }
+      avatar: { ...user.avatar, data: base64String }
     });
   } catch (err) {
     console.error(err);

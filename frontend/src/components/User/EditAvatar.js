@@ -1,14 +1,13 @@
 import '../../style/EditProfile.css'
 import { Button, Form, Upload } from 'antd'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { setUser } from '../../store/userSlice'
-import axios from 'axios'
+import { useSelector } from 'react-redux'
 import DisplayAvatar from './DisplayAvatar'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 export default function EditAvatar () {
   const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const axiosPrivate = useAxiosPrivate();
 
   const onFinish = async (values) => {
     const formData = new FormData();
@@ -16,18 +15,25 @@ export default function EditAvatar () {
     if (values.avatar && values.avatar.length > 0) {
       formData.append('avatar', values.avatar[0].originFileObj, values.avatar[0].originFileObj.name);
     }
-    const updatedUser = await axios.patch(`http://localhost:3001/user/${user.id}/avatar`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      }});
-    dispatch(setUser({
-      id: user.id,
-      username: user.username,
-      avatar: updatedUser.data.user.avatar,
-      favoredThreads: user.favoredThreads,
-      myThreads: user.myThreads,
-      accessToken: user.accessToken
-    }));
+    axiosPrivate({
+      url: `http://localhost:3001/user/${user.id}/updateAvatar`,
+      method: 'patch',
+      data: formData,
+      headers: { 'Content-Type' : 'multipart/form-data'}
+    }).then(response => {
+      console.log("update avatar", response);
+    }).catch(error => {
+      console.error('Error fetching data', error);
+    })
+    window.location.reload(); // TODO: state manage
+    // dispatch(setUser({
+    //   id: user.id,
+    //   username: user.username,
+    //   avatar: updatedUser.data.user.avatar,
+    //   favoredThreads: user.favoredThreads,
+    //   myThreads: user.myThreads,
+    //   accessToken: user.accessToken
+    // }));
   }
 
   const normFile = (e) => {

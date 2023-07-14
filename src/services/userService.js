@@ -54,9 +54,6 @@ class UserService {
     if (!user.avatar) {
       user.avatar = {};
     }
-    // if (typeof avatar.data === 'string' && avatar.data.startsWith('http')) {// google profile pic
-    //   user.avatar.data = avatar.data;
-    // }
     user.avatar.data = Buffer.from(avatar.data, 'base64');
     user.avatar.contentType = avatar.contentType;
     return await user.save();
@@ -66,8 +63,8 @@ class UserService {
     const userObject = user.toObject();
     delete userObject.password;
     delete userObject.refreshToken;
+    delete userObject.avatar;
     delete userObject.__v;
-    // delete userObject.avatar;
     return userObject;
   }
 
