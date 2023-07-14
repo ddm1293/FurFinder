@@ -3,3 +3,7 @@
     width: 30vw;
     border-left: 10px black;
 }
+
+.form-buttons {
+    margin-right: 6px;
+}
