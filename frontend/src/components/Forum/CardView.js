@@ -44,7 +44,7 @@ function CardView ({ items }) {
   }
 
   useEffect(() => {
-    if (user) {
+    if (user.username) { // if username property is filled, then so should the remaining fields of user object
       axiosPrivate({
         url: `http://localhost:3001/user/me`,
       }).then((response) => {
