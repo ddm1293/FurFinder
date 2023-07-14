@@ -12,7 +12,7 @@ export default function DisplayAvatar (props) {
 
   const getImageURL = (userAvatar) => {
     if (userAvatar && userAvatar.data) {
-      return getImageURL(getAvatar(userAvatar));
+      return getAvatar(userAvatar);
     } else if (userAvatar) { // google login
       return userAvatar;
     } else {

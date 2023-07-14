@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
   refreshToken: String,
   avatar: {
     data: {
-      type: Schema.Types.Mixed // Buffer or String
+      type: Buffer
     },
     contentType: {
       type: String

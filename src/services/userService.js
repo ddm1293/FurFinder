@@ -67,6 +67,7 @@ class UserService {
     delete userObject.password;
     delete userObject.refreshToken;
     delete userObject.__v;
+    // delete userObject.avatar;
     return userObject;
   }
 

@@ -16,7 +16,10 @@ export default function EditAvatar () {
     if (values.avatar && values.avatar.length > 0) {
       formData.append('avatar', values.avatar[0].originFileObj, values.avatar[0].originFileObj.name);
     }
-    const updatedUser = await axios.patch(`http://localhost:3001/user/${user.id}/avatar`, formData);
+    const updatedUser = await axios.patch(`http://localhost:3001/user/${user.id}/avatar`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      }});
     dispatch(setUser({
       id: user.id,
       username: user.username,

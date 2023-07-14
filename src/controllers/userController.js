@@ -55,6 +55,7 @@ export const updateAvatar = async (req, res) => {
     };
     const user = await UserService.updateAvatar(userId, avatar);
     const base64String = avatar.data.toString('base64');
+    // res.status(200).json({ message: 'Update user avatar successfully', user });
     res.status(200).json({
       message: 'Update user avatar Successfully',
       user: {
