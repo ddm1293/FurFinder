@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Avatar, Card } from 'antd';
@@ -9,8 +10,8 @@ import icon from "../../static/icon.png";
 const { Meta } = Card
 
 function CardView ({ items }) {
-  const petAttributes = ['name', 'breed', 'sex'];
   const user = useSelector((state) => state.user);
+  const petAttributes = ['name', 'breed', 'sex'];
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
 
@@ -77,7 +78,7 @@ function CardView ({ items }) {
               >
                 <Meta
                   avatar={<Avatar size={30} icon={<UserOutlined />} />}
-                  title={<a href="">{item.title}</a>}
+                  title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
                   description={
                     <div>
                       <div className="name">{`Name: ${item.pet.name}`}</div>
