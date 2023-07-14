@@ -3,7 +3,7 @@ import { GoogleMap, Marker, useLoadScript, InfoWindow } from '@react-google-maps
 import PlaceAutocomplete from './PlaceAutocomplete'
 import { Typography } from 'antd'
 
-function Map ({ handleMapInfo }) {
+function Map ({ handleMapInfo, initialPosition }) {
   const [selected, setSelected] = useState(null);
   const [searched, setSearched] = useState(null);
   const [pinned, setPinned] = useState(null);
@@ -14,6 +14,18 @@ function Map ({ handleMapInfo }) {
     language: 'en',
     libraries: ['places']
   })
+
+  const defaultCenter = useMemo(() => ({
+    lat: 49.2827,
+    lng: -123.1207
+  }), []);
+
+  useEffect(() => {
+    if (initialPosition) {
+      setPinned(initialPosition);
+    }
+  }, [initialPosition]);
+
 
   useEffect(() => {
     setSelected(pinned);
@@ -29,15 +41,18 @@ function Map ({ handleMapInfo }) {
     handleMapInfo(selected);
   }, [selected])
 
-  const defaultCenter = useMemo(() => ({
-    lat: 49.2827,
-    lng: -123.1207
-  }), []);
-
   const setPin = (e) => {
-    const latLng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    let latLng;
+    if (e.latLng) {
+      // Event object from Google Maps API
+      latLng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
+    } else {
+      // Presumably, a plain object from initialPosition
+      latLng = e;
+    }
     setPinned(latLng);
   }
+
 
   if (!isLoaded) {
     return <div>
@@ -62,11 +77,11 @@ function Map ({ handleMapInfo }) {
         >
           {
             !selected &&
-              <InfoWindow position={defaultCenter}>
-                <div className='map-infoWindow'>
-                  <Typography.Text>Search above or Right click to pin the last seen location</Typography.Text>
-                </div>
-              </InfoWindow>
+            <InfoWindow position={defaultCenter}>
+              <div className='map-infoWindow'>
+                <Typography.Text>Search above or Right click to pin the last seen location</Typography.Text>
+              </div>
+            </InfoWindow>
           }
           {
             selected &&

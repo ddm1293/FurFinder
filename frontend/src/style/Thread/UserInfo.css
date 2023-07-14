@@ -1,0 +1,32 @@
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(200, 200, 200, 0.3);
+    padding: 20px;
+}
+
+.avatar {
+    border-radius: 50%;
+    margin-left: 1.5%;
+}
+
+.thread-username {
+    font-size: 1.4em;
+    margin-bottom: 0;
+}
+
+.edit-button {
+    margin-right: 3%;
+}
+
+.button-wrapper {
+    margin-left: auto;
+    display: flex;
+}
+
+@media screen and (max-width: 768px) {
+    .thread-username {
+        font-size: 1.2em;
+    }
+}
