@@ -22,18 +22,10 @@ export default function EditAvatar () {
       headers: { 'Content-Type' : 'multipart/form-data'}
     }).then(response => {
       console.log("update avatar", response);
+      window.location.reload();
     }).catch(error => {
       console.error('Error fetching data', error);
     })
-    window.location.reload(); // TODO: state manage
-    // dispatch(setUser({
-    //   id: user.id,
-    //   username: user.username,
-    //   avatar: updatedUser.data.user.avatar,
-    //   favoredThreads: user.favoredThreads,
-    //   myThreads: user.myThreads,
-    //   accessToken: user.accessToken
-    // }));
   }
 
   const normFile = (e) => {
@@ -56,7 +48,7 @@ export default function EditAvatar () {
           </Upload>
         </Form.Item>
         <Form.Item style={{ 'marginLeft': '5px' }}>
-          <Button type="primary" htmlType="submit" icon={<SaveOutlined /> }>Save</Button>
+          <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>Save</Button>
         </Form.Item>
       </Form>
     </div>
