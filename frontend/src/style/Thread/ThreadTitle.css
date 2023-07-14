@@ -1,0 +1,12 @@
+.thread-title {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 2.5em;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .thread-title {
+        font-size: 2em;
+    }
+}
