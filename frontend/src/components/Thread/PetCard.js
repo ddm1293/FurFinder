@@ -5,10 +5,10 @@ import '../../style/Thread/PetCard.css'
 
 const { Meta } = Card;
 
-const PetCard = ({ pet, getPetPicUrl }) => (
+const PetCard = ({ pet, picUrl }) => (
   <Card
     className="id-card"
-    cover={<img className="id-card-img" alt="pet" src={getPetPicUrl()} />}
+    cover={<img className="id-card-img" alt="pet" src={picUrl} />}
   >
     <Meta
       title={<span className="id-card-title">Name: {pet.name}</span>}

@@ -5,10 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import CreateThreadContent from '../CreateThread/CreateThreadContent'
 import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from '../CreateThread/CreateThreadPetInfo'
-import useThreadTypeKeywordSwitch from '../CreateThread/useThreadTypeKeywordSwitch'
 import { useDispatch, useSelector} from 'react-redux';
 import { updateThreadAsync, getThreadAsync} from '../../thunk/threadThunk';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
   const [threadType, updateThreadType] = useState('');
@@ -19,18 +18,20 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
 
   useEffect(() => {
     dispatch(getThreadAsync(threadId)).then((res) => {
-      console.log("Got thread data: ", res);
+      // console.log("Got thread data: ", res);
       const thread = res.payload.thread;
-      console.log('thread from update: ', thread);
+      // console.log('thread from update: ', thread);
       // if (!thread.pet || !thread.kind) return; // some checks, shouldn't be triggered at all
 
       axios
         .get(`http://localhost:3001/pet/${thread.pet}`)
         .then((response) => {
-          console.log("Got pet data: ", response);
+          // console.log("Got pet data: ", response);
           const pet = response.data;
-          console.log('pet from update: ', pet);
+          // console.log('pet from update: ', pet);
           if (!pet) return; // Add check here
+
+          // console.log("moment: ", dayjs(pet.lastSeenTime));
 
           updateThreadType(thread.kind);
           form.setFieldsValue({
@@ -43,7 +44,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
             'id': pet.id,
             'description': pet.description,
             'sex': pet.sex,
-            'lastSeenTime': moment(pet.lastSeenTime),
+            'lastSeenTime': dayjs(pet.lastSeenTime),
             'pic': pet.pic
           });
         })
@@ -56,7 +57,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
   const onFinish = (values) => {
     const valuesWithPoster = { ...values, poster: user.id };
     // console.log('threadID: ', threadId);
-    console.log('form got submitted:', valuesWithPoster);
+    // console.log('form got submitted:', valuesWithPoster);
     dispatch(updateThreadAsync({ threadId: threadId, updateData: valuesWithPoster }))
       .then(action => {
         // check if the action completed successfully
