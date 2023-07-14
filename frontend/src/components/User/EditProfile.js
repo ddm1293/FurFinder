@@ -5,24 +5,37 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { setUser } from '../../store/userSlice'
 import axios from 'axios'
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 
 export default function EditProfile () {
   const user = useSelector((state) => state.user);
   const [editFields, setEditFields] = useState(false);
   const dispatch = useDispatch();
+  const axiosPrivate = useAxiosPrivate();
 
   const onFinish = async (values) => {
     console.log(values);
-    const updatedUser = await axios.patch(`http://localhost:3001/user/${user.id}`, values);
-    dispatch(setUser({
-      id: user.id,
-      username: updatedUser.data.user.username,
-      avatar: user.avatar,
-      favoredThreads: user.favoredThreads,
-      myThreads: user.myThreads,
-      accessToken: user.accessToken
-    }));
-    setEditFields(false);
+    axiosPrivate({
+      url: `http://localhost:3001/user/${user.id}`,
+      method: 'patch',
+      data: values,
+      headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+      console.log("update user", response);
+      dispatch(setUser({
+        id: user.id,
+        username: response.data.user.username,
+        avatar: user.avatar,
+        favoredThreads: user.favoredThreads,
+        myThreads: user.myThreads,
+        accessToken: user.accessToken
+      }));
+    }).then(() => {
+      setEditFields(false);
+    }).catch(error => {
+      console.error('Error fetching data', error);
+    })
+
   }
 
   return (

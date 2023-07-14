@@ -65,7 +65,7 @@ export default function Login() {
       dispatch(setUser({
         id: res.data.user._id,
         username: res.data.user.username,
-        avatar: userObject.picture, // TODO: verify if first time log in?
+        avatar: userObject.picture,
         favoredThreads: res.data.user.favoredThreads,
         myThreads: res.data.user.myThreads,
         accessToken: res.data.accessToken,
