@@ -1,26 +1,32 @@
 import PetService from '../services/petService.js';
 
 export const getPet = async (req, res, next) => {
+  console.log('Server::Getting a pet\'s information - running getPet');
   try {
-    console.log('Server::Getting a pet\'s information - running getPet');
     const petId = req.params.id;
-    const pet = await PetService.getPetById(petId);
+
+    let pet = await PetService.getPetById(petId);
+    pet = pet.toObject(); // need to remove pic property
+    delete pet.pic;
+
     res.status(200).json(pet);
   } catch (err) {
     next(err);
   }
 };
 
-export const getPetPic = async (req, res, next) => {
+export const getPetImage = async (req, res, next) => {
+  console.log('Server::GetPetImage');
   try {
-    console.log('Server::Getting a pet\'s picture - running getPetPic');
     const petId = req.params.id;
-    const pic = await PetService.getPetPic(petId);
-    if (pic) {
-      const base64String = Buffer.from(pic.data.buffer, 'binary').toString('base64');
-      res.json({ contentType: pic.contentType, base64: base64String });
+    const pet = await PetService.getPetById(petId);
+    const petPic = pet.pic?.[0];
+
+    if (petPic) {
+      res.setHeader('Content-Type', petPic.contentType);
+      res.send(petPic.data);
     } else {
-      res.status(404).json({ message: 'Picture not found' });
+      res.sendStatus(204);
     }
   } catch (err) {
     next(err);
