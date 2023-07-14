@@ -1,22 +1,12 @@
 import mongoose from 'mongoose';
+import { pointSchema } from './helperSchema.js';
 
 const PetSchema = new mongoose.Schema({
-  id: {
-    type: String
-  },
   name: {
     type: String,
     required: true
   },
-  species: {
-    type: String,
-    required: true
-  },
-  breed: {
-    type: String,
-    required: true
-  },
-  type: {
+  threadType: {
     type: String,
     required: true
   },
@@ -44,12 +34,16 @@ const PetSchema = new mongoose.Schema({
   sex: {
     type: String,
     enum: {
-      values: ['male', 'female', 'unknown', 'enby', 'not-sure-sex'],
+      values: ['male', 'female', 'unknown'],
       message: '{VALUE} is not supported'
     }
   },
   lastSeenTime: {
     type: Date,
+    required: true
+  },
+  lastSeenLocation: {
+    type: pointSchema,
     required: true
   }
 }, {

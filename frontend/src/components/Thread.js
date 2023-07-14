@@ -86,12 +86,9 @@ function Thread() {
   }
 
   function getPetPicUrl() {
-    if (pet && pet.pic && pet.pic.length > 0) {
-      const base64String = Buffer.from(pet.pic[0].data, 'binary').toString('base64');
-      return `data:${pet.pic.contentType};base64,${base64String}`;
+    if (pet) {
+      return `http://localhost:3001/pet/${pet._id}/image`;
     }
-
-    return null;
   }
 
   const {title, content} = thread;

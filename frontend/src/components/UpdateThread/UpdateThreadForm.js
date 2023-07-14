@@ -34,17 +34,17 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
 
           updateThreadType(thread.kind);
           form.setFieldsValue({
-            'select-thread-type': thread.kind,
-            'thread-title': thread.title,
-            'thread-main-content': thread.content,
-            'pet-name': pet.name,
+            'threadType': thread.kind,
+            'title': thread.title,
+            'content': thread.content,
+            'name': pet.name,
             'species': pet.species,
             'breed': pet.breed,
             'id': pet.id,
             'description': pet.description,
-            'pet-sex': pet.sex,
-            'missing-date': moment(pet.lastSeenTime),
-            'pet-pic': pet.pic
+            'sex': pet.sex,
+            'lastSeenTime': moment(pet.lastSeenTime),
+            'pic': pet.pic
           });
         })
         .catch((error) => {

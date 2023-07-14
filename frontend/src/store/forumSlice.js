@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getThreadsAsync, searchThreadsAsync } from '../thunk/forumThunk'
 
 const initialState = {
-  pageSizeCard: 6,
+  pageSizeCard: 8,
   searchResults: [],
   pages: {},
   displayStatus: 'idle',
