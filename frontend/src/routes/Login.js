@@ -28,7 +28,6 @@ export default function Login() {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: true, // this is what actually sets the cookie in the subsequent request header
       });
-      console.log(res.data);
 
       if (res.data.user) {
         dispatch(setUser({

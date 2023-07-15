@@ -1,5 +1,5 @@
 import { UserModel } from '../models/userModel.js';
-import { UserAlreadyExistException } from '../exceptions/userException.js';
+import { UserAlreadyExistException, UserDoesNotExistException } from '../exceptions/userException.js';
 import bcrypt from 'bcrypt';
 import { ThreadModel } from '../models/threadModel.js';
 
@@ -42,13 +42,28 @@ class UserService {
         toPatch[prop] = body[prop];
       }
     }
-    return toPatch.save();
+    await toPatch.save();
+    return toPatch;
+  }
+
+  static async updateAvatar(userId, avatar) {
+    const user = await UserService.getUserById(userId);
+    if (!user) {
+      throw new UserDoesNotExistException(`User ${userId} does not exist`);
+    }
+    if (!user.avatar) {
+      user.avatar = {};
+    }
+    user.avatar.data = Buffer.from(avatar.data, 'base64');
+    user.avatar.contentType = avatar.contentType;
+    return await user.save();
   }
 
   static getPrivateProfile(user) {
     const userObject = user.toObject();
     delete userObject.password;
     delete userObject.refreshToken;
+    delete userObject.avatar;
     delete userObject.__v;
     return userObject;
   }

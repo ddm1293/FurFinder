@@ -28,7 +28,15 @@ const UserSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: 'Thread'
   }],
-  refreshToken: String
+  refreshToken: String,
+  avatar: {
+    data: {
+      type: Buffer
+    },
+    contentType: {
+      type: String
+    }
+  }
 });
 
 UserSchema.methods.getPublicProfile = function() {

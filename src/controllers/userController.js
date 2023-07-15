@@ -43,3 +43,44 @@ export const patchUser = async (req, res) => {
     res.status(400).send(err.message);
   }
 };
+
+export const getAvatar = async (req, res, next) => {
+  console.log('Server::getAvatar');
+  try {
+    const userId = req.params.id;
+    const user = await UserService.getUserById(userId);
+
+    if (user.avatar.data) {
+      const base64String = user.avatar.data.toString('base64');
+      res.status(200).json({
+        message: 'Get user avatar Successfully',
+        avatar: { ...user.avatar, data: base64String }
+      });
+    } else {
+      res.status(204).json();
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateAvatar = async (req, res) => {
+  try {
+    console.log('Server::updateAvatar');
+    const userId = req.params.id;
+    const file = req.files[0];
+    const avatar = {
+      data: file.buffer,
+      contentType: file.mimetype
+    };
+    const user = await UserService.updateAvatar(userId, avatar);
+    const base64String = avatar.data.toString('base64');
+    res.status(200).json({
+      message: 'Update user avatar Successfully',
+      avatar: { ...user.avatar, data: base64String }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).send(err.message);
+  }
+};
