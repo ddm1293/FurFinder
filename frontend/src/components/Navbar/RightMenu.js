@@ -6,7 +6,6 @@ import { UserOutlined, CodeOutlined, LogoutOutlined, LoginOutlined } from "@ant-
 import { logoutUser } from '../../store/userSlice';
 import "../../style/Navbar.css";
 import axios from 'axios';
-import DisplayAvatar from '../User/DisplayAvatar'
 
 const RightMenu = ({ mode }) => {
     const navigate = useNavigate();
@@ -25,43 +24,81 @@ const RightMenu = ({ mode }) => {
     function login() {
         navigate("/login");
     }
-
     return (
-        <Menu mode={mode}>
-            <Menu.SubMenu
-                title={
-                    <>
-                        {user.username
-                            ? <DisplayAvatar />
-                            : <Avatar icon={<UserOutlined />} />
-                        }
-                        <span className="username">{
-                            user.username || 'Guest'
-                        }</span>
-                    </>
-                }
-            >
-                {user.username &&
-                    <Menu.Item key="profile">
-                        <CodeOutlined /> <Link to="/profile">Your Profile</Link>
-                    </Menu.Item>
-                }
-                {user.username &&
-                    <Menu.Item key="personal-settings">
-                        <UserOutlined /> <Link to="/settings">Settings</Link>
-                    </Menu.Item>
-                }
-                {user.username
-                    ? <Menu.Item key="log-out" onClick={logout}>
-                          <LogoutOutlined /> Logout
-                      </Menu.Item>
-                    : <Menu.Item key="log-in" onClick={login}>
-                          <LoginOutlined /> Login
-                      </Menu.Item>
-                }
-            </Menu.SubMenu>
-        </Menu>
+      <Menu mode={mode}>
+        <Menu.SubMenu
+          title={
+            <>
+              {user.username ? (
+                <Avatar src={user.avatar} />
+              ) : (
+                <Avatar icon={<UserOutlined />} />
+              )}
+              <span className="username">{user.username || 'Guest'}</span>
+            </>
+          }
+        >
+          {user.username ? (
+            <>
+              <Menu.Item key="profile">
+                <CodeOutlined /> <Link to="/profile">Your Profile</Link>
+              </Menu.Item>
+              <Menu.Item key="personal-settings">
+                <UserOutlined /> <Link to="/settings">Settings</Link>
+              </Menu.Item>
+              <Menu.Item key="log-out" onClick={logout}>
+                <LogoutOutlined /> Logout
+              </Menu.Item>
+            </>
+          ) : (
+            <Menu.Item key="log-in" onClick={login}>
+              <LoginOutlined /> Login
+            </Menu.Item>
+          )}
+        </Menu.SubMenu>
+      </Menu>
     );
-};
+  };
+
+
+
+
+//     return (
+//         <Menu mode={mode}>
+//             <Menu.SubMenu
+//                 title={
+//                     <>
+//                         {user.username
+//                             ? <Avatar src={user.avatar} />
+//                             : <Avatar icon={<UserOutlined />} />
+//                         }
+//                         <span className="username">{
+//                             user.username || 'Guest'
+//                         }</span>
+//                     </>
+//                 }
+//             >
+//                 {user.username &&
+//                     <Menu.Item key="profile">
+//                         <CodeOutlined /> <Link to="/profile">Your Profile</Link>
+//                     </Menu.Item>
+//                 }
+//                 {user.username &&
+//                     <Menu.Item key="personal-settings">
+//                         <UserOutlined /> <Link to="/settings">Settings</Link>
+//                     </Menu.Item>
+//                 }
+//                 {user.username
+//                     ? <Menu.Item key="log-out" onClick={logout}>
+//                           <LogoutOutlined /> Logout
+//                       </Menu.Item>
+//                     : <Menu.Item key="log-in" onClick={login}>
+//                           <LoginOutlined /> Login
+//                       </Menu.Item>
+//                 }
+//             </Menu.SubMenu>
+//         </Menu>
+//     );
+// };
 
 export default RightMenu;
