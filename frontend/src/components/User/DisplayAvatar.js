@@ -20,17 +20,16 @@ export default function DisplayAvatar (props) {
       }).catch(error => {
           console.error('Error fetching data', error);
         });
-  }, [axiosPrivate, user]);
+  }, []);
 
   const getAvatarURL = (response) => {
-    if (response.data === "" && user.avatar) {
+    if (response.data === "" && user.avatar) { // google pic
       return user.avatar;
-    } else if (response.data === "") {
-      return defaultAvatar;
-    } else if (response.data && response.data.avatar) { // google
+    } else if (response.data && response.data.avatar) {
       const userAvatar = response.data.avatar;
       return`data:${userAvatar.contentType};base64,${userAvatar.data}`;
     }
+    return defaultAvatar;
   }
 
   return (
