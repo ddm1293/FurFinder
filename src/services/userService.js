@@ -17,14 +17,14 @@ class UserService {
   }
 
   static async createUser(body) {
-    const { username, email, password } = body;
+    const { username, email, password, avatar } = body;
     const exist = await UserService.getUserByName(username);
     // TODO check if email already exists as well
     if (exist) {
       throw new UserAlreadyExistException(`${username} with email: ${email} has already registered`);
     } else {
       const hashedPassword = await bcrypt.hash(password, 10);
-      return UserModel.create({ username, email, password: hashedPassword });
+      return UserModel.create({ username, email, password: hashedPassword, avatar });
     }
   }
 

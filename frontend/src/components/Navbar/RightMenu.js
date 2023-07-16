@@ -31,7 +31,7 @@ const RightMenu = ({ mode }) => {
           title={
             <>
               {user.username ? (
-                <DisplayAvatar />
+                <DisplayAvatar currentUser={user.id}/>
               ) : (
                 <Avatar icon={<UserOutlined />} />
               )}

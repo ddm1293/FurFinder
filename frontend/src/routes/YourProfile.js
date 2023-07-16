@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import '../style/YourProfile.css';
+import UserProfileView from '../components/User/UserProfileView'
 
 export default function YourProfile() {
   const user = useSelector((state) => state.user);
@@ -29,6 +30,7 @@ export default function YourProfile() {
     <div id="your-profile">
       <h1>Hello, {user.username}</h1>
       <p>ID: {user.id}</p>
+      <UserProfileView />
       <h2>Post History</h2>
       <p>My threads: {user.myThreads}</p>
       <p>My favourites: {user.favoredThreads}</p>

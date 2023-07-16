@@ -55,6 +55,7 @@ export default function Login() {
         method: 'post',
         data: {
           username: userObject.email,
+          avatar: {url: userObject.picture},
           didSignInFromGoogle: true,
         },
         headers: { 'Content-Type': 'application/json' },
@@ -65,7 +66,7 @@ export default function Login() {
       dispatch(setUser({
         id: res.data.user._id,
         username: res.data.user.username,
-        avatar: userObject.picture,
+        // avatar: userObject.picture,
         favoredThreads: res.data.user.favoredThreads,
         myThreads: res.data.user.myThreads,
         accessToken: res.data.accessToken,

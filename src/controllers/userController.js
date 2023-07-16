@@ -49,13 +49,8 @@ export const getAvatar = async (req, res, next) => {
   try {
     const userId = req.params.id;
     const user = await UserService.getUserById(userId);
-
-    if (user.avatar.data) {
-      const base64String = user.avatar.data.toString('base64');
-      res.status(200).json({
-        message: 'Get user avatar Successfully',
-        avatar: { ...user.avatar, data: base64String }
-      });
+    if (user.avatar) {
+      res.send({ message: 'Get user avatar Successfully', avatar: user.avatar });
     } else {
       res.status(204).json();
     }
@@ -74,11 +69,8 @@ export const updateAvatar = async (req, res) => {
       contentType: file.mimetype
     };
     const user = await UserService.updateAvatar(userId, avatar);
-    const base64String = avatar.data.toString('base64');
-    res.status(200).json({
-      message: 'Update user avatar Successfully',
-      avatar: { ...user.avatar, data: base64String }
-    });
+    // const base64String = avatar.data.toString('base64');
+    res.status(200).json({ message: 'Update user avatar Successfully', avatar: user.avatar });
   } catch (err) {
     console.error(err);
     res.status(400).send(err.message);
