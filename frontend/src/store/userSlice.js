@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     id: null,
     username: null,
-    avatar: null,
     favoredThreads: null,
     myThreads: null,
     accessToken: null,
@@ -13,9 +12,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            const { id, username, avatar, favoredThreads, myThreads, accessToken } = action.payload;
+            const { id, username, favoredThreads, myThreads, accessToken } = action.payload;
 
-            return { id, username, avatar, favoredThreads, myThreads, accessToken };
+            return { id, username, favoredThreads, myThreads, accessToken };
         },
         setAccessToken: (state, action) => {
             return { ...state, accessToken: action.payload };

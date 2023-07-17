@@ -12,7 +12,8 @@ export const userLogin = async (req, res) => {
       user = await UserService.createUser({
         username: req.body.username,
         email: req.body.username,
-        password: ''
+        password: '',
+        avatar: req.body.avatar
       });
     }
 

@@ -6,6 +6,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Avatar, Card } from 'antd';
 import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
 import icon from "../../static/icon.png";
+import DisplayAvatar from '../User/DisplayAvatar'
 
 const { Meta } = Card
 
@@ -77,7 +78,7 @@ function CardView ({ items }) {
                     ]}
               >
                 <Meta
-                  avatar={<Avatar size={30} icon={<UserOutlined />} />}
+                  avatar={<DisplayAvatar currentUser={item.poster}/>}
                   title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
                   description={
                     <div>
