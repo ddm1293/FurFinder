@@ -1,7 +1,6 @@
 .ThreadMap {
     display: flex;
     border: 1px solid grey;
-    margin-top: 22px;
     position: relative;
     margin-right: 3%;
 }

@@ -1,7 +1,6 @@
 .id-card {
     display: flex;
     border: 1px solid grey;
-    margin-top: 20px;
     position: relative;
     width: 33%;
     margin-left: 3%;
