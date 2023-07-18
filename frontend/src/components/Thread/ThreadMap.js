@@ -13,18 +13,26 @@ function ThreadMap({ lastSeenLocation, species }) {
 
   const handleResize = () => {
     if (mapContainerRef.current) {
-      mapContainerRef.current.style.height =
-        `${0.95 * mapContainerRef.current.parentElement.clientHeight}px`;
-      mapContainerRef.current.style.width =
-        `${0.55 * mapContainerRef.current.parentElement.clientWidth}px`;
+      mapContainerRef.current.style.width = '100%';
+      if (window.innerWidth > 1024) {
+        // For larger screens, maintain a 7:9 aspect ratio
+        mapContainerRef.current.style.height =
+          `${0.7 * mapContainerRef.current.clientWidth}px`;
+      } else {
+        // For smaller screens, use a fixed height
+        mapContainerRef.current.style.height = '300px';
+        mapContainerRef.current.style.width = '450px';
+      }
     }
   };
 
+
+
   useEffect(() => {
-    // set initial height
+    // set initial size
     setTimeout(handleResize, 0);
 
-    // update height on window resize
+    // update size on window resize
     window.addEventListener('resize', handleResize);
 
     // cleanup on unmount
@@ -41,7 +49,7 @@ function ThreadMap({ lastSeenLocation, species }) {
         <GoogleMap
           zoom={14}
           center={lastSeenLocation}
-          mapContainerStyle={{ width: '100%', height: '100%', position: 'absolute' }}
+          mapContainerStyle={{ width: '100%', height: '100%'}}
         >
           <Marker position={lastSeenLocation} />
           {species === 'Cat' && <Circle center={lastSeenLocation} radius={500} />}
@@ -52,3 +60,4 @@ function ThreadMap({ lastSeenLocation, species }) {
 }
 
 export default ThreadMap;
+
