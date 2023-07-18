@@ -62,10 +62,8 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
 
         <Form.Item name='lastSeenRange' label='Last Seen Time'>
           <DatePicker.RangePicker
-            showTime={{
-            format: 'HH:mm'
-          }}
-            allowEmpty={[true, true]}
+            showTime={{ format: 'HH:mm' }}
+            allowEmpty={[false, false]}
             format="YYYY-MM-DD HH:mm"
           />
         </Form.Item>
