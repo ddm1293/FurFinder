@@ -15,8 +15,11 @@
     font-weight:bold;
 }
 
-.id-card-img {
+.ant-card .ant-card-cover{
     width: 100%;
+}
+
+.id-card-img {
     height: auto;
     margin-bottom: 10px;
 }
