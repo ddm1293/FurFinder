@@ -58,41 +58,39 @@ function CardView ({ items }) {
   }, [user])
 
   return (
-    <div>
-      <div className="card-view">
-        {items.map((item, index) => {
-          if (!item.archived && item.pet) {
-            return (
-              <Card className="cards"
-                    key={index}
-                    style={{ width: 300 }}
-                    cover={<img src={getItemImgUrl(item)} alt="pet" onError={({ currentTarget }) => {
-                      currentTarget.onerror = null; // prevents looping
-                      currentTarget.src = icon;
-                    }}/>}
-                    actions={[
-                      <div onClick={() => {handleClick(item._id)}}>
-                        {favourite.includes(item._id) ? <StarFilled key="star" /> : <StarOutlined key="star" />}
-                      </div>,
-                      <MessageOutlined key="message" />,
-                    ]}
-              >
-                <Meta
-                  avatar={<DisplayAvatar currentUser={item.poster}/>}
-                  title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
-                  description={
-                    <div>
-                      <div className="name">{`Name: ${item.pet.name}`}</div>
-                      <div className="breed">{`Breed: ${item.pet.breed}`}</div>
-                      <div className="sex">{`Sex: ${item.pet.sex}`}</div>
-                    </div>
-                  }
-                />
-              </Card>
-            )
-          }}
-        )}
-      </div>
+    <div className="card-view">
+      {items.map((item, index) => {
+        if (!item.archived && item.pet) {
+          return (
+            <Card className="cards"
+              key={index}
+              style={{ width: 300 }}
+              cover={<img src={getItemImgUrl(item)} alt="pet" onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = icon;
+              }}/>}
+              actions={[
+                <div onClick={() => {handleClick(item._id)}}>
+                  {favourite.includes(item._id) ? <StarFilled key="star" /> : <StarOutlined key="star" />}
+                </div>,
+                <MessageOutlined key="message" />,
+              ]}
+            >
+              <Meta
+                avatar={<DisplayAvatar currentUser={item.poster}/>}
+                title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
+                description={
+                  <div>
+                    <div className="name">{`Name: ${item.pet.name}`}</div>
+                    <div className="breed">{`Breed: ${item.pet.breed}`}</div>
+                    <div className="sex">{`Sex: ${item.pet.sex}`}</div>
+                  </div>
+                }
+              />
+            </Card>
+          )
+        }}
+      )}
     </div>
   )
 }

@@ -166,7 +166,7 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
 
           {
             showAdvancedSearch &&
-            <div className='advanced-search-container' style={{ position: 'fixed', padding:'12px', borderRadius: '12px', boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)', right: '0', background: 'none no-repeat scroll 0 0 #fff', overflow: 'scroll' }}>
+            <div className='advanced-search-container'>
               <AdvancedSearchSidePanel
                 onClose={handleCloseAdvancedSearch}
                 threadType={threadType}
