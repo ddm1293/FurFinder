@@ -70,11 +70,11 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
           />
         </Form.Item>
 
-        <Form.Item label='Breed' >
+        <Form.Item label='Breed'>
           <BreedSelector required={false} />
         </Form.Item>
 
-        <Form.Item >
+        <Form.Item>
           <Button className="form-buttons" type="primary" htmlType="submit">
             Submit
           </Button>
