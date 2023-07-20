@@ -2,9 +2,9 @@ import { Form, Select, Space } from 'antd'
 
 function BreedSelector ({ required }) {
   return (
-    <Form.Item shouldUpdate={(prevValues, currentValues) =>
-      prevValues['species'] !== currentValues['species']
-    }>
+    <Form.Item
+      shouldUpdate={(prevValues, currentValues) => prevValues['species'] !== currentValues['species']}
+    >
       {({ getFieldValue }) =>
         <Space.Compact block>
           <Form.Item className='pet-species'
