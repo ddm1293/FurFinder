@@ -52,10 +52,10 @@ const LeftMenu = ({ mode }) => {
     <Menu mode={mode}>
       {menuItems.map(item => (
         <Menu.Item key={item.key}>
-          <Link to={{
-            pathname: item.link,
-            state: item.state
-          }}>{item.title}</Link>
+          <Link to={item.link}
+                state={item.state}>
+            {item.title}
+          </Link>
         </Menu.Item>
       ))}
     </Menu>

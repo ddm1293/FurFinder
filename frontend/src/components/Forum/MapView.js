@@ -1,10 +1,9 @@
 import React, { useMemo, useEffect } from 'react'
-import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api'
+import { useLoadScript, GoogleMap } from '@react-google-maps/api'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataPointsAsync } from '../../thunk/mapViewThunk'
 import _ from 'lodash'
-import missingCatMarker from '../../static/missingCatMarker.png'
-import missingDogMarker from '../../static/missingDogMarker.png'
+import ThreadMarker from '../Forum/ThreadMarker'
 
 function MapView (props) {
   const dispatch = useDispatch();
@@ -19,28 +18,12 @@ function MapView (props) {
     dispatch(fetchDataPointsAsync());
   }, [])
 
-  const processCoordinates = (coordinates) => {
-    return {
-      lat: coordinates[1],
-      lng: coordinates[0]
-    }
-  }
-
   const renderMarkers = () => {
     if (dataPoints && dataPoints.length !== 0) {
       const validPoints = _.filter(dataPoints, (dataPoint) =>
         _.isObject(dataPoint.pet.lastSeenLocation));
       return validPoints.map(point => {
-        const iconUrl = point.pet.species === 'Cat' ? missingCatMarker : missingDogMarker;
-        return (
-          <Marker key={point._id}
-                  position={ processCoordinates(point.pet.lastSeenLocation.coordinates)}
-                  icon={{
-                    url: iconUrl,
-                    scaledSize: new window.google.maps.Size(32, 32),
-                  }}
-          />
-        )
+        return <ThreadMarker thread={point} />
       });
     }
   }
