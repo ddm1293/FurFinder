@@ -1,8 +1,7 @@
 .thread-text {
-    margin-top: 20px;
+    margin-bottom: 20px;
     font-size: 1.2em;
-    margin-left: 3%;
-    text-align: left;
+    line-height: 1.5;
 }
 
 @media screen and (max-width: 768px) {

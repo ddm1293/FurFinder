@@ -9,7 +9,11 @@ export const keywordSearch = (keyword, searchOn, threadType) => {
           {
             text: {
               query: keyword,
-              path: searchOn
+              path: searchOn,
+              fuzzy: {
+                maxEdits: 1,
+                maxExpansions: 100
+              }
             }
           },
           {

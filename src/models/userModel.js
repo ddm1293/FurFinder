@@ -35,6 +35,9 @@ const UserSchema = new mongoose.Schema({
     },
     contentType: {
       type: String
+    },
+    url: { // google profile pic
+      type: String
     }
   }
 });

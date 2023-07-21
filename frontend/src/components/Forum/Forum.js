@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import AdvancedSearchButton from './Search/AdvancedSearchButton'
 import AdvancedSearchSidePanel from './Search/AdvancedSearchSidebar'
-import { clearSearchResults } from '../../store/forumSlice'
+import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
@@ -23,13 +23,17 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   const displayStatus = useSelector((state) => state.forum.displayStatus);
   console.log(threadType);
 
-  const [selectedKey, setSelectedKey] = useState('');
+  const selectedView = useSelector((state) => state.forum.viewStatus);
   const [totalThreadNum, setTotalThreadNum] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setLoading] = useState(true);
   const [searchBarId, setSearchBarId] = useState(Date.now()); // for resetting search bar input; see below
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [threads, setThreads] = useState([]);
+
+  useEffect(() => {
+    dispatch(getThreadsAsync());
+  }, [dispatch, threadType, shouldOpenCreateThreadForm]);
 
   // render threads in different views
   const viewOptions = [{
@@ -80,7 +84,7 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   const [advancedSearchForm] = Form.useForm(); // targets advanced search form
 
   const render = () => {
-    switch (selectedKey) {
+    switch (selectedView) {
       case 'list':
         return <ListView items={displayedCards} />
       case 'map':
@@ -147,9 +151,9 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
           <Menu
             className='forum-view-menu'
             onClick={(event) => {
-            setSelectedKey(event.key)
+              dispatch(updateViewStatus(event.key))
           }}
-            selectedKeys={[selectedKey]}
+            selectedKeys={[selectedView]}
             mode="horizontal"
             items={viewOptions} />
           <CreateThreadButton

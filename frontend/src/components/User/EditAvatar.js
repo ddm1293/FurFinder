@@ -20,10 +20,10 @@ export default function EditAvatar () {
       method: 'patch',
       data: formData,
       headers: { 'Content-Type' : 'multipart/form-data'}
-    }).then(response => {
-      console.log("update avatar", response);
+    }).then((response) => {
+      console.log("updateAvatar", response)
       window.location.reload();
-    }).catch(error => {
+    }).catch((error) => {
       console.error('Error fetching data', error);
     })
   }
@@ -38,17 +38,17 @@ export default function EditAvatar () {
 
   return (
     <div className="profile">
-      <DisplayAvatar size={150}/>
+      <DisplayAvatar currentUser={user.id} size={150}/>
       <Form className="edit-profile-picture" onFinish={onFinish}>
         <Form.Item name="avatar" valuePropName="fileList" getValueFromEvent={normFile}
                    rules={[{required: true, message: "Please upload your profile picture"}]}>
           <Upload name="upload-avatar" action="" accept=".jpg,.png,.jpeg" listType="picture"
                   maxCount={1} beforeUpload={() => false}>
-            <Button icon={<UploadOutlined />}>Upload Profile Picture</Button>
+            <Button icon={<UploadOutlined />} style={{marginTop: "10px"}}>Upload Profile Picture</Button>
           </Upload>
         </Form.Item>
         <Form.Item style={{ 'marginLeft': '5px' }}>
-          <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>Save</Button>
+          <Button type="primary" htmlType="submit" icon={<SaveOutlined />} style={{marginTop: "10px"}}>Save</Button>
         </Form.Item>
       </Form>
     </div>

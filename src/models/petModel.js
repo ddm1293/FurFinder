@@ -25,18 +25,21 @@ const PetSchema = new mongoose.Schema({
   ],
   threadId: {
     type: mongoose.Types.ObjectId,
-    ref: 'Thread'
+    ref: 'Thread',
+    required: true
   },
   ownerId: {
     type: mongoose.Types.ObjectId,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   sex: {
     type: String,
     enum: {
       values: ['male', 'female', 'unknown'],
       message: '{VALUE} is not supported'
-    }
+    },
+    required: true
   },
   lastSeenTime: {
     type: Date,

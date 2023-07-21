@@ -1,33 +1,32 @@
 import '../../style/EditProfile.css'
 import { Avatar } from 'antd'
-import { useSelector } from 'react-redux'
 import defaultAvatar from "../../static/avatar.png"
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
+import {Buffer} from 'buffer'
 
 export default function DisplayAvatar (props) {
-  const user = useSelector((state) => state.user);
   const [avatarURL, setAvatarURL] = useState("");
-  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
-      axiosPrivate({
-        url: `http://localhost:3001/user/${user.id}/getAvatar`,
-      }).then(response => {
-        console.log("user avatar", response);
-        const url = getAvatarURL(response);
+    axios.get(`http://localhost:3001/user/${props.currentUser}/getAvatar`)
+      .then((response) => {
+        // console.log("getAvatar", response);
+        // console.log("avatar", response.data.avatar);
+        const url = getAvatarURL(response.data.avatar);
         setAvatarURL(url);
       }).catch(error => {
-          console.error('Error fetching data', error);
-        });
-  }, []);
+        console.error('Error fetching data', error);
+      });
+  }, [props.currentUser]);
 
-  const getAvatarURL = (response) => {
-    if (response.data === "" && user.avatar) { // google pic
-      return user.avatar;
-    } else if (response.data && response.data.avatar) {
-      const userAvatar = response.data.avatar;
-      return`data:${userAvatar.contentType};base64,${userAvatar.data}`;
+  const getAvatarURL = (avatar) => {
+    if (!avatar.data && avatar.url) { // google profile pic
+      return avatar.url;
+    } else if (avatar.data && avatar.data.data && avatar.data.type === 'Buffer') {
+      const userAvatar = avatar.data.data;
+      const base64 = Buffer.from(userAvatar).toString("base64");
+      return `data:${avatar.contentType};base64,${base64}`;
     }
     return defaultAvatar;
   }
