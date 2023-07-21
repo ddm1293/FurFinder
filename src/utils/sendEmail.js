@@ -26,6 +26,7 @@ const createTransporter = async () => {
 export const sendEmail = async (recipient, subject, text, html) => {
   try {
     const { testAccount, transporter } = await createTransporter();
+
     const mailOptions = {
       from: testAccount.user,
       to: recipient,

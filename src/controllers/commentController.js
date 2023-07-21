@@ -1,11 +1,17 @@
 import commentService from '../services/commentService.js';
+import { sendEmail } from '../utils/sendEmail.js';
 
 export const createComment = async (req, res, next) => {
   try {
     console.log('Server:: create the Comment');
     const threadId = req.params.threadId;
     console.log(threadId);
-    const comment = await commentService.createComment(threadId, req.body);
+    const { comment, thread, threadPoster } = await commentService.createComment(threadId, req.body);
+    await sendEmail(
+      threadPoster.useremail,
+      'New Comment',
+      'Your thread has a new comment!'
+    );
     res.status(201).json({
       message: 'The comment is created successfully',
       commentCreated: comment,
