@@ -41,6 +41,7 @@ export const getThreads = async (req, res, next) => {
   try {
     console.log('Server::Getting threads - running getThreads');
     const { page, limit } = req.query;
+
     const threads = await ThreadService.getThreads(page, limit);
     res.status(200).json({
       currentPage: page,
@@ -70,6 +71,26 @@ export const getTotalThreadNumber = async (req, res, next) => {
     console.log('Server::Getting total thread number - running getTotalThreadNumber');
     const totalThreads = await ThreadService.totalNumber();
     res.status(200).json(totalThreads);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getLostThreads = async (req, res, next) => {
+  try {
+    console.log('Server::Getting lost thread - running getLostThreads');
+    const threads = await ThreadService.getLostThreads();
+    res.status(200).json({ threads });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getWitnessThreads = async (req, res, next) => {
+  try {
+    console.log('Server::Getting witness thread - running getWitnessThreads');
+    const threads = await ThreadService.getWitnessThreads();
+    res.status(200).json({ threads });
   } catch (err) {
     next(err);
   }

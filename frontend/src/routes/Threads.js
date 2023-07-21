@@ -16,6 +16,7 @@ function Threads() {
       filterOptions = location.state.filterOptions;
       shouldOpenCreateThreadForm = location.state.shouldOpenCreateThreadForm;
       threadType = location.state.threadType;
+
     }
   } else { // occurs when user directly types '/threads' into the url
     filterOptions = 'all';
@@ -23,11 +24,13 @@ function Threads() {
   }
 
   return (
-    <Forum
+    <>
+      <Forum
       filterOptions={filterOptions}
       shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
       threadType={threadType}
     />
+    </>
   );
 }
 

@@ -14,13 +14,14 @@ import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
 
-function Forum ({ threadType, shouldOpenCreateThreadForm }) {
+function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   const dispatch = useDispatch();
 
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
   const searchResults = useSelector((state) => state.forum.searchResults);
   const pagesFromSlice = useSelector((state) => state.forum.pages);
   const displayStatus = useSelector((state) => state.forum.displayStatus);
+  console.log(threadType);
 
   const [selectedKey, setSelectedKey] = useState('');
   const [totalThreadNum, setTotalThreadNum] = useState(null);
@@ -28,6 +29,7 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const [isLoading, setLoading] = useState(true);
   const [searchBarId, setSearchBarId] = useState(Date.now()); // for resetting search bar input; see below
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const [threads, setThreads] = useState([]);
 
   // render threads in different views
   const viewOptions = [{
@@ -43,9 +45,35 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
     label: 'Map View',
     icon: <EnvironmentOutlined />
   }];
+
+  const fetchThreads = async (selectedThreadType) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/thread/get${selectedThreadType}`);
+      setThreads(response.data.threads);
+      console.log(response.data.threads, 111);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // Call the fetchThreads function with the initial selected thread type
+    fetchThreads(threadType)
+      .then(() => setLoading(false))
+      .catch(error => {
+        console.error('Error while fetching threads:', error);
+        setLoading(false);
+      });
+  }, [threadType]); // Effect will re-run whenever threadType changes
+
+
   const startIndex = (currentPage - 1) * cardsPerPage;
   const endIndex = startIndex + cardsPerPage;
   let displayedCards = pagesFromSlice[currentPage] || [];
+  if (threads && threads.length > 0) {
+    displayedCards = threads.slice(startIndex, endIndex);
+    console.log(displayedCards, 222);
+  }
   if (searchResults && searchResults.length > 0) {
     displayedCards = searchResults.slice(startIndex, endIndex);
   }

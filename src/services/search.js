@@ -15,7 +15,7 @@ export const keywordSearch = (keyword, searchOn, threadType) => {
           {
             text: {
               query: threadType,
-              path: 'kind'
+              path: 'threadType'
             }
           }
         ]
