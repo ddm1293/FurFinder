@@ -87,13 +87,19 @@ function Thread() {
       <ThreadTitle title={title} />
 
       <div className="pet-info-container">
-        <PetCard pet={pet} /> {/* pass picUrl to PetCard */}
-        {pet && pet.lastSeenLocation &&
-          <ThreadMap
-            lastSeenLocation={{lat: pet.lastSeenLocation.coordinates[1], lng: pet.lastSeenLocation.coordinates[0]}}
-            species={pet.species}
-          />}
+        <div className="pet-card-container">
+          <PetCard pet={pet}/>
+        </div>
+        {pet && pet.lastSeenLocation && (
+          <div className="thread-map-container">
+            <ThreadMap
+              lastSeenLocation={{lat: pet.lastSeenLocation.coordinates[1], lng: pet.lastSeenLocation.coordinates[0]}}
+              species={pet.species}
+            />
+          </div>
+        )}
       </div>
+
 
       <ThreadContent content={content} />
       <UpdateThreadForm open={editModalVisible}
