@@ -15,7 +15,10 @@ const forumSlice = createSlice({
   reducers: {
     clearSearchResults: (state, action) => {
       state.searchResults = [];
-    }
+    },
+    refresh: (state, action) => {
+      state.pages = {};  // Clear the stored pages
+    },
   },
   extraReducers(builder){
     builder
@@ -36,4 +39,4 @@ const forumSlice = createSlice({
   }
 })
 export default forumSlice.reducer
-export const { clearSearchResults } = forumSlice.actions
+export const { clearSearchResults , refresh } = forumSlice.actions
