@@ -29,6 +29,10 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const [searchBarId, setSearchBarId] = useState(Date.now()); // for resetting search bar input; see below
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
 
+  useEffect(() => {
+    dispatch(getThreadsAsync());
+  }, [dispatch, threadType, shouldOpenCreateThreadForm]);
+
   // render threads in different views
   const viewOptions = [{
     key: 'card',

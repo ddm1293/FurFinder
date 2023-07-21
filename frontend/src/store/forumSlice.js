@@ -17,6 +17,9 @@ const forumSlice = createSlice({
     clearSearchResults: (state, action) => {
       state.searchResults = [];
     },
+    refresh: (state, action) => {
+      state.pages = {};  // Clear the stored pages
+    },
     updateViewStatus: (state, action) => {
       state.viewStatus = action.payload;
     }
@@ -40,4 +43,4 @@ const forumSlice = createSlice({
   }
 })
 export default forumSlice.reducer
-export const { clearSearchResults, updateViewStatus } = forumSlice.actions
+export const { clearSearchResults, refresh, updateViewStatus } = forumSlice.actions

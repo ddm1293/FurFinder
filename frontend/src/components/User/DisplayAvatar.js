@@ -18,7 +18,7 @@ export default function DisplayAvatar (props) {
       }).catch(error => {
         console.error('Error fetching data', error);
       });
-  }, []);
+  }, [props.currentUser]);
 
   const getAvatarURL = (avatar) => {
     if (!avatar.data && avatar.url) { // google profile pic
