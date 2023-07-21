@@ -77,12 +77,6 @@ function Thread() {
     return 'Loading...';
   }
 
-  function getPetPicUrl() {
-    if (pet) {
-      return `http://localhost:3001/pet/${pet._id}/image`;
-    }
-  }
-
   const {title, content} = thread;
 
   return (
@@ -92,7 +86,7 @@ function Thread() {
 
       <div className="pet-info-container">
         <div className="pet-card-container">
-          <PetCard pet={pet} src={getPetPicUrl()} />
+          <PetCard pet={pet}/>
         </div>
         {pet && pet.lastSeenLocation && (
           <div className="thread-map-container">
