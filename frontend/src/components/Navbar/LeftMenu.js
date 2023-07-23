@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Menu } from "antd";
 import "../../style/Navbar.css";
-import axios from 'axios'
 
 
 
 const LeftMenu = ({ mode }) => {
-  const [threads, setThreads] = useState([]);
 
   const menuItems = [
     {
@@ -37,34 +35,12 @@ const LeftMenu = ({ mode }) => {
     }
   ];
 
-  const fetchThreads = async (selectedThreadType) => {
-    try {
-      const response = await axios.get(`http://localhost:3001/thread/get${selectedThreadType}`);
-      setThreads(response.data.threads);
-      console.log(response.data.threads);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  useEffect(() => {
-    // Call the fetchThreads function with the initial selected thread type
-    fetchThreads(menuItems[0].state.threadType);
-  }, []); // Empty dependency array to fetch the initial threads only once
-
-
-  const handleMenuItemClick = (selectedThreadType) => {
-    // Fetch the threads based on the selected thread type when a menu item is clicked
-    fetchThreads(selectedThreadType);
-  };
-
   return (
     <div>
     <Menu mode={mode}>
       {menuItems.map(item => (
         <Menu.Item key={item.key} >
           <Link to={item.link }
-                onClick={()=> handleMenuItemClick(item.state.filterOptions)}
                 state={item.state}>
             {item.title}
           </Link>

@@ -35,7 +35,6 @@ export const searchThreadsAsync = createAsyncThunk(
     const searched = res.data.result;
     console.log('see result: ', searched);
     return await fetchPetFromThread(searched);
-
-
   }
 )
+

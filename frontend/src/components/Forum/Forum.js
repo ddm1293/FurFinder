@@ -13,6 +13,7 @@ import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
+import { fetchPetFromThread } from '../../thunk/thunkHelper'
 
 function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   const dispatch = useDispatch();
@@ -21,7 +22,6 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   const searchResults = useSelector((state) => state.forum.searchResults);
   const pagesFromSlice = useSelector((state) => state.forum.pages);
   const displayStatus = useSelector((state) => state.forum.displayStatus);
-  console.log(threadType);
 
   const selectedView = useSelector((state) => state.forum.viewStatus);
   const [totalThreadNum, setTotalThreadNum] = useState(null);
@@ -53,8 +53,9 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   const fetchThreads = async (selectedThreadType) => {
     try {
       const response = await axios.get(`http://localhost:3001/thread/get${selectedThreadType}`);
-      setThreads(response.data.threads);
-      console.log(response.data.threads, 111);
+      const updated = await fetchPetFromThread(response.data.threads)
+      setThreads(updated);
+      console.log(updated);
     } catch (error) {
       console.error(error);
     }
@@ -76,7 +77,6 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   let displayedCards = pagesFromSlice[currentPage] || [];
   if (threads && threads.length > 0) {
     displayedCards = threads.slice(startIndex, endIndex);
-    console.log(displayedCards, 222);
   }
   if (searchResults && searchResults.length > 0) {
     displayedCards = searchResults.slice(startIndex, endIndex);
@@ -135,14 +135,18 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
     if (searchResults.length) {
       setTotalThreadNum(searchResults.length);
       setCurrentPage(1);
-    } else {
+    } else if(threads.length) {
+      setTotalThreadNum(threads.length);
+      setCurrentPage(1);
+    }
+    else {
       (async () => {
         const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
         setTotalThreadNum(res.data);
         setCurrentPage(1);
       })();
     }
-  }, [searchResults]);
+  }, [threads, searchResults]);
 
   return (
     <div className='forum-container'>
