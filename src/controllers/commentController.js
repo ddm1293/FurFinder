@@ -7,10 +7,21 @@ export const createComment = async (req, res, next) => {
     const threadId = req.params.threadId;
     console.log(threadId);
     const { comment, thread, threadPoster } = await commentService.createComment(threadId, req.body);
+    const emailTemplate =
+      `<html>
+          <body>
+            <p>Your received a new comment!</p>
+            <p>Check out your thread: 
+              <a href="http://localhost:3000/threads/${thread._id}">"${thread.title}"</a>
+            </p>
+          </body>
+        </html>
+      `;
     await sendEmail(
       threadPoster.useremail,
       'New Comment',
-      'Your thread has a new comment!'
+      '',
+      emailTemplate
     );
     res.status(201).json({
       message: 'The comment is created successfully',
