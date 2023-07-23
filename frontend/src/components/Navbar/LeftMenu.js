@@ -27,7 +27,6 @@ const LeftMenu = ({ mode }) => {
       link: "/threads",
       state: {
         filterOptions: "lost",
-        shouldOpenCreateThreadForm: false,
         threadType: 'lostPetThread'
       }
     },
@@ -37,7 +36,6 @@ const LeftMenu = ({ mode }) => {
       link: "/threads",
       state: {
         filterOptions: "witness",
-        shouldOpenCreateThreadForm: false,
         threadType: 'witnessThread'
       }
     },

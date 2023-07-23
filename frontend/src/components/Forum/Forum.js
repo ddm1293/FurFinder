@@ -14,7 +14,7 @@ import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
 
-function Forum ({ threadType, shouldOpenCreateThreadForm }) {
+function Forum ({ threadType }) {
   const dispatch = useDispatch();
 
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
@@ -134,7 +134,6 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
             mode="horizontal"
             items={viewOptions} />
           <CreateThreadButton
-            shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
             threadType={threadType}
           />
           <SearchBar key={searchBarId} threadType={threadType}/>
