@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Form, Modal, Divider } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import CreateThreadContent from '../CreateThread/CreateThreadContent'
-import '../../style/CreateThread/CreateThreadForm.css'
 import CreateThreadPetInfo from '../CreateThread/CreateThreadPetInfo'
 import { useDispatch, useSelector} from 'react-redux';
 import { updateThreadAsync, getThreadAsync} from '../../thunk/threadThunk';
