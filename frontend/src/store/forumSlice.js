@@ -5,6 +5,7 @@ const initialState = {
   pageSizeCard: 8,
   searchResults: [],
   pages: {},
+  viewStatus: '',
   displayStatus: 'idle',
   error: null
 }
@@ -15,6 +16,12 @@ const forumSlice = createSlice({
   reducers: {
     clearSearchResults: (state, action) => {
       state.searchResults = [];
+    },
+    refresh: (state, action) => {
+      state.pages = {};  // Clear the stored pages
+    },
+    updateViewStatus: (state, action) => {
+      state.viewStatus = action.payload;
     }
   },
   extraReducers(builder){
@@ -36,4 +43,4 @@ const forumSlice = createSlice({
   }
 })
 export default forumSlice.reducer
-export const { clearSearchResults } = forumSlice.actions
+export const { clearSearchResults, refresh, updateViewStatus } = forumSlice.actions

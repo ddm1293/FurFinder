@@ -7,6 +7,7 @@ import CreateThreadPetInfo from './CreateThreadPetInfo'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import { useDispatch, useSelector} from 'react-redux';
 import { createThreadAsync } from '../../thunk/threadThunk';
+import { refresh } from '../../store/forumSlice';
 
 function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
   const [threadType, updateThreadType] = useState(initialType);
@@ -28,6 +29,7 @@ function CreateThreadForm ({ open, onCreate, onCancel, initialType }) {
           const threadId = action.payload._id;
           navigate(`/threads/${threadId}`);
           onCreate();
+          dispatch(refresh());
         } else {
           // handle the error
           console.log('Cannot open the new Thread.' + action.error.message);

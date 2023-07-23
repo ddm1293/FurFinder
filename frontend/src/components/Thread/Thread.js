@@ -10,7 +10,8 @@ import UserInfo from './UserInfo';
 import ThreadTitle from './ThreadTitle';
 import PetCard from './PetCard';
 import ThreadContent from './ThreadContent';
-import ThreadMap from './ThreadMap'
+import ThreadMap from './ThreadMap';
+import { refresh } from '../../store/forumSlice';
 
 function Thread() {
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ function Thread() {
 
   const handleDelete = () => {
     dispatch(deleteThreadAsync(id)).then(() => {
+      dispatch(refresh());
       navigate('/threads');
     });
   };
@@ -77,12 +79,6 @@ function Thread() {
     return 'Loading...';
   }
 
-  function getPetPicUrl() {
-    if (pet) {
-      return `http://localhost:3001/pet/${pet._id}/image`;
-    }
-  }
-
   const {title, content} = thread;
 
   return (
@@ -91,13 +87,19 @@ function Thread() {
       <ThreadTitle title={title} />
 
       <div className="pet-info-container">
-        <PetCard pet={pet} src={getPetPicUrl()} /> {/* pass picUrl to PetCard */}
-        {pet && pet.lastSeenLocation &&
-          <ThreadMap
-            lastSeenLocation={{lat: pet.lastSeenLocation.coordinates[1], lng: pet.lastSeenLocation.coordinates[0]}}
-            species={pet.species}
-          />}
+        <div className="pet-card-container">
+          <PetCard pet={pet}/>
+        </div>
+        {pet && pet.lastSeenLocation && (
+          <div className="thread-map-container">
+            <ThreadMap
+              lastSeenLocation={{lat: pet.lastSeenLocation.coordinates[1], lng: pet.lastSeenLocation.coordinates[0]}}
+              species={pet.species}
+            />
+          </div>
+        )}
       </div>
+
 
       <ThreadContent content={content} />
       <UpdateThreadForm open={editModalVisible}
