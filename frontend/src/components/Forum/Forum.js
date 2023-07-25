@@ -148,6 +148,15 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
     }
   }, [threads, searchResults]);
 
+  // pause scrolling if advanced search panel is active
+  useEffect(() => {
+    if (showAdvancedSearch) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [showAdvancedSearch]);
+
   return (
     <div className='forum-container'>
       <div className="forum-content">
@@ -191,15 +200,16 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
             </div>
           }
 
-          <div className='advanced-search-container' style={{borderLeft: '1px solid black', paddingLeft:'20px'}}>
-            { showAdvancedSearch &&
+          {
+            showAdvancedSearch &&
+            <div className='advanced-search-container'>
               <AdvancedSearchSidePanel
                 onClose={handleCloseAdvancedSearch}
                 threadType={threadType}
                 form={advancedSearchForm}
               />
-            }
-          </ div>
+            </div>
+          }
         </div>
 
         <Pagination
