@@ -29,7 +29,7 @@ function Comment (props) {
   return (
     <div className="comment-container">
       <div className="comment-info">
-        <DisplayAvatar currentUser = {commenter._id}/>
+        <DisplayAvatar currentUser = {props.comment.author.id}/>
         <div className="comment-username">{commenter.username}</div>
         <div className="comment-time" style={{ marginLeft: "auto" }}>
           {props.comment.date.replace(/T/, ' ').substring(0, 19)}
