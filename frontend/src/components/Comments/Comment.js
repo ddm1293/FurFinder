@@ -1,13 +1,13 @@
-import { Avatar } from 'antd'
-import { DeleteOutlined, MessageOutlined, UserOutlined } from '@ant-design/icons'
+import { DeleteOutlined, MessageOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 import { deleteCommentAsync } from '../../thunk/commentThunk'
 import { useDispatch } from 'react-redux'
 import CommentInput from './CommentInput'
 import axios from 'axios'
+import DisplayAvatar from '../User/DisplayAvatar'
 
 function Comment (props) {
-  const [userName, setUserName] = useState('')
+  const [commenter, setCommenter] = useState({})
   const dispatch = useDispatch();
   const isLogin = props.userID !== null;
   const isAuthor = props.userID === props.comment.author.id;
@@ -19,7 +19,7 @@ function Comment (props) {
     axios
       .get(`http://localhost:3001/user/${props.comment.author.id}`)
       .then((response) => {
-        setUserName(response.data.user.username)
+        setCommenter(response.data.user)
       })
       .catch((error) => {
         console.error(error)
@@ -29,9 +29,8 @@ function Comment (props) {
   return (
     <div className="comment-container">
       <div className="comment-info">
-        <Avatar icon={<UserOutlined />} />
-        {/* TODO: add user avatar */}
-        <div className="comment-username">{userName}</div>
+        <DisplayAvatar currentUser = {commenter._id}/>
+        <div className="comment-username">{commenter.username}</div>
         <div className="comment-time" style={{ marginLeft: "auto" }}>
           {props.comment.date.replace(/T/, ' ').substring(0, 19)}
         </div>

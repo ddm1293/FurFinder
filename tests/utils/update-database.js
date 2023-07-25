@@ -1,3 +1,5 @@
+/* This script updates the database specified by process.env.MONGODB_CONNECTION_STRING using the current models for threads, pets, and comments. */
+
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { UserModel } from '../../src/models/userModel.js';
@@ -25,12 +27,13 @@ async function createPet(petProperties) {
     name: petProperties.petName,
     species: petProperties.petSpecies,
     breed: petProperties.petBreed,
-    type: 'lost-pet-thread', // it appears that every single pet type is 'lost-pet-thread' so far?
     description: petProperties.petDescription,
     threadId: petProperties.threadId,
+    threadType: petProperties.threadType,
     ownerId: petProperties.ownerId,
     sex: petProperties.petSex,
-    lastSeenTime: petProperties.lastSeenTime
+    lastSeenTime: petProperties.lastSeenTime,
+    lastSeenLocation: petProperties.lastSeenLocation
   });
   console.log('Create pet success');
 }
@@ -40,11 +43,11 @@ async function createThread(threadProperties) {
 
   await ThreadModel.create({
     _id: threadProperties.threadId,
-    title: `${threadProperties.titlePrefix}Lost ${threadProperties.petName} in ${threadProperties.lastSeenLocation} on ${threadProperties.lastSeenDate}!${threadProperties.titleSuffix}`,
+    title: `${threadProperties.titlePrefix}Lost ${threadProperties.petName} in ${threadProperties.lastSeenCity} on ${threadProperties.lastSeenDate}!${threadProperties.titleSuffix}`,
     poster: threadProperties.poster,
-    kind: threadProperties.kind,
+    threadType: threadProperties.threadType,
     pet: petId,
-    content: `${threadProperties.petName} is a ${threadProperties.petBreed} ${threadProperties.petSpecies} that went missing on ${threadProperties.lastSeenDate} near ${threadProperties.lastSeenLocation}. It is ${threadProperties.petDescription}. If you have any information about ${threadProperties.petName}'s whereabouts, please contact us. We miss it dearly and want to bring it back home safely.`,
+    content: `${threadProperties.petName} is a ${threadProperties.petBreed} ${threadProperties.petSpecies} that went missing on ${threadProperties.lastSeenDate} near ${threadProperties.lastSeenCity}. It is ${threadProperties.petDescription}. If you have any information about ${threadProperties.petName}'s whereabouts, please contact us. We miss it dearly and want to bring it back home safely.`,
     comments: []
   });
   console.log('Create thread success');
@@ -57,11 +60,17 @@ async function createThread(threadProperties) {
     petSex: threadProperties.petSex,
     petDescription: threadProperties.petDescription,
     threadId: threadProperties.threadId,
+    threadType: threadProperties.threadType,
     ownerId: threadProperties.poster,
-    lastSeenTime: new Date(threadProperties.lastSeenDate)
+    lastSeenTime: new Date(threadProperties.lastSeenDate),
+    lastSeenLocation: threadProperties.lastSeenLocation
   });
 
   // TODO: Perhaps refactor updatePet in case a thread document is delete without deleting the corresponding pet?
+}
+
+function randomNumber(min, max) {
+  return Math.random() * (max - min) + min;
 }
 
 dotenv.config({ path: '../../.env' });
@@ -84,26 +93,30 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
 
         // new/updated properties
         const petName = faker.person.firstName();
-        const petSpecies = ['Cat', 'Dog'][Math.floor(Math.random() * 2)]; // should be capitalized for discriminator
+        const petSpecies = ['Cat', 'Dog'][Math.floor(Math.random() * 2)];
         const petBreed = petSpecies === 'Cat'
           ? catBreeds[Math.floor(Math.random() * catBreeds.length)]
           : dogBreeds[Math.floor(Math.random() * dogBreeds.length)];
         const petSex = ['male', 'female', 'unknown'][Math.floor(Math.random() * 3)];
         const petDescription = `a friendly and ${faker.word.adjective()} ${petSpecies} with a ${faker.color.human()} coat`;
-        const lastSeenLocation = faker.location.city();
+        const lastSeenCity = faker.location.city();
         const lastSeenDate = faker.date.past().toLocaleDateString();
+        const lastSeenLocation = {
+          type: 'Point',
+          coordinates: [randomNumber(-123.263754, -122.890771), randomNumber(49.241829, 49.266554)]
+        };
         const titlePrefix = ['Help please!! ', 'Please Help! ', '救命!! ', ''][Math.floor(Math.random() * 4)];
         const titleSuffix = [
           ` ${Math.floor(Math.random() * 1000) + 1} furPoint wanted`,
           ''
         ][Math.floor(Math.random() * 2)];
-        const threadKind = ['LostPetThread', 'WitnessThread'][Math.floor(Math.random() * 2)];
-        const threadTitle = threadKind === 'LostPetThread'
-          ? `${titlePrefix}Lost ${petName} in ${lastSeenLocation} on ${lastSeenDate}!${titleSuffix}`
-          : `${titlePrefix}Saw a ${petSpecies} in ${lastSeenLocation} on ${lastSeenDate}!${titleSuffix}`;
-        const threadContent = threadKind === 'LostPetThread'
-          ? `${petName} is a ${petBreed} ${petSpecies} that went missing on ${lastSeenDate} near ${lastSeenLocation}. It is ${petDescription}. If you have any information about ${petName}'s whereabouts, please contact us. We miss it dearly and want to bring it back home safely.`
-          : `I believe I've found a ${petBreed} ${petSpecies} on ${lastSeenDate} near ${lastSeenLocation}. It is ${petDescription}. Message me if you want more info.`;
+        const threadType = ['lostPetThread', 'witnessThread'][Math.floor(Math.random() * 2)];
+        const threadTitle = threadType === 'lostPetThread'
+          ? `${titlePrefix}Lost ${petName} in ${lastSeenCity} on ${lastSeenDate}!${titleSuffix}`
+          : `${titlePrefix}Saw a ${petSpecies} in ${lastSeenCity} on ${lastSeenDate}!${titleSuffix}`;
+        const threadContent = threadType === 'lostPetThread'
+          ? `${petName} is a ${petBreed} ${petSpecies} that went missing on ${lastSeenDate} near ${lastSeenCity}. It is ${petDescription}. If you have any information about ${petName}'s whereabouts, please contact us. We miss it dearly and want to bring it back home safely.`
+          : `I believe I've found a ${petBreed} ${petSpecies} on ${lastSeenDate} near ${lastSeenCity}. It is ${petDescription}. Message me if you want more info.`;
         const threadComment = [
           'I hope you find it soon!',
           'Sending positive vibes your way.',
@@ -115,10 +128,14 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
         ][Math.floor(Math.random() * 7)];
 
         if (foundThread) {
+          // delete kind, if it exists
+          foundThread.set('kind', undefined, { strict: false });
+          foundThread.save();
+
           // update foundThread
           await ThreadModel.findByIdAndUpdate(foundThread._id, {
             title: threadTitle,
-            kind: threadKind,
+            threadType,
             content: threadContent,
             archived: false
           }, { overwriteDiscriminatorKey: true, new: true });
@@ -133,7 +150,9 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
               breed: petBreed,
               sex: petSex,
               description: petDescription,
-              lastSeenTime: new Date(lastSeenDate)
+              lastSeenTime: new Date(lastSeenDate),
+              lastSeenLocation,
+              threadType
             }, { overwriteDiscriminatorKey: true, new: true });
             console.log('Update pet success');
           } else {
@@ -145,8 +164,10 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
               petSex,
               petDescription,
               threadId,
+              threadType,
               ownerId: user._id,
-              lastSeenTime: new Date(lastSeenDate)
+              lastSeenTime: new Date(lastSeenDate),
+              lastSeenLocation
             });
           }
 
@@ -177,11 +198,12 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
             petBreed,
             petSex,
             petDescription,
-            lastSeenLocation,
+            lastSeenCity,
             lastSeenDate,
+            lastSeenLocation,
             titlePrefix,
             titleSuffix,
-            kind: threadKind
+            threadType
           });
         }
       }

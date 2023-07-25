@@ -20,6 +20,8 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
       }
       if (lastSeenEnd) {
         lastSeenEnd = lastSeenEnd.format();
+      } else {
+        lastSeenEnd = dayjs().format();
       }
     }
 
@@ -62,19 +64,17 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
 
         <Form.Item name='lastSeenRange' label='Last Seen Time'>
           <DatePicker.RangePicker
-            showTime={{
-            format: 'HH:mm'
-          }}
-            allowEmpty={[true, true]}
+            showTime={{ format: 'HH:mm' }}
+            allowEmpty={[false, true]}
             format="YYYY-MM-DD HH:mm"
           />
         </Form.Item>
 
-        <Form.Item label='Breed' >
+        <Form.Item label='Breed'>
           <BreedSelector required={false} />
         </Form.Item>
 
-        <Form.Item >
+        <Form.Item>
           <Button className="form-buttons" type="primary" htmlType="submit">
             Submit
           </Button>
