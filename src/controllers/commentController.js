@@ -1,5 +1,5 @@
 import commentService from '../services/commentService.js';
-import { sendEmail } from '../utils/sendEmail.js';
+import { sendEmail } from '../services/sendEmail.js';
 
 export const createComment = async (req, res, next) => {
   try {
