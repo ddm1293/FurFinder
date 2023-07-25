@@ -1,9 +1,16 @@
 .advanced-search-main-content {
     display: flex;
-    width: 30vw;
-    border-left: 10px black;
+}
+
+/* reduce spacing b/w each row */
+.ant-form-item {
+    margin-bottom: 12px;
+}
+.ant-form-item:last-child {
+    margin-bottom: 0;
 }
 
 .form-buttons {
     margin-right: 6px;
+    margin-bottom: 0; /* reduce spacing at end */
 }
