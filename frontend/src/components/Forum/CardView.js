@@ -80,7 +80,11 @@ function CardView ({ items }) {
                       <div onClick={() => {handleClick(item._id)}}>
                         {favourite.includes(item._id) ? <StarFilled key="star" /> : <StarOutlined key="star" />}
                       </div>,
-                      <MessageOutlined key="message" />,
+                      <div key="message-action">
+                        <Link to={`/threads/${item._id}`}>
+                          <MessageOutlined key="message" />
+                        </Link>
+                      </div>,
                     ]}
               >
                 <Meta
