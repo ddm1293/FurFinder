@@ -51,7 +51,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
 
       <Form.Item className='pet-type'
                  label='Breed'>
-        <BreedSelector required={true} />
+        <BreedSelector form={form} required={true} />
       </Form.Item>
 
       <Form.Item name='sex' label='Sex'>
