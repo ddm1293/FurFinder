@@ -34,6 +34,10 @@ function BreedSelector ({ form, required }) {
 
   useEffect(() => {
     form.setFieldsValue({ breed: selectedBreed });
+
+    if (selectedBreed && !form.getFieldsValue(['species']).species) {
+      form.setFieldsValue({ species: 'Cat' });
+    }
   }, [selectedBreed]); // set form breed field
 
   return (
