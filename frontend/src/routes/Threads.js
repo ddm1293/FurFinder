@@ -16,6 +16,7 @@ function Threads() {
       filterOptions = location.state.filterOptions;
       shouldOpenCreateThreadForm = location.state.shouldOpenCreateThreadForm;
       threadType = location.state.threadType;
+
     }
   } else { // otherwise, when user enters "/threads" into the nav bar
     filterOptions = 'lost';
@@ -23,11 +24,13 @@ function Threads() {
   }
 
   return (
-    <Forum
+    <>
+      <Forum
       filterOptions={filterOptions}
       shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
       threadType={threadType}
     />
+    </>
   );
 }
 

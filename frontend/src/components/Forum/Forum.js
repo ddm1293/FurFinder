@@ -13,8 +13,9 @@ import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
+import { fetchPetFromThread } from '../../thunk/thunkHelper'
 
-function Forum ({ threadType, shouldOpenCreateThreadForm }) {
+function Forum ({ threadType, shouldOpenCreateThreadForm}) {
   const dispatch = useDispatch();
 
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
@@ -28,6 +29,7 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const [isLoading, setLoading] = useState(true);
   const [searchBarId, setSearchBarId] = useState(Date.now()); // for resetting search bar input; see below
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const [threads, setThreads] = useState([]);
 
   useEffect(() => {
     dispatch(getThreadsAsync());
@@ -47,9 +49,35 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
     label: 'Map View',
     icon: <EnvironmentOutlined />
   }];
+
+  const fetchThreads = async (selectedThreadType) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/thread/get${selectedThreadType}`);
+      const updated = await fetchPetFromThread(response.data.threads)
+      setThreads(updated);
+      console.log(updated);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // Call the fetchThreads function with the initial selected thread type
+    fetchThreads(threadType)
+      .then(() => setLoading(false))
+      .catch(error => {
+        console.error('Error while fetching threads:', error);
+        setLoading(false);
+      });
+  }, [threadType]); // Effect will re-run whenever threadType changes
+
+
   const startIndex = (currentPage - 1) * cardsPerPage;
   const endIndex = startIndex + cardsPerPage;
   let displayedCards = pagesFromSlice[currentPage] || [];
+  if (threads && threads.length > 0) {
+    displayedCards = threads.slice(startIndex, endIndex);
+  }
   if (searchResults && searchResults.length > 0) {
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
@@ -107,14 +135,18 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
     if (searchResults.length) {
       setTotalThreadNum(searchResults.length);
       setCurrentPage(1);
-    } else {
+    } else if(threads.length) {
+      setTotalThreadNum(threads.length);
+      setCurrentPage(1);
+    }
+    else {
       (async () => {
         const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
         setTotalThreadNum(res.data);
         setCurrentPage(1);
       })();
     }
-  }, [searchResults]);
+  }, [threads, searchResults]);
 
   // pause scrolling if advanced search panel is active
   useEffect(() => {
