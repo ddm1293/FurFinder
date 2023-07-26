@@ -14,16 +14,19 @@ function Threads() {
     } else {
       filterOptions = location.state.filterOptions;
       threadType = location.state.threadType;
+
     }
   } else { // otherwise, when user enters "/threads" into the nav bar
     filterOptions = 'lost';
   }
 
   return (
-    <Forum
+    <>
+      <Forum
       filterOptions={filterOptions}
       threadType={threadType}
     />
+    </>
   );
 }
 
