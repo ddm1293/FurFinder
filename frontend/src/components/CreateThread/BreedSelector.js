@@ -21,9 +21,9 @@ function BreedSelector ({ form, required }) {
     setIsModalOpen(false);
   };
 
-  const onRadio = (e) => {
-    setSelectedBreed(e.target.value);
-  };
+  const resetSelectedBreed = () => {
+    setSelectedBreed(undefined);
+  }
 
   useEffect(() => {
     if (catBreeds.length === 0) {
@@ -47,7 +47,7 @@ function BreedSelector ({ form, required }) {
                      rules={[{
                        required: required,
                        message: 'Please choose the pet species' }]}>
-            <Select placeholder="Select pet species">
+            <Select placeholder="Select pet species" onChange={resetSelectedBreed}>
               <Select.Option value="Cat">Cat</Select.Option>
               <Select.Option value="Dog">Dog</Select.Option>
             </Select>
@@ -58,8 +58,8 @@ function BreedSelector ({ form, required }) {
               Select Breed
             </Button>
             <Modal title="Select Breed" open={isModalOpen} onOk={hideModal} onCancel={hideModal}>
-              <div style={{ height: '65vh', overflow: 'auto', border: '1px solid #ccc', borderRadius: '3px', padding: '10px' }}>
-                <Radio.Group onChange={onRadio} value={selectedBreed}>
+              <div className="modal-div">
+                <Radio.Group onChange={(e) => { setSelectedBreed(e.target.value); }} value={selectedBreed}>
                   <Space direction="vertical">
                     {
                       getFieldValue('species') === 'Dog'
