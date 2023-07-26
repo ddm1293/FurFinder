@@ -41,9 +41,9 @@ function BreedSelector ({ form, required }) {
   }, [selectedBreed]); // set form breed field
 
   return (
-    <Form.Item shouldUpdate={(prevValues, currentValues) =>
-      prevValues['species'] !== currentValues['species']
-    }>
+    <Form.Item
+      shouldUpdate={(prevValues, currentValues) => prevValues['species'] !== currentValues['species']}
+    >
       {({ getFieldValue }) =>
         <Space.Compact block>
           <Form.Item className='pet-species'

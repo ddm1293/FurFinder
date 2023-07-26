@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import CreateThreadContent from './CreateThreadContent';
 import CreateThreadPetInfo from './CreateThreadPetInfo';
+import { refresh } from '../../store/forumSlice';
 import { createThreadAsync } from '../../thunk/threadThunk';
 import { Form, Divider, Button } from 'antd';
 
@@ -34,6 +35,7 @@ function CreateThreadForm ({ initialType }) {
         if (createThreadAsync.fulfilled.match(action)) {
           const threadId = action.payload._id;
           navigate(`/threads/${threadId}`);
+          dispatch(refresh());
         } else {
           // handle the error
           console.log('Cannot open the new Thread.' + action.error.message);

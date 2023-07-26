@@ -50,11 +50,19 @@ function CreateThreadPetInfo ({ threadType, form }) {
       </Form.Item>
 
       <Form.Item className='pet-type'
-                 label='Breed'>
+                 label='Breed'
+                 required
+      >
         <BreedSelector form={form} required={true} />
       </Form.Item>
 
-      <Form.Item name='sex' label='Sex'>
+      <Form.Item name='sex'
+                 label='Sex'
+                 rules={[{
+                   required: true,
+                   message: 'Please enter the pet sex'
+                 }]}
+      >
         <Radio.Group>
           <Radio value="female"> Female </Radio>
           <Radio value="male"> Male </Radio>
@@ -62,7 +70,13 @@ function CreateThreadPetInfo ({ threadType, form }) {
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item name='lastSeenTime' label="Last Seen Time">
+      <Form.Item name='lastSeenTime'
+                 label="Last Seen Time"
+                 rules={[{
+                   required: true,
+                   message: 'Please enter the last time of seeing the pet'
+                 }]}
+      >
         <DatePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
       </Form.Item>
 
@@ -79,7 +93,13 @@ function CreateThreadPetInfo ({ threadType, form }) {
         </Form.Item>
       </Form.Item>
 
-      <Form.Item name='lastSeenLocation' label='Last Seen Location'>
+      <Form.Item name='lastSeenLocation'
+                 label='Last Seen Location'
+                 rules={[{
+                   required: true,
+                   message: 'Please enter the last seen location of the pet'
+                 }]}
+      >
         <Map handleMapInfo={handleMapInfo} initialPosition={form.getFieldValue('lastSeenLocation')} />
       </Form.Item>
 

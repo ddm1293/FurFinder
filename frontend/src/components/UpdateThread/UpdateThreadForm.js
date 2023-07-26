@@ -7,6 +7,7 @@ import CreateThreadPetInfo from '../CreateThread/CreateThreadPetInfo'
 import { useDispatch, useSelector} from 'react-redux';
 import { updateThreadAsync, getThreadAsync} from '../../thunk/threadThunk';
 import dayjs from 'dayjs';
+import { refresh } from '../../store/forumSlice';
 
 function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
   const [threadType, updateThreadType] = useState('');
@@ -67,6 +68,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
         // console.log('Action:', action);
         if (updateThreadAsync.fulfilled.match(action)) {
           // const threadId = action.payload._id;
+          dispatch(refresh());
           navigate(`/threads/${threadId}`);
           window.location.reload();
           onUpdate();
