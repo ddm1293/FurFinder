@@ -17,17 +17,19 @@ export const createComment = async (req, res, next) => {
           </body>
         </html>
       `;
-    await sendEmail(
+    const email = sendEmail(
       threadPoster.useremail,
       'New Comment',
       '',
       emailTemplate
     );
-    res.status(201).json({
+    const response = res.status(201).json({
       message: 'The comment is created successfully',
       commentCreated: comment,
       commentId: comment._id
     });
+
+    await Promise.all([email, response]); // execute both sendEmail and response creation in parallel
   } catch (err) {
     next(err);
   }
