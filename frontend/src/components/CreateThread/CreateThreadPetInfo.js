@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Radio, DatePicker, Upload, Image} from 'antd';
-import { InboxOutlined } from '@ant-design/icons'
+import { Form, Input, Radio, DatePicker, Upload, Image, Button} from 'antd';
+import { InboxOutlined, DeleteOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 import BreedSelector from './BreedSelector'
@@ -8,6 +8,7 @@ import Map from '../Map/Map'
 
 function CreateThreadPetInfo ({ threadType, form }) {
   const [originalName, setOriginalName] = useState('');
+  const [previewImages, setPreviewImages] = useState([]);
 
   useEffect(() => {
     if (threadType === 'witnessThread') {
@@ -24,7 +25,25 @@ function CreateThreadPetInfo ({ threadType, form }) {
       return e;
     }
      return e?.fileList;
-    //return e ? [e.fileList] : [];
+  };
+
+  const beforeUpload = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setPreviewImages((prevImages) => [...prevImages, reader.result]);
+    };
+    return false; // Prevent default upload behavior
+  };
+
+  const handleRemovePreview = (file) => {
+    setPreviewImages((prevImages) => prevImages.filter((prevImage) => prevImage.file !== file));
+  };
+
+  const handleRemoveUploadedFile = (file) => {
+    const fileList = form.getFieldValue('pic');
+    const newFileList = fileList.filter((item) => item !== file);
+    form.setFieldsValue({ pic: newFileList });
   };
 
   function dummyRequest({ file, onSuccess }) {
@@ -86,13 +105,34 @@ function CreateThreadPetInfo ({ threadType, form }) {
                    valuePropName='fileList'
                    getValueFromEvent={normFile}
                    noStyle>
-          <Upload.Dragger name="pet-pic-dragger" customRequest={dummyRequest} accept=".jpg" maxCount={5}>
+          <Upload.Dragger name="pet-pic-dragger" customRequest={dummyRequest} accept=".jpg"
+                          maxCount={5} beforeUpload={beforeUpload}>
             <p className="pet-pic-drag-icon"><InboxOutlined /></p>
             <p className="pet-pic-upload-text">Click or drag file to this area to upload</p>
             <p className="pet-pic-upload-hint">Support for a single upload.</p>
           </Upload.Dragger>
         </Form.Item>
       </Form.Item>
+
+      {/* {previewImages.length > 0 && */}
+      {/*   <div className="preview-images"> */}
+      {/*     {previewImages.map((image, index) => ( */}
+      {/*       <Image key={index} src={image} width={100} /> */}
+      {/*     ))} */}
+      {/*   </div> */}
+      {/* } */}
+
+      {previewImages.length > 0 &&
+        <div className="preview-images">
+          {previewImages.map((image, index) => (
+            <div key={index} className="preview-image">
+              <Image src={image.url} width={100} />
+              <Button icon={<DeleteOutlined />} onClick={() => { handleRemoveUploadedFile(image.file); handleRemovePreview(image.file); }} />
+            </div>
+          ))}
+        </div>
+      }
+
 
       <Form.Item name='lastSeenLocation'
                  label='Last Seen Location'
