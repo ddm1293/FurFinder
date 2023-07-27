@@ -9,6 +9,7 @@ import Home from './routes/Home';
 import Login from './routes/Login';
 import Signup from './routes/Signup';
 import Threads from './routes/Threads';
+import CreateThread from './routes/CreateThread';
 import ThreadView from './routes/ThreadView';
 import YourProfile from './routes/YourProfile';
 import Settings from './routes/Settings';
@@ -45,6 +46,11 @@ function App() {
                 </ProtectedRoute>
               } />
               <Route path="/threads" element={<Threads />} />
+              <Route path="/threads/create" element={
+                <ProtectedRoute>
+                  <CreateThread />
+                </ProtectedRoute>
+              } />
               <Route path="/threads/:id" element={<ThreadView />} />
             </Routes>
           </Router>

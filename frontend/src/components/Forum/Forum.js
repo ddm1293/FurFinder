@@ -15,7 +15,7 @@ import axios from 'axios'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
 
-function Forum ({ threadType, shouldOpenCreateThreadForm}) {
+function Forum ({ threadType }) {
   const dispatch = useDispatch();
 
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
@@ -33,7 +33,7 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
 
   useEffect(() => {
     dispatch(getThreadsAsync());
-  }, [dispatch, threadType, shouldOpenCreateThreadForm]);
+  }, [dispatch, threadType]);
 
   // render threads in different views
   const viewOptions = [{
@@ -170,7 +170,6 @@ function Forum ({ threadType, shouldOpenCreateThreadForm}) {
             mode="horizontal"
             items={viewOptions} />
           <CreateThreadButton
-            shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
             threadType={threadType}
           />
           <SearchBar key={searchBarId} threadType={threadType}/>
