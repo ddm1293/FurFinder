@@ -37,3 +37,4 @@ export const searchThreadsAsync = createAsyncThunk(
     return await fetchPetFromThread(searched);
   }
 )
+

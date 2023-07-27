@@ -31,6 +31,15 @@
     font-size: 0.9rem;
 }
 
+.no-matching-threads-card {
+    margin-top: 8px;
+    background-color: #f8f8f8;
+    border: 1px solid #e8e8e8;
+    padding: 16px;
+    text-align: center;
+    font-weight: bold;
+}
+
 .ant-tag-checkable {
     font-size: 0.9rem;
     margin-right: 10px;

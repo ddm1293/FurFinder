@@ -71,7 +71,7 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
         </Form.Item>
 
         <Form.Item label='Breed'>
-          <BreedSelector required={false} />
+          <BreedSelector form={form} required={false} />
         </Form.Item>
 
         <Form.Item>
