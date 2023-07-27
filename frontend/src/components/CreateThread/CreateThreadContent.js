@@ -12,7 +12,7 @@ function CreateThreadContent ({ threadType, handleThreadTypeUpdate }) {
   return (
     <Form.Item className='create-thread-content'>
       <Form.Item name='threadType'
-                 label='Alter The Type of Thread You Are Creating'>
+                 label='Change The Type of Thread You Are Creating'>
         <Select onChange={onThreadTypeChange}>
           <Select.Option value="lostPetThread">
             Lost Pet Thread
