@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { GoogleMap, Marker, Circle, useLoadScript } from '@react-google-maps/api';
+import axios from 'axios';
 import '../../style/Thread/ThreadMap.css';
 
-function ThreadMap({ lastSeenLocation, species }) {
+function ThreadMap({ lastSeenLocation, species, relevant }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEYS,
     language: 'en',
@@ -10,6 +11,22 @@ function ThreadMap({ lastSeenLocation, species }) {
   });
 
   const mapContainerRef = useRef(null);
+  const [relevantLocations, setRelevantLocations] = useState([]);
+
+  useEffect(() => {
+    const fetchRelevantLocations = async () => {
+      const threads = await Promise.all(relevant.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+      const petsData = await Promise.all(threads.map(relevantThread =>
+        axios.get(`http://localhost:3001/pet/${relevantThread.data.thread.pet}`)));
+      const locations = petsData.map((pet, index) => ({
+        lat: pet.data.lastSeenLocation.coordinates[1],
+        lng: pet.data.lastSeenLocation.coordinates[0],
+        threadId: threads[index].data.thread._id // add thread id to the location object
+      }));
+      setRelevantLocations(locations);
+    };
+    fetchRelevantLocations();
+  }, [relevant]);
 
   const handleResize = () => {
     if (mapContainerRef.current) {
@@ -25,8 +42,6 @@ function ThreadMap({ lastSeenLocation, species }) {
       }
     }
   };
-
-
 
   useEffect(() => {
     // set initial size
@@ -53,6 +68,17 @@ function ThreadMap({ lastSeenLocation, species }) {
         >
           <Marker position={lastSeenLocation} />
           {species === 'Cat' && <Circle center={lastSeenLocation} radius={500} />}
+          {relevantLocations.map((location, index) => (
+            <Marker
+              key={index}
+              position={location}
+              onClick={() => window.open(`/threads/${location.threadId}`, "_blank")}
+              icon={{
+                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                scaledSize: new window.google.maps.Size(42, 42),
+              }}
+            />
+          ))}
         </GoogleMap>
       </div>
     );
