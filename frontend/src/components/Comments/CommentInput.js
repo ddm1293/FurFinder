@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Input, Button } from 'antd'
 import { addCommentAsync } from '../../thunk/commentThunk'
 import { useDispatch, useSelector } from 'react-redux'
+import { sendEmailNotification } from '../../sendEmailNotification'
+import axios from 'axios'
 
 const { TextArea } = Input
 
@@ -25,12 +27,32 @@ function CommentInput (props) {
       parentId: props.parentID,
     }
     dispatch(addCommentAsync({ threadID: props.threadID, newComment: newComment}))
-      .then(() => {
+      .then(async () => {
+        await sendCommentNotification(props.threadID);
         setComment('');
         if (props.handleSubmit) {
           props.handleSubmit();
         }
       })
+  }
+
+  async function sendCommentNotification(threadID) {
+    try {
+      const thread = await axios.get(`http://localhost:3001/thread/${threadID}`);
+      console.log('Thread when comment', thread);
+      const posterId = thread.data.thread.poster;
+
+      const poster = await axios.get(`http://localhost:3001/user/${posterId}`);
+      console.log('Poster when comment', poster);
+
+      await sendEmailNotification(
+        poster.data.user.email,
+        poster.data.user.username,
+        `http://localhost:3000/threads/${threadID}`
+      );
+    } catch (error) {
+      console.error('Error in sendCommentEmailNotification:', error);
+    }
   }
 
   return (
