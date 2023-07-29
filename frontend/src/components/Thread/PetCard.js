@@ -1,7 +1,10 @@
 import { Card } from 'antd';
 import React from 'react';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 import '../../style/Thread/PetCard.css'
+
+dayjs.extend(advancedFormat);
 
 const { Meta } = Card;
 
@@ -25,7 +28,7 @@ const PetCard = ({ pet }) => {
               <p><span className="id-card-label">Dog Breed: </span>{pet.breed}</p>
             }
             <p><span className="id-card-label">Sex: </span>{pet.sex}</p>
-            <p><span className="id-card-label">Last Seen Time: </span>{format(new Date(pet.lastSeenTime), 'hh:mm aa, MMMM do yyyy')}</p>
+            <p><span className="id-card-label">Last Seen Time: </span>{dayjs(pet.lastSeenTime).format('hh:mm A, MMMM Do YYYY')}</p>
             <p><span className="id-card-label">Description: </span>{pet.description}</p>
           </div>
         }
