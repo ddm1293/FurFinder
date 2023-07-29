@@ -33,7 +33,9 @@ async function createComment({ commentId, content, authorId, threadId }) {
 }
 
 async function createPet(petProperties) {
-  const shouldCreatePetImage = [true, false, false][Math.floor(Math.random() * 3)];
+  const shouldCreatePetImage = petProperties.threadType === 'lostPetThread'
+    ? true
+    : [true, false, false][Math.floor(Math.random() * 3)];
   let petPic;
 
   if (shouldCreatePetImage) {
@@ -79,17 +81,8 @@ async function createPet(petProperties) {
   console.log('Create pet success');
 }
 
-async function createThread(threadProperties) {
+async function createThread(threadProperties, users) {
   const petId = new mongoose.Types.ObjectId();
-  // const threadComment = [
-  //   'I hope you find it soon!',
-  //   'Sending positive vibes your way.',
-  //   'Good luck!',
-  //   'Wishing you the best in the search.',
-  //   'My thoughts are with you.',
-  //   'Don\'t lose hope. Many lost pets are reunited with their owners.',
-  //   'Stay strong and keep searching!'
-  // ][Math.floor(Math.random() * 7)];
 
   await ThreadModel.create({
     _id: threadProperties.threadId,
@@ -116,6 +109,22 @@ async function createThread(threadProperties) {
     lastSeenTime: new Date(threadProperties.lastSeenDate),
     lastSeenLocation: threadProperties.lastSeenLocation
   });
+
+  const shouldCreateComment = [true, false][Math.floor(Math.random() * 2)];
+  if (shouldCreateComment) {
+    const commentId = new mongoose.Types.ObjectId();
+    const content = [
+      'Sending positive vibes your way.',
+      'Good luck!',
+      'Wishing you the best in the search.',
+      'My thoughts are with you.',
+      'Stay strong and keep searching!'
+    ][Math.floor(Math.random() * 5)];
+    const authorId = users.map((user) => user._id)[Math.floor(Math.random() * users.length)];
+    const threadId = threadProperties.threadId;
+
+    await createComment({ commentId, content, authorId, threadId });
+  }
 
   // TODO: Perhaps refactor updatePet in case a thread document is delete without deleting the corresponding pet?
 }
@@ -202,7 +211,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
         threadType,
         threadContent,
         threadFavoriteCount
-      });
+      }, users);
     }
   })
   .catch((err) => {
