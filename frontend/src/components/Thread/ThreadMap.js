@@ -15,9 +15,9 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
 
   useEffect(() => {
     const fetchRelevantLocations = async () => {
-      const threads = await Promise.all(relevant.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+      const threads = await Promise.all(relevant.map(id => axios.get(`https://furfinder-server.onrender.com/thread/${id}`)));
       const petsData = await Promise.all(threads.map(relevantThread =>
-        axios.get(`http://localhost:3001/pet/${relevantThread.data.thread.pet}`)));
+        axios.get(`https://furfinder-server.onrender.com/pet/${relevantThread.data.thread.pet}`)));
       const locations = petsData.map((pet, index) => ({
         lat: pet.data.lastSeenLocation.coordinates[1],
         lng: pet.data.lastSeenLocation.coordinates[0],

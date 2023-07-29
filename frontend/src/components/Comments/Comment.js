@@ -17,7 +17,7 @@ function Comment (props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/user/${props.comment.author.id}`)
+      .get(`https://furfinder-server.onrender.com/user/${props.comment.author.id}`)
       .then((response) => {
         setCommenter(response.data.user)
       })

@@ -8,7 +8,7 @@ const { Meta } = Card;
 const PetCard = ({ pet }) => {
   const getPetPicUrl = () => {
     if (pet) {
-      return `http://localhost:3001/pet/${pet._id}/image`;
+      return `https://furfinder-server.onrender.com/pet/${pet._id}/image`;
     }
   }
   return (

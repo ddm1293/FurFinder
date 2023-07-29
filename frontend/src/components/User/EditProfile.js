@@ -15,7 +15,7 @@ export default function EditProfile () {
   const onFinish = async (values) => {
     console.log(values)
     axiosPrivate({
-      url: `http://localhost:3001/user/${user.id}`,
+      url: `https://furfinder-server.onrender.com/user/${user.id}`,
       method: 'patch',
       data: values,
       headers: { 'Content-Type': 'application/json' }

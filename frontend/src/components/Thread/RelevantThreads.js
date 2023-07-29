@@ -27,7 +27,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchThreads = async () => {
-        const threads = await Promise.all(relevant.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+        const threads = await Promise.all(relevant.map(id => axios.get(`https://furfinder-server.onrender.com/thread/${id}`)));
         setRelevantThreads(threads.map(response => response.data.thread));
       };
       fetchThreads();
@@ -37,7 +37,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchPets = async () => {
-        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(`http://localhost:3001/pet/${thread.pet}`)));
+        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(`https://furfinder-server.onrender.com/pet/${thread.pet}`)));
         setPets(petsData.map(response => response.data));
       };
       if (relevantThreads.length > 0) {

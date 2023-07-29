@@ -33,7 +33,7 @@ function Thread() {
   useEffect(() => {
     if (thread && thread.poster) {
       axiosPrivate({
-        url: `http://localhost:3001/user/${thread.poster}`,
+        url: `https://furfinder-server.onrender.com/user/${thread.poster}`,
       }).then(response => {
         setPoster(response.data.user);
       })
@@ -45,7 +45,7 @@ function Thread() {
 
   useEffect(() => {
     if (thread && thread.pet) {
-      axios.get(`http://localhost:3001/pet/${thread.pet}`)
+      axios.get(`https://furfinder-server.onrender.com/pet/${thread.pet}`)
         .then(response => {
           // console.log("response data: ", response);
           setPet(response.data);

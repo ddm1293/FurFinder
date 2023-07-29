@@ -14,7 +14,7 @@ const RightMenu = ({ mode }) => {
     const user = useSelector((state) => state.user);
 
     async function logout() {
-      await axios.get('http://localhost:3001/auth/logout', { // TODO: better handling of url
+      await axios.get('https://furfinder-server.onrender.com/auth/logout', { // TODO: better handling of url
         withCredentials: true
       });
 

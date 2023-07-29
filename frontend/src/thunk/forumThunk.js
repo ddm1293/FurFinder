@@ -8,7 +8,7 @@ export const getThreadsAsync = createAsyncThunk(
   async ({page, limit}) => {
     const { pages } = store.getState().forum;
     if (!pages[page]) {
-      const res = await axios.get(`http://localhost:3001/thread/getThreads?page=${page}&limit=${limit}`)
+      const res = await axios.get(`https://furfinder-server.onrender.com/thread/getThreads?page=${page}&limit=${limit}`)
       const threads = res.data.threads;
       const updated = await fetchPetFromThread(threads);
       return {page, threads: updated};
@@ -22,7 +22,7 @@ export const getThreadsAsync = createAsyncThunk(
 export const searchThreadsAsync = createAsyncThunk(
   'forumSlice/searchThreads',
   async (params) => {
-    const baseUrl = 'http://localhost:3001/thread/search';
+    const baseUrl = 'https://furfinder-server.onrender.com/thread/search';
     let url = new URL(baseUrl);
     for (const key in params) {
         if (params[key] !== undefined) {

@@ -9,7 +9,7 @@ export default function DisplayAvatar (props) {
   const [avatarURL, setAvatarURL] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/user/${props.currentUser}/getAvatar`)
+    axios.get(`https://furfinder-server.onrender.com/user/${props.currentUser}/getAvatar`)
       .then((response) => {
         // console.log("getAvatar", response);
         // console.log("avatar", response.data.avatar);

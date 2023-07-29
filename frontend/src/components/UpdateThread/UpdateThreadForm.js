@@ -24,7 +24,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
       // if (!thread.pet || !thread.kind) return; // some checks, shouldn't be triggered at all
 
       axios
-        .get(`http://localhost:3001/pet/${thread.pet}`)
+        .get(`https://furfinder-server.onrender.com/pet/${thread.pet}`)
         .then((response) => {
           // console.log("Got pet data: ", response);
           const pet = response.data;

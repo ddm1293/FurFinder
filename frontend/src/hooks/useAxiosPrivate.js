@@ -4,7 +4,7 @@ import axios from 'axios';
 import useRefreshToken from "./useRefreshToken";
 
 const axiosPrivate = axios.create({
-  baseURL: 'http://localhost:3001', // TODO: better handling of baseURL
+  baseURL: 'https://furfinder-server.onrender.com', // TODO: better handling of baseURL
   headers: { 'Content-Type': 'application/json' },
   withCredentials: true
 });
