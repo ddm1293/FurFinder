@@ -12,7 +12,7 @@ export const createComment = async (req, res, next) => {
           <body>
             <p>Your received a new comment!</p>
             <p>Check out your thread: 
-              <a href="http://localhost:3000/threads/${thread._id}">"${thread.title}"</a>
+              <a href="https://furfinder.onrender.com/threads/${thread._id}">"${thread.title}"</a>
             </p>
           </body>
         </html>
