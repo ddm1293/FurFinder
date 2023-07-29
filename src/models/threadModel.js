@@ -28,7 +28,11 @@ const ThreadSchema = new mongoose.Schema({
   favoriteCount: {
     type: Number,
     default: 0
-  }
+  },
+  relevant: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Thread'
+  }]
 }, {
   timestamps: true,
   discriminatorKey: 'threadType'

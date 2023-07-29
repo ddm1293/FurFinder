@@ -95,7 +95,9 @@ function Thread() {
             <ThreadMap
               lastSeenLocation={{lat: pet.lastSeenLocation.coordinates[1], lng: pet.lastSeenLocation.coordinates[0]}}
               species={pet.species}
+              relevant={thread.relevant}
             />
+
           </div>
         )}
       </div>
