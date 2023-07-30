@@ -36,14 +36,8 @@ function CreateThreadPetInfo ({ threadType, form }) {
     return false; // Prevent default upload behavior
   };
 
-  const handleRemovePreview = (file) => {
-    setPreviewImages((prevImages) => prevImages.filter((prevImage) => prevImage.file !== file));
-  };
-
-  const handleRemoveUploadedFile = (file) => {
-    const fileList = form.getFieldValue('pic');
-    const newFileList = fileList.filter((item) => item !== file);
-    form.setFieldsValue({ pic: newFileList });
+  const handleRemovePreview = (index) => {
+    setPreviewImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   function dummyRequest({ file, onSuccess }) {
@@ -109,30 +103,22 @@ function CreateThreadPetInfo ({ threadType, form }) {
                           maxCount={5} beforeUpload={beforeUpload}>
             <p className="pet-pic-drag-icon"><InboxOutlined /></p>
             <p className="pet-pic-upload-text">Click or drag file to this area to upload</p>
-            <p className="pet-pic-upload-hint">Support for a single upload.</p>
+            <p className="pet-pic-upload-hint">Support for maximum 5 pictures.</p>
           </Upload.Dragger>
         </Form.Item>
       </Form.Item>
 
-      {/* {previewImages.length > 0 && */}
-      {/*   <div className="preview-images"> */}
-      {/*     {previewImages.map((image, index) => ( */}
-      {/*       <Image key={index} src={image} width={100} /> */}
-      {/*     ))} */}
-      {/*   </div> */}
-      {/* } */}
 
       {previewImages.length > 0 &&
         <div className="preview-images">
           {previewImages.map((image, index) => (
             <div key={index} className="preview-image">
-              <Image src={image.url} width={100} />
-              <Button icon={<DeleteOutlined />} onClick={() => { handleRemoveUploadedFile(image.file); handleRemovePreview(image.file); }} />
+              <Image src={image} width={100} />
+              <Button icon={<DeleteOutlined />} onClick={() => handleRemovePreview(index)} />
             </div>
           ))}
         </div>
       }
-
 
       <Form.Item name='lastSeenLocation'
                  label='Last Seen Location'
