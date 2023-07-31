@@ -12,7 +12,6 @@ import AdvancedSearchSidePanel from './Search/AdvancedSearchSidebar'
 import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
-import CreateThreadButton from '../CreateThread/CreateThreadButton'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
 
 function Forum ({ threadType }) {
@@ -169,9 +168,6 @@ function Forum ({ threadType }) {
             selectedKeys={[selectedView]}
             mode="horizontal"
             items={viewOptions} />
-          <CreateThreadButton
-            threadType={threadType}
-          />
           <SearchBar key={searchBarId} threadType={threadType}/>
           <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
           <Button

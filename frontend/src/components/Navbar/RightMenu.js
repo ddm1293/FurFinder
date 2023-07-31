@@ -1,12 +1,12 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Avatar } from "antd";
-import { UserOutlined, CodeOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
+import { UserOutlined, CodeOutlined, LogoutOutlined, LoginOutlined } from '@ant-design/icons';
 import { logoutUser } from '../../store/userSlice';
 import "../../style/Navbar.css";
 import axios from 'axios';
-import DisplayAvatar from '../User/DisplayAvatar'
+import DisplayAvatar from '../User/DisplayAvatar';
+import CreateThreadButton from '../CreateThread/CreateThreadButton';
 
 const RightMenu = ({ mode }) => {
     const navigate = useNavigate();
@@ -27,6 +27,12 @@ const RightMenu = ({ mode }) => {
     }
     return (
       <Menu mode={mode}>
+        {user.id
+          ? <Menu.Item key="create-button-menu-item" className="create-button-menu-item">
+              <CreateThreadButton />
+            </Menu.Item>
+          : <Menu.SubMenu></Menu.SubMenu>
+        }
         <Menu.SubMenu
           title={
             <>
