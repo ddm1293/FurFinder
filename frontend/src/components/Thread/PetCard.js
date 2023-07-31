@@ -2,13 +2,21 @@ import { Card } from 'antd';
 import React from 'react';
 import { format } from 'date-fns';
 import '../../style/Thread/PetCard.css'
+import icon from "../../static/icon.png";
 
 const { Meta } = Card;
 
 const PetCard = ({ pet, src }) => (
   <Card
     className="id-card"
-    cover={<img className="id-card-img" alt="pet" src={src} />}
+    cover={
+      <img
+        className="id-card-img"
+        alt="pet"
+        src={src}
+        onError={(e) => {e.target.onerror = null; e.target.src=icon}}
+      />
+    }
   >
     <Meta
       title={<span className="id-card-title">Name: {pet.name}</span>}
