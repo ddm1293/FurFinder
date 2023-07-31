@@ -1,4 +1,6 @@
 import { PythonShell } from 'python-shell';
+import { idwValue, timeProbabilityData } from './petAssumption.js';
+import { idwInterpolation } from './idwInterpolation.js';
 
 const indexWeight = {
   breedSimilarity: 1,
@@ -52,7 +54,12 @@ export const compareLastSeenTime = async (lost, witnessed) => {
   } else {
     let exponentialDecayModel;
     await PythonShell.run(
-      'src/services/petRelevance/timeIndex.py')
+      'src/services/petRelevance/timeIndex.py',
+      {
+        args: [
+          JSON.stringify(timeProbabilityData.x_lostTime),
+          JSON.stringify(timeProbabilityData.y_probability)]
+      })
       .then((params) => {
         const A = params[0];
         const k = params[1];
@@ -69,6 +76,15 @@ export const compareLastSeenTime = async (lost, witnessed) => {
   return timeSequenceIndex;
 };
 
-export const compareLastSeenLocation = (lost, witnessed) => {
-
+export const compareLastSeenLocation = async (lost, witnessed) => {
+  const lostLocation = {
+    coordinates: lost.lastSeenLocation.coordinates,
+    value: idwValue.lastSeenLocation
+  };
+  const homeAddress = {
+    coordinates: lost.homeAddress.coordinates,
+    value: idwValue.homeAddress
+  };
+  const witnessedLocation = witnessed.lastSeenLocation.coordinates;
+  return idwInterpolation(witnessedLocation, [lostLocation, homeAddress], 6);
 };

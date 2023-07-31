@@ -23,7 +23,7 @@ class PetService {
     return PetModel.findByIdAndUpdate(id, body, { overwriteDiscriminatorKey: true, new: true });
   }
 
-  static async getPetPic(petId) {  // New service function
+  static async getPetPic(petId) { // New service function
     const pet = await PetService.getPetById(petId);
     if (pet && pet.pic && pet.pic.length > 0) {
       return pet.pic[0];

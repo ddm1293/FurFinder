@@ -48,6 +48,9 @@ const PetSchema = new mongoose.Schema({
   lastSeenLocation: {
     type: pointSchema,
     required: true
+  },
+  homeAddress: {
+    type: pointSchema
   }
 }, {
   discriminatorKey: 'species'

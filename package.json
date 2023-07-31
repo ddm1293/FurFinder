@@ -24,6 +24,7 @@
     "mongoose": "^7.2.1",
     "multer": "^1.4.5-lts.1",
     "python-shell": "^5.0.0",
+    "spherical-geometry-js": "^3.0.0",
     "supertest": "^6.3.3",
     "yup": "^1.2.0"
   },

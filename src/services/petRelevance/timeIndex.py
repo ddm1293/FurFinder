@@ -1,5 +1,7 @@
 import numpy as np
 from scipy.optimize import curve_fit
+import sys
+import json
 
 
 def exponential_decay(x, A, k):
@@ -11,8 +13,8 @@ def fit_exponential_decay(x, y):
     A_fit, k_fit = params
     return A_fit, k_fit
 
-x_data = [0, 0.5, 1, 2, 3, 7, 15, 30, 45]
-y_data = [1, 0.97, 0.93, 0.85, 0.77, 0.62, 0.31, 0.23, 0.19]
+x_data = json.loads(sys.argv[1])
+y_data = json.loads(sys.argv[2])
 
 A_fit, k_fit = fit_exponential_decay(x_data, y_data)
 
