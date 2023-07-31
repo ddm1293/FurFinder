@@ -5,11 +5,11 @@ import {
 } from '@jest/globals';
 import {
   compareLastSeenLocation,
-  compareLastSeenTime
+  compareLastSeenTime, compareSize
 } from '../../src/services/petRelevance/petRelevance.js';
 import mongoose from 'mongoose';
 
-const generatePet = (breed, time, lastSeenLocation, homeAddress, threadType) => {
+const generatePet = (breed, time, lastSeenLocation, homeAddress, threadType, species, sizeCategory, sizeNumber) => {
   return {
     _id: new mongoose.Types.ObjectId(),
     name: 'MockCat1',
@@ -31,7 +31,9 @@ const generatePet = (breed, time, lastSeenLocation, homeAddress, threadType) => 
       type: 'Point',
       coordinates: homeAddress
     },
-    species: 'Cat'
+    species,
+    sizeCategory,
+    sizeNumber
   };
 };
 
@@ -57,5 +59,33 @@ describe('Test petRelevance helpers', () => {
 
     const witnessed2 = generatePet('', '', [-123.03766936373003, 49.25376369634729], '', 'witnessThread');
     compareLastSeenLocation(lost, witnessed2);
+  });
+
+  it('Test compareSize: same size category, no size number', () => {
+    const lost = generatePet('', '', '', '', 'lostPetThread', 'Dog', 1);
+    const witnessed = generatePet('', '', '', '', 'witnessThread', 'Dog', 1);
+    const sizeSimilarity = compareSize(lost, witnessed);
+    console.log('see sizeSimilarity: ', sizeSimilarity);
+  });
+
+  it('Test compareSize: different size category', () => {
+    const lost = generatePet('', '', '', '', 'lostPetThread', 'Dog', 1);
+    const witnessed = generatePet('', '', '', '', 'witnessThread', 'Dog', 2);
+    const sizeSimilarity = compareSize(lost, witnessed);
+    console.log('see sizeSimilarity: ', sizeSimilarity);
+  });
+
+  it('Test compareSize: same size category with size number, dog', () => {
+    const lost = generatePet('', '', '', '', 'lostPetThread', 'Dog', 1, 10);
+    const witnessed = generatePet('', '', '', '', 'witnessThread', 'Dog', 1, 12);
+    const sizeSimilarity = compareSize(lost, witnessed);
+    console.log('see sizeSimilarity: ', sizeSimilarity);
+  });
+
+  it('Test compareSize: same size category with size number, cat', () => {
+    const lost = generatePet('', '', '', '', 'lostPetThread', 'Cat', 1, 4);
+    const witnessed = generatePet('', '', '', '', 'witnessThread', 'Cat', 1, 8);
+    const sizeSimilarity = compareSize(lost, witnessed);
+    console.log('see sizeSimilarity: ', sizeSimilarity);
   });
 });

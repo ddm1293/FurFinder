@@ -26,3 +26,11 @@ export const idwValue = {
   lastSeenLocation: 0,
   homeAddress: 1
 };
+
+// compareSize
+export const maxPossibleCategoryDiff = 2;
+
+export const maxPossibleSizeDiff = {
+  dog: 22,
+  cat: 11
+};

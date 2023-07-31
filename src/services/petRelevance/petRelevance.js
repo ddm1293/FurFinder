@@ -1,5 +1,10 @@
 import { PythonShell } from 'python-shell';
-import { idwValue, timeProbabilityData } from './petAssumption.js';
+import {
+  idwValue,
+  maxPossibleCategoryDiff,
+  maxPossibleSizeDiff,
+  timeProbabilityData
+} from './petAssumption.js';
 import { idwInterpolation } from './idwInterpolation.js';
 
 const indexWeight = {
@@ -39,7 +44,28 @@ export const compareColor = (lost, witnessed) => {
 };
 
 export const compareSize = (lost, witnessed) => {
+  const lostSizeCategory = lost.sizeCategory;
+  const witnessedSizeCategory = witnessed.sizeCategory;
+  if (lostSizeCategory === witnessedSizeCategory) {
+    return compareSizeNumber(lost, witnessed);
+  } else {
+    const categoryDifference = Math.abs(lostSizeCategory - witnessedSizeCategory);
+    return 1 - (categoryDifference / maxPossibleCategoryDiff);
+  }
+};
 
+const compareSizeNumber = (lost, witnessed) => {
+  const lostSizeNumber = lost.sizeNumber;
+  const witnessedSizeNumber = witnessed.sizeNumber;
+  if (lostSizeNumber && witnessedSizeNumber) {
+    const sizeDifference = Math.abs(lost.sizeNumber - witnessed.sizeNumber);
+    const species = lost.species;
+    const maxPossibleDiff = species === 'Cat' ? maxPossibleSizeDiff.cat : maxPossibleSizeDiff.dog;
+    // TODO: what if sizeDifference is bigger than maxPossibleDiff?
+    return 1 - (sizeDifference / maxPossibleDiff);
+  } else {
+    return 1;
+  }
 };
 
 export const compareLastSeenTime = async (lost, witnessed) => {

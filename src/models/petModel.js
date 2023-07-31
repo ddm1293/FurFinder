@@ -41,6 +41,18 @@ const PetSchema = new mongoose.Schema({
     },
     required: true
   },
+  sizeCategory: {
+    type: Number,
+    enum: {
+      values: [0, 1, 2],
+      message: 'This size category {VALUE} is not supported'
+    },
+    required: true
+  },
+  sizeNumber: {
+    type: Number,
+    required: false
+  },
   lastSeenTime: {
     type: Date,
     required: true
@@ -50,7 +62,8 @@ const PetSchema = new mongoose.Schema({
     required: true
   },
   homeAddress: {
-    type: pointSchema
+    type: pointSchema,
+    required: false
   }
 }, {
   discriminatorKey: 'species'
