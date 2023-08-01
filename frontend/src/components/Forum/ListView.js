@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Link, useNavigate } from 'react-router-dom'
+import DisplayAvatar from '../User/DisplayAvatar'
 
 function ListView ({ items }) {
   const user = useSelector((state) => state.user);
@@ -65,7 +66,7 @@ function ListView ({ items }) {
                      ]}
           >
             <List.Item.Meta
-              avatar={<Avatar size={30} icon={<UserOutlined />} />}
+              avatar={<DisplayAvatar currentUser={item.poster}/>}
               title={<a href="">{item.title}</a>} // TODO: add link to thread
               description={
                 <div>
