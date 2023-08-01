@@ -54,7 +54,6 @@ function SearchBar ({ threadType }) {
       >
         No matched threads.
       </Modal>
-
     </div>
   )
 }

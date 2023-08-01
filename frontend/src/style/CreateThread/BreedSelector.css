@@ -1,0 +1,14 @@
+.modal-div {
+    height: 65vh;
+    overflow: auto;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+}
+
+.pet-pic {
+    height: 150px;
+    width: 180px;
+    vertical-align: middle;
+    margin: 5px;
+}

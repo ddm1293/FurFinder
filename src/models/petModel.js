@@ -25,8 +25,8 @@ const PetSchema = new mongoose.Schema({
   ],
   threadId: {
     type: mongoose.Types.ObjectId,
-    ref: 'Thread',
-    required: true
+    ref: 'Thread'
+    // required: true
   },
   ownerId: {
     type: mongoose.Types.ObjectId,

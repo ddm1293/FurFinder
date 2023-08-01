@@ -36,6 +36,7 @@ export default function Login() {
           favoredThreads: res.data.user.favoredThreads,
           myThreads: res.data.user.myThreads,
           accessToken: res.data.accessToken,
+          email:  res.data.user.email
         }));
         navigate("/profile");
       } else {
@@ -70,6 +71,7 @@ export default function Login() {
         favoredThreads: res.data.user.favoredThreads,
         myThreads: res.data.user.myThreads,
         accessToken: res.data.accessToken,
+        email: userObject.email,
       })); // TODO: store and handle exp field?
       navigate("/profile");
     } catch (e) {

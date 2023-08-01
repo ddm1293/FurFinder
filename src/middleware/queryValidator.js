@@ -59,10 +59,10 @@ const speciesValidator = query('species')
   .optional()
   .trim()
   .custom((value) => {
-    const allowed = ['cat', 'dog'];
+    const allowed = ['Cat', 'Dog'];
     return allowed.includes(value);
   })
-  .withMessage('breed can be either cat or dog');
+  .withMessage('Species can only be one of Cat or Dog');
 
 const breedValidator = [
   query('breed')

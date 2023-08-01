@@ -46,6 +46,7 @@ function ListView ({ items }) {
   }
   return (
     <div>
+      <div className="list-view">
       <List
         itemLayout="vertical"
         size="large"
@@ -66,7 +67,8 @@ function ListView ({ items }) {
           >
             <List.Item.Meta
               avatar={<Avatar size={30} icon={<UserOutlined />} />}
-              title={<a href="">{item.title}</a>} // TODO: add link to thread
+              title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
+              // title={<a href="">{item.title}</a>} // TODO: add link to thread
               description={
                 <div>
                   <div className="name">{`Name: ${item.pet.name}`}</div>
@@ -78,6 +80,7 @@ function ListView ({ items }) {
           </List.Item>
         )}
       />
+      </div>
     </div>
   )
 }
