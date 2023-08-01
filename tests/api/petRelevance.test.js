@@ -4,12 +4,24 @@ import {
   it
 } from '@jest/globals';
 import {
+  compareColor,
   compareLastSeenLocation,
   compareLastSeenTime, compareSize
 } from '../../src/services/petRelevance/petRelevance.js';
 import mongoose from 'mongoose';
+import { diff } from 'color-diff';
 
-const generatePet = (breed, time, lastSeenLocation, homeAddress, threadType, species, sizeCategory, sizeNumber) => {
+const generatePet = (
+  breed,
+  time,
+  lastSeenLocation,
+  homeAddress,
+  threadType,
+  species,
+  sizeCategory,
+  sizeNumber,
+  dominantColor,
+  secondaryColor) => {
   return {
     _id: new mongoose.Types.ObjectId(),
     name: 'MockCat1',
@@ -33,7 +45,11 @@ const generatePet = (breed, time, lastSeenLocation, homeAddress, threadType, spe
     },
     species,
     sizeCategory,
-    sizeNumber
+    sizeNumber,
+    color: {
+      dominantColor,
+      secondaryColor
+    }
   };
 };
 
@@ -87,5 +103,27 @@ describe('Test petRelevance helpers', () => {
     const witnessed = generatePet('', '', '', '', 'witnessThread', 'Cat', 1, 8);
     const sizeSimilarity = compareSize(lost, witnessed);
     console.log('see sizeSimilarity: ', sizeSimilarity);
+  });
+
+  it('Test compareColor', () => {
+    const lost = {
+      color: {
+        dominantColor: {
+          r: 157,
+          g: 103,
+          b: 120
+        }
+      }
+    };
+    const witnessed = {
+      color: {
+        dominantColor: {
+          r: 161,
+          g: 103,
+          b: 100
+        }
+      }
+    };
+    console.log(diff(lost.color.dominantColor, witnessed.color.dominantColor));
   });
 });

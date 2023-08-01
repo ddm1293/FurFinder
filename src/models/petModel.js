@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { pointSchema } from './helperSchema.js';
+import { pointSchema, rgbSchema } from './helperSchema.js';
 
 const PetSchema = new mongoose.Schema({
   name: {
@@ -40,6 +40,16 @@ const PetSchema = new mongoose.Schema({
       message: '{VALUE} is not supported'
     },
     required: true
+  },
+  color: {
+    dominantColor: {
+      type: rgbSchema,
+      required: true
+    },
+    secondaryColor: {
+      type: rgbSchema,
+      required: false
+    }
   },
   sizeCategory: {
     type: Number,

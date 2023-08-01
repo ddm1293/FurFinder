@@ -1,4 +1,5 @@
 import { computeDistanceBetween, convertLatLng } from 'spherical-geometry-js';
+import { PythonShell } from 'python-shell'
 
 const getDistance = (from, to) => {
   const dist = computeDistanceBetween(convertLatLng(from), convertLatLng(to));
@@ -21,4 +22,27 @@ export const idwInterpolation = (point, referencePoints, p) => {
   const idw = numerator / denominator;
   console.log('see idw: ', idw);
   return idw;
+};
+
+export const exponentialDecay = async (x, y) => {
+  let exponentialDecayModel;
+  await PythonShell.run(
+    'src/services/petRelevance/exponentialDecay.py',
+    {
+      args: [
+        JSON.stringify(x),
+        JSON.stringify(y)]
+    })
+    .then((params) => {
+      const A = params[0];
+      const k = params[1];
+      console.log('see params: ', A, k);
+      exponentialDecayModel = (x) => {
+        return A * Math.exp(-k * x);
+      };
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  return exponentialDecayModel;
 };

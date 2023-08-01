@@ -1,11 +1,13 @@
-import { PythonShell } from 'python-shell';
 import {
+  colorDiffWeight,
+  colorProbabilityData,
   idwValue,
   maxPossibleCategoryDiff,
   maxPossibleSizeDiff,
   timeProbabilityData
 } from './petAssumption.js';
-import { idwInterpolation } from './idwInterpolation.js';
+import { exponentialDecay, idwInterpolation } from './models.js';
+import { diff } from 'color-diff';
 
 const indexWeight = {
   breedSimilarity: 1,
@@ -36,11 +38,30 @@ export const getPetRelevanceIndex = (lost, witnessed) => {
 };
 
 export const compareBreed = (lost, witnessed) => {
-
+  const lostBreed = lost.breed;
+  const witnessedBreed = witnessed.breed;
+  return lostBreed === witnessedBreed ? 1 : 0;
 };
 
-export const compareColor = (lost, witnessed) => {
+export const compareColor = async (lost, witnessed) => {
+  // TODO: nlp - get rgb from a description
+  const lostDominantColor = lost.color.dominantColor;
+  const witnessedDominantColor = witnessed.color.dominantColor;
+  const dominantColorDiff = diff(lostDominantColor, witnessedDominantColor);
 
+  const lostSecondaryColor = lost.color.secondaryColor;
+  const witnessedSecondaryColor = lost.color.secondaryColor;
+  let secondaryColorDiff = 0;
+  if (lostSecondaryColor && witnessedSecondaryColor) {
+    secondaryColorDiff = diff(lostSecondaryColor, witnessedSecondaryColor);
+  }
+  const weightedDiff = (dominantColorDiff * colorDiffWeight.dominantColor +
+      secondaryColorDiff * colorDiffWeight.secondaryColor) /
+    (colorDiffWeight.dominantColor + colorDiffWeight.secondaryColor);
+  const exponentialDecayModel = await exponentialDecay(
+    colorProbabilityData.x_colorDiff, colorProbabilityData.y_probability
+  );
+  return exponentialDecayModel(weightedDiff);
 };
 
 export const compareSize = (lost, witnessed) => {
@@ -78,25 +99,9 @@ export const compareLastSeenTime = async (lost, witnessed) => {
   if (lostTime > witnessedTime) {
     timeSequenceIndex = 0;
   } else {
-    let exponentialDecayModel;
-    await PythonShell.run(
-      'src/services/petRelevance/timeIndex.py',
-      {
-        args: [
-          JSON.stringify(timeProbabilityData.x_lostTime),
-          JSON.stringify(timeProbabilityData.y_probability)]
-      })
-      .then((params) => {
-        const A = params[0];
-        const k = params[1];
-        console.log('see params: ', A, k);
-        exponentialDecayModel = (x) => {
-          return A * Math.exp(-k * x);
-        };
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const exponentialDecayModel = await exponentialDecay(
+      timeProbabilityData.x_lostTime,
+      timeProbabilityData.y_probability);
     timeSequenceIndex = exponentialDecayModel(timeGap);
   }
   return timeSequenceIndex;
