@@ -20,6 +20,10 @@ img {
     margin-top: -20px;
 }
 
+.forum-menu-bar .ant-menu-light {
+    background: inherit;
+}
+
 .forum-view-menu {
     flex-grow: 1;
     line-height: 48px;
