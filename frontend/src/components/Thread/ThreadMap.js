@@ -60,7 +60,6 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
   } else {
     // Call handleResize function after Google Map library has loaded
     setTimeout(handleResize, 0);
-    console.log("relevant: ", relevant);
     return (
       <div ref={mapContainerRef} className="ThreadMap">
         <GoogleMap
