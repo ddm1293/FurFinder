@@ -4,8 +4,10 @@ import defaultAvatar from "../../static/avatar.png"
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import {Buffer} from 'buffer'
+import { useSelector } from 'react-redux'
 
 export default function DisplayAvatar (props) {
+  const user = useSelector((state) => state.user);
   const [avatarURL, setAvatarURL] = useState("");
 
   useEffect(() => {
@@ -21,7 +23,7 @@ export default function DisplayAvatar (props) {
   }, [props.currentUser]);
 
   const getAvatarURL = (avatar) => {
-    if (!avatar.data && avatar.url) { // google profile pic
+    if (!avatar.data && (avatar.url || user.avatar)) { // google profile pic
       return avatar.url;
     } else if (avatar.data && avatar.data.data && avatar.data.type === 'Buffer') {
       const userAvatar = avatar.data.data;
