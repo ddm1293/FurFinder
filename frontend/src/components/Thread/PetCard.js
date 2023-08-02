@@ -1,29 +1,53 @@
-import { Card } from 'antd';
-import React from 'react';
+import { Card, Carousel } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import '../../style/Thread/PetCard.css'
+import axios from 'axios';
+import '../../style/Thread/PetCard.css';
 import icon from "../../static/icon.png";
 
 const { Meta } = Card;
 
 const PetCard = ({ pet }) => {
-  const getPetPicUrl = () => {
-    if (pet) {
-      return `http://localhost:3001/pet/${pet._id}/image`;
+  const [petPics, setPetPics] = useState([]);
+  const [isMultiple, setIsMultiple] = useState(false);
+
+  const fetchPetPics = async () => {
+    const response = await axios.get(`http://localhost:3001/pet/${pet._id}/image`);
+    if (Array.isArray(response.data)) {
+      setIsMultiple(true);
+      setPetPics(response.data.map((pic, i) => `data:${pic.contentType};base64,${pic.data}`));
+    } else {
+      setIsMultiple(false);
+      setPetPics([`http://localhost:3001/pet/${pet._id}/image`]);
     }
-  }
+  };
+
+  useEffect(() => {
+    fetchPetPics();
+  }, [pet]);
+
   return (
-    <Card
-      className="id-card"
-      cover={
+    <Card className="id-card">
+      {isMultiple ? (
+        <Carousel autoplay dotPosition='top'>
+          {petPics.map((src, index) => (
+            <img
+              key={index}
+              className="id-card-img"
+              alt="pet"
+              src={src}
+              onError={(e) => {e.target.onerror = null; e.target.src=icon}}
+            />
+          ))}
+        </Carousel>
+      ) : (
         <img
           className="id-card-img"
           alt="pet"
-          src={getPetPicUrl()}
+          src={petPics[0]}
           onError={(e) => {e.target.onerror = null; e.target.src=icon}}
         />
-      }
-    >
+      )}
       <Meta
         title={<span className="id-card-title">Name: {pet.name}</span>}
         description={
