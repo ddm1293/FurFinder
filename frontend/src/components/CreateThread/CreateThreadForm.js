@@ -34,8 +34,8 @@ function CreateThreadForm ({ initialType }) {
         // check if the action completed successfully
         if (createThreadAsync.fulfilled.match(action)) {
           const threadId = action.payload._id;
-          // navigate(`/threads/${threadId}`);
-          // dispatch(refresh());
+            navigate(`/threads/${threadId}`);
+            dispatch(refresh());
         } else {
           // handle the error
           console.log('Cannot open the new Thread.' + action.error.message);
