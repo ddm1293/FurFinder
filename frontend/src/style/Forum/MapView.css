@@ -1,0 +1,9 @@
+.map-view-container {
+    width: 100%;
+    height: 80vh;
+}
+
+.pet-card-infoWindow {
+    width: 350px;
+    cursor: pointer;
+}
