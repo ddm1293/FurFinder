@@ -23,6 +23,7 @@ function MapView (props) {
       const validPoints = _.filter(dataPoints, (dataPoint) =>
         _.isObject(dataPoint.pet.lastSeenLocation));
       return validPoints.map(point => {
+        console.log("point: ", point);
         return <ThreadMarker thread={point} />
       });
     }
