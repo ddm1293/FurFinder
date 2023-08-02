@@ -48,7 +48,7 @@ function CreateThreadForm ({ initialType }) {
   }, [initialType]);
 
   return (
-    <Form layout='vertical'
+    <Form layout='horizontal'
           name='create-thread-form'
           form={form}
           initialValues={{
