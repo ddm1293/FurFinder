@@ -20,18 +20,16 @@ img {
     margin-top: -20px;
 }
 
-.forum-menu-bar,
-.forum-main-content-view {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
 .forum-view-menu {
     flex-grow: 1;
     line-height: 48px;
     border-bottom: none;
+}
+
+.search-bar-reset-button {
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 0.9rem;
 }
 
 .forum-divider {
@@ -39,40 +37,60 @@ img {
     margin-top: auto;
 }
 
-.pagination {
-    padding-top: 20px;
-}
-
-.card-view {
+.forum-menu-bar,
+.forum-main-content-view
+{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-}
-
-.cards {
-    margin: 10px;
-}
-
-.custom-breadcrumb {
-    margin: 20px 0 20px 50px;
-    font-size: 1rem;
-}
-
-.filter-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.ant-btn {
-    margin-bottom: 1em;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .forum-main-content-view {
     align-items: flex-start;
 }
 
-.search-bar-reset-button {
-    margin-left: 10px;
-    margin-top: 15px;
-    font-size: 0.9rem;
+.forum-main-content {
+    width: 100%;
+}
+
+.card-view {
+    display: grid;
+    grid-gap: 1rem; /* adds some space between the cards */
+}
+
+.cards {
+    margin: 12px auto; /* auto centers the grid item within its cell */
+}
+
+.advanced-search-container {
+    position: fixed;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    right: 0;
+    background: none no-repeat scroll 0 0 #fff;
+    overflow: scroll;
+}
+
+.ant-btn {
+    margin-bottom: 1em;
+}
+
+@media (min-width: 500px) {
+    .card-view  {
+        grid-template-columns: repeat(1, minmax(300px, 1fr));
+    }
+}
+
+@media (min-width: 750px) {
+    .card-view  {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
+}
+
+@media (min-width: 1300px) {
+    .card-view {
+        grid-template-columns: repeat(4, minmax(300px, 1fr));
+    }
 }

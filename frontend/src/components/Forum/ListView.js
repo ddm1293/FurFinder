@@ -5,11 +5,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { Link, useNavigate } from 'react-router-dom'
 
 function ListView ({ items }) {
   const user = useSelector((state) => state.user);
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log(user);
@@ -25,6 +27,10 @@ function ListView ({ items }) {
 
   const handleClick= (id) => {
     console.log(id);
+    if (!user.username){
+      navigate('/login');
+      return;
+    }
     axios
       .patch(`http://localhost:3001/thread/${id}/${user.id}/favorite`)
       .then((response) => {
@@ -40,6 +46,7 @@ function ListView ({ items }) {
   }
   return (
     <div>
+      <div className="list-view">
       <List
         itemLayout="vertical"
         size="large"
@@ -51,12 +58,17 @@ function ListView ({ items }) {
                        <div onClick={() => {handleClick(item._id)}}>
                          {favourite.includes(item._id) ? <StarFilled key="star" /> : <StarOutlined key="star" />}
                        </div>,
-                       <MessageOutlined key="message" />,
+                       <div key="message-action">
+                         <Link to={`/threads/${item._id}`}>
+                           <MessageOutlined key="message" />
+                         </Link>
+                       </div>,
                      ]}
           >
             <List.Item.Meta
               avatar={<Avatar size={30} icon={<UserOutlined />} />}
-              title={<a href="">{item.title}</a>} // TODO: add link to thread
+              title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
+              // title={<a href="">{item.title}</a>} // TODO: add link to thread
               description={
                 <div>
                   <div className="name">{`Name: ${item.pet.name}`}</div>
@@ -68,6 +80,7 @@ function ListView ({ items }) {
           </List.Item>
         )}
       />
+      </div>
     </div>
   )
 }

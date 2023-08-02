@@ -6,28 +6,27 @@ function Threads() {
   const location = useLocation();
   const user = useSelector((state) => state.user);
   let filterOptions;
-  let shouldOpenCreateThreadForm;
-  let threadType;
+  let threadType = 'lostPetThread'; // set default type when user enters "/threads" from nav bar
 
-  if (location.state) {
-    if (location.state.shouldOpenCreateThreadForm && !user.username) {
+  if (location.state) { // if user clicks on "Lost Pets" or "Witnesses"
+    if (!user.username) {
       return <Navigate to="/login" replace />;
     } else {
       filterOptions = location.state.filterOptions;
-      shouldOpenCreateThreadForm = location.state.shouldOpenCreateThreadForm;
       threadType = location.state.threadType;
+
     }
-  } else { // occurs when user directly types '/threads' into the url
-    filterOptions = 'all';
-    shouldOpenCreateThreadForm = false;
+  } else { // otherwise, when user enters "/threads" into the nav bar
+    filterOptions = 'lost';
   }
 
   return (
-    <Forum
+    <>
+      <Forum
       filterOptions={filterOptions}
-      shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
       threadType={threadType}
     />
+    </>
   );
 }
 

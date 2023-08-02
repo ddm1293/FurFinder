@@ -1,4 +1,4 @@
-import { ThreadModel } from '../models/threadModel.js';
+import { LostPetThreadModel, ThreadModel, WitnessThreadModel } from '../models/threadModel.js';
 import UserService from './userService.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
 import { UserDoesNotExistException } from '../exceptions/userException.js';
@@ -18,8 +18,8 @@ class ThreadService {
     }
   }
 
-  static async getAllThreads() {
-    return ThreadModel.find({});
+  static async getAllThreads(threadType) {
+    return ThreadModel.find();
   }
 
   static async getThreadsOfUserById(userId) {
@@ -59,6 +59,14 @@ class ThreadService {
     } else {
       throw new ThreadDoesNotExistException(`thread ${id} does not exist`);
     }
+  }
+
+  static async getLostThreads() {
+    return LostPetThreadModel.find({});
+  }
+
+  static async getWitnessThreads() {
+    return WitnessThreadModel.find({});
   }
 
   static async favoriteThread(id, userId) {

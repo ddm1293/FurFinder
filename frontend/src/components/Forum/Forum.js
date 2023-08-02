@@ -9,12 +9,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import AdvancedSearchButton from './Search/AdvancedSearchButton'
 import AdvancedSearchSidePanel from './Search/AdvancedSearchSidebar'
-import { clearSearchResults } from '../../store/forumSlice'
+import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import CreateThreadButton from '../CreateThread/CreateThreadButton'
+import { fetchPetFromThread } from '../../thunk/thunkHelper'
 
-function Forum ({ threadType, shouldOpenCreateThreadForm }) {
+function Forum ({ threadType }) {
   const dispatch = useDispatch();
 
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
@@ -22,12 +23,17 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
   const pagesFromSlice = useSelector((state) => state.forum.pages);
   const displayStatus = useSelector((state) => state.forum.displayStatus);
 
-  const [selectedKey, setSelectedKey] = useState('');
+  const selectedView = useSelector((state) => state.forum.viewStatus);
   const [totalThreadNum, setTotalThreadNum] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setLoading] = useState(true);
   const [searchBarId, setSearchBarId] = useState(Date.now()); // for resetting search bar input; see below
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const [threads, setThreads] = useState([]);
+
+  useEffect(() => {
+    dispatch(getThreadsAsync());
+  }, [dispatch, threadType]);
 
   // render threads in different views
   const viewOptions = [{
@@ -43,16 +49,42 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
     label: 'Map View',
     icon: <EnvironmentOutlined />
   }];
+
+  const fetchThreads = async (selectedThreadType) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/thread/get${selectedThreadType}`);
+      const updated = await fetchPetFromThread(response.data.threads)
+      setThreads(updated);
+      console.log(updated);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    // Call the fetchThreads function with the initial selected thread type
+    fetchThreads(threadType)
+      .then(() => setLoading(false))
+      .catch(error => {
+        console.error('Error while fetching threads:', error);
+        setLoading(false);
+      });
+  }, [threadType]); // Effect will re-run whenever threadType changes
+
+
   const startIndex = (currentPage - 1) * cardsPerPage;
   const endIndex = startIndex + cardsPerPage;
   let displayedCards = pagesFromSlice[currentPage] || [];
+  if (threads && threads.length > 0) {
+    displayedCards = threads.slice(startIndex, endIndex);
+  }
   if (searchResults && searchResults.length > 0) {
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
   const [advancedSearchForm] = Form.useForm(); // targets advanced search form
 
   const render = () => {
-    switch (selectedKey) {
+    switch (selectedView) {
       case 'list':
         return <ListView items={displayedCards} />
       case 'map':
@@ -103,14 +135,27 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
     if (searchResults.length) {
       setTotalThreadNum(searchResults.length);
       setCurrentPage(1);
-    } else {
+    } else if(threads.length) {
+      setTotalThreadNum(threads.length);
+      setCurrentPage(1);
+    }
+    else {
       (async () => {
         const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
         setTotalThreadNum(res.data);
         setCurrentPage(1);
       })();
     }
-  }, [searchResults]);
+  }, [threads, searchResults]);
+
+  // pause scrolling if advanced search panel is active
+  useEffect(() => {
+    if (showAdvancedSearch) {
+      document.body.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflowY = 'auto';
+    }
+  }, [showAdvancedSearch]);
 
   return (
     <div className='forum-container'>
@@ -119,13 +164,12 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
           <Menu
             className='forum-view-menu'
             onClick={(event) => {
-            setSelectedKey(event.key)
+              dispatch(updateViewStatus(event.key))
           }}
-            selectedKeys={[selectedKey]}
+            selectedKeys={[selectedView]}
             mode="horizontal"
             items={viewOptions} />
           <CreateThreadButton
-            shouldOpenCreateThreadForm={shouldOpenCreateThreadForm}
             threadType={threadType}
           />
           <SearchBar key={searchBarId} threadType={threadType}/>
@@ -155,15 +199,16 @@ function Forum ({ threadType, shouldOpenCreateThreadForm }) {
             </div>
           }
 
-          <div className='advanced-search-container' style={{borderLeft: '1px solid black', paddingLeft:'20px'}}>
-            { showAdvancedSearch &&
+          {
+            showAdvancedSearch &&
+            <div className='advanced-search-container'>
               <AdvancedSearchSidePanel
                 onClose={handleCloseAdvancedSearch}
                 threadType={threadType}
                 form={advancedSearchForm}
               />
-            }
-          </ div>
+            </div>
+          }
         </div>
 
         <Pagination

@@ -9,6 +9,8 @@ const upload = multer();
 
 // GET APIS
 threadRouter.get('/userId/:id', threadController.getThreadsByUserId, handleError);
+threadRouter.get('/getLostPetThread', threadController.getLostThreads, handleError);
+threadRouter.get('/getWitnessThread', threadController.getWitnessThreads, handleError);
 threadRouter.get('/getThreads', threadController.getThreads, handleError);
 threadRouter.get('/getAllThreads', threadController.getAllThreads, handleError);
 threadRouter.get('/getTotalThreadNumber', threadController.getTotalThreadNumber, handleError);

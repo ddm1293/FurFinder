@@ -55,6 +55,7 @@ export default function Signup() {
           favoredThreads: res.data.newUser.favoredThreads,
           myThreads: res.data.newUser.myThreads,
           accessToken: res.data.accessToken,
+          email: null
         }));
         navigate("/profile");
       } else {
