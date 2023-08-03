@@ -11,6 +11,7 @@ import DisplayAvatar from '../User/DisplayAvatar'
 const { Meta } = Card
 
 function CardView ({ items }) {
+  console.log(items, 111);
   const user = useSelector((state) => state.user);
   const petAttributes = ['name', 'breed', 'sex'];
   const [favourite, setFavorite] = useState([]);

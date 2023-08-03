@@ -19,3 +19,20 @@
     margin-top: 0;
     width: 80%;
 }
+
+.SideMenuAndPageContent{
+    display: flex;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.05) ;
+}
+.SideMenu{
+    height: 100%;
+}
+.SideMenuVertical{
+    height: 100%;
+}
+.PageContent{
+    padding-left: 12px;
+}
