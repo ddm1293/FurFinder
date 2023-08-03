@@ -6,16 +6,17 @@ const initialState = {
     favoredThreads: null,
     myThreads: null,
     accessToken: null,
-    email: null
+    email: null,
+    avatar: null,
 };
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
         setUser: (state, action) => {
-            const { id, username, favoredThreads, myThreads, accessToken, email } = action.payload;
+            const { id, username, favoredThreads, myThreads, accessToken, email, avatar } = action.payload;
 
-            return { id, username, favoredThreads, myThreads, accessToken, email };
+            return { id, username, favoredThreads, myThreads, accessToken, email, avatar };
         },
         setAccessToken: (state, action) => {
             return { ...state, accessToken: action.payload };
