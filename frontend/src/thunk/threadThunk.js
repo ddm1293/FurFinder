@@ -12,7 +12,9 @@ export const createThreadAsync = createAsyncThunk(
         if (key === 'pic') {
           // append the file to the FormData object
           formData.append(key, threadData[key][0].originFileObj, threadData[key][0].originFileObj.name);
-        } else if (key === 'lastSeenLocation') {
+        } else if (key === 'lastSeenLocation' || key === 'homeAddress') {
+          formData.append(key, JSON.stringify(threadData[key]));
+        } else if (key === 'dominantColor' || key === 'secondaryColor') {
           formData.append(key, JSON.stringify(threadData[key]));
         } else {
           // append other fields to the FormData object
@@ -20,10 +22,10 @@ export const createThreadAsync = createAsyncThunk(
         }
       }
     }
-    console.log('see result');
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
-    }
+    // console.log('see result');
+    // for (const pair of formData.entries()) {
+    //   console.log(pair[0] + ': ' + pair[1]);
+    // }
 
     const response = await axios.post('http://localhost:3001/thread', formData);
     console.log('response', response.data.threadCreated);

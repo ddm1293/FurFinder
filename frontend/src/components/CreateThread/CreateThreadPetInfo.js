@@ -55,6 +55,18 @@ function CreateThreadPetInfo ({ threadType, form }) {
     form.setFieldsValue({ homeAddress: latLng });
   }
 
+  const setDominantColor = (color) => {
+    form.setFieldsValue({ dominantColor: color })
+  }
+
+  const setSecondaryColor = (color) => {
+    form.setFieldsValue({ secondaryColor: color })
+  }
+
+  const setSizeNumber = (number) => {
+    form.setFieldsValue({ sizeNumber: number })
+  }
+
   return (
     <Form.Item className="create-thread-petInfo">
       <Form.Item
@@ -89,25 +101,23 @@ function CreateThreadPetInfo ({ threadType, form }) {
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item name='color'
-                 label='Color'>
+      <Form.Item label='color'>
         <Form.Item name='dominantColor'
                    label='Choose the dominant color'
                    rules={[{
           required: true,
           message: 'Please enter the pet\'s dominant color'
         }]}>
-          <ColorPickerWrapper colorCategory='dominant' />
+          <ColorPickerWrapper colorCategory='dominant' setColor={setDominantColor} />
         </Form.Item>
 
         <Form.Item name='secondaryColor'
                    label='Choose the secondary color'>
-          <ColorPickerWrapper colorCategory='secondary' />
+          <ColorPickerWrapper colorCategory='secondary' setColor={setSecondaryColor}/>
         </Form.Item>
       </Form.Item>
 
-      <Form.Item name='size'
-                 label='Size'>
+      <Form.Item label='Size'>
         <Space.Compact>
           <Form.Item name='sizeCategory'>
             <Select
@@ -115,13 +125,13 @@ function CreateThreadPetInfo ({ threadType, form }) {
                 width: '100px',
               }}
               options={[
-              { value: '0', label: 'small' },
-              { value: '1', label: 'mid' },
-              { value: '2', label: 'large' }
+              { value: 0, label: 'small' },
+              { value: 1, label: 'mid' },
+              { value: 2, label: 'large' }
             ]} />
           </Form.Item>
             <Form.Item name='sizeNumber'>
-              <InputNumber min={1} max={30} />
+              <InputNumber min={1} max={30} onChange={setSizeNumber} />
               <span style={{ marginLeft: 8, }}>inches</span>
             </Form.Item>
         </Space.Compact>

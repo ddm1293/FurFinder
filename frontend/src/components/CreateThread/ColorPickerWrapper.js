@@ -1,6 +1,6 @@
 import { ColorPicker, Divider } from 'antd'
 
-function ColorPickerWrapper ({ colorCategory }) {
+function ColorPickerWrapper ({ colorCategory, setColor }) {
   return (
     <ColorPicker
       styles={{
@@ -72,6 +72,11 @@ function ColorPickerWrapper ({ colorCategory }) {
           </div>
         </div>
       )}
+      onChangeComplete={(color) => {
+        setColor(color.toRgb());
+      }}
+      format='rgb'
+      allowClear
     />
   )
 }
