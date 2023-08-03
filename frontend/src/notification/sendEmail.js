@@ -1,12 +1,11 @@
 import emailjs from '@emailjs/browser';
 
-export const sendEmail = async (recipientEmail, recipientName, notificationType, threadUrl, message) => {
+export const sendEmail = async (recipientEmail, recipientName, notificationType, threadUrl) => {
   const templateParams = {
     recipient_email: recipientEmail,
     recipient_name: recipientName,
     notification_type: notificationType,
-    thread_url: threadUrl,
-    message: message
+    thread_url: threadUrl
   };
   try {
     const response = await emailjs.send(
