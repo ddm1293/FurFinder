@@ -1,11 +1,11 @@
 import { List } from 'antd';
-import { Avatar } from 'antd';
-import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
+import { MessageOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Link, useNavigate } from 'react-router-dom'
+import DisplayAvatar from '../User/DisplayAvatar'
 
 function ListView ({ items }) {
   const user = useSelector((state) => state.user);
@@ -66,7 +66,7 @@ function ListView ({ items }) {
                      ]}
           >
             <List.Item.Meta
-              avatar={<Avatar size={30} icon={<UserOutlined />} />}
+              avatar={<DisplayAvatar currentUser={item.poster}/>}
               title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
               // title={<a href="">{item.title}</a>} // TODO: add link to thread
               description={

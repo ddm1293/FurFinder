@@ -28,7 +28,7 @@ function CommentInput (props) {
     dispatch(addCommentAsync({ threadID: props.threadID, newComment: newComment}))
       .then(async () => {
         // await sendCommentNotification(props.threadID);
-        await sendNotification(props.threadID, 'comment');
+        await sendNotification(props.threadID, 'comment', 'newComment');
         setComment('');
         if (props.handleSubmit) {
           props.handleSubmit();
