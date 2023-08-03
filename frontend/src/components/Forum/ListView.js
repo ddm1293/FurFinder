@@ -6,7 +6,6 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Link, useNavigate } from 'react-router-dom'
-import DisplayAvatar from '../User/DisplayAvatar'
 
 function ListView ({ items }) {
   const user = useSelector((state) => state.user);
@@ -47,6 +46,7 @@ function ListView ({ items }) {
   }
   return (
     <div>
+      <div className="list-view">
       <List
         itemLayout="vertical"
         size="large"
@@ -66,8 +66,9 @@ function ListView ({ items }) {
                      ]}
           >
             <List.Item.Meta
-              avatar={<DisplayAvatar currentUser={item.poster}/>}
-              title={<a href="">{item.title}</a>} // TODO: add link to thread
+              avatar={<Avatar size={30} icon={<UserOutlined />} />}
+              title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
+              // title={<a href="">{item.title}</a>} // TODO: add link to thread
               description={
                 <div>
                   <div className="name">{`Name: ${item.pet.name}`}</div>
@@ -79,6 +80,7 @@ function ListView ({ items }) {
           </List.Item>
         )}
       />
+      </div>
     </div>
   )
 }
