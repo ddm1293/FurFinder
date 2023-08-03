@@ -211,3 +211,13 @@ export const favoriteThread = async (req, res) => {
     });
   }
 };
+
+export const findThreadsWithRelevantPet = async (req, res, next) => {
+  try {
+    console.log('Server::Finding threads with relevant pets - running findThreadsWithRelevantPet');
+    console.log('let me see req: ', req);
+    console.log('let me see res: ', res);
+  } catch (err) {
+    next(err);
+  }
+};
