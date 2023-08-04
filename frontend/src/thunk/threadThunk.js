@@ -9,9 +9,11 @@ export const createThreadAsync = createAsyncThunk(
     const formData = new FormData();
     for (const key in threadData) {
       if (threadData.hasOwnProperty(key)) {
-        if (key === 'pic' && threadData[key]) {
+        if (key === 'pic') {
           // append the file to the FormData object
-          formData.append(key, threadData[key][0].originFileObj, threadData[key][0].originFileObj.name);
+          for (const file of threadData[key]) {
+            formData.append(key, file.originFileObj, file.originFileObj.name);
+          }
         } else if (key === 'lastSeenLocation' || key === 'homeAddress') {
           formData.append(key, JSON.stringify(threadData[key]));
         } else if (key === 'dominantColor' || key === 'secondaryColor') {
