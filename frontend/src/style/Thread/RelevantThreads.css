@@ -21,13 +21,13 @@
     min-width: 100%; /* ensure the content takes up at least the full width of the container */
 }
 
-.relevant-thread-map {
-    height: 150px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    flex: 1;
-}
+/*.relevant-thread-map {*/
+/*    height: 150px;*/
+/*    border: 1px solid #ddd;*/
+/*    border-radius: 8px;*/
+/*    overflow: hidden;*/
+/*    flex: 1;*/
+/*}*/
 
 .relevant-threads-intro {
     font-size: 0.8em;
@@ -35,9 +35,15 @@
     margin: 0;
 }
 
-.relevant-threads-maps {
-    display: flex;
-    overflow-x: auto;
-    gap: 20px;
-    width: 100%;
+/*.relevant-threads-maps {*/
+/*    display: flex;*/
+/*    overflow-x: auto;*/
+/*    gap: 20px;*/
+/*    width: 100%;*/
+/*}*/
+
+.relevant-thread-card-wrapper {
+    width: 750px;  /* Adjust this value to control the size of the cards */
+    margin-right: 20px;  /* Add some space between the cards */
 }
+

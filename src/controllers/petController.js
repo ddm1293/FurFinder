@@ -18,11 +18,22 @@ export const getPetImage = async (req, res, next) => {
   try {
     const petId = req.params.id;
     const pet = await PetService.getPetById(petId);
-    const petPic = pet.pic?.[0];
+    const petPics = pet.pic;
 
-    if (petPic) {
-      res.setHeader('Content-Type', petPic.contentType);
-      res.send(petPic.data);
+    if (petPics) {
+      if (petPics.length === 1) {
+        res.setHeader('Content-Type', petPics[0].contentType);
+        res.send(petPics[0].data);
+      } else {
+        const images = petPics.map((pic) => {
+          return {
+            data: pic.data.toString('base64'),
+            contentType: pic.contentType
+          };
+        });
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(images));
+      }
     } else {
       res.sendStatus(204);
     }

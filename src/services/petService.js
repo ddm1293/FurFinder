@@ -6,7 +6,13 @@ import ThreadService from './threadService.js';
 
 class PetService {
   static async createPet(body) {
-    return PetModel.create(body);
+    // clone the body to a new object
+    const newBody = { ...body };
+
+    // ensure the pic property is an array of images
+    newBody.pic = Array.isArray(body.pic) ? body.pic : [body.pic];
+
+    return PetModel.create(newBody);
   }
 
   static async getPetById(petId) {

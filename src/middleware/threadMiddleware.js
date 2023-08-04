@@ -26,12 +26,12 @@ export const processPet = async (req, res, next) => {
       };
     }
 
-    let pic;
+    let pics;
     if (req.body.pic !== 'undefined') {
-      pic = [{
-        data: req.files[0].buffer,
-        contentType: req.files[0].mimetype
-      }];
+      pics = req.files.map(file => ({
+        data: file.buffer,
+        contentType: file.mimetype
+      }));
     }
 
     const dominantColor = JSON.parse(req.body.dominantColor);
@@ -59,7 +59,7 @@ export const processPet = async (req, res, next) => {
       draftState.ownerId = draftState.poster;
       draftState.lastSeenLocation = lastSeenLocation;
       draftState.homeAddress = homeAddress;
-      draftState.pic = pic;
+      draftState.pic = pics;
       draftState.color = color;
       draftState.sizeNumber = sizeNumber;
     });
