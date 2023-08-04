@@ -11,8 +11,6 @@ export default function DisplayAvatar (props) {
   useEffect(() => {
     axios.get(`/user/${props.currentUser}/getAvatar`)
       .then((response) => {
-        // console.log("getAvatar", response);
-        // console.log("avatar", response.data.avatar);
         const url = getAvatarURL(response.data.avatar);
         setAvatarURL(url);
       }).catch(error => {

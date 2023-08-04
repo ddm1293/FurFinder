@@ -1,22 +1,17 @@
 import { List } from 'antd';
-import { Avatar } from 'antd';
-import { MessageOutlined, StarFilled, StarOutlined, UserOutlined } from '@ant-design/icons';
+import { MessageOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Link, useNavigate } from 'react-router-dom'
-import icon from '../../static/icon.png'
+import DisplayAvatar from '../User/DisplayAvatar'
 
 function ListView ({ items }) {
   const user = useSelector((state) => state.user);
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-
-  function getItemImgUrl(item) {
-    return `http://localhost:3001/pet/${item.pet._id}/image`;
-  }
 
   useEffect(() => {
     console.log(user);
@@ -31,6 +26,7 @@ function ListView ({ items }) {
   }, [user])
 
   const handleClick= (id) => {
+    console.log(id);
     if (!user.username){
       navigate('/login');
       return;
@@ -68,21 +64,11 @@ function ListView ({ items }) {
                          </Link>
                        </div>,
                      ]}
-                     extra={
-                       <img
-                         width={200}
-                         alt="logo"
-                         src={getItemImgUrl(item)} onError={({ currentTarget }) => {
-                           currentTarget.onerror = null; // prevents looping
-                           currentTarget.src = icon;
-                     }}
-                       />
-                     }
           >
             <List.Item.Meta
-              avatar={<Avatar size={30} icon={<UserOutlined />} />}
+              avatar={<DisplayAvatar currentUser={item.poster}/>}
               title={<Link to={`/threads/${item._id}`}>{item.title}</Link>}
-              // title={<a href="">{item.title}</a>}
+              // title={<a href="">{item.title}</a>} // TODO: add link to thread
               description={
                 <div>
                   <div className="name">{`Name: ${item.pet.name}`}</div>

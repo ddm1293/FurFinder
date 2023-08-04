@@ -1,6 +1,7 @@
 import '../../style/EditProfile.css'
 import EditAvatar from './EditAvatar'
 import EditProfile from './EditProfile'
+import Notification from './Notification'
 
 export default function UserProfileView () {
 
@@ -9,6 +10,8 @@ export default function UserProfileView () {
       <h2>User Profile</h2>
       <EditAvatar />
       <EditProfile />
+      <h2>Notification</h2>
+      <Notification />
     </div>
   )
 };
