@@ -1,4 +1,4 @@
-import '../../style/EditProfile.css'
+import '../../style/YourProfile.css'
 import { Button, Form, Upload } from 'antd'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
@@ -37,9 +37,9 @@ export default function EditAvatar () {
   }
 
   return (
-    <div className="profile">
+    <div className="user-avatar">
       <DisplayAvatar currentUser={user.id} size={150}/>
-      <Form className="edit-profile-picture" onFinish={onFinish}>
+      <Form className="edit-avatar" onFinish={onFinish}>
         <Form.Item name="avatar" valuePropName="fileList" getValueFromEvent={normFile}
                    rules={[{required: true, message: "Please upload your profile picture"}]}>
           <Upload name="upload-avatar" action="" accept=".jpg,.png,.jpeg" listType="picture"

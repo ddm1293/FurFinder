@@ -1,10 +1,11 @@
-import '../../style/EditProfile.css'
-import { Button, Form, Input } from 'antd'
-import { EditOutlined } from '@ant-design/icons'
+import '../../style/YourProfile.css'
+import { Button, Divider, Form, Input } from 'antd'
+import { EditOutlined, UserOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
 import { setUser } from '../../store/userSlice'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import EditAvatar from './EditAvatar'
 
 export default function EditProfile () {
   const user = useSelector((state) => state.user);
@@ -33,21 +34,38 @@ export default function EditProfile () {
   }
 
   return (
-    <Form className="edit-profile" onFinish={onFinish}>
-      <div style={{ marginBottom: '10px'}}>User Name: {user.username}</div>
-      <Form.Item label="Email" name="email">
-        {!editFields || user.username === user.email ? // google login
-          <div>
-            {user.email}
-            <EditOutlined onClick={() => { setEditFields(true) }} style={{ marginLeft: '10px' }} />
-          </div> :
-          <Input style={{ width: '20%' }} size={'small'}/> // no email saved or not editing
-        }
-      </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ marginRight: '10px' }}>Save</Button>
-        <Button type="primary" onClick={() => { setEditFields(false) }}>Cancel</Button>
-      </Form.Item>
-    </Form>
+    <div className="edit-profile" >
+      <h2><UserOutlined style={{ marginRight: '10px'}}/>User Profile</h2>
+      <Divider />
+      <div className="profile">
+        <span style={{ marginRight: '100px'}}><EditAvatar/></span>
+        <Form onFinish={onFinish}>
+          {/* <h4>User ID</h4> */}
+          {/* <span className="profile-input">{user.id}</span> */}
+          <h4 style={{ marginTop: 0}}>User Name</h4>
+          <span className="profile-input">{user.username}</span>
+          <h4>Email</h4>
+          <Form.Item name="email">
+            {!editFields ?
+              <div>
+                <span className="profile-input">{user.email}</span>
+                {user.username !== user.email &&
+                  <EditOutlined onClick={() => { setEditFields(true) }} style={{ marginLeft: '10px'}} />
+                }
+              </div> :
+              <Input className="profile-input" size={'small'}/> // no email saved or not editing
+            }
+          </Form.Item>
+          <Form.Item>
+            {editFields &&
+              <div>
+                <Button type="primary" htmlType="submit" style={{ marginRight: '10px'}}>Save</Button>
+                <Button type="primary" onClick={() => { setEditFields(false) }}>Cancel</Button>
+              </div>
+            }
+          </Form.Item>
+        </Form>
+      </div>
+    </div>
   )
 };
