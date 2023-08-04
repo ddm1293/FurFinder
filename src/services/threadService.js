@@ -161,8 +161,6 @@ class ThreadService {
       thread2.relevant.push(threadId1);
       await thread2.save();
     }
-
-    return { thread1, thread2 };
   }
 }
 

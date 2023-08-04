@@ -48,7 +48,7 @@ function SearchBar ({ threadType }) {
       />
       <Modal
         title="No Matched Threads"
-        visible={showNoMatchedThreadsModal}
+        open={showNoMatchedThreadsModal}
         onOk={() => setShowNoMatchedThreadsModal(false)} // Handle closing of "No Matched Threads" modal
         onCancel={() => setShowNoMatchedThreadsModal(false)} // Handle closing of "No Matched Threads" modal
       >

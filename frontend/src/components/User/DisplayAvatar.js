@@ -9,7 +9,7 @@ export default function DisplayAvatar (props) {
   const [avatarURL, setAvatarURL] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/user/${props.currentUser}/getAvatar`)
+    axios.get(`/user/${props.currentUser}/getAvatar`)
       .then((response) => {
         const url = getAvatarURL(response.data.avatar);
         setAvatarURL(url);
