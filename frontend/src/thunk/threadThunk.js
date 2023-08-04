@@ -9,16 +9,17 @@ export const createThreadAsync = createAsyncThunk(
     const formData = new FormData();
     for (const key in threadData) {
       if (threadData.hasOwnProperty(key)) {
+        const value = threadData[key] !== undefined ? threadData[key] : "";
         if (key === 'pic') {
           // append multiple files to the FormData object
-          for (const file of threadData[key]) {
+          for (const file of value) {
             formData.append(key, file.originFileObj, file.originFileObj.name);
           }
         } else if (key === 'lastSeenLocation') {
-          formData.append(key, JSON.stringify(threadData[key]));
+          formData.append(key, JSON.stringify(value));
         } else {
           // append other fields to the FormData object
-          formData.append(key, threadData[key]);
+          formData.append(key, value);
         }
       }
     }
@@ -32,6 +33,7 @@ export const createThreadAsync = createAsyncThunk(
     return response.data.threadCreated;
   }
 );
+
 
 export const getThreadAsync = createAsyncThunk(
   'thread/get',
