@@ -9,18 +9,19 @@ export const createThreadAsync = createAsyncThunk(
     const formData = new FormData();
     for (const key in threadData) {
       if (threadData.hasOwnProperty(key)) {
+        const value = threadData[key] !== undefined ? threadData[key] : "";
         if (key === 'pic') {
-          // append the file to the FormData object
-          for (const file of threadData[key]) {
+          // append multiple files to the FormData object
+          for (const file of value) {
             formData.append(key, file.originFileObj, file.originFileObj.name);
           }
         } else if (key === 'lastSeenLocation' || key === 'homeAddress') {
-          formData.append(key, JSON.stringify(threadData[key]));
+          formData.append(key, JSON.stringify(value));
         } else if (key === 'dominantColor' || key === 'secondaryColor') {
-          formData.append(key, JSON.stringify(threadData[key]));
+          formData.append(key, JSON.stringify(value));
         } else {
           // append other fields to the FormData object
-          formData.append(key, threadData[key]);
+          formData.append(key, value);
         }
       }
     }
@@ -35,7 +36,6 @@ export const getThreadAsync = createAsyncThunk(
   'thread/get',
   async (threadId) => {
     const response = await axios.get(`/thread/${threadId}`);
-    // console.log('response', response.data);
     return response.data;
   }
 );

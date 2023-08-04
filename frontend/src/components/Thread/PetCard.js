@@ -29,7 +29,7 @@ const PetCard = ({ pet }) => {
   return (
     <Card className="id-card">
       {isMultiple ? (
-        <Carousel autoplay dotPosition='top'>
+        <Carousel className='pet-card-carousel' autoplay dotPosition='top'>
           {petPics.map((src, index) => (
             <img
               key={index}
