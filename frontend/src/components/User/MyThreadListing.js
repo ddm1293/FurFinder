@@ -6,26 +6,30 @@ import ProfileCardView from '../Forum/ProfileCardView'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 function MyThreadListing () {
   const user = useSelector((state) => state.user);
-  // console.log(user, 9);
-  // const [threads, setThreads] = useState([]);
-  // const axiosPrivate = useAxiosPrivate();
+  console.log(user, 9);
+  const [threads, setThreads] = useState([]);
 
+  const fetchUserThreads = async () => {
+    try {
+      const response = await axios.get(`thread/userId/${user.id}`);
+      console.log(response, 15);
+      setThreads(response.data.threads);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   if (user.username) { // if username property is filled, then so should the remaining fields of user object
-  //     axiosPrivate({
-  //       url: `/userId/${user.id}`,
-  //     }).then((response) => {
-  //       console.log(response);
-  //       setThreads(response.data.user.myThreads);
-  //     }).catch((error) => {
-  //       console.log(error)
-  //     });
-  //   }
-  // }, [user])
+  useEffect(() => {
+    fetchUserThreads()
+      .then(() => setLoading(false))
+      .catch(error => {
+        console.error('Error while fetching threads:', error);
+        setLoading(false);
+      });
+  },  [user]);
 
-  // const myThread= threads;
-  const myThread = user.myThreads;
+  const myThread= threads;
+  //const myThread = user.myThreads;
   const [pets, setPets] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
