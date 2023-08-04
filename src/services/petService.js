@@ -41,6 +41,9 @@ class PetService {
     const targetPets = await PetModel.find({ threadType, species: pet.species });
     const relevantPets = await async.filter(targetPets, async (targetPet) => {
       const petRelevance = await getPetRelevanceIndex(pet, targetPet);
+      if (petRelevance >= relevanceThreshold) {
+        console.log('see relevantPet: ', petRelevance, targetPet);
+      }
       return petRelevance >= relevanceThreshold;
     });
     // console.log('see relevantPets: ', relevantPets);
