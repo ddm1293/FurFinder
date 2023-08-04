@@ -5,7 +5,7 @@ import { fetchDataPointsAsync } from '../../thunk/mapViewThunk'
 import _ from 'lodash'
 import ThreadMarker from '../Forum/ThreadMarker'
 
-function MapView (props) {
+function MapView () {
   const dispatch = useDispatch();
   const dataPoints = useSelector((state) => state.mapView.dataPoints);
   const { isLoaded } = useLoadScript({
@@ -16,7 +16,7 @@ function MapView (props) {
 
   useEffect(() => {
     dispatch(fetchDataPointsAsync());
-  }, [])
+  }, [dispatch])
 
   const renderMarkers = () => {
     if (dataPoints && dataPoints.length !== 0) {

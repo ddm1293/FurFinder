@@ -16,10 +16,11 @@ export const processPet = async (req, res, next) => {
       type: 'Point',
       coordinates: [geoPoint.lng, geoPoint.lat]
     };
-    const pic = [{
-      data: req.files[0].buffer,
-      contentType: req.files[0].mimetype
-    }];
+    // process multiple images
+    const pic = req.files.map(file => ({
+      data: file.buffer,
+      contentType: file.mimetype
+    }));
     const petBody = produce(req.body, draftState => {
       draftState.ownerId = draftState.poster;
       draftState.lastSeenLocation = lastSeenLocation;
