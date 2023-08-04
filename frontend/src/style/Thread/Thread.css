@@ -26,11 +26,16 @@ body {
 }
 
 .pet-card-container {
-    flex-basis: 30%;
+    flex-basis: 33%;
+    max-width: 32%;
+}
+
+.pet-card-container .ant-card-body{
+    padding: 0;
 }
 
 .thread-map-container {
-    flex-basis: 66%;
+    flex-basis: 65%;
     position: relative;
 }
 
@@ -41,6 +46,7 @@ body {
     .pet-card-container {
         flex-basis: 100%;
         width: 100%;
+        max-width: 100%;
     }
     .thread-map-container {
         flex-basis: 100%;

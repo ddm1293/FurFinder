@@ -21,7 +21,7 @@ function ListView ({ items }) {
   useEffect(() => {
     console.log(user);
     axiosPrivate({
-      url: `http://localhost:3001/user/me`,
+      url: `/user/me`,
     }).then((response) => {
       console.log(response);
       setFavorite(response.data.user.favoredThreads);
@@ -36,7 +36,7 @@ function ListView ({ items }) {
       return;
     }
     axios
-      .patch(`http://localhost:3001/thread/${id}/${user.id}/favorite`)
+      .patch(`/thread/${id}/${user.id}/favorite`)
       .then((response) => {
         const updatedFavourite = favourite.includes(id)
           ? favourite.filter((itemId) => itemId !== id)

@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchDataPointsAsync } from '../../thunk/mapViewThunk'
 import _ from 'lodash'
 import ThreadMarker from '../Forum/ThreadMarker'
+import '../../style/Forum/MapView.css';
 
-function MapView (props) {
+function MapView () {
   const dispatch = useDispatch();
   const dataPoints = useSelector((state) => state.mapView.dataPoints);
   const { isLoaded } = useLoadScript({
@@ -16,7 +17,7 @@ function MapView (props) {
 
   useEffect(() => {
     dispatch(fetchDataPointsAsync());
-  }, [])
+  }, [dispatch])
 
   const renderMarkers = () => {
     if (dataPoints && dataPoints.length !== 0) {
@@ -38,19 +39,16 @@ function MapView (props) {
       Map Loading...
     </div>
   } else {
-    return <div className='map-view-container'>
-      <div
-        className='map-container'
-        style={{ width: '100vw', height: '100vh' }}
+    return <div
+      className='map-view-container'
+    >
+      <GoogleMap
+        zoom={11}
+        center={defaultCenter}
+        mapContainerStyle={{ width: '100%', height: '100%' }}
       >
-        <GoogleMap
-          zoom={11}
-          center={defaultCenter}
-          mapContainerStyle={{ width: '100%', height: '100%' }}
-        >
-          { renderMarkers() }
-        </GoogleMap>
-      </div>
+        { renderMarkers() }
+      </GoogleMap>
     </div>
   }
 }

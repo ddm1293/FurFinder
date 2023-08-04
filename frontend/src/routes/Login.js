@@ -19,7 +19,7 @@ export default function Login() {
   const login = async (values) => {
     try {
       const res = await axios({
-        url: `http://localhost:3001/auth/login`, // TODO: better handling of baseURL?
+        url: `/auth/login`,
         method: 'post',
         data: {
           username: values.username,
@@ -52,7 +52,7 @@ export default function Login() {
 
     try {
       const res = await axios({
-        url: `http://localhost:3001/auth/login`, // TODO: better handling of baseURL?
+        url: `/auth/login`,
         method: 'post',
         data: {
           username: userObject.email,

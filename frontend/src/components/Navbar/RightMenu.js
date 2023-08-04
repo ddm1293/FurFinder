@@ -1,12 +1,12 @@
-import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Menu, Avatar } from "antd";
-import { UserOutlined, CodeOutlined, LogoutOutlined, LoginOutlined } from "@ant-design/icons";
+import { UserOutlined, CodeOutlined, LogoutOutlined, LoginOutlined } from '@ant-design/icons';
 import { logoutUser } from '../../store/userSlice';
 import "../../style/Navbar.css";
 import axios from 'axios';
-import DisplayAvatar from '../User/DisplayAvatar'
+import DisplayAvatar from '../User/DisplayAvatar';
+import CreateThreadButton from '../CreateThread/CreateThreadButton';
 
 const RightMenu = ({ mode }) => {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ const RightMenu = ({ mode }) => {
     const user = useSelector((state) => state.user);
 
     async function logout() {
-      await axios.get('http://localhost:3001/auth/logout', { // TODO: better handling of url
+      await axios.get('/auth/logout', {
         withCredentials: true
       });
 
@@ -25,9 +25,17 @@ const RightMenu = ({ mode }) => {
     function login() {
         navigate("/login");
     }
+
     return (
       <Menu mode={mode}>
+        {user.id
+          ? <Menu.Item key="create-button-menu-item" className="create-button-menu-item">
+              <CreateThreadButton />
+            </Menu.Item>
+          : <Menu.SubMenu key="placeholder-menu-item"></Menu.SubMenu>
+        }
         <Menu.SubMenu
+          key="avatar-menu-item"
           title={
             <>
               {user.username ? (
@@ -60,46 +68,5 @@ const RightMenu = ({ mode }) => {
       </Menu>
     );
   };
-
-
-
-
-//     return (
-//         <Menu mode={mode}>
-//             <Menu.SubMenu
-//                 title={
-//                     <>
-//                         {user.username
-//                             ? <Avatar src={user.avatar} />
-//                             : <Avatar icon={<UserOutlined />} />
-//                         }
-//                         <span className="username">{
-//                             user.username || 'Guest'
-//                         }</span>
-//                     </>
-//                 }
-//             >
-//                 {user.username &&
-//                     <Menu.Item key="profile">
-//                         <CodeOutlined /> <Link to="/profile">Your Profile</Link>
-//                     </Menu.Item>
-//                 }
-//                 {user.username &&
-//                     <Menu.Item key="personal-settings">
-//                         <UserOutlined /> <Link to="/settings">Settings</Link>
-//                     </Menu.Item>
-//                 }
-//                 {user.username
-//                     ? <Menu.Item key="log-out" onClick={logout}>
-//                           <LogoutOutlined /> Logout
-//                       </Menu.Item>
-//                     : <Menu.Item key="log-in" onClick={login}>
-//                           <LoginOutlined /> Login
-//                       </Menu.Item>
-//                 }
-//             </Menu.SubMenu>
-//         </Menu>
-//     );
-// };
 
 export default RightMenu;

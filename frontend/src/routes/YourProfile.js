@@ -17,7 +17,7 @@ export default function YourProfile() {
         const res = await axiosPrivate({
           url: `/user/me`,
         });
-        const res2 = await axios.get(`http://localhost:3001/user/64823ca71623f19e8667501e`);
+        const res2 = await axios.get(`/user/64823ca71623f19e8667501e`);
         console.log(res.data);
         console.log(res2.data);
       }, 1000); // make it larger to refresh auth token

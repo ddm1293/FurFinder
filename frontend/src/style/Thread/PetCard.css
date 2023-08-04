@@ -1,16 +1,12 @@
 .id-card {
     border: 1px solid #ddd;
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px 2px rgba(0,0,0,0.1);
 }
 
 .id-card-label {
     font-weight:bold;
-}
-
-.ant-card .ant-card-cover{
-    width: 100%;
 }
 
 .id-card-img {
@@ -33,6 +29,13 @@
     color: black;
     line-height: 0.8;
 }
+
+/*.pet-card-carousel img {*/
+/*    min-width: 100%;*/
+/*    min-height: 100%;*/
+/*    object-fit: cover;*/
+/*    object-position: center;*/
+/*}*/
 
 @media screen and (max-width: 768px) {
     .id-card-info {

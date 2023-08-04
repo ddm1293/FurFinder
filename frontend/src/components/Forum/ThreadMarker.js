@@ -1,48 +1,62 @@
-import { useState } from 'react'
+import { useState, useRef} from 'react'
 import { InfoWindow, Marker } from '@react-google-maps/api'
 import { useNavigate } from 'react-router-dom'
 import missingCatMarker from '../../static/missingCatMarker.png'
 import missingDogMarker from '../../static/missingDogMarker.png'
 import PetCard from '../Thread/PetCard'
+import '../../style/Forum/MapView.css';
 
 function ThreadMarker ({ thread }) {
   const navigate = useNavigate();
-  const [displayPetCard, setDisplayPetCard] = useState(false);
-  const processCoordinates = (coordinates) => {
+
+  const [shouldDisplayCard, setShouldDisplayCard] = useState(false);
+  const [cardIsSelected, setCardIsSelected] = useState(false);
+
+  const iconUrl = thread.pet.species === 'Cat' ? missingCatMarker : missingDogMarker;
+
+  function processCoordinates(coordinates) {
     return {
       lat: coordinates[1],
       lng: coordinates[0]
+    };
+  }
+  function onMouseOver() {
+    setShouldDisplayCard(true);
+  }
+  function onClick() {
+    setCardIsSelected(true);
+  }
+  function onMouseOut() {
+    if (!cardIsSelected) {
+      // set a timeout to close the info window
+      setTimeout(() => {
+        setShouldDisplayCard(false);
+      }, 30);
     }
   }
-  const openWindow = () => {
-    setDisplayPetCard(true);
+  function closeWindow() {
+    setShouldDisplayCard(false);
+    setCardIsSelected(false);
   }
-
-  const closeWindow = () => {
-    setDisplayPetCard(false);
-  }
-
-  const iconUrl = thread.pet.species === 'Cat' ? missingCatMarker : missingDogMarker;
 
   return (
     <div className='thread-marker-container' >
       <Marker
         key={thread._id}
         position={processCoordinates(thread.pet.lastSeenLocation.coordinates)}
-        onClick={() => {
-          navigate(`/threads/${thread._id}`)
-        }}
         icon={{
           url: iconUrl,
           scaledSize: new window.google.maps.Size(32, 32),
         }}
-        onMouseOver={openWindow}
+        onMouseOver={onMouseOver}
+        onClick={onClick}
+        onMouseOut={onMouseOut}
       >
         {
-          displayPetCard &&
+          shouldDisplayCard &&
           <InfoWindow
             onCloseClick={closeWindow}>
-            <div className='pet-card-infoWindow'>
+            <div className='pet-card-infoWindow' onClick={() => { navigate(`/threads/${thread._id}`); }}>
               <PetCard pet={thread.pet} />
             </div>
           </InfoWindow>

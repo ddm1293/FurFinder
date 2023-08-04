@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
-import RelevantThreadMap from './RelevantThreadMap';
-import '../../style/Thread/RelevantThreads.css'
-import { getThreadAsync } from '../../thunk/threadThunk'
+import '../../style/Thread/RelevantThreads.css';
+import { getThreadAsync } from '../../thunk/threadThunk';
+import RelevantThreadCard from './RelevantThreadCard';
 
 function RelevantThreads(props) {
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchThreads = async () => {
-        const threads = await Promise.all(relevant.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+        const threads = await Promise.all(relevant.map(id => axios.get(`/thread/${id}`)));
         setRelevantThreads(threads.map(response => response.data.thread));
       };
       fetchThreads();
@@ -37,7 +37,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchPets = async () => {
-        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(`http://localhost:3001/pet/${thread.pet}`)));
+        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(`/pet/${thread.pet}`)));
         setPets(petsData.map(response => response.data));
       };
       if (relevantThreads.length > 0) {
@@ -55,29 +55,26 @@ function RelevantThreads(props) {
     <div className="relevant-threads-container">
       <div className="relevant-threads">
         <p className="relevant-threads-intro">Relevant threads suggested by our matching algorithm:</p>
-        <div className="relevant-threads-maps">
+        <div className="relevant-threads-cards">
           {relevantThreads.map((thread, index) => {
             const pet = pets[index];
-            return (
-              <a href={`/threads/${thread._id}`} target="_blank" rel="noreferrer noopener" key={thread._id}>
-                {pet && pet.lastSeenLocation && (
-                  <div className="relevant-thread-map">
-                    <RelevantThreadMap
-                      lastSeenLocation={{
-                        lat: pet.lastSeenLocation.coordinates[1],
-                        lng: pet.lastSeenLocation.coordinates[0]
-                      }}
-                    />
+            if (pet) {
+              const petImgUrl = `/pet/${pet._id}/image`;
+              return (
+                <a href={`/threads/${thread._id}`} target="_blank" rel="noreferrer noopener" key={thread._id}>
+                  <div className="relevant-thread-card-wrapper">
+                    <RelevantThreadCard pet={pet} src={petImgUrl} />
                   </div>
-                )}
-              </a>
-            );
+                </a>
+
+              );
+            }
+            return null;  // In case there is no pet data, render nothing for this item.
           })}
         </div>
       </div>
     </div>
   );
-
 }
 
 export default RelevantThreads;

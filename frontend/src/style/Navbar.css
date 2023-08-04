@@ -78,6 +78,13 @@
     margin-left: 8px;
 }
 
+/* https://stackoverflow.com/a/69111481 */
+.create-button-menu-item.ant-menu-item::after,
+.create-button-menu-item.ant-menu-submenu::after {
+    border-bottom: none !important;
+    transition: none !important;
+}
+
 @media (max-width: 320px) {
     .menuButton {
         display: block;

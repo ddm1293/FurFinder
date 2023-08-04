@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import {  Card } from 'antd';
+import { Card } from 'antd';
 import { MessageOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import icon from "../../static/icon.png";
 import DisplayAvatar from '../User/DisplayAvatar'
@@ -16,7 +16,6 @@ function CardView ({ items }) {
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const verifyValidPet = (pet) => {
     for (const key in petAttributes) {
@@ -26,6 +25,7 @@ function CardView ({ items }) {
     }
     return true;
   }
+
   const handleClick= (id) => {
     console.log(id);
     if (!user.username){
@@ -33,14 +33,13 @@ function CardView ({ items }) {
       return;
     }
     axios
-        .patch(`http://localhost:3001/thread/${id}/${user.id}/favorite`)
+        .patch(`/thread/${id}/${user.id}/favorite`)
         .then((response) => {
           const updatedFavourite = favourite.includes(id)
             ? favourite.filter((itemId) => itemId !== id)
             : [...favourite, id];
           console.log(updatedFavourite);
           setFavorite(updatedFavourite);
-          user.favoredThreads=updatedFavourite;
         })
       .catch((error) => {
         console.log(error)
@@ -48,13 +47,13 @@ function CardView ({ items }) {
     }
 
   function getItemImgUrl(item) {
-    return `http://localhost:3001/pet/${item.pet._id}/image`;
+    return `/pet/${item.pet._id}/coverImage`;
   }
 
   useEffect(() => {
     if (user.username) { // if username property is filled, then so should the remaining fields of user object
       axiosPrivate({
-        url: `http://localhost:3001/user/me`,
+        url: `/user/me`,
       }).then((response) => {
         console.log(response);
         setFavorite(response.data.user.favoredThreads);
@@ -73,10 +72,13 @@ function CardView ({ items }) {
               <Card className="cards"
                     key={index}
                     style={{ width: 300 }}
-                    cover={<img src={getItemImgUrl(item)} alt="pet" onError={({ currentTarget }) => {
-                      currentTarget.onerror = null; // prevents looping
-                      currentTarget.src = icon;
-                    }}/>}
+                    cover={
+                    <div className="card-cover-container">
+                      <img className="card-view-img" src={getItemImgUrl(item)} alt="pet" onError={({ currentTarget }) => {
+                        currentTarget.onerror = null; // prevents looping
+                        currentTarget.src = icon;
+                      }}/>
+                    </div>}
                     actions={[
                       <div onClick={() => {handleClick(item._id)}}>
                         {favourite.includes(item._id) ? <StarFilled key="star" /> : <StarOutlined key="star" />}
