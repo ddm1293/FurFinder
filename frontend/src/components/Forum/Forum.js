@@ -12,7 +12,6 @@ import AdvancedSearchSidePanel from './Search/AdvancedSearchSidebar'
 import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
-import CreateThreadButton from '../CreateThread/CreateThreadButton'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
 
 function Forum ({ threadType }) {
@@ -52,7 +51,7 @@ function Forum ({ threadType }) {
 
   const fetchThreads = async (selectedThreadType) => {
     try {
-      const response = await axios.get(`http://localhost:3001/thread/get${selectedThreadType}`);
+      const response = await axios.get(`/thread/get${selectedThreadType}`);
       const updated = await fetchPetFromThread(response.data.threads)
       setThreads(updated);
       console.log(updated);
@@ -115,7 +114,7 @@ function Forum ({ threadType }) {
     dispatch(clearSearchResults()); // reset search result on refresh and app exit
 
     (async () => {
-      const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
+      const res = await axios.get(`/thread/getTotalThreadNumber`)
       setTotalThreadNum(res.data);
     })();
   }, [])
@@ -141,7 +140,7 @@ function Forum ({ threadType }) {
     }
     else {
       (async () => {
-        const res = await axios.get(`http://localhost:3001/thread/getTotalThreadNumber`)
+        const res = await axios.get(`/thread/getTotalThreadNumber`)
         setTotalThreadNum(res.data);
         setCurrentPage(1);
       })();
@@ -169,9 +168,6 @@ function Forum ({ threadType }) {
             selectedKeys={[selectedView]}
             mode="horizontal"
             items={viewOptions} />
-          <CreateThreadButton
-            threadType={threadType}
-          />
           <SearchBar key={searchBarId} threadType={threadType}/>
           <AdvancedSearchButton clickAdvancedSearch={clickAdvancedSearch} />
           <Button
@@ -211,14 +207,17 @@ function Forum ({ threadType }) {
           }
         </div>
 
-        <Pagination
-          current={currentPage}
-          pageSize={cardsPerPage}
-          total={totalThreadNum}
-          onChange={(page) => {
-            setCurrentPage(page);
-          }}
-        />
+        {
+          selectedView !== 'map' &&
+          <Pagination
+            current={currentPage}
+            pageSize={cardsPerPage}
+            total={totalThreadNum}
+            onChange={(page) => {
+              setCurrentPage(page);
+            }}
+          />
+        }
       </div>
 
     </div>

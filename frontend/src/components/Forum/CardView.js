@@ -33,7 +33,7 @@ function CardView ({ items }) {
       return;
     }
     axios
-        .patch(`http://localhost:3001/thread/${id}/${user.id}/favorite`)
+        .patch(`/thread/${id}/${user.id}/favorite`)
         .then((response) => {
           const updatedFavourite = favourite.includes(id)
             ? favourite.filter((itemId) => itemId !== id)
@@ -47,13 +47,13 @@ function CardView ({ items }) {
     }
 
   function getItemImgUrl(item) {
-    return `http://localhost:3001/pet/${item.pet._id}/image`;
+    return `/pet/${item.pet._id}/image`;
   }
 
   useEffect(() => {
     if (user.username) { // if username property is filled, then so should the remaining fields of user object
       axiosPrivate({
-        url: `http://localhost:3001/user/me`,
+        url: `/user/me`,
       }).then((response) => {
         console.log(response);
         setFavorite(response.data.user.favoredThreads);
