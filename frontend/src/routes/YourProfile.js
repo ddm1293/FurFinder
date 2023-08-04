@@ -4,8 +4,8 @@ import axios from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import '../style/YourProfile.css';
 import UserProfileView from '../components/User/UserProfileView'
-import ProfileSideMenu from '../components/User/ProfileSideMenu'
-import PageContent from '../components/User/PageContent'
+import MyThreadListing from '../components/User/MyThreadListing'
+import FavoriteThread from '../components/User/FavoriteThread'
 
 export default function YourProfile() {
   const user = useSelector((state) => state.user);
@@ -28,22 +28,16 @@ export default function YourProfile() {
     test();
   }, []);
 
-  console.log(user.favoredThreads, 222);
-  console.log(user.myThreads, 111)
 
 
   return (
     <div id="your-profile">
       <h1>Hello, {user.username}</h1>
-      {/* <div className="SideMenuAndPageContent"> */}
-      {/*   <ProfileSideMenu /> */}
-      {/*   <PageContent /> */}
-      {/* </div> */}
       <p>ID: {user.id}</p>
       <UserProfileView />
       <h2>Post History</h2>
-      <p>My threads: {user.myThreads}</p>
-      <p>My favourites: {user.favoredThreads}</p>
+      <MyThreadListing />
+      <FavoriteThread />
       {/* <p>My threads: {user.myThreads}</p> */}
       {/* <p>My favourites: {user.favoredThreads}</p> */}
       {/* <p>Access token: {'...' + user.accessToken.split('.')[2]}</p> */}

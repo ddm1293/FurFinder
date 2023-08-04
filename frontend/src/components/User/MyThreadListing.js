@@ -1,40 +1,46 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import CardView from '../Forum/CardView'
-import { getThreadsAsync } from '../../thunk/forumThunk'
+import axios from 'axios'
+import { fetchPetFromThread } from '../../thunk/thunkHelper'
+import ProfileCardView from '../Forum/ProfileCardView'
 function MyThreadListing () {
-  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+
   const myThread= user.myThreads;
-
-  const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
-  const pagesFromSlice = useSelector((state) => state.forum.pages);
-
-  const [totalThreadNum, setTotalThreadNum] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [pets, setPets] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [threads, setThreads] = useState([]);
+
+  const fetchThreads = async () => {
+    try {
+      const response = await Promise.all(myThread.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+      const threads = response.map(res => res.data.thread);
+      const updated = await fetchPetFromThread(threads);
+      const petsData = await Promise.all(updated);
+      setPets(petsData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
-    dispatch(getThreadsAsync(myThread));
-  }, [dispatch]);
+    fetchThreads()
+      .then(() => setLoading(false))
+      .catch(error => {
+        console.error('Error while fetching threads:', error);
+        setLoading(false);
+      });
+  },  [myThread]);
 
 
-  const startIndex = (currentPage - 1) * cardsPerPage;
-  const endIndex = startIndex + cardsPerPage;
-  let displayedCards = pagesFromSlice[currentPage] || [];
-  if (threads && threads.length > 0) {
-    displayedCards = threads.slice(startIndex, endIndex);
-  }
 
   return (
     <div className="profile">
       <h2>My Thread Listing</h2>
-      <CardView items={displayedCards} />
+      <ProfileCardView items={pets} />
 
     </div>
   )
-};
+}
 
 export default MyThreadListing;
 

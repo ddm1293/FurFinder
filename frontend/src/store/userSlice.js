@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     id: null,
     username: null,
-    favoredThreads: null,
-    myThreads: null,
+    // favoredThreads: [],
+    myThreads: [],
     accessToken: null,
     email: null
 };
@@ -13,9 +13,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setUser: (state, action) => {
-            const { id, username, favoredThreads, myThreads, accessToken, email } = action.payload;
+            const { id, username, myThreads, accessToken, email } = action.payload;
 
-            return { id, username, favoredThreads, myThreads, accessToken, email };
+            return { id, username, myThreads, accessToken, email };
         },
         setAccessToken: (state, action) => {
             return { ...state, accessToken: action.payload };
@@ -24,6 +24,13 @@ const userSlice = createSlice({
             return initialState;
         }
     }
+    // ,
+    // extraReducers: (builder) => {
+    //     builder
+    //       .addCase(getFavoredThreadsAsync.fulfilled, (state, action) => {
+    //           state.favoredThreads = action.payload;
+    //       })
+    // }
 });
 
 export const { setUser, setAccessToken, logoutUser } = userSlice.actions;

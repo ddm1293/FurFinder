@@ -1,51 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios';
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import {  Card } from 'antd';
-import { MessageOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import icon from "../../static/icon.png";
 import DisplayAvatar from '../User/DisplayAvatar'
 
 const { Meta } = Card
 
-function CardView ({ items }) {
+function ProfileCardView ({ items }) {
   const user = useSelector((state) => state.user);
-  const petAttributes = ['name', 'breed', 'sex'];
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const verifyValidPet = (pet) => {
-    for (const key in petAttributes) {
-      if (!pet[key]) {
-        return false;
-      }
-    }
-    return true;
-  }
-  const handleClick= (id) => {
-    console.log(id);
-    if (!user.username){
-      navigate('/login');
-      return;
-    }
-    axios
-        .patch(`http://localhost:3001/thread/${id}/${user.id}/favorite`)
-        .then((response) => {
-          const updatedFavourite = favourite.includes(id)
-            ? favourite.filter((itemId) => itemId !== id)
-            : [...favourite, id];
-          console.log(updatedFavourite);
-          setFavorite(updatedFavourite);
-          user.favoredThreads=updatedFavourite;
-        })
-      .catch((error) => {
-        console.log(error)
-      })
-    }
 
   function getItemImgUrl(item) {
     return `http://localhost:3001/pet/${item.pet._id}/image`;
@@ -77,16 +44,6 @@ function CardView ({ items }) {
                       currentTarget.onerror = null; // prevents looping
                       currentTarget.src = icon;
                     }}/>}
-                    actions={[
-                      <div onClick={() => {handleClick(item._id)}}>
-                        {favourite.includes(item._id) ? <StarFilled key="star" /> : <StarOutlined key="star" />}
-                      </div>,
-                      <div key="message-action">
-                        <Link to={`/threads/${item._id}`}>
-                          <MessageOutlined key="message" />
-                        </Link>
-                      </div>,
-                    ]}
               >
                 <Meta
                   avatar={<DisplayAvatar currentUser={item.poster}/>}
@@ -108,4 +65,4 @@ function CardView ({ items }) {
   )
 }
 
-export default CardView
+export default ProfileCardView
