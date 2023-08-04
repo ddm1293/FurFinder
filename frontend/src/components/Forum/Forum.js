@@ -207,14 +207,17 @@ function Forum ({ threadType }) {
           }
         </div>
 
-        <Pagination
-          current={currentPage}
-          pageSize={cardsPerPage}
-          total={totalThreadNum}
-          onChange={(page) => {
-            setCurrentPage(page);
-          }}
-        />
+        {
+          selectedView !== 'map' &&
+          <Pagination
+            current={currentPage}
+            pageSize={cardsPerPage}
+            total={totalThreadNum}
+            onChange={(page) => {
+              setCurrentPage(page);
+            }}
+          />
+        }
       </div>
 
     </div>
