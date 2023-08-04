@@ -1,0 +1,44 @@
+.id-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 2px rgba(0,0,0,0.1);
+}
+
+.id-card-label {
+    font-weight:bold;
+}
+
+.id-card-img {
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+
+.id-card .ant-card-meta-title{
+    font-size: 1.4em;
+}
+
+.id-card-info {
+    display: block;
+    flex-direction: column;
+    width: 100%;
+    font-size: 1.2em;
+    color: black;
+    line-height: 0.8;
+}
+
+/*.pet-card-carousel img {*/
+/*    min-width: 100%;*/
+/*    min-height: 100%;*/
+/*    object-fit: cover;*/
+/*    object-position: center;*/
+/*}*/
+
+@media screen and (max-width: 768px) {
+    .id-card-info {
+        font-size: 1em;
+    }
+}

@@ -1,6 +1,6 @@
 # FurFinder
 
-**FurFinder** is a web-based platform designed to help pet owners to locate their lost pets (only cats and dogs for now). It provides a centralized space for creating lost-pet threads, reporting sightings, and accessing resources to aid in the search effort. The platform offers user authentication, enabling secure login with options like Facebook accounts for increased credibility. Key features include automatic thread updates, notification system for potential witnesses, a thread map with marked locations, and (hopefully) a missing pet flyer generator. FurFinder aims to leverage community engagement and self-designed algorithms to maximize the chances of reuniting lost pets with their owners.
+**FurFinder** is a user-friendly web application committed to reuniting lost pets with their families. Why us? First, we are safe. All the users must register to browse our forum, which guarantees the authenticity of the forum content. Besides, we are fast. Once someone comments on your post, an email will be sent immediately to ensure that you don’t miss a little chance of getting your pet back. Finally, we are smart. We leverage an integrated mapping feature to display pets' last-seen locations and employ an intelligent algorithm to suggest potential connections between posts. Whether you've lost a pet or found one, FurFinder is your go-to platform for swift and reliable assistance.
 
 ## Project Description
 
@@ -47,8 +47,8 @@ What is some additional functionality you can add/remove based on time constrain
 - under a thread, other users can reply to any comments as well
 
 ## Sketch Prototypes
-![page1](pictures/Page1.jpg)
-![page2](pictures/Page2.jpg)
-![page3](pictures/Page3.jpg)
+![page1](public/Page1.jpg)
+![page2](public/Page2.jpg)
+![page3](public/Page3.jpg)
 
 

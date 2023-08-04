@@ -1,0 +1,11 @@
+.thread-text {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    line-height: 1.5;
+}
+
+@media screen and (max-width: 768px) {
+    .thread-text {
+        font-size: 1em;
+    }
+}

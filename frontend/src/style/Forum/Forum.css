@@ -1,0 +1,124 @@
+img {
+    width: 150px;
+    height: 300px;
+}
+
+.forum-container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.forum-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.forum-menu-bar {
+    margin-top: -20px;
+}
+
+.forum-menu-bar .ant-menu-light {
+    background: inherit;
+}
+
+.forum-view-menu {
+    flex-grow: 1;
+    line-height: 48px;
+    border-bottom: none;
+}
+
+.search-bar-reset-button {
+    margin-left: 10px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.forum-divider {
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
+.forum-menu-bar,
+.forum-main-content-view
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.forum-main-content-view {
+    align-items: flex-start;
+}
+
+.forum-main-content {
+    width: 100%;
+}
+
+.card-view {
+    display: grid;
+    grid-gap: 1rem; /* adds some space between the cards */
+}
+
+.cards {
+    margin: 12px auto; /* auto centers the grid item within its cell */
+}
+
+.card-cover-container {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/*.card-view-img {*/
+/*    height: 100%;*/
+/*    width: 100%;*/
+/*    object-position: center;*/
+/*    object-fit: scale-down;*/
+/*}*/
+
+.card-cover-container img {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.advanced-search-container {
+    position: fixed;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    right: 0;
+    background: none no-repeat scroll 0 0 #fff;
+    overflow: scroll;
+}
+
+.ant-btn {
+    margin-bottom: 1em;
+}
+
+@media (min-width: 500px) {
+    .card-view  {
+        grid-template-columns: repeat(1, minmax(300px, 1fr));
+    }
+}
+
+@media (min-width: 750px) {
+    .card-view  {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
+}
+
+@media (min-width: 1300px) {
+    .card-view {
+        grid-template-columns: repeat(4, minmax(300px, 1fr));
+    }
+}

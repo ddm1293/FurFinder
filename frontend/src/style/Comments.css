@@ -1,0 +1,53 @@
+/*html {*/
+/*    background: #FFF4E0;*/
+/*}*/
+.comment-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 30px;
+    font-size: 15pt;
+    width: 80%;
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    font-size: 12pt;
+}
+
+.comment-container {
+    margin-bottom: 10px;
+    width: 600px;
+}
+
+.comment-content {
+    background-color: #EEEEEE;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 10px 10px;
+    word-break: break-all;
+}
+
+.comment-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-username {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.comment-replies {
+    margin: 10px 0 10px 30px;
+    border-left: 1px solid #EEEEEE;
+    padding-left: 10px;
+}
+
+.comment-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
