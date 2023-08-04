@@ -47,7 +47,7 @@ function CardView ({ items }) {
     }
 
   function getItemImgUrl(item) {
-    return `http://localhost:3001/pet/${item.pet._id}/image`;
+    return `http://localhost:3001/pet/${item.pet._id}/coverImage`;
   }
 
   useEffect(() => {

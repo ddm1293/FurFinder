@@ -43,3 +43,21 @@ export const getPetImage = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getPetCoverImage = async (req, res, next) => {
+  console.log('Server::GetPetImage');
+  try {
+    const petId = req.params.id;
+    const pet = await PetService.getPetById(petId);
+    const petPic = pet.pic?.[0];
+
+    if (petPic) {
+      res.setHeader('Content-Type', petPic.contentType);
+      res.send(petPic.data);
+    } else {
+      res.sendStatus(204);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
