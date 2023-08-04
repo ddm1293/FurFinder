@@ -42,7 +42,8 @@ img {
 }
 
 .forum-menu-bar,
-.forum-main-content-view {
+.forum-main-content-view
+{
     display: flex;
     justify-content: space-between;
     align-items: center;
