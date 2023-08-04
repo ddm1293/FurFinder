@@ -3,16 +3,14 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
 import ProfileCardView from '../Forum/ProfileCardView'
-import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+
 function MyThreadListing () {
   const user = useSelector((state) => state.user);
-  console.log(user, 9);
   const [threads, setThreads] = useState([]);
 
   const fetchUserThreads = async () => {
     try {
       const response = await axios.get(`thread/userId/${user.id}`);
-      console.log(response, 15);
       setThreads(response.data.threads);
     } catch (error) {
       console.log(error);
@@ -29,7 +27,6 @@ function MyThreadListing () {
   },  [user]);
 
   const myThread= threads;
-  //const myThread = user.myThreads;
   const [pets, setPets] = useState([]);
   const [isLoading, setLoading] = useState(true);
 
