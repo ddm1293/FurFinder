@@ -17,15 +17,16 @@ const indexWeight = {
   geoDistanceIndex: 1
 };
 
-const relevanceThreshold = 1;
+export const relevanceThreshold = 0.7;
 
-export const getPetRelevanceIndex = (lost, witnessed) => {
+export const getPetRelevanceIndex = async (lost, witnessed) => {
   const breedSimilarity = compareBreed(lost, witnessed);
-  const colorSimilarity = compareColor(lost, witnessed);
+  const colorSimilarity = await compareColor(lost, witnessed);
   const sizeSimilarity = compareSize(lost, witnessed);
-  const timeSequenceIndex = compareLastSeenTime(lost, witnessed);
+  const timeSequenceIndex = await compareLastSeenTime(lost, witnessed);
   const geoDistanceIndex = compareLastSeenLocation(lost, witnessed);
 
+  // console.log('see all the indexes: ', timeSequenceIndex, geoDistanceIndex);
   if (timeSequenceIndex) {
     return indexWeight.breedSimilarity * breedSimilarity +
       indexWeight.colorSimilarity * colorSimilarity +
@@ -45,6 +46,9 @@ export const compareBreed = (lost, witnessed) => {
 
 export const compareColor = async (lost, witnessed) => {
   // TODO: nlp - get rgb from a description
+  if (!witnessed.color.dominantColor) {
+    return 0;
+  }
   const lostDominantColor = lost.color.dominantColor;
   const witnessedDominantColor = witnessed.color.dominantColor;
   const dominantColorDiff = diff(lostDominantColor, witnessedDominantColor);
@@ -65,6 +69,9 @@ export const compareColor = async (lost, witnessed) => {
 };
 
 export const compareSize = (lost, witnessed) => {
+  if (!witnessed.sizeCategory) {
+    return 0;
+  }
   const lostSizeCategory = lost.sizeCategory;
   const witnessedSizeCategory = witnessed.sizeCategory;
   if (lostSizeCategory === witnessedSizeCategory) {
@@ -94,7 +101,6 @@ export const compareLastSeenTime = async (lost, witnessed) => {
   const witnessedTime = witnessed.lastSeenTime;
   const oneDay = 24 * 60 * 60 * 1000;
   const timeGap = Math.abs(lostTime - witnessedTime) / oneDay;
-  console.log('see timeGap: ', timeGap);
   let timeSequenceIndex;
   if (lostTime > witnessedTime) {
     timeSequenceIndex = 0;
@@ -107,7 +113,7 @@ export const compareLastSeenTime = async (lost, witnessed) => {
   return timeSequenceIndex;
 };
 
-export const compareLastSeenLocation = async (lost, witnessed) => {
+export const compareLastSeenLocation = (lost, witnessed) => {
   const lostLocation = {
     coordinates: lost.lastSeenLocation.coordinates,
     value: idwValue.lastSeenLocation

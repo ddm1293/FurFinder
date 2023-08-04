@@ -11,7 +11,6 @@ import { produce } from 'immer';
 
 export const processPet = async (req, res, next) => {
   try {
-    console.log('see req.body: ', req.body);
     const lastSeenLocationPoint = JSON.parse(req.body.lastSeenLocation);
     const lastSeenLocation = {
       type: 'Point',
@@ -20,7 +19,6 @@ export const processPet = async (req, res, next) => {
 
     let homeAddress;
     if (req.body.homeAddress !== 'null') {
-      console.log('see homeAddress: ', req.body.homeAddress);
       const homeAddressPoint = JSON.parse(req.body.homeAddress);
       homeAddress = {
         type: 'Point',
@@ -30,7 +28,6 @@ export const processPet = async (req, res, next) => {
 
     let pic;
     if (req.body.pic !== 'undefined') {
-      console.log('see pic: ', req.body.pic);
       pic = [{
         data: req.files[0].buffer,
         contentType: req.files[0].mimetype

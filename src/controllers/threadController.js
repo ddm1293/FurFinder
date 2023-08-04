@@ -5,12 +5,8 @@ import { matchedData } from 'express-validator';
 export const createThread = async (req, res, next) => {
   try {
     console.log('Server::Creating a thread - running createThread');
-    const thread = await ThreadService.createThread(req.body, res);
-    res.status(200).json({
-      message: 'The thread is created successfully',
-      petCreated: res.petCreated,
-      threadCreated: thread
-    });
+    res.threadCreated = await ThreadService.createThread(req.body, res);
+    next();
   } catch (err) {
     next(err);
   }
@@ -215,8 +211,13 @@ export const favoriteThread = async (req, res) => {
 export const findThreadsWithRelevantPet = async (req, res, next) => {
   try {
     console.log('Server::Finding threads with relevant pets - running findThreadsWithRelevantPet');
-    console.log('let me see req: ', req);
-    console.log('let me see res: ', res);
+    const pet = res.petCreated;
+    const linkedThread = await PetService.linkRelevantPets(pet);
+    res.status(200).json({
+      message: 'The thread is created successfully',
+      petCreated: res.petCreated,
+      threadCreated: linkedThread
+    });
   } catch (err) {
     next(err);
   }
