@@ -5,6 +5,7 @@ import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 import BreedSelector from './BreedSelector'
 import Map from '../Map/Map'
+import dayjs from 'dayjs';
 
 function CreateThreadPetInfo ({ threadType, form }) {
   const [originalName, setOriginalName] = useState('');
@@ -49,6 +50,28 @@ function CreateThreadPetInfo ({ threadType, form }) {
   const handleMapInfo = (latLng) => {
     form.setFieldsValue({ lastSeenLocation: latLng });
   }
+  const range = (start, end) => {
+    const result = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  };
+  const disabledDate = (currentDate) => {
+    return currentDate && currentDate.isAfter(dayjs().endOf('day'));
+  };
+
+  const disabledTime = (selectedDate) => {
+    if (selectedDate && selectedDate.isSame(dayjs(), 'day')) {
+      const currentHour = dayjs().hour();
+      const currentMinute = dayjs().minute();
+      return {
+        disabledHours: () => range(currentHour + 1, 24),
+        disabledMinutes: () => range(currentMinute + 1, 60),
+      };
+    }
+    return {};
+  };
 
   return (
     <Form.Item className="create-thread-petInfo">
@@ -91,7 +114,12 @@ function CreateThreadPetInfo ({ threadType, form }) {
                    message: 'Please enter the last time of seeing the pet'
                  }]}
       >
-        <DatePicker showTime={{ format: 'HH:mm' }} format="YYYY-MM-DD HH:mm" />
+        <DatePicker
+          showTime={{ format: 'HH:mm' }}
+          format="YYYY-MM-DD HH:mm"
+          disabledDate={disabledDate}
+          disabledTime={disabledTime}
+        />
       </Form.Item>
 
       <Form.Item label='Upload Pet Picture'>
