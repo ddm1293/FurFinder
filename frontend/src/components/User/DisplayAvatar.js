@@ -1,4 +1,4 @@
-import '../../style/EditProfile.css'
+import '../../style/YourProfile.css'
 import { Avatar } from 'antd'
 import defaultAvatar from "../../static/avatar.png"
 import { useEffect, useState } from 'react'
