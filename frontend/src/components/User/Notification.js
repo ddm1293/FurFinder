@@ -12,7 +12,7 @@ export default function Notification () {
 
   useEffect(() => {
     axiosPrivate({
-      url: `http://localhost:3001/user/me`,
+      url: `/user/me`,
     }).then((response) => {
       setSubscription(response.data.user.subscription);
       console.log("subscription before", response.data.user.subscription);
@@ -27,7 +27,7 @@ export default function Notification () {
       [name]: checked,
     }));
     axiosPrivate({
-      url: `http://localhost:3001/user/${user.id}`,
+      url: `/user/${user.id}`,
       method: 'patch',
       data: { subscription: { ...subscription, [name]: checked } },
       headers: { 'Content-Type': 'application/json' }

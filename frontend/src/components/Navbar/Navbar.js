@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { Layout, Button, Drawer } from "antd";
+import { useState } from "react";
+import { Link } from 'react-router-dom';
 import LeftMenu from "./LeftMenu";
 import RightMenu from "./RightMenu";
+import { Layout, Button, Drawer } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import icon from "../../static/icon.png";
 import "../../style/Navbar.css";
-import { Link } from 'react-router-dom'
+
 const Navbar = () => {
-    const [visible, setVisible] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const showDrawer = () => {
-        setVisible(!visible);
+        setIsOpen(!isOpen);
     };
     return (
         <nav className="navbar">
@@ -34,7 +35,7 @@ const Navbar = () => {
                             placement="left"
                             closable={true}
                             onClose={showDrawer}
-                            visible={visible}
+                            open={isOpen}
                             style={{ zIndex: 99999 }}
                         >
                             <LeftMenu mode={"inline"} />

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { pointSchema } from './helperSchema.js';
+import { pointSchema, rgbSchema } from './helperSchema.js';
 
 const PetSchema = new mongoose.Schema({
   name: {
@@ -41,6 +41,28 @@ const PetSchema = new mongoose.Schema({
     },
     required: true
   },
+  color: {
+    dominantColor: {
+      type: rgbSchema,
+      required: true
+    },
+    secondaryColor: {
+      type: rgbSchema,
+      required: false
+    }
+  },
+  sizeCategory: {
+    type: Number,
+    enum: {
+      values: [0, 1, 2],
+      message: 'This size category {VALUE} is not supported'
+    },
+    required: true
+  },
+  sizeNumber: {
+    type: Number,
+    required: false
+  },
   lastSeenTime: {
     type: Date,
     required: true
@@ -48,6 +70,10 @@ const PetSchema = new mongoose.Schema({
   lastSeenLocation: {
     type: pointSchema,
     required: true
+  },
+  homeAddress: {
+    type: pointSchema,
+    required: false
   }
 }, {
   discriminatorKey: 'species'

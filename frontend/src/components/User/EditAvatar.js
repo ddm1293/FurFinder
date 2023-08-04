@@ -16,7 +16,7 @@ export default function EditAvatar () {
       formData.append('avatar', values.avatar[0].originFileObj, values.avatar[0].originFileObj.name);
     }
     axiosPrivate({
-      url: `http://localhost:3001/user/${user.id}/updateAvatar`,
+      url: `/user/${user.id}/updateAvatar`,
       method: 'patch',
       data: formData,
       headers: { 'Content-Type' : 'multipart/form-data'}

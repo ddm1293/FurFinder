@@ -7,7 +7,7 @@ const useRefreshToken = () => {
   const dispatch = useDispatch();
 
   const refresh = async () => {
-    const response = await axios.get('http://localhost:3001/auth/refresh', { // TODO: better handling of url
+    const response = await axios.get('/auth/refresh', { // TODO: better handling of url
       withCredentials: true
     });
 

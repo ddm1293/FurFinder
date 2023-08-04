@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GoogleMap, Marker, Circle, useLoadScript } from '@react-google-maps/api';
+import { GoogleMap, Marker, Circle, InfoWindow, useLoadScript} from '@react-google-maps/api';
 import axios from 'axios';
+import ThreadMarker from '../Forum/ThreadMarker';
 import '../../style/Thread/ThreadMap.css';
 
 function ThreadMap({ lastSeenLocation, species, relevant }) {
@@ -11,21 +12,21 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
   });
 
   const mapContainerRef = useRef(null);
-  const [relevantLocations, setRelevantLocations] = useState([]);
+  const [relevantThreads, setRelevantThreads] = useState([]);
 
   useEffect(() => {
-    const fetchRelevantLocations = async () => {
-      const threads = await Promise.all(relevant.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
-      const petsData = await Promise.all(threads.map(relevantThread =>
-        axios.get(`http://localhost:3001/pet/${relevantThread.data.thread.pet}`)));
-      const locations = petsData.map((pet, index) => ({
-        lat: pet.data.lastSeenLocation.coordinates[1],
-        lng: pet.data.lastSeenLocation.coordinates[0],
-        threadId: threads[index].data.thread._id // add thread id to the location object
+    const fetchRelevantThreads = async () => {
+      const threads = await Promise.all(relevant.map(id => axios.get(`/thread/${id}`)));
+      const petPromises = threads.map((thread) => axios.get(`/pet/${thread.data.thread.pet}`));
+      const petResponses = await Promise.all(petPromises);
+      const pets = petResponses.map((res) => res.data);
+      const threadsWithPets = threads.map((thread, index) => ({
+        ...thread.data.thread,
+        pet: pets[index]
       }));
-      setRelevantLocations(locations);
+      setRelevantThreads(threadsWithPets);
     };
-    fetchRelevantLocations();
+    fetchRelevantThreads();
   }, [relevant]);
 
   const handleResize = () => {
@@ -68,15 +69,15 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
         >
           <Marker position={lastSeenLocation} />
           {species === 'Cat' && <Circle center={lastSeenLocation} radius={500} />}
-          {relevantLocations.map((location, index) => (
-            <Marker
+          {species === 'Cat' && <InfoWindow position={lastSeenLocation}>
+            <div>
+              <p>75% of cats were found within 500m of the point of escape</p>
+            </div>
+          </InfoWindow>}
+          {relevantThreads.map((thread, index) => (
+            <ThreadMarker
               key={index}
-              position={location}
-              onClick={() => window.open(`/threads/${location.threadId}`, "_blank")}
-              icon={{
-                url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-                scaledSize: new window.google.maps.Size(42, 42),
-              }}
+              thread={thread}
             />
           ))}
         </GoogleMap>
