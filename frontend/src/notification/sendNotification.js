@@ -3,9 +3,9 @@ import { sendEmail } from './sendEmail'
 
 export async function sendNotification(threadID, notificationType, subscriptionType) {
   try {
-    const getThread = await axios.get(`http://localhost:3001/thread/${threadID}`);
+    const getThread = await axios.get(`/thread/${threadID}`);
     const posterId = getThread.data.thread.poster;
-    const getPoster = await axios.get(`http://localhost:3001/user/${posterId}`);
+    const getPoster = await axios.get(`/user/${posterId}`);
     const poster = getPoster.data.user;
     if (poster.email && poster.subscription[subscriptionType] === true) {
       await sendEmail(
