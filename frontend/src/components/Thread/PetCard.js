@@ -12,13 +12,13 @@ const PetCard = ({ pet }) => {
   const [isMultiple, setIsMultiple] = useState(false);
 
   const fetchPetPics = async () => {
-    const response = await axios.get(`http://localhost:3001/pet/${pet._id}/image`);
-    if (Array.isArray(response.data) && response.data.length > 0) {
+    const response = await axios.get(`/pet/${pet._id}/image`);
+    if (Array.isArray(response.data)) {
       setIsMultiple(true);
       setPetPics(response.data.map((pic, i) => `data:${pic.contentType};base64,${pic.data}`));
     } else {
       setIsMultiple(false);
-      setPetPics([`http://localhost:3001/pet/${pet._id}/CoverImage`]);
+      setPetPics([`/pet/${pet._id}/image`]);
     }
   };
 

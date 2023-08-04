@@ -11,3 +11,30 @@ export const pointSchema = new mongoose.Schema({
     required: true
   }
 });
+
+export const rgbSchema = new mongoose.Schema({
+  r: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 255
+  },
+  g: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 255
+  },
+  b: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 255
+  },
+  a: {
+    type: Number,
+    required: false,
+    min: 0,
+    max: 1
+  }
+});

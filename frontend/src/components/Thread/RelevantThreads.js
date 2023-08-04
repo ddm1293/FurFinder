@@ -27,7 +27,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchThreads = async () => {
-        const threads = await Promise.all(relevant.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+        const threads = await Promise.all(relevant.map(id => axios.get(`/thread/${id}`)));
         setRelevantThreads(threads.map(response => response.data.thread));
       };
       fetchThreads();
@@ -37,7 +37,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchPets = async () => {
-        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(`http://localhost:3001/pet/${thread.pet}`)));
+        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(`/pet/${thread.pet}`)));
         setPets(petsData.map(response => response.data));
       };
       if (relevantThreads.length > 0) {
@@ -59,7 +59,7 @@ function RelevantThreads(props) {
           {relevantThreads.map((thread, index) => {
             const pet = pets[index];
             if (pet) {
-              const petImgUrl = `http://localhost:3001/pet/${pet._id}/image`;
+              const petImgUrl = `/pet/${pet._id}/image`;
               return (
                 <a href={`/threads/${thread._id}`} target="_blank" rel="noreferrer noopener" key={thread._id}>
                   <div className="relevant-thread-card-wrapper">

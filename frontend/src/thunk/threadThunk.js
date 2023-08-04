@@ -15,7 +15,9 @@ export const createThreadAsync = createAsyncThunk(
           for (const file of value) {
             formData.append(key, file.originFileObj, file.originFileObj.name);
           }
-        } else if (key === 'lastSeenLocation') {
+        } else if (key === 'lastSeenLocation' || key === 'homeAddress') {
+          formData.append(key, JSON.stringify(value));
+        } else if (key === 'dominantColor' || key === 'secondaryColor') {
           formData.append(key, JSON.stringify(value));
         } else {
           // append other fields to the FormData object
@@ -23,22 +25,17 @@ export const createThreadAsync = createAsyncThunk(
         }
       }
     }
-    console.log('see result');
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ': ' + pair[1]);
-    }
 
-    const response = await axios.post('http://localhost:3001/thread', formData);
+    const response = await axios.post('/thread', formData);
     console.log('response', response.data.threadCreated);
     return response.data.threadCreated;
   }
 );
 
-
 export const getThreadAsync = createAsyncThunk(
   'thread/get',
   async (threadId) => {
-    const response = await axios.get(`http://localhost:3001/thread/${threadId}`);
+    const response = await axios.get(`/thread/${threadId}`);
     return response.data;
   }
 );
@@ -46,7 +43,7 @@ export const getThreadAsync = createAsyncThunk(
 export const deleteThreadAsync = createAsyncThunk(
   'thread/delete',
   async (threadId) => {
-    await axios.delete(`http://localhost:3001/thread/${threadId}`);
+    await axios.delete(`/thread/${threadId}`);
     return threadId;
   }
 );
@@ -56,7 +53,7 @@ export const updateThreadAsync = createAsyncThunk(
   async ({ threadId, updateData }) => {
     // console.log('threadID from thunk: ', threadId);
     // console.log('updateData from thunk: ', updateData);
-    const response = await axios.put(`http://localhost:3001/thread/${threadId}`, updateData);
+    const response = await axios.put(`/thread/${threadId}`, updateData);
     return response.data.updated;
   }
 );

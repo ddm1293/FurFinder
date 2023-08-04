@@ -4,61 +4,59 @@ import { useNavigate } from 'react-router-dom'
 import missingCatMarker from '../../static/missingCatMarker.png'
 import missingDogMarker from '../../static/missingDogMarker.png'
 import PetCard from '../Thread/PetCard'
+import '../../style/Forum/MapView.css';
 
 function ThreadMarker ({ thread }) {
   const navigate = useNavigate();
-  const [displayPetCard, setDisplayPetCard] = useState(false);
-  const closeTimeout = useRef(null); // Change this to useRef
 
-  const processCoordinates = (coordinates) => {
+  const [shouldDisplayCard, setShouldDisplayCard] = useState(false);
+  const [cardIsSelected, setCardIsSelected] = useState(false);
+
+  const iconUrl = thread.pet.species === 'Cat' ? missingCatMarker : missingDogMarker;
+
+  function processCoordinates(coordinates) {
     return {
       lat: coordinates[1],
       lng: coordinates[0]
+    };
+  }
+  function onMouseOver() {
+    setShouldDisplayCard(true);
+  }
+  function onClick() {
+    setCardIsSelected(true);
+  }
+  function onMouseOut() {
+    if (!cardIsSelected) {
+      // set a timeout to close the info window
+      setTimeout(() => {
+        setShouldDisplayCard(false);
+      }, 30);
     }
   }
-
-  const openWindow = () => {
-    setDisplayPetCard(true);
+  function closeWindow() {
+    setShouldDisplayCard(false);
+    setCardIsSelected(false);
   }
-
-  const closeWindow = () => {
-    // Start a timeout to close the infowindow
-    closeTimeout.current = setTimeout(() => {
-      setDisplayPetCard(false);
-    }, 300); // Delay of 300ms
-  }
-
-  const cencelClose = () => {
-    if (closeTimeout.current) {
-      clearTimeout(closeTimeout.current);
-      closeTimeout.current = null;
-      setDisplayPetCard(true);
-    }
-  }
-
-  const iconUrl = thread.pet.species === 'Cat' ? missingCatMarker : missingDogMarker;
 
   return (
     <div className='thread-marker-container' >
       <Marker
         key={thread._id}
         position={processCoordinates(thread.pet.lastSeenLocation.coordinates)}
-        onClick={() => {
-          navigate(`/threads/${thread._id}`)
-        }}
         icon={{
           url: iconUrl,
           scaledSize: new window.google.maps.Size(32, 32),
         }}
-        onMouseOver={openWindow}
-        onMouseOut={closeWindow}
+        onMouseOver={onMouseOver}
+        onClick={onClick}
+        onMouseOut={onMouseOut}
       >
         {
-          displayPetCard &&
-          <InfoWindow>
-            <div className='pet-card-infoWindow'
-                 onMouseOver={cencelClose}
-                 onMouseOut={closeWindow}>
+          shouldDisplayCard &&
+          <InfoWindow
+            onCloseClick={closeWindow}>
+            <div className='pet-card-infoWindow' onClick={() => { navigate(`/threads/${thread._id}`); }}>
               <PetCard pet={thread.pet} />
             </div>
           </InfoWindow>
@@ -69,4 +67,3 @@ function ThreadMarker ({ thread }) {
 }
 
 export default ThreadMarker
-

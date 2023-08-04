@@ -18,7 +18,13 @@ threadRouter.get('/search', searchQueryValidator, threadController.searchThreads
 threadRouter.get('/:id', threadController.getThread, handleError);
 
 // POST APIS
-threadRouter.post('/', upload.any(), processPet, threadController.createThread, handleError);
+threadRouter.post('/',
+  upload.any(),
+  processPet,
+  threadController.createThread,
+  threadController.findThreadsWithRelevantPet,
+  handleError
+);
 
 // PUT APIS
 threadRouter.put('/:id', threadController.updateThread, handleError);
