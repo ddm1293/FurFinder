@@ -39,7 +39,6 @@ export const getThreadAsync = createAsyncThunk(
   'thread/get',
   async (threadId) => {
     const response = await axios.get(`http://localhost:3001/thread/${threadId}`);
-    // console.log('response', response.data);
     return response.data;
   }
 );
