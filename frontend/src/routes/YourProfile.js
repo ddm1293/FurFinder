@@ -1,11 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import useAxiosPrivate from '../hooks/useAxiosPrivate';
 import '../style/YourProfile.css';
-import UserProfileView from '../components/User/UserProfileView'
-import MyThreadListing from '../components/User/MyThreadListing'
-import FavoriteThread from '../components/User/FavoriteThread'
+import { Layout, Menu } from 'antd'
+import Sider from 'antd/es/layout/Sider'
+import { Content } from 'antd/es/layout/layout'
+import { BellOutlined, HistoryOutlined, StarOutlined, UserOutlined } from '@ant-design/icons'
+import EditProfile from '../components/User/EditProfile'
+import Notification from '../components/User/Notification'
 
 export default function YourProfile() {
   const user = useSelector((state) => state.user);
@@ -28,20 +31,75 @@ export default function YourProfile() {
     test();
   }, []);
 
+  const [selectedKey, setSelectedKey] = useState('user')
 
+  const items1 = [
+    {
+      key: 'user',
+      icon: <UserOutlined />,
+      label: 'User Profile'
+    },
+    {
+      key: 'notification',
+      icon: <BellOutlined />,
+      label: 'Notification'
+    },
+    {
+      key: 'post',
+      icon: <HistoryOutlined />,
+      label: 'Post History'
+    },
+    {
+      key: 'favourite',
+      icon: <StarOutlined />,
+      label: 'Favourite'
+    }]
+
+  function RenderContent () {
+    switch (selectedKey) {
+      case 'user':
+        return <EditProfile />
+      case 'notification':
+        return <Notification />
+      case 'post': // TODO
+        return null
+      case 'favourite': // TODO
+        return null
+      default:
+        return null
+    }
+  }
 
   return (
     <div id="your-profile">
       <h1>Hello, {user.username}</h1>
-      <p>ID: {user.id}</p>
-      <UserProfileView />
-      <h2>Post History</h2>
-      <MyThreadListing />
-      <FavoriteThread />
-      {/* <p>My threads: {user.myThreads}</p> */}
-      {/* <p>My favourites: {user.favoredThreads}</p> */}
       {/* <p>Access token: {'...' + user.accessToken.split('.')[2]}</p> */}
-      {/* <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> */}
+      <Layout style={{
+        height: '80vh',
+        width: '60vw',
+        marginBottom: '10px'
+      }}>
+        <Sider style={{ border: '1px solid #DDDDDD' }}>
+          <Menu
+            mode="inline"
+            defaultSelectedKeys={['user']}
+            defaultOpenKeys={['user']}
+            style={{ height: '100%' }}
+            items={items1}
+            onSelect={({ key }) => setSelectedKey(key)}
+          />
+        </Sider>
+        <Content
+          style={{
+            padding: 20,
+            marginLeft: 30,
+            background: 'white',
+            border: '1px solid #DDDDDD',
+            minWidth: 50
+          }}>
+          <RenderContent />
+        </Content>
+      </Layout>
     </div>
   );
 };
