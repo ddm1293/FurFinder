@@ -37,7 +37,7 @@ export default function Signup() {
   const signup = async (values) => {
     try {
       const res = await axios({
-        url: `http://localhost:3001/auth/register`, // TODO: better handling of baseURL?
+        url: `/auth/register`,
         method: 'post',
         data: {
           username: values.username,

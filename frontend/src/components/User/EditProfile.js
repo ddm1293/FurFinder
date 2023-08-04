@@ -15,7 +15,7 @@ export default function EditProfile () {
   const onFinish = async (values) => {
     console.log(values)
     axiosPrivate({
-      url: `http://localhost:3001/user/${user.id}`,
+      url: `/user/${user.id}`,
       method: 'patch',
       data: values,
       headers: { 'Content-Type': 'application/json' }

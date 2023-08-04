@@ -16,8 +16,8 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
 
   useEffect(() => {
     const fetchRelevantThreads = async () => {
-      const threads = await Promise.all(relevant.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
-      const petPromises = threads.map((thread) => axios.get(`http://localhost:3001/pet/${thread.data.thread.pet}`));
+      const threads = await Promise.all(relevant.map(id => axios.get(`/thread/${id}`)));
+      const petPromises = threads.map((thread) => axios.get(`/pet/${thread.data.thread.pet}`));
       const petResponses = await Promise.all(petPromises);
       const pets = petResponses.map((res) => res.data);
       const threadsWithPets = threads.map((thread, index) => ({
