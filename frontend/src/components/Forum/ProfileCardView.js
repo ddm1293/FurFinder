@@ -15,13 +15,13 @@ function ProfileCardView ({ items }) {
 
 
   function getItemImgUrl(item) {
-    return `http://localhost:3001/pet/${item.pet._id}/image`;
+    return `/pet/${item.pet._id}/image`;
   }
 
   useEffect(() => {
     if (user.username) { // if username property is filled, then so should the remaining fields of user object
       axiosPrivate({
-        url: `http://localhost:3001/user/me`,
+        url: `/user/me`,
       }).then((response) => {
         console.log(response);
         setFavorite(response.data.user.favoredThreads);

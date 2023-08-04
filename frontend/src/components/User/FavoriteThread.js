@@ -14,7 +14,7 @@ function FavoriteThread () {
   useEffect(() => {
     if (user.username) { // if username property is filled, then so should the remaining fields of user object
       axiosPrivate({
-        url: `http://localhost:3001/user/me`,
+        url: `/user/me`,
       }).then((response) => {
         console.log(response);
         setFavorite(response.data.user.favoredThreads);
@@ -22,7 +22,7 @@ function FavoriteThread () {
         console.log(error)
       });
     }
-  }, [favourite])
+  }, [user])
 
   const myThread= favourite;
   const [pet, setPet] = useState([]);
@@ -30,7 +30,7 @@ function FavoriteThread () {
 
   const fetchThreads = async () => {
     try {
-      const res = await Promise.all(myThread.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+      const res = await Promise.all(myThread.map(id => axios.get(`/thread/${id}`)));
       const threads = res.map(res => res.data.thread);
       const updated = await fetchPetFromThread(threads);
       const petsData = await Promise.all(updated);

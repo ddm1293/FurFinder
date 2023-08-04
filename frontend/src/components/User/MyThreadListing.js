@@ -12,7 +12,7 @@ function MyThreadListing () {
 
   const fetchThreads = async () => {
     try {
-      const response = await Promise.all(myThread.map(id => axios.get(`http://localhost:3001/thread/${id}`)));
+      const response = await Promise.all(myThread.map(id => axios.get(`/thread/${id}`)));
       const threads = response.map(res => res.data.thread);
       const updated = await fetchPetFromThread(threads);
       const petsData = await Promise.all(updated);
