@@ -30,6 +30,7 @@ export default function Login() {
       });
 
       if (res.data.user) {
+        console.log("USER", res.data.user);
         dispatch(setUser({
           id: res.data.user._id,
           username: res.data.user.username,

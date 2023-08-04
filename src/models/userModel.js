@@ -19,6 +19,16 @@ const UserSchema = new mongoose.Schema({
       message: '{VALUE} is not a valid email'
     }
   },
+  subscription: {
+    newComment: {
+      type: Boolean,
+      default: true
+    },
+    relevantThread: {
+      type: Boolean,
+      default: true
+    }
+  },
   password: String,
   myThreads: [{
     type: Schema.Types.ObjectId,
@@ -43,8 +53,8 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.getPublicProfile = function() {
-  const { _id, username } = this;
-  return { _id, username };
+  const { _id, username, email, subscription } = this;
+  return { _id, username, email, subscription };
 };
 
 export const UserModel = mongoose.model('User', UserSchema, 'users');

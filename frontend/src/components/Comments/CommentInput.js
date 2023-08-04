@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Input, Button } from 'antd'
 import { addCommentAsync } from '../../thunk/commentThunk'
 import { useDispatch, useSelector } from 'react-redux'
+import { sendNotification } from '../../notification/sendNotification'
 
 const { TextArea } = Input
 
@@ -25,7 +26,9 @@ function CommentInput (props) {
       parentId: props.parentID,
     }
     dispatch(addCommentAsync({ threadID: props.threadID, newComment: newComment}))
-      .then(() => {
+      .then(async () => {
+        // await sendCommentNotification(props.threadID);
+        await sendNotification(props.threadID, 'comment', 'newComment');
         setComment('');
         if (props.handleSubmit) {
           props.handleSubmit();

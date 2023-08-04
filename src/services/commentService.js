@@ -2,7 +2,6 @@ import { CommentModel } from '../models/commentModel.js';
 import { ThreadModel } from '../models/threadModel.js';
 import { CommentDoesNotExistException } from '../exceptions/commentException.js';
 import { ThreadDoesNotExistException } from '../exceptions/threadException.js';
-import { UserModel } from '../models/userModel.js';
 
 class commentService {
   static totalNumber = async () => await CommentModel.countDocuments();
@@ -31,10 +30,7 @@ class commentService {
     const thread = await ThreadModel.findById(threadId);
     thread.comments.push(comment);
     await thread.save();
-    const user = await UserModel.findById(thread.poster);
-    console.log("Thread", thread, "User", { username: user.username, useremail: user.email });
-    const threadPoster = { username: user.username, useremail: user.email };
-    return { comment, thread, threadPoster };
+    return comment;
   }
 
   static async updateComment(id, body) {

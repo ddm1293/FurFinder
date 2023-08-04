@@ -6,7 +6,7 @@ const initialState = {
     favoredThreads: null,
     myThreads: null,
     accessToken: null,
-    email: null
+    email: null,
 };
 const userSlice = createSlice({
     name: "user",
