@@ -12,7 +12,7 @@ export async function sendNotification(threadID, notificationType, subscriptionT
         poster.email,
         poster.username,
         notificationType,
-        `http://localhost:3000/threads/${threadID}`
+        `https://furfinder.onrender.com/threads/${threadID}`
       );
     }
   } catch (error) {
