@@ -1,6 +1,6 @@
 import { Card, Carousel } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 import axios from 'axios';
 import '../../style/Thread/PetCard.css';
 import icon from "../../static/icon.png";
@@ -57,7 +57,7 @@ const PetCard = ({ pet }) => {
               <p><span className="id-card-label">Dog Breed: </span>{pet.breed}</p>
             }
             <p><span className="id-card-label">Sex: </span>{pet.sex}</p>
-            <p><span className="id-card-label">Last Seen Time: </span>{format(new Date(pet.lastSeenTime), 'hh:mm aa, MMMM do yyyy')}</p>
+            <p><span className="id-card-label">Last Seen Time: </span>{dayjs(pet.lastSeenTime).format('hh:mm A, MMMM Do YYYY')}</p>
             <p><span className="id-card-label">Description: </span>{pet.description}</p>
           </div>
         }
