@@ -99,6 +99,12 @@ class ThreadService {
   static async deleteThread(id) {
     const deleted = await ThreadModel.findByIdAndDelete(id);
     if (deleted) {
+      const userRelated = await UserModel.findById(deleted.poster);
+      if (!userRelated) {
+        throw new UserDoesNotExistException(`User ${deleted.poster} does not exist`);
+      }
+      userRelated.myThreads.pull(deleted._id); // delete thread from user
+      await userRelated.save();
       return deleted;
     } else {
       throw new ThreadDoesNotExistException(`thread ${id} does not exist`);

@@ -52,9 +52,9 @@ const RightMenu = ({ mode }) => {
               <Menu.Item key="profile">
                 <CodeOutlined /> <Link to="/profile">Your Profile</Link>
               </Menu.Item>
-              <Menu.Item key="personal-settings">
-                <UserOutlined /> <Link to="/settings">Settings</Link>
-              </Menu.Item>
+              {/* <Menu.Item key="personal-settings"> */}
+              {/*   <UserOutlined /> <Link to="/settings">About</Link> */}
+              {/* </Menu.Item> */}
               <Menu.Item key="log-out" onClick={logout}>
                 <LogoutOutlined /> Logout
               </Menu.Item>
