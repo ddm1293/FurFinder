@@ -19,7 +19,7 @@ export default function Login() {
   const login = async (values) => {
     try {
       const res = await axios({
-        url: `/auth/login`,
+        url: `https://furfinder-server.onrender.com/auth/login`,
         method: 'post',
         data: {
           username: values.username,
