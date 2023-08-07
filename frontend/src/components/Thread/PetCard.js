@@ -19,7 +19,7 @@ const PetCard = ({ pet }) => {
       setPetPics(response.data.map((pic, i) => `data:${pic.contentType};base64,${pic.data}`));
     } else {
       setIsMultiple(false);
-      setPetPics([`/pet/${pet._id}/image`]);
+      setPetPics([getApiUrl(`/pet/${pet._id}/image`)]);
     }
   };
 
