@@ -73,7 +73,11 @@ async function createPet(petProperties) {
     description: petProperties.petDescription,
     threadId: petProperties.threadId,
     threadType: petProperties.threadType,
+    color: {
+      dominantColor: petProperties.petDominantColor
+    },
     ownerId: petProperties.ownerId,
+    sizeCategory: petProperties.petSizeCategory,
     lastSeenTime: petProperties.lastSeenTime,
     lastSeenLocation: petProperties.lastSeenLocation,
     ...(petPic && { pic: petPic })
@@ -103,6 +107,8 @@ async function createThread(threadProperties, users) {
     petBreed: threadProperties.petBreed,
     petSex: threadProperties.petSex,
     petDescription: threadProperties.petDescription,
+    petDominantColor: threadProperties.petDominantColor,
+    petSizeCategory: threadProperties.petSizeCategory,
     threadId: threadProperties.threadId,
     threadType: threadProperties.threadType,
     ownerId: threadProperties.poster,
@@ -125,11 +131,9 @@ async function createThread(threadProperties, users) {
 
     await createComment({ commentId, content, authorId, threadId });
   }
-
-  // TODO: Perhaps refactor updatePet in case a thread document is delete without deleting the corresponding pet?
 }
 
-function randomCoordinate(min, max) {
+function randomNumber(min, max) {
   return Math.random() * (max - min) + min;
 }
 
@@ -173,11 +177,17 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
         : dogBreeds[Math.floor(Math.random() * dogBreeds.length)].name;
       const petSex = ['male', 'female', 'unknown'][Math.floor(Math.random() * 3)];
       const petDescription = `a friendly and ${faker.word.adjective()} ${petSpecies} with a ${faker.color.human()} coat`;
+      const petDominantColor = {
+        r: randomNumber(0, 255),
+        g: randomNumber(0, 255),
+        b: randomNumber(0, 255)
+      };
+      const petSizeCategory = [0, 1, 2][Math.floor(Math.random() * 3)];
       const lastSeenCity = faker.location.city();
       const lastSeenDate = faker.date.past().toLocaleDateString();
       const lastSeenLocation = {
         type: 'Point',
-        coordinates: [randomCoordinate(-123.263754, -122.890771), randomCoordinate(49.241829, 49.266554)]
+        coordinates: [randomNumber(-123.263754, -122.890771), randomNumber(49.241829, 49.266554)]
       };
 
       // new thread properties
@@ -205,6 +215,8 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
         petBreed,
         petSex,
         petDescription,
+        petDominantColor,
+        petSizeCategory,
         lastSeenDate,
         lastSeenLocation,
         threadTitle,
