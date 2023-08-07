@@ -27,7 +27,6 @@ function CardView ({ items }) {
   }
 
   const handleClick= (id) => {
-    console.log(id);
     if (!user.username){
       navigate('/login');
       return;
@@ -38,7 +37,6 @@ function CardView ({ items }) {
           const updatedFavourite = favourite.includes(id)
             ? favourite.filter((itemId) => itemId !== id)
             : [...favourite, id];
-          console.log(updatedFavourite);
           setFavorite(updatedFavourite);
         })
       .catch((error) => {
@@ -51,7 +49,7 @@ function CardView ({ items }) {
   }
 
   useEffect(() => {
-    if (user.username) { // if username property is filled, then so should the remaining fields of user object
+    if (user.username) {
       axiosPrivate({
         url: `/user/me`,
       }).then((response) => {

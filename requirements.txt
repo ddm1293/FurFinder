@@ -1,0 +1,6 @@
+distlib==0.3.7
+filelock==3.12.2
+numpy==1.21.4
+platformdirs==3.10.0
+scipy==1.7.3
+virtualenv==20.24.2
