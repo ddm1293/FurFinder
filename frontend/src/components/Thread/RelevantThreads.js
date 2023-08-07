@@ -4,6 +4,7 @@ import axios from 'axios';
 import '../../style/Thread/RelevantThreads.css';
 import { getThreadAsync } from '../../thunk/threadThunk';
 import RelevantThreadCard from './RelevantThreadCard';
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function RelevantThreads(props) {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchThreads = async () => {
-        const threads = await Promise.all(relevant.map(id => axios.get(`/thread/${id}`)));
+        const threads = await Promise.all(relevant.map(id => axios.get(getApiUrl(`/thread/${id}`))));
         setRelevantThreads(threads.map(response => response.data.thread));
       };
       fetchThreads();
@@ -37,7 +38,7 @@ function RelevantThreads(props) {
   useEffect(() => {
     if (relevant) {
       const fetchPets = async () => {
-        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(`/pet/${thread.pet}`)));
+        const petsData = await Promise.all(relevantThreads.map(thread => axios.get(getApiUrl(`/pet/${thread.pet}`))));
         setPets(petsData.map(response => response.data));
       };
       if (relevantThreads.length > 0) {

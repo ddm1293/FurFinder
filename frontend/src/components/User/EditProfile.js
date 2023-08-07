@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { setUser } from '../../store/userSlice'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import EditAvatar from './EditAvatar'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 export default function EditProfile () {
   const user = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ export default function EditProfile () {
   const onFinish = async (values) => {
     console.log(values)
     axiosPrivate({
-      url: `/user/${user.id}`,
+      url: getApiUrl(`/user/${user.id}`),
       method: 'patch',
       data: values,
       headers: { 'Content-Type': 'application/json' }

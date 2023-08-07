@@ -4,6 +4,7 @@ import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
 import DisplayAvatar from './DisplayAvatar'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 export default function EditAvatar () {
   const user = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ export default function EditAvatar () {
       formData.append('avatar', values.avatar[0].originFileObj, values.avatar[0].originFileObj.name);
     }
     axiosPrivate({
-      url: `/user/${user.id}/updateAvatar`,
+      url: getApiUrl(`/user/${user.id}/updateAvatar`),
       method: 'patch',
       data: formData,
       headers: { 'Content-Type' : 'multipart/form-data'}

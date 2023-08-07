@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import axios from 'axios';
 import '../../style/Thread/PetCard.css';
 import icon from "../../static/icon.png";
+import { getApiUrl } from '../../utils/getApiUrl'
 
 const { Meta } = Card;
 
@@ -12,7 +13,7 @@ const PetCard = ({ pet }) => {
   const [isMultiple, setIsMultiple] = useState(false);
 
   const fetchPetPics = async () => {
-    const response = await axios.get(`/pet/${pet._id}/image`);
+    const response = await axios.get(getApiUrl(`/pet/${pet._id}/image`));
     if (Array.isArray(response.data)) {
       setIsMultiple(true);
       setPetPics(response.data.map((pic, i) => `data:${pic.contentType};base64,${pic.data}`));

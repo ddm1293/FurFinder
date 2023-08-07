@@ -9,6 +9,7 @@ import { Content } from 'antd/es/layout/layout'
 import { BellOutlined, HistoryOutlined, StarOutlined, UserOutlined } from '@ant-design/icons'
 import EditProfile from '../components/User/EditProfile'
 import Notification from '../components/User/Notification'
+import { getApiUrl } from '../utils/getApiUrl'
 
 export default function YourProfile() {
   const user = useSelector((state) => state.user);
@@ -18,9 +19,9 @@ export default function YourProfile() {
     if (user.username) {
       setTimeout(async () => {
         const res = await axiosPrivate({
-          url: `/user/me`,
+          url: getApiUrl(`/user/me`),
         });
-        const res2 = await axios.get(`/user/64823ca71623f19e8667501e`);
+        const res2 = await axios.get(getApiUrl(`/user/64823ca71623f19e8667501e`));
         console.log(res.data);
         console.log(res2.data);
       }, 1000); // make it larger to refresh auth token

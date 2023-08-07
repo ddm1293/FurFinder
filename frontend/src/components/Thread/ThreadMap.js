@@ -3,6 +3,7 @@ import { GoogleMap, Marker, Circle, InfoWindow, useLoadScript} from '@react-goog
 import axios from 'axios';
 import ThreadMarker from '../Forum/ThreadMarker';
 import '../../style/Thread/ThreadMap.css';
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function ThreadMap({ lastSeenLocation, species, relevant }) {
   const { isLoaded } = useLoadScript({
@@ -16,8 +17,8 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
 
   useEffect(() => {
     const fetchRelevantThreads = async () => {
-      const threads = await Promise.all(relevant.map(id => axios.get(`/thread/${id}`)));
-      const petPromises = threads.map((thread) => axios.get(`/pet/${thread.data.thread.pet}`));
+      const threads = await Promise.all(relevant.map(id => axios.get(getApiUrl(`/thread/${id}`))));
+      const petPromises = threads.map((thread) => axios.get(getApiUrl(`/pet/${thread.data.thread.pet}`)));
       const petResponses = await Promise.all(petPromises);
       const pets = petResponses.map((res) => res.data);
       const threadsWithPets = threads.map((thread, index) => ({
