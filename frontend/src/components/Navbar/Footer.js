@@ -10,7 +10,7 @@ function Footer() {
       <Typography.Link href="https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/00_96373_01" target={"_blank"}>
         Privacy Policy
       </Typography.Link>
-      <Typography.Link href="/settings">About</Typography.Link>
+      <Typography.Link href="/about">About</Typography.Link>
       <Typography.Link href="https://www.google.com" target={"_blank"}>
         Copyright © {currentYear}
       </Typography.Link>

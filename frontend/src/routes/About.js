@@ -1,9 +1,8 @@
-import '../style/Settings.css'
+import '../style/About.css'
 
-export default function Settings() {
+export default function About() {
   return (
-    <div id="settings">
-      {/* <h1>Settings</h1> */}
+    <div id="about">
       <h1>About</h1>
         <p>
           FurFinder is a user-friendly web application committed to reuniting lost pets with their families. Why us? First,
