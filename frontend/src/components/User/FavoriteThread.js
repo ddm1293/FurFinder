@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
-import ProfileCardView from '../Forum/ProfileCardView'
+import { StarOutlined } from '@ant-design/icons'
+import { Divider } from 'antd'
+import ProfileListView from '../Forum/ProfileListView'
 
 function FavoriteThread () {
   const user = useSelector((state) => state.user);
@@ -16,6 +18,7 @@ function FavoriteThread () {
       axiosPrivate({
         url: `/user/me`,
       }).then((response) => {
+        console.log(response, 21);
         setFavorite(response.data.user.favoredThreads);
       }).catch((error) => {
         console.log(error)
@@ -25,7 +28,6 @@ function FavoriteThread () {
 
   const myThread= favourite;
   const [pet, setPet] = useState([]);
-  const [isLoading, setLoading] = useState(true);
 
   const fetchThreads = async () => {
     try {
@@ -41,18 +43,16 @@ function FavoriteThread () {
 
   useEffect(() => {
     fetchThreads()
-      .then(() => setLoading(false))
       .catch(error => {
         console.error('Error while fetching threads:', error);
-        setLoading(false);
       });
   }, [myThread] );
 
   return (
-    <div className="profile">
-      <h2>Favorite Thread</h2>
-      <ProfileCardView items={pet} />
-
+    <div>
+      <h2><StarOutlined style={{ marginRight: '10px'}}/>Favourite</h2>
+      <Divider/>
+      <ProfileListView items={pet} />
     </div>
   )
 }

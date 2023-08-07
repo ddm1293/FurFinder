@@ -13,6 +13,7 @@ import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 // import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
+import Footer from "../Navbar/Footer"
 
 function Forum ({ threadType }) {
   const dispatch = useDispatch();
@@ -218,6 +219,9 @@ function Forum ({ threadType }) {
             }}
           />
         }
+      </div>
+      <div>
+        <Footer/>
       </div>
 
     </div>

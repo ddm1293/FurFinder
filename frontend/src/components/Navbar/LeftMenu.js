@@ -21,12 +21,13 @@ const LeftMenu = ({ mode }) => {
         filterOptions: "WitnessThread",
         threadType: 'witnessThread'
       }
-    },
-    {
-      key: "about",
-      title: "About",
-      link: "/"
     }
+    // ,
+    // {
+    //   key: "about",
+    //   title: "About",
+    //   link: "/"
+    // }
   ];
 
   return (

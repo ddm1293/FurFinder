@@ -2,7 +2,9 @@ import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
-import ProfileCardView from '../Forum/ProfileCardView'
+import { HistoryOutlined } from '@ant-design/icons'
+import { Divider } from 'antd'
+import ProfileListView from '../Forum/ProfileListView'
 
 function MyThreadListing () {
   const user = useSelector((state) => state.user);
@@ -19,16 +21,13 @@ function MyThreadListing () {
 
   useEffect(() => {
     fetchUserThreads()
-      .then(() => setLoading(false))
       .catch(error => {
         console.error('Error while fetching threads:', error);
-        setLoading(false);
       });
   },  [user]);
 
   const myThread= threads;
   const [pets, setPets] = useState([]);
-  const [isLoading, setLoading] = useState(true);
 
   const fetchThreads = async () => {
     try {
@@ -44,19 +43,18 @@ function MyThreadListing () {
 
   useEffect(() => {
     fetchThreads()
-      .then(() => setLoading(false))
       .catch(error => {
         console.error('Error while fetching threads:', error);
-        setLoading(false);
       });
   },  [myThread]);
 
 
 
   return (
-    <div className="profile">
-      <h2>My Thread Listing</h2>
-      <ProfileCardView items={pets} />
+    <div>
+      <h2><HistoryOutlined style={{ marginRight: '10px'}}/>Post History</h2>
+      <Divider/>
+      <ProfileListView items={pets} />
 
     </div>
   )
