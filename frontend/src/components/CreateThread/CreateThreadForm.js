@@ -6,7 +6,7 @@ import CreateThreadPetInfo from './CreateThreadPetInfo';
 import { refresh } from '../../store/forumSlice';
 import { createThreadAsync } from '../../thunk/threadThunk';
 import { Form, Divider, Button } from 'antd';
-import { sendGroupNotification } from '../../notification/sendNotification'
+import { sendGroupNotification } from '../../notification/sendGroupNotification'
 
 function CreateThreadForm ({ initialType }) {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ function CreateThreadForm ({ initialType }) {
           const threadId = action.payload._id;
           navigate(`/threads/${threadId}`);
           dispatch(refresh());
-          await sendGroupNotification(threadId, "Relevant Thread", "relevantThread")
+          await sendGroupNotification(threadId, "Relevant Thread", "relevantThread");
         } else {
           // handle the error
           console.log('Cannot open the new Thread.' + action.error.message);
