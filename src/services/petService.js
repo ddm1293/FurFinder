@@ -43,13 +43,12 @@ class PetService {
   }
 
   static async linkRelevantPets(pet) {
-    console.log('print 1');
     const threadType = pet.threadType === 'lostPetThread' ? 'witnessThread' : 'lostPetThread';
     const targetPets = await PetModel.find({ threadType, species: pet.species });
-    console.log('print 2');
     const relevantPets = await async.filter(targetPets, async (targetPet) => {
       console.log('print 3');
       const petRelevance = await getPetRelevanceIndex(pet, targetPet);
+      console.log('print petRelevance in 3: ', petRelevance);
       if (petRelevance >= relevanceThreshold) {
         console.log('see relevantPet: ', petRelevance, targetPet.name);
       }
