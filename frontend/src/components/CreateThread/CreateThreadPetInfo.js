@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Radio, DatePicker, Upload, Image, Button, InputNumber, Space, Select } from 'antd'
+import { Form, Input, Radio, Upload, Image, Button, InputNumber, Space, Select } from 'antd'
 import { InboxOutlined, DeleteOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
 import BreedSelector from './BreedSelector'
 import Map from '../Map/Map'
-import dayjs from 'dayjs';
+import { CustomDatePicker } from '../CustomDatePicker'
 import ColorPickerWrapper from './ColorPickerWrapper'
 
 function CreateThreadPetInfo ({ threadType, form }) {
@@ -51,28 +51,6 @@ function CreateThreadPetInfo ({ threadType, form }) {
   const setLastSeenLocation = (latLng) => {
     form.setFieldsValue({ lastSeenLocation: latLng });
   }
-  const range = (start, end) => {
-    const result = [];
-    for (let i = start; i < end; i++) {
-      result.push(i);
-    }
-    return result;
-  };
-  const disabledDate = (currentDate) => {
-    return currentDate && currentDate.isAfter(dayjs().endOf('day'));
-  };
-
-  const disabledTime = (selectedDate) => {
-    if (selectedDate && selectedDate.isSame(dayjs(), 'day')) {
-      const currentHour = dayjs().hour();
-      const currentMinute = dayjs().minute();
-      return {
-        disabledHours: () => range(currentHour + 1, 24),
-        disabledMinutes: () => range(currentMinute + 1, 60),
-      };
-    }
-    return {};
-  };
 
   const setHomeAddress = (latLng) => {
     form.setFieldsValue({ homeAddress: latLng });
@@ -171,12 +149,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
                    message: 'Please enter the last time of seeing the pet'
                  }]}
       >
-        <DatePicker
-          showTime={{ format: 'HH:mm' }}
-          format="YYYY-MM-DD HH:mm"
-          disabledDate={disabledDate}
-          disabledTime={disabledTime}
-        />
+        <CustomDatePicker />
       </Form.Item>
 
       <Form.Item label='Upload Pet Picture'>

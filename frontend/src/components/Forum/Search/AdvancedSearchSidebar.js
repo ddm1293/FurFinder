@@ -1,4 +1,4 @@
-import { Form, Radio, DatePicker, Input, Button, Modal } from 'antd'
+import { Form, Radio, Input, Button, Modal } from 'antd'
 import '../../../style/Forum/AdvancedSearchSideBar.css'
 import BreedSelector from '../../CreateThread/BreedSelector'
 import dayjs from 'dayjs'
@@ -6,6 +6,7 @@ import { produce } from 'immer'
 import { useDispatch } from 'react-redux'
 import { searchThreadsAsync } from '../../../thunk/forumThunk'
 import { useState } from 'react'
+import { CustomRangePicker } from '../../CustomDatePicker'
 
 function AdvancedSearchSidebar ({ onClose, threadType, form }) {
   const dispatch = useDispatch();
@@ -75,11 +76,7 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
         </Form.Item>
 
         <Form.Item name='lastSeenRange' label='Last Seen Time'>
-          <DatePicker.RangePicker
-            showTime={{ format: 'HH:mm' }}
-            allowEmpty={[false, true]}
-            format="YYYY-MM-DD HH:mm"
-          />
+          <CustomRangePicker />
         </Form.Item>
 
         <Form.Item label='Breed'>
