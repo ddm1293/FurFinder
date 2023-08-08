@@ -1,13 +1,16 @@
-import { Form, Radio, DatePicker, Input, Button } from 'antd'
+import { Form, Radio, DatePicker, Input, Button, Modal } from 'antd'
 import '../../../style/Forum/AdvancedSearchSideBar.css'
 import BreedSelector from '../../CreateThread/BreedSelector'
 import dayjs from 'dayjs'
 import { produce } from 'immer'
 import { useDispatch } from 'react-redux'
 import { searchThreadsAsync } from '../../../thunk/forumThunk'
+import { useState } from 'react'
 
 function AdvancedSearchSidebar ({ onClose, threadType, form }) {
   const dispatch = useDispatch();
+  const [showNoMatchedThreadsModal, setShowNoMatchedThreadsModal] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
 
   const onFinish = (values) => {
     let lastSeenStart, lastSeenEnd;
@@ -39,7 +42,16 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
     });
 
     if (params.breed || params.lastSeenRange || params.lastSeenStart || params.lastSeenEnd || params.petName || params.sex || params.species) {
-      dispatch(searchThreadsAsync(params));
+      dispatch(searchThreadsAsync(params))
+        .then((results) => {
+          console.log("Search Results:", results);
+          setSearchResults(results.payload); // Update the search results state
+          console.log("Search Results Length:", results.payload.length);
+          setShowNoMatchedThreadsModal(results.payload.length === 0);
+        })
+        .catch((error) => {
+          console.error("Error while fetching data:", error);
+        });
     }
   };
 
@@ -83,6 +95,14 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
           </Button>
         </Form.Item>
       </Form>
+      <Modal
+        title="No Matched Threads"
+        visible={showNoMatchedThreadsModal}
+        onOk={() => setShowNoMatchedThreadsModal(false)} // Handle closing of "No Matched Threads" modal
+        onCancel={() => setShowNoMatchedThreadsModal(false)} // Handle closing of "No Matched Threads" modal
+      >
+        No matched threads.
+      </Modal>
     </div>
   )
 }

@@ -7,6 +7,7 @@ import "../../style/Navbar.css";
 import axios from 'axios';
 import DisplayAvatar from '../User/DisplayAvatar';
 import CreateThreadButton from '../CreateThread/CreateThreadButton';
+import { getApiUrl } from '../../utils/getApiUrl'
 
 const RightMenu = ({ mode }) => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const RightMenu = ({ mode }) => {
     const user = useSelector((state) => state.user);
 
     async function logout() {
-      await axios.get('/auth/logout', {
+      await axios.get(getApiUrl('/auth/logout'), {
         withCredentials: true
       });
 
@@ -52,9 +53,9 @@ const RightMenu = ({ mode }) => {
               <Menu.Item key="profile">
                 <CodeOutlined /> <Link to="/profile">Your Profile</Link>
               </Menu.Item>
-              <Menu.Item key="personal-settings">
-                <UserOutlined /> <Link to="/settings">Settings</Link>
-              </Menu.Item>
+              {/* <Menu.Item key="personal-settings"> */}
+              {/*   <UserOutlined /> <Link to="/settings">About</Link> */}
+              {/* </Menu.Item> */}
               <Menu.Item key="log-out" onClick={logout}>
                 <LogoutOutlined /> Logout
               </Menu.Item>

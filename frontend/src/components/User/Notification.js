@@ -4,6 +4,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import { useEffect, useState } from 'react'
 import { Divider, Form, Switch } from 'antd'
 import { BellOutlined } from '@ant-design/icons'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 export default function Notification () {
   const user = useSelector((state) => state.user);
@@ -12,7 +13,7 @@ export default function Notification () {
 
   useEffect(() => {
     axiosPrivate({
-      url: `/user/me`,
+      url: getApiUrl(`/user/me`),
     }).then((response) => {
       setSubscription(response.data.user.subscription);
       console.log("subscription before", response.data.user.subscription);
@@ -27,7 +28,7 @@ export default function Notification () {
       [name]: checked,
     }));
     axiosPrivate({
-      url: `/user/${user.id}`,
+      url: getApiUrl(`/user/${user.id}`),
       method: 'patch',
       data: { subscription: { ...subscription, [name]: checked } },
       headers: { 'Content-Type': 'application/json' }

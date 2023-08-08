@@ -7,6 +7,7 @@ import { Card } from 'antd';
 import { MessageOutlined, StarFilled, StarOutlined } from '@ant-design/icons';
 import icon from "../../static/icon.png";
 import DisplayAvatar from '../User/DisplayAvatar'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 const { Meta } = Card
 
@@ -27,18 +28,16 @@ function CardView ({ items }) {
   }
 
   const handleClick= (id) => {
-    console.log(id);
     if (!user.username){
       navigate('/login');
       return;
     }
     axios
-        .patch(`/thread/${id}/${user.id}/favorite`)
+        .patch(getApiUrl(`/thread/${id}/${user.id}/favorite`))
         .then((response) => {
           const updatedFavourite = favourite.includes(id)
             ? favourite.filter((itemId) => itemId !== id)
             : [...favourite, id];
-          console.log(updatedFavourite);
           setFavorite(updatedFavourite);
         })
       .catch((error) => {
@@ -47,13 +46,13 @@ function CardView ({ items }) {
     }
 
   function getItemImgUrl(item) {
-    return `/pet/${item.pet._id}/coverImage`;
+    return getApiUrl(`/pet/${item.pet._id}/coverImage`);
   }
 
   useEffect(() => {
-    if (user.username) { // if username property is filled, then so should the remaining fields of user object
+    if (user.username) {
       axiosPrivate({
-        url: `/user/me`,
+        url: getApiUrl(`/user/me`),
       }).then((response) => {
         console.log(response);
         setFavorite(response.data.user.favoredThreads);

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+import { getApiUrl } from '../utils/getApiUrl'
 
 export const createThreadAsync = createAsyncThunk(
   'thread/create',
@@ -26,7 +27,7 @@ export const createThreadAsync = createAsyncThunk(
       }
     }
 
-    const response = await axios.post('/thread', formData);
+    const response = await axios.post(getApiUrl('/thread'), formData);
     console.log('response', response.data.threadCreated);
     return response.data.threadCreated;
   }
@@ -35,7 +36,7 @@ export const createThreadAsync = createAsyncThunk(
 export const getThreadAsync = createAsyncThunk(
   'thread/get',
   async (threadId) => {
-    const response = await axios.get(`/thread/${threadId}`);
+    const response = await axios.get(getApiUrl(`/thread/${threadId}`));
     return response.data;
   }
 );
@@ -43,7 +44,7 @@ export const getThreadAsync = createAsyncThunk(
 export const deleteThreadAsync = createAsyncThunk(
   'thread/delete',
   async (threadId) => {
-    await axios.delete(`/thread/${threadId}`);
+    await axios.delete(getApiUrl(`/thread/${threadId}`));
     return threadId;
   }
 );
@@ -53,7 +54,7 @@ export const updateThreadAsync = createAsyncThunk(
   async ({ threadId, updateData }) => {
     // console.log('threadID from thunk: ', threadId);
     // console.log('updateData from thunk: ', updateData);
-    const response = await axios.put(`/thread/${threadId}`, updateData);
+    const response = await axios.put(getApiUrl(`/thread/${threadId}`), updateData);
     return response.data.updated;
   }
 );
