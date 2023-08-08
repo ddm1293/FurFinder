@@ -44,5 +44,6 @@ export const exponentialDecay = async (x, y) => {
     .catch((err) => {
       console.error(err);
     });
+  console.log('see if this runs');
   return exponentialDecayModel;
 };

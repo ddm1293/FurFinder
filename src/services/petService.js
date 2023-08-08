@@ -48,7 +48,7 @@ class PetService {
     const relevantPets = await async.filter(targetPets, async (targetPet) => {
       const petRelevance = await getPetRelevanceIndex(pet, targetPet);
       if (petRelevance >= relevanceThreshold) {
-        console.log('see relevantPet: ', petRelevance, targetPet);
+        console.log('see relevantPet: ', petRelevance, targetPet.name);
       }
       return petRelevance >= relevanceThreshold;
     });
