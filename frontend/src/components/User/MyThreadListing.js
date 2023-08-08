@@ -5,6 +5,7 @@ import { fetchPetFromThread } from '../../thunk/thunkHelper'
 import { HistoryOutlined } from '@ant-design/icons'
 import { Divider } from 'antd'
 import ProfileListView from '../Forum/ProfileListView'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function MyThreadListing () {
   const user = useSelector((state) => state.user);
@@ -12,8 +13,9 @@ function MyThreadListing () {
 
   const fetchUserThreads = async () => {
     try {
-      const response = await axios.get(`thread/userId/${user.id}`);
+      const response = await axios.get(getApiUrl(`thread/userId/${user.id}`));
       setThreads(response.data.threads);
+      console.log(threads, 17);
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +33,7 @@ function MyThreadListing () {
 
   const fetchThreads = async () => {
     try {
-      const response = await Promise.all(myThread.map(id => axios.get(`/thread/${id}`)));
+      const response = await Promise.all(myThread.map(id => axios.get(getApiUrl(`/thread/${id}`))));
       const threads = response.map(res => res.data.thread);
       const updated = await fetchPetFromThread(threads);
       const petsData = await Promise.all(updated);
