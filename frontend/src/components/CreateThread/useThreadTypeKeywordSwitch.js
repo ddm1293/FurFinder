@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useCallback } from 'react'
 
 const useThreadTypeKeywordSwitch = (threadType) => {

@@ -15,14 +15,12 @@ export default function EditProfile () {
   const axiosPrivate = useAxiosPrivate();
 
   const onFinish = async (values) => {
-    console.log(values)
     axiosPrivate({
       url: getApiUrl(`/user/${user.id}`),
       method: 'patch',
       data: values,
       headers: { 'Content-Type': 'application/json' }
     }).then(response => {
-      console.log('update user email', response)
       dispatch(setUser({
         ...user,
         email: response.data.user.email
@@ -39,10 +37,8 @@ export default function EditProfile () {
       <h2><UserOutlined style={{ marginRight: '10px'}}/>User Profile</h2>
       <Divider />
       <div className="profile">
-        <span style={{ marginRight: '100px'}}><EditAvatar/></span>
-        <Form onFinish={onFinish}>
-          {/* <h4>User ID</h4> */}
-          {/* <span className="profile-input">{user.id}</span> */}
+        <span className="profile-avatar"><EditAvatar/></span>
+        <Form className="profile-form" onFinish={onFinish}>
           <h4 style={{ marginTop: 0}}>User Name</h4>
           <span className="profile-input">{user.username}</span>
           <h4>Email</h4>
@@ -54,7 +50,7 @@ export default function EditProfile () {
                   <EditOutlined onClick={() => { setEditFields(true) }} style={{ marginLeft: '10px'}} />
                 }
               </div> :
-              <Input className="profile-input" size={'small'}/> // no email saved or not editing
+              <Input className="profile-input" size={'small'}/>
             }
           </Form.Item>
           <Form.Item>

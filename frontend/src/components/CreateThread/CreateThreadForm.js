@@ -19,7 +19,7 @@ function CreateThreadForm ({ initialType }) {
 
   const validateForm = () => {
     form.validateFields()
-      .then((values) => {
+      .then(() => {
         form.submit();
       })
       .catch((reason) => {
@@ -29,17 +29,14 @@ function CreateThreadForm ({ initialType }) {
 
   const onFinish = (values) => {
     const valuesWithPoster = { ...values, poster: user.id };
-    console.log('form got submitted:', valuesWithPoster);
     dispatch(createThreadAsync(valuesWithPoster))
       .then(async action => {
-        // check if the action completed successfully
         if (createThreadAsync.fulfilled.match(action)) {
           const threadId = action.payload._id;
           navigate(`/threads/${threadId}`);
           dispatch(refresh());
           await sendGroupNotification(threadId, "Relevant Thread", "relevantThread");
         } else {
-          // handle the error
           console.log('Cannot open the new Thread.' + action.error.message);
         }
       });

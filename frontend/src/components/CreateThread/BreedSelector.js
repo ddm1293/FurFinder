@@ -11,7 +11,7 @@ function BreedSelector ({ form, required }) {
   const dogBreeds = useSelector((state) => state.form.dogBreeds);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBreed, setSelectedBreed] = useState(undefined); // must be undefined for searchThreadsAsync
+  const [selectedBreed, setSelectedBreed] = useState(undefined);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -38,7 +38,7 @@ function BreedSelector ({ form, required }) {
     if (selectedBreed && !form.getFieldsValue(['species']).species) {
       form.setFieldsValue({ species: 'Cat' });
     }
-  }, [selectedBreed]); // set form breed field
+  }, [selectedBreed]);
 
   return (
     <Form.Item

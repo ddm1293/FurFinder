@@ -37,22 +37,18 @@ function Map ({ handleMapInfo, initialPosition }) {
   }, [searched])
 
   useEffect(() => {
-    console.log('see selected: ', selected)
     handleMapInfo(selected);
   }, [selected])
 
   const setPin = (e) => {
     let latLng;
     if (e.latLng) {
-      // Event object from Google Maps API
       latLng = { lat: e.latLng.lat(), lng: e.latLng.lng() };
     } else {
-      // Presumably, a plain object from initialPosition
       latLng = e;
     }
     setPinned(latLng);
   }
-
 
   if (!isLoaded) {
     return <div>
