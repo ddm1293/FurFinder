@@ -15,7 +15,6 @@ function MyThreadListing () {
     try {
       const response = await axios.get(getApiUrl(`thread/userId/${user.id}`));
       setThreads(response.data.threads);
-      console.log(threads, 17);
     } catch (error) {
       console.log(error);
     }
@@ -49,8 +48,6 @@ function MyThreadListing () {
         console.error('Error while fetching threads:', error);
       });
   },  [myThread]);
-
-
 
   return (
     <div>

@@ -2,7 +2,6 @@
     display: flex;
 }
 
-/* reduce spacing b/w each row */
 .ant-form-item {
     margin-bottom: 12px;
 }
@@ -12,5 +11,5 @@
 
 .form-buttons {
     margin-right: 6px;
-    margin-bottom: 0; /* reduce spacing at end */
+    margin-bottom: 0;
 }

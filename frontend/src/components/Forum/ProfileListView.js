@@ -9,18 +9,13 @@ function ProfileListView ({ items }) {
   const user = useSelector((state) => state.user);
   const axiosPrivate = useAxiosPrivate();
 
-
   useEffect(() => {
-    console.log(user);
     axiosPrivate({
       url: `/user/me`,
-    }).then((response) => {
-      console.log(response);
     }).catch((error) => {
       console.log(error)
     });
   }, [user])
-
 
   return (
     <div>

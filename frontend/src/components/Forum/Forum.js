@@ -56,7 +56,6 @@ function Forum ({ threadType }) {
       const response = await axios.get(getApiUrl(`/thread/get${selectedThreadType}`));
       const updated = await fetchPetFromThread(response.data.threads)
       setThreads(updated.reverse());
-      console.log(updated);
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +69,7 @@ function Forum ({ threadType }) {
         console.error('Error while fetching threads:', error);
         setLoading(false);
       });
-  }, [threadType]); // Effect will re-run whenever threadType changes
+  }, [threadType]);
 
 
   const startIndex = (currentPage - 1) * cardsPerPage;
@@ -82,7 +81,7 @@ function Forum ({ threadType }) {
   if (searchResults && searchResults.length > 0) {
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
-  const [advancedSearchForm] = Form.useForm(); // targets advanced search form
+  const [advancedSearchForm] = Form.useForm();
 
   const render = () => {
     switch (selectedView) {

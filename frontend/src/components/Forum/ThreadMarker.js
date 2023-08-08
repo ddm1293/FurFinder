@@ -1,4 +1,4 @@
-import { useState, useRef} from 'react'
+import { useState } from 'react'
 import { InfoWindow, Marker } from '@react-google-maps/api'
 import { useNavigate } from 'react-router-dom'
 import missingCatMarker from '../../static/missingCatMarker.png'
@@ -28,7 +28,6 @@ function ThreadMarker ({ thread }) {
   }
   function onMouseOut() {
     if (!cardIsSelected) {
-      // set a timeout to close the info window
       setTimeout(() => {
         setShouldDisplayCard(false);
       }, 30);

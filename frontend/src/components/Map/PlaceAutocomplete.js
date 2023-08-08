@@ -1,6 +1,5 @@
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete'
 import { AutoComplete } from 'antd'
-import { useEffect } from 'react'
 
 function PlaceAutocomplete ({ setSearched, searchText, setSearchText }) {
   const google = window.google;

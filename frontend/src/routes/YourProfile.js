@@ -25,7 +25,7 @@ export default function YourProfile() {
           url: getApiUrl(`/user/me`),
         });
         const res2 = await axios.get(getApiUrl(`/user/64823ca71623f19e8667501e`));
-      }, 1000); // make it larger to refresh auth token
+      }, 1000);
     }
   }
 
