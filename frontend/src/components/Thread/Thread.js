@@ -12,6 +12,7 @@ import PetCard from './PetCard';
 import ThreadContent from './ThreadContent';
 import ThreadMap from './ThreadMap';
 import { refresh } from '../../store/forumSlice';
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function Thread() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ function Thread() {
   useEffect(() => {
     if (thread && thread.poster) {
       axiosPrivate({
-        url: `/user/${thread.poster}`,
+        url: getApiUrl(`/user/${thread.poster}`),
       }).then(response => {
         setPoster(response.data.user);
       })
@@ -45,7 +46,7 @@ function Thread() {
 
   useEffect(() => {
     if (thread && thread.pet) {
-      axios.get(`/pet/${thread.pet}`)
+      axios.get(getApiUrl(`/pet/${thread.pet}`))
         .then(response => {
           // console.log("response data: ", response);
           setPet(response.data);

@@ -1,7 +1,8 @@
 const allowedOrigins = [
-  // 'https://www.yoursite.com', // TODO: replace this w/ production url
-  'http://localhost:3000', // default React dev server port
-  'http://localhost:3001' // proxied
+  // 'https://www.yoursite.com',
+  // 'http://localhost:3000' // default React dev server port
+  'http://localhost:3001',
+  'https://furfinder.onrender.com'
 ];
 
 export default allowedOrigins;

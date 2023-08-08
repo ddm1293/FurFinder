@@ -1,9 +1,10 @@
 import { Card, Carousel } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 import axios from 'axios';
 import '../../style/Thread/PetCard.css';
 import icon from "../../static/icon.png";
+import { getApiUrl } from '../../utils/getApiUrl'
 
 const { Meta } = Card;
 
@@ -12,13 +13,13 @@ const PetCard = ({ pet }) => {
   const [isMultiple, setIsMultiple] = useState(false);
 
   const fetchPetPics = async () => {
-    const response = await axios.get(`/pet/${pet._id}/image`);
-    if (Array.isArray(response.data)) {
+    const response = await axios.get(getApiUrl(`/pet/${pet._id}/image`));
+    if (Array.isArray(response.data) && response.data.length > 1) {
       setIsMultiple(true);
       setPetPics(response.data.map((pic, i) => `data:${pic.contentType};base64,${pic.data}`));
     } else {
       setIsMultiple(false);
-      setPetPics([`/pet/${pet._id}/image`]);
+      setPetPics([getApiUrl(`/pet/${pet._id}/coverImage`)]);
     }
   };
 
@@ -57,7 +58,7 @@ const PetCard = ({ pet }) => {
               <p><span className="id-card-label">Dog Breed: </span>{pet.breed}</p>
             }
             <p><span className="id-card-label">Sex: </span>{pet.sex}</p>
-            <p><span className="id-card-label">Last Seen Time: </span>{format(new Date(pet.lastSeenTime), 'hh:mm aa, MMMM do yyyy')}</p>
+            <p><span className="id-card-label">Last Seen Time: </span>{dayjs(pet.lastSeenTime).format('hh:mm A, MMMM Do YYYY')}</p>
             <p><span className="id-card-label">Description: </span>{pet.description}</p>
           </div>
         }

@@ -14,6 +14,7 @@ import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
 import axios from 'axios'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
 import Footer from "../Navbar/Footer"
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function Forum ({ threadType }) {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ function Forum ({ threadType }) {
 
   const fetchThreads = async (selectedThreadType) => {
     try {
-      const response = await axios.get(`/thread/get${selectedThreadType}`);
+      const response = await axios.get(getApiUrl(`/thread/get${selectedThreadType}`));
       const updated = await fetchPetFromThread(response.data.threads)
       setThreads(updated.reverse());
       console.log(updated);
@@ -115,7 +116,7 @@ function Forum ({ threadType }) {
     dispatch(clearSearchResults()); // reset search result on refresh and app exit
 
     (async () => {
-      const res = await axios.get(`/thread/getTotalThreadNumber`)
+      const res = await axios.get(getApiUrl(`/thread/getTotalThreadNumber`))
       setTotalThreadNum(res.data);
     })();
   }, [dispatch])
@@ -141,7 +142,7 @@ function Forum ({ threadType }) {
     }
     else {
       (async () => {
-        const res = await axios.get(`/thread/getTotalThreadNumber`)
+        const res = await axios.get(getApiUrl(`/thread/getTotalThreadNumber`))
         setTotalThreadNum(res.data);
         setCurrentPage(1);
       })();
