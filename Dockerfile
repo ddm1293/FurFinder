@@ -1,3 +1,5 @@
+# syntax = docker/dockerfile:1.2
+
 FROM node:18.16.0
 
 RUN apt-get update && apt-get install -y python3.11 python3-pip
@@ -13,6 +15,8 @@ RUN npm install
 COPY requirements.txt .
 
 RUN pip3 install --no-cache-dir -r requirements.txt --break-system-packages
+
+RUN --mount=type=secret,id=_env,dst=/etc/secrets/.env cat /etc/secrets/.env
 
 COPY . .
 
