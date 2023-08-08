@@ -124,23 +124,27 @@ function CreateThreadPetInfo ({ threadType, form }) {
         </Radio.Group>
       </Form.Item>
 
-      <Form.Item label='color'>
-        <Form.Item name='dominantColor'
-                   label='Choose the dominant color'
-                   rules={[{
-          required: true,
-          message: 'Please enter the pet\'s dominant color'
-        }]}>
-          <ColorPickerWrapper colorCategory='dominant' setColor={setDominantColor} />
-        </Form.Item>
-
-        <Form.Item name='secondaryColor'
-                   label='Choose the secondary color'>
-          <ColorPickerWrapper colorCategory='secondary' setColor={setSecondaryColor}/>
-        </Form.Item>
+      <Form.Item name='dominantColor'
+                 label='Dominant color'
+                 rules={[{
+                   required: true,
+                   message: 'Please enter the pet\'s dominant color'
+                 }]}>
+        <ColorPickerWrapper colorCategory='dominant' setColor={setDominantColor} />
+      </Form.Item>
+      <Form.Item name='secondaryColor'
+                 label='Secondary color'>
+        <ColorPickerWrapper colorCategory='secondary' setColor={setSecondaryColor}/>
       </Form.Item>
 
-      <Form.Item label='Size'>
+      <Form.Item
+        name='Size'
+        label='Size'
+        rules={[{
+          required: true,
+          message: 'Please complete the pet\'s size info'
+        }]}
+      >
         <Space.Compact>
           <Form.Item name='sizeCategory'>
             <Select
@@ -149,7 +153,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
               }}
               options={[
               { value: 0, label: 'small' },
-              { value: 1, label: 'mid' },
+              { value: 1, label: 'medium' },
               { value: 2, label: 'large' }
             ]} />
           </Form.Item>
