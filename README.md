@@ -76,6 +76,12 @@
 ## List of contributions (6):
 \* Alphabetized by Last Names
 ### Hank Chen (j4q1b)
+- Developed and animated a responsive Home Page
+- Designed both frontend and backend aspects of authentication (login/logout/signup)
+- Created and routinely executed a db seeding script (populate db with reasonably looking data)
+- Focused on improving specific aspects of create thread form (breed selector, media upload)
+- Handled misc. bug fixes and UX/UI improvements
+
 ### Yaosheng Cheng (j1a4n)
 - Designed the requirements of the project. Responsible for setting up basic project infrastructure including express and API structure, testing framework, MongoDB, and React.
 - Designed and implemented thread models and initial thread-related CRUD APIs. Implemented the error-handling structure in the backend. Redesigned and implemented the forum component. Implemented the search functionality for both frontend and backend. Implemented the map functionality for both frontend and backend (in createThread and mapView more specifically). Designed and implemented the pet matching algorithm for both frontend and backend.
