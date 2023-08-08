@@ -77,13 +77,6 @@ img {
     position: relative;
 }
 
-/*.card-view-img {*/
-/*    height: 100%;*/
-/*    width: 100%;*/
-/*    object-position: center;*/
-/*    object-fit: scale-down;*/
-/*}*/
-
 .card-cover-container img {
     min-width: 100%;
     min-height: 100%;
