@@ -8,13 +8,14 @@ export async function sendNotification(threadID, notificationType, subscriptionT
     const posterId = getThread.data.thread.poster;
     const getPoster = await axios.get(getApiUrl(`/user/${posterId}`));
     const poster = getPoster.data.user;
+    const url = process.env.REACT_APP_NODE_ENV === 'production' ?
+      `https://furfinder.onrender.com/threads/${threadID}` : `http://localhost:3000/threads/${threadID}`;
     if (poster.email && poster.subscription[subscriptionType] === true) {
       await sendEmail(
         poster.email,
         poster.username,
         notificationType,
-        // getApiUrl(`/${threadID}`)
-        `https://furfinder.onrender.com/threads/${threadID}`
+        url
       );
     }
   } catch (error) {
