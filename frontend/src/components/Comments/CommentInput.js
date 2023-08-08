@@ -9,7 +9,7 @@ const { TextArea } = Input
 function CommentInput (props) {
   const user = useSelector((state) => state.user);
   const [comment, setComment] = useState('')
-  const isEmptyComment = comment.length === 0 // disable button when no comment
+  const isEmptyComment = comment.length === 0
   const dispatch = useDispatch()
 
   const handleChange = (event) => {
@@ -27,7 +27,6 @@ function CommentInput (props) {
     }
     dispatch(addCommentAsync({ threadID: props.threadID, newComment: newComment}))
       .then(async () => {
-        // await sendCommentNotification(props.threadID);
         await sendNotification(props.threadID, 'comment', 'newComment');
         setComment('');
         if (props.handleSubmit) {

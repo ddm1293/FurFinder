@@ -48,7 +48,6 @@ function Thread() {
     if (thread && thread.pet) {
       axios.get(getApiUrl(`/pet/${thread.pet}`))
         .then(response => {
-          // console.log("response data: ", response);
           setPet(response.data);
         })
         .catch(error => {

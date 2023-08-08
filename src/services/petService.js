@@ -54,7 +54,6 @@ class PetService {
       }
       return petRelevance >= relevanceThreshold;
     });
-    // console.log('see relevantPets: ', relevantPets);
     const relevantThreadIds = _.map(relevantPets, (pet) => pet.threadId);
     await async.forEach(relevantThreadIds, async (relevantThreadId) => {
       await ThreadService.linkThreads(pet.threadId, relevantThreadId);

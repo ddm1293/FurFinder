@@ -13,6 +13,7 @@ import MyThreadListing from '../components/User/MyThreadListing'
 import FavoriteThread from '../components/User/FavoriteThread'
 import { getApiUrl } from '../utils/getApiUrl'
 import DisplayAvatar from '../components/User/DisplayAvatar'
+import Footer from "../components/Navbar/Footer"
 
 export default function YourProfile() {
   const user = useSelector((state) => state.user);
@@ -21,10 +22,10 @@ export default function YourProfile() {
   const test = () => {
     if (user.username) {
       setTimeout(async () => {
-        const res = await axiosPrivate({
+        await axiosPrivate({
           url: getApiUrl(`/user/me`),
         });
-        const res2 = await axios.get(getApiUrl(`/user/64823ca71623f19e8667501e`));
+        await axios.get(getApiUrl(`/user/64823ca71623f19e8667501e`));
       }, 1000);
     }
   }
@@ -73,40 +74,43 @@ export default function YourProfile() {
   }
 
   return (
-    <div id="your-profile">
-      <div className="profile-title">
-        <DisplayAvatar currentUser={user.id} size={40}/>
-        <h3 style={{ marginLeft: '10px' }}>{user.username}</h3>
+    <div>
+      <div id="your-profile">
+        <div className="profile-title">
+          <DisplayAvatar currentUser={user.id} size={40}/>
+          <h3 style={{ marginLeft: '10px' }}>{user.username}</h3>
+        </div>
+        <Layout style={{
+          height: '80vh',
+          width: '80vw',
+          marginBottom: '10px',
+        }}>
+          <Sider breakpoint="lg"
+                 collapsedWidth="0"
+                 theme="light"
+                 style={{ border: '1px solid #DDDDDD' }}>
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={['user']}
+              defaultOpenKeys={['user']}
+              style={{ height: '100%' }}
+              items={items1}
+              onSelect={({ key }) => setSelectedKey(key)}
+            />
+          </Sider>
+          <Content
+            style={{
+              padding: 20,
+              marginLeft: 30,
+              background: 'white',
+              border: '1px solid #DDDDDD',
+              overflow: 'auto',
+            }}>
+            <RenderContent />
+          </Content>
+        </Layout>
       </div>
-      <Layout style={{
-        height: '80vh',
-        width: '80vw',
-        // marginBottom: '10px',
-      }}>
-        <Sider breakpoint="lg"
-               collapsedWidth="0"
-               theme="light"
-               style={{ border: '1px solid #DDDDDD' }}>
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['user']}
-            defaultOpenKeys={['user']}
-            style={{ height: '100%' }}
-            items={items1}
-            onSelect={({ key }) => setSelectedKey(key)}
-          />
-        </Sider>
-        <Content
-          style={{
-            padding: 20,
-            marginLeft: 30,
-            background: 'white',
-            border: '1px solid #DDDDDD',
-            overflow: 'auto',
-          }}>
-          <RenderContent />
-        </Content>
-      </Layout>
+      <Footer />
     </div>
   );
 };
