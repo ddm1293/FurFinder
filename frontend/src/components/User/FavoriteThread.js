@@ -17,7 +17,7 @@ function FavoriteThread () {
   useEffect(() => {
     if (user.username) {
       axiosPrivate({
-        url: `/user/me`,
+        url: getApiUrl(`/user/me`),
       }).then((response) => {
         console.log(response, 21);
         setFavorite(response.data.user.favoredThreads);
