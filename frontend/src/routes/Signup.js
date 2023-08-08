@@ -6,6 +6,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { setUser } from '../store/userSlice';
 import '../style/Signup.css';
+import { getApiUrl } from '../utils/getApiUrl'
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export default function Signup() {
   const signup = async (values) => {
     try {
       const res = await axios({
-        url: `/auth/register`,
+        url: getApiUrl(`/auth/register`),
         method: 'post',
         data: {
           username: values.username,

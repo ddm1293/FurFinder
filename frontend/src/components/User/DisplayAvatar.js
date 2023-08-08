@@ -4,12 +4,13 @@ import defaultAvatar from "../../static/avatar.png"
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import {Buffer} from 'buffer'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 export default function DisplayAvatar (props) {
   const [avatarURL, setAvatarURL] = useState("");
 
   useEffect(() => {
-    axios.get(`/user/${props.currentUser}/getAvatar`)
+    axios.get(getApiUrl(`/user/${props.currentUser}/getAvatar`))
       .then((response) => {
         const url = getAvatarURL(response.data.avatar);
         setAvatarURL(url);

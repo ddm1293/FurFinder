@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import { setUser } from '../store/userSlice'; // import the setUser action creator from your userSlice file
 import '../style/Login.css';
+import { getApiUrl } from '../utils/getApiUrl'
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ export default function Login() {
   const login = async (values) => {
     try {
       const res = await axios({
-        url: `/auth/login`,
+        url: getApiUrl(`/auth/login`),
         method: 'post',
         data: {
           username: values.username,
@@ -53,7 +54,7 @@ export default function Login() {
 
     try {
       const res = await axios({
-        url: `/auth/login`,
+        url: getApiUrl(`/auth/login`),
         method: 'post',
         data: {
           username: userObject.email,

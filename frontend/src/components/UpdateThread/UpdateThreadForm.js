@@ -8,6 +8,7 @@ import { useDispatch, useSelector} from 'react-redux';
 import { updateThreadAsync, getThreadAsync} from '../../thunk/threadThunk';
 import dayjs from 'dayjs';
 import { refresh } from '../../store/forumSlice';
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
   const [threadType, updateThreadType] = useState('');
@@ -24,7 +25,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
       // if (!thread.pet || !thread.kind) return; // some checks, shouldn't be triggered at all
 
       axios
-        .get(`/pet/${thread.pet}`)
+        .get(getApiUrl(`/pet/${thread.pet}`))
         .then((response) => {
           // console.log("Got pet data: ", response);
           const pet = response.data;
