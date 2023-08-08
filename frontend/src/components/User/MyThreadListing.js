@@ -13,7 +13,7 @@ function MyThreadListing () {
 
   const fetchUserThreads = async () => {
     try {
-      const response = await axios.get(getApiUrl(`thread/userId/${user.id}`));
+      const response = await axios.get(getApiUrl(`/thread/userId/${user.id}`));
       setThreads(response.data.threads);
     } catch (error) {
       console.log(error);
