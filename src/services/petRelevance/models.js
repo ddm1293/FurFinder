@@ -29,7 +29,6 @@ export const exponentialDecay = async (x, y) => {
   await PythonShell.run(
     'src/services/petRelevance/exponentialDecay.py',
     {
-      pythonPath: '/usr/bin/python',
       args: [
         JSON.stringify(x),
         JSON.stringify(y)]
