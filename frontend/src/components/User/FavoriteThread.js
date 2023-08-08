@@ -6,6 +6,7 @@ import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import { StarOutlined } from '@ant-design/icons'
 import { Divider } from 'antd'
 import ProfileListView from '../Forum/ProfileListView'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function FavoriteThread () {
   const user = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ function FavoriteThread () {
   useEffect(() => {
     if (user.username) { // if username property is filled, then so should the remaining fields of user object
       axiosPrivate({
-        url: `/user/me`,
+        url: getApiUrl(`/user/me`),
       }).then((response) => {
         console.log(response, 21);
         setFavorite(response.data.user.favoredThreads);
@@ -31,7 +32,7 @@ function FavoriteThread () {
 
   const fetchThreads = async () => {
     try {
-      const res = await Promise.all(myThread.map(id => axios.get(`/thread/${id}`)));
+      const res = await Promise.all(myThread.map(id => axios.get(getApiUrl(`/thread/${id}`))));
       const threads = res.map(res => res.data.thread);
       const updated = await fetchPetFromThread(threads);
       const petsData = await Promise.all(updated);

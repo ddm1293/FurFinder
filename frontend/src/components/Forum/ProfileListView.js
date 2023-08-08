@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Link } from 'react-router-dom'
 import DisplayAvatar from '../User/DisplayAvatar'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function ProfileListView ({ items }) {
   const user = useSelector((state) => state.user);
@@ -13,7 +14,7 @@ function ProfileListView ({ items }) {
   useEffect(() => {
     console.log(user);
     axiosPrivate({
-      url: `/user/me`,
+      url: getApiUrl(`/user/me`),
     }).then((response) => {
       console.log(response);
     }).catch((error) => {
