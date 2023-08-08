@@ -12,6 +12,7 @@ import Notification from '../components/User/Notification'
 import MyThreadListing from '../components/User/MyThreadListing'
 import FavoriteThread from '../components/User/FavoriteThread'
 import { getApiUrl } from '../utils/getApiUrl'
+import DisplayAvatar from '../components/User/DisplayAvatar'
 
 export default function YourProfile() {
   const user = useSelector((state) => state.user);
@@ -24,8 +25,6 @@ export default function YourProfile() {
           url: getApiUrl(`/user/me`),
         });
         const res2 = await axios.get(getApiUrl(`/user/64823ca71623f19e8667501e`));
-        console.log(res.data);
-        console.log(res2.data);
       }, 1000);
     }
   }
@@ -75,13 +74,19 @@ export default function YourProfile() {
 
   return (
     <div id="your-profile">
-      <h1>Hello, {user.username}</h1>
+      <div className="profile-title">
+        <DisplayAvatar currentUser={user.id} size={40}/>
+        <h3 style={{ marginLeft: '10px' }}>{user.username}</h3>
+      </div>
       <Layout style={{
         height: '80vh',
         width: '80vw',
-        marginBottom: '10px'
+        // marginBottom: '10px',
       }}>
-        <Sider style={{ border: '1px solid #DDDDDD' }}>
+        <Sider breakpoint="lg"
+               collapsedWidth="0"
+               theme="light"
+               style={{ border: '1px solid #DDDDDD' }}>
           <Menu
             mode="inline"
             defaultSelectedKeys={['user']}
@@ -97,8 +102,7 @@ export default function YourProfile() {
             marginLeft: 30,
             background: 'white',
             border: '1px solid #DDDDDD',
-            overflowY: 'auto',
-            overflowX: 'auto',
+            overflow: 'auto',
           }}>
           <RenderContent />
         </Content>

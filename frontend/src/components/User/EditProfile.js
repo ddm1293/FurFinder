@@ -37,8 +37,8 @@ export default function EditProfile () {
       <h2><UserOutlined style={{ marginRight: '10px'}}/>User Profile</h2>
       <Divider />
       <div className="profile">
-        <span style={{ marginRight: '100px'}}><EditAvatar/></span>
-        <Form onFinish={onFinish}>
+        <span className="profile-avatar"><EditAvatar/></span>
+        <Form className="profile-form" onFinish={onFinish}>
           <h4 style={{ marginTop: 0}}>User Name</h4>
           <span className="profile-input">{user.username}</span>
           <h4>Email</h4>
