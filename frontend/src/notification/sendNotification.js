@@ -13,7 +13,8 @@ export async function sendNotification(threadID, notificationType, subscriptionT
         poster.email,
         poster.username,
         notificationType,
-        getApiUrl(`/${threadID}`)
+        // getApiUrl(`/${threadID}`)
+        `https://furfinder.onrender.com/threads/${threadID}`
       );
     }
   } catch (error) {
