@@ -78,6 +78,11 @@
 ### Yaosheng Cheng (j1a4n)
 ### Han Li (x2h3l)
 ### Xuanya Liu (CSID: t5n0b)
+- Contributed to implementing the frontend of the forum in Card and List views.
+- Developed comment functionality, including frontend implementation, Redux setup, and backend connection.
+- Implemented user profile picture uploads, email service subscriptions and frontend of the user profile page.
+- Incorporated email notification to alert users about new comments and relevant threads.
+
 ### Huiwen Zuo (n7l4u)
  - Mostly worked on Thread-related frontend and functionalities, including the Thread page, Pet Card, Edit and Delete Thread functionalities, Thread map, and the frontend of Relevant Threads.
  - Helped on setting backend endpoints, including the backend of uploading multiple pictures, and some Relevant Threads endpoints and the related module setting.
