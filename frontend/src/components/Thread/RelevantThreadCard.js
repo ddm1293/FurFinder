@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import dayjs from 'dayjs';
 import '../../style/Thread/RelevantThreadCard.css'
 import icon from "../../static/icon.png";
 
@@ -17,7 +17,7 @@ const RelevantThreadCard = ({ pet, src }) => (
       <h2 className="relevant-thread-card-title">{pet.name}</h2>
       <p><span className="relevant-thread-card-label">{pet.species === 'Cat' ? 'Cat Breed' : 'Dog Breed'}: </span>{pet.breed}</p>
       <p><span className="relevant-thread-card-label">Sex: </span>{pet.sex}</p>
-      <p><span className="relevant-thread-card-label">Last Seen Time: </span>{format(new Date(pet.lastSeenTime), 'hh:mm aa, MMMM do yyyy')}</p>
+      <p><span className="id-card-label">Last Seen Time: </span>{dayjs(pet.lastSeenTime).format('hh:mm A, MMMM Do YYYY')}</p>
       <p><span className="relevant-thread-card-label">Description: </span>{pet.description}</p>
     </div>
   </div>

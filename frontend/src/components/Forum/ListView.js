@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import { Link, useNavigate } from 'react-router-dom'
 import DisplayAvatar from '../User/DisplayAvatar'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function ListView ({ items }) {
   const user = useSelector((state) => state.user);
@@ -16,7 +17,7 @@ function ListView ({ items }) {
   useEffect(() => {
     console.log(user);
     axiosPrivate({
-      url: `/user/me`,
+      url: getApiUrl(`/user/me`),
     }).then((response) => {
       console.log(response);
       setFavorite(response.data.user.favoredThreads);
@@ -32,7 +33,7 @@ function ListView ({ items }) {
       return;
     }
     axios
-      .patch(`/thread/${id}/${user.id}/favorite`)
+      .patch(getApiUrl(`/thread/${id}/${user.id}/favorite`))
       .then((response) => {
         const updatedFavourite = favourite.includes(id)
           ? favourite.filter((itemId) => itemId !== id)

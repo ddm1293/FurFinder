@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import CommentInput from './CommentInput'
 import axios from 'axios'
 import DisplayAvatar from '../User/DisplayAvatar'
+import { getApiUrl } from '../../utils/getApiUrl'
 
 function Comment (props) {
   const [commenter, setCommenter] = useState({})
@@ -17,7 +18,7 @@ function Comment (props) {
 
   useEffect(() => {
     axios
-      .get(`/user/${props.comment.author.id}`)
+      .get(getApiUrl(`/user/${props.comment.author.id}`))
       .then((response) => {
         setCommenter(response.data.user)
       })
