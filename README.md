@@ -68,14 +68,19 @@
  - The integration with Google Login also streamlined the user experience, allowing for quick and hassle-free access to our application's features.
 
 ## Next Steps (5):
- - Algorithm Improvement: We plan to evolve our current algorithm by incorporating machine learning techniques, allowing for more accurate and adaptive predictions. By using a data-driven approach, we aim to enhance the system's responsiveness and effectiveness.
- - Automatic Poster Generation: In line with our original goals, we're working on an auto-poster generation feature. This will enable lost pet owners to effortlessly create and customize pet posters, streamlining the process and providing additional support in stressful situations.
+ - Algorithm Improvement: We plan to evolve our current algorithm by incorporating a machine learning model to recognize cat and dog faces, allowing for more accurate and adaptive predictions. By using a data-driven approach, we aim to enhance the system's responsiveness and effectiveness.
+ - Automatic Poster Generation: In line with our original goals, we're working on an auto-poster generation feature powered by OpenAI APIs. This will enable lost pet owners to effortlessly create and customize pet posters, streamlining the process and providing additional support in stressful situations.
  - On-Site Notifications: To complement our existing email notifications, we intend to implement on-site notifications. This will provide users with immediate alerts within the platform, enhancing user experience and engagement with the content.
+ - Incentive Points System: We plan to add a redeemable points system to offer rewards for witnesses who actively help in the process of finding lost pets.
 
 ## List of contributions (6):
 \* Alphabetized by Last Names
 ### Hank Chen (j4q1b)
 ### Yaosheng Cheng (j1a4n)
+- Designed the requirements of the project. Responsible for setting up basic project infrastructure including express and API structure, testing framework, MongoDB, and React.
+- Designed and implemented thread models and initial thread-related CRUD APIs. Implemented the error-handling structure in the backend. Redesigned and implemented the forum component. Implemented the search functionality for both frontend and backend. Implemented the map functionality for both frontend and backend (in createThread and mapView more specifically). Designed and implemented the pet matching algorithm for both frontend and backend.
+- Responsible for deploying the project on Render.com
+- Served as the scrum master, creating and maintaining JIRA.
 ### Han Li (x2h3l)
 ### Xuanya Liu (CSID: t5n0b)
 ### Huiwen Zuo (n7l4u)
