@@ -9,6 +9,8 @@ import { Content } from 'antd/es/layout/layout'
 import { BellOutlined, HistoryOutlined, StarOutlined, UserOutlined } from '@ant-design/icons'
 import EditProfile from '../components/User/EditProfile'
 import Notification from '../components/User/Notification'
+import MyThreadListing from '../components/User/MyThreadListing'
+import FavoriteThread from '../components/User/FavoriteThread'
 import { getApiUrl } from '../utils/getApiUrl'
 
 export default function YourProfile() {
@@ -63,9 +65,9 @@ export default function YourProfile() {
       case 'notification':
         return <Notification />
       case 'post': // TODO
-        return null
+        return <MyThreadListing />
       case 'favourite': // TODO
-        return null
+        return <FavoriteThread />
       default:
         return null
     }
@@ -74,10 +76,9 @@ export default function YourProfile() {
   return (
     <div id="your-profile">
       <h1>Hello, {user.username}</h1>
-      {/* <p>Access token: {'...' + user.accessToken.split('.')[2]}</p> */}
       <Layout style={{
         height: '80vh',
-        width: '60vw',
+        width: '80vw',
         marginBottom: '10px'
       }}>
         <Sider style={{ border: '1px solid #DDDDDD' }}>
@@ -96,7 +97,8 @@ export default function YourProfile() {
             marginLeft: 30,
             background: 'white',
             border: '1px solid #DDDDDD',
-            minWidth: 50
+            overflowY: 'auto',
+            overflowX: 'auto',
           }}>
           <RenderContent />
         </Content>

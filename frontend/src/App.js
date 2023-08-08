@@ -12,7 +12,7 @@ import Threads from './routes/Threads';
 import CreateThread from './routes/CreateThread';
 import ThreadView from './routes/ThreadView';
 import YourProfile from './routes/YourProfile';
-import Settings from './routes/Settings';
+import About from './routes/About';
 
 const ProtectedRoute = ({ children }) => {
   const user = useSelector((state) => state.user);
@@ -40,9 +40,9 @@ function App() {
                   <YourProfile />
                 </ProtectedRoute>
               } />
-              <Route path="/settings" element={
+              <Route path="/about" element={
                 <ProtectedRoute>
-                  <Settings />
+                  <About />
                 </ProtectedRoute>
               } />
               <Route path="/threads" element={<Threads />} />
