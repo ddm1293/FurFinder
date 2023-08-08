@@ -16,7 +16,6 @@ export default function Notification () {
       url: getApiUrl(`/user/me`),
     }).then((response) => {
       setSubscription(response.data.user.subscription);
-      console.log("subscription before", response.data.user.subscription);
     }).catch((error) => {
       console.log(error)
     });
@@ -34,7 +33,6 @@ export default function Notification () {
       headers: { 'Content-Type': 'application/json' }
     }).then(response => {
       setSubscription(response.data.user.subscription);
-      console.log("subscription after", response);
     }).catch(error => {
       console.error('Error updating user subscription', error)
     })

@@ -6,8 +6,8 @@
   display: flex;
   position: relative;
   width: 100%;
-  height: calc(var(--split-height) / 2); /* prob need to change to accomodate About */
-  overflow: hidden; /* prevent image from overflowing when hovered */
+  height: calc(var(--split-height) / 2);
+  overflow: hidden;
 }
 
 #split .split__image {
@@ -68,7 +68,7 @@
 
   #split .split__sides {
     width: 50%;
-    height: var(--split-height); /* prob need to change to accomodate About */
+    height: var(--split-height);
   }
 }
 

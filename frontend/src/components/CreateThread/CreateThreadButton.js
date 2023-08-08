@@ -4,11 +4,11 @@ import { Button } from 'antd';
 function CreateThreadButton () {
   const navigate = useNavigate();
 
-  const handleCreateClick = (e) => {
+  const handleCreateClick = () => {
     navigate('/threads/create', { state: { initialType: 'lostPetThread' } });
   };
 
-  return ( // &nbsp; is needed to prevent pushing this button into ellipse
+  return (
     <Button type="primary" onClick={handleCreateClick}>
       Create&nbsp;
     </Button>

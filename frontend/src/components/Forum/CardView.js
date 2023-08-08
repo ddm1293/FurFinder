@@ -13,19 +13,9 @@ const { Meta } = Card
 
 function CardView ({ items }) {
   const user = useSelector((state) => state.user);
-  const petAttributes = ['name', 'breed', 'sex'];
   const [favourite, setFavorite] = useState([]);
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
-
-  const verifyValidPet = (pet) => {
-    for (const key in petAttributes) {
-      if (!pet[key]) {
-        return false;
-      }
-    }
-    return true;
-  }
 
   const handleClick= (id) => {
     if (!user.username){
@@ -34,7 +24,7 @@ function CardView ({ items }) {
     }
     axios
         .patch(getApiUrl(`/thread/${id}/${user.id}/favorite`))
-        .then((response) => {
+        .then(() => {
           const updatedFavourite = favourite.includes(id)
             ? favourite.filter((itemId) => itemId !== id)
             : [...favourite, id];
@@ -54,7 +44,6 @@ function CardView ({ items }) {
       axiosPrivate({
         url: getApiUrl(`/user/me`),
       }).then((response) => {
-        console.log(response);
         setFavorite(response.data.user.favoredThreads);
       }).catch((error) => {
         console.log(error)

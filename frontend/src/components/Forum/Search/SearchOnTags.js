@@ -1,5 +1,4 @@
 import CheckableTag from 'antd/es/tag/CheckableTag'
-import { useState } from 'react'
 
 function SearchOnTags ({ selectedTags, setTags }) {
   const tags = ['title', 'content'];

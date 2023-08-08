@@ -12,7 +12,6 @@ export default function EditAvatar () {
 
   const onFinish = async (values) => {
     const formData = new FormData();
-    console.log(values);
     if (values.avatar && values.avatar.length > 0) {
       formData.append('avatar', values.avatar[0].originFileObj, values.avatar[0].originFileObj.name);
     }
@@ -21,8 +20,7 @@ export default function EditAvatar () {
       method: 'patch',
       data: formData,
       headers: { 'Content-Type' : 'multipart/form-data'}
-    }).then((response) => {
-      console.log("updateAvatar", response)
+    }).then(() => {
       window.location.reload();
     }).catch((error) => {
       console.error('Error fetching data', error);
@@ -30,7 +28,6 @@ export default function EditAvatar () {
   }
 
   const normFile = (e) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }

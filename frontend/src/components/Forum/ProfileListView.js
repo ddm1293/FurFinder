@@ -10,9 +10,7 @@ function ProfileListView ({ items }) {
   const user = useSelector((state) => state.user);
   const axiosPrivate = useAxiosPrivate();
 
-
   useEffect(() => {
-    console.log(user);
     axiosPrivate({
       url: getApiUrl(`/user/me`),
     }).then((response) => {
@@ -21,7 +19,6 @@ function ProfileListView ({ items }) {
       console.log(error)
     });
   }, [user])
-
 
   return (
     <div>

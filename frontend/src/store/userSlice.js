@@ -24,13 +24,6 @@ const userSlice = createSlice({
             return initialState;
         }
     }
-    // ,
-    // extraReducers: (builder) => {
-    //     builder
-    //       .addCase(getFavoredThreadsAsync.fulfilled, (state, action) => {
-    //           state.favoredThreads = action.payload;
-    //       })
-    // }
 });
 
 export const { setUser, setAccessToken, logoutUser } = userSlice.actions;
