@@ -22,12 +22,6 @@ const LeftMenu = ({ mode }) => {
         threadType: 'witnessThread'
       }
     }
-    // ,
-    // {
-    //   key: "about",
-    //   title: "About",
-    //   link: "/"
-    // }
   ];
 
   return (

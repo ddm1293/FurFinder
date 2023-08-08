@@ -26,7 +26,7 @@ export default function YourProfile() {
         const res2 = await axios.get(getApiUrl(`/user/64823ca71623f19e8667501e`));
         console.log(res.data);
         console.log(res2.data);
-      }, 1000); // make it larger to refresh auth token
+      }, 1000);
     }
   }
 
@@ -64,9 +64,9 @@ export default function YourProfile() {
         return <EditProfile />
       case 'notification':
         return <Notification />
-      case 'post': // TODO
+      case 'post':
         return <MyThreadListing />
-      case 'favourite': // TODO
+      case 'favourite':
         return <FavoriteThread />
       default:
         return null

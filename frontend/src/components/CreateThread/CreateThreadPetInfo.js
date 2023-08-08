@@ -22,7 +22,6 @@ function CreateThreadPetInfo ({ threadType, form }) {
   }, [threadType, form]);
 
   const normFile = (e) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -35,14 +34,14 @@ function CreateThreadPetInfo ({ threadType, form }) {
     reader.onloadend = () => {
       setPreviewImages((prevImages) => [...prevImages, reader.result]);
     };
-    return false; // Prevent default upload behavior
+    return false;
   };
 
   const handleRemovePreview = (index) => {
     setPreviewImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
-  function dummyRequest({ file, onSuccess }) {
+  function dummyRequest({ onSuccess }) {
     setTimeout(() => {
       onSuccess('ok');
     }, 0);

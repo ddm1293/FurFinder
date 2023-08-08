@@ -15,7 +15,7 @@ function FavoriteThread () {
 
 
   useEffect(() => {
-    if (user.username) { // if username property is filled, then so should the remaining fields of user object
+    if (user.username) {
       axiosPrivate({
         url: `/user/me`,
       }).then((response) => {
