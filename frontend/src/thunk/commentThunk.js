@@ -18,7 +18,7 @@ export const addCommentAsync = createAsyncThunk(
   'POST_COMMENTS',
   async ({ threadID, newComment }) => {
     try {
-      const res = await axios.post(getApiUrl(`/comment/${threadID}/create`), newComment);
+      const res = await axios.post(getApiUrl(`/comment/${threadID}/create`, newComment));
       console.log(res);
       return res.data.commentCreated;
     } catch (e) {
