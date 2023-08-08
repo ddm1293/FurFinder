@@ -60,7 +60,7 @@ function RelevantThreads(props) {
           {relevantThreads.map((thread, index) => {
             const pet = pets[index];
             if (pet) {
-              const petImgUrl = `/pet/${pet._id}/image`;
+              const petImgUrl = getApiUrl(`/pet/${pet._id}/coverImage`);
               return (
                 <a href={`/threads/${thread._id}`} target="_blank" rel="noreferrer noopener" key={thread._id}>
                   <div className="relevant-thread-card-wrapper">
