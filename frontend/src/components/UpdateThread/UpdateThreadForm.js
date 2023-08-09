@@ -20,7 +20,6 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
   useEffect(() => {
     dispatch(getThreadAsync(threadId)).then((res) => {
       const thread = res.payload.thread;
-
       axios
         .get(getApiUrl(`/pet/${thread.pet}`))
         .then((response) => {
@@ -33,7 +32,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
             }
             : null;
 
-          updateThreadType(thread.kind);
+          updateThreadType(thread.threadType);
           form.setFieldsValue({
             'threadType': thread.threadType,
             'title': thread.title,
