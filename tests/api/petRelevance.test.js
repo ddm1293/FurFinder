@@ -129,7 +129,7 @@ describe('Test petRelevance helpers', () => {
   });
 
   it('Test GPT', async () => {
-    const response = await callGPT('Say this is a test');
-    console.log(response.choices[0].message);
+    const response = await callGPT('Based on these two descriptions, give me an exact probability number that they are describing the same pet without any other words: description 1: Shadow is a sprightly Border Collie with a unique split-colored face; the left side is jet black, while the right side is pristine white. He\'s got this characteristic bushy tail that curls slightly upwards, especially when he\'s excited. Shadow has medium-length fur, predominantly black with white patches on his paws, chest, and the tip of his tail. His eyes are a striking shade of blue, reminiscent of clear skies.  description 2: I found this energetic dog that looks a lot like a Border Collie, I think. Half of its face is black and the other half white, which caught my attention. The dog\'s fur is mostly black but with some white areas, especially around its legs and a bit on the chest. One of the distinct features were its bright blue eyes. It\'s pretty lively, kept trying to chase after some pigeons around the park.');
+    console.log(response);
   });
 });

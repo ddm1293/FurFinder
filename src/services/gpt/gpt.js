@@ -15,11 +15,18 @@ export const callGPT = async (prompt) => {
     const completion = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'user', content: prompt }
+        {
+          role: 'system',
+          content: 'Give me an answer only as an exact number.'
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
       ],
       temperature: 0.2
     });
-    return completion.data;
+    return completion.data.choices[0].message.content;
   } catch (err) {
     console.error(err);
   }
