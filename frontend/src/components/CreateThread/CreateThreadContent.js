@@ -5,7 +5,6 @@ import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 
 function CreateThreadContent ({ threadType, handleThreadTypeUpdate }) {
   const onThreadTypeChange = (e) => {
-    console.log("see change type of thread change: ", e);
     handleThreadTypeUpdate(e);
   }
 

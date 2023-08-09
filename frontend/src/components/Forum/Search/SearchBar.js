@@ -35,13 +35,11 @@ function SearchBar ({ threadType }) {
             }
             dispatch(searchThreadsAsync(params))
               .then((results) => {
-                console.log("Search Results:", results);
                 setSearchResults(results.payload); // Update the search results state
-                console.log("Search Results Length:", results.payload.length);
                 setShowNoMatchedThreadsModal(results.payload.length === 0);
               })
               .catch((error) => {
-                console.error("Error while fetching data:", error);
+                console.error("Search Error - failed to fetch data:", error);
               });
           }
         }}

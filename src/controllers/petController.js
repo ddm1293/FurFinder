@@ -5,7 +5,7 @@ export const getPet = async (req, res, next) => {
     const petId = req.params.id;
 
     let pet = await PetService.getPetById(petId);
-    pet = pet.toObject(); // need to remove pic property
+    pet = pet.toObject();
     delete pet.pic;
 
     res.status(200).json(pet);
@@ -43,7 +43,6 @@ export const getPetImage = async (req, res, next) => {
 };
 
 export const getPetCoverImage = async (req, res, next) => {
-  console.log('Server::GetPetImage');
   try {
     const petId = req.params.id;
     const pet = await PetService.getPetById(petId);

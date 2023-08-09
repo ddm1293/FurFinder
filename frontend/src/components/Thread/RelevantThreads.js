@@ -48,7 +48,6 @@ function RelevantThreads(props) {
   }, [relevantThreads, relevant]);
 
   if (relevantThreads.length === 0) {
-    // Don't render the component if there are no relevant threads.
     return null;
   }
 
@@ -70,7 +69,7 @@ function RelevantThreads(props) {
 
               );
             }
-            return null;  // In case there is no pet data, render nothing for this item.
+            return null;
           })}
         </div>
       </div>

@@ -20,12 +20,11 @@ function ListView ({ items }) {
     }).then((response) => {
       setFavorite(response.data.user.favoredThreads);
     }).catch((error) => {
-      console.log(error)
+      console.log('Cannot get user favorite on list view' + error);
     });
   }, [user])
 
   const handleClick= (id) => {
-    console.log(id);
     if (!user.username){
       navigate('/login');
       return;
@@ -39,7 +38,7 @@ function ListView ({ items }) {
         setFavorite(updatedFavourite);
       })
       .catch((error) => {
-        console.log(error)
+        console.log('Cannot update user favorite on card view' + error);
       })
   }
   return (

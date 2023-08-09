@@ -45,9 +45,8 @@ export default function Signup() {
           password: values.password,
         },
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true, // this is what actually sets the cookie in the subsequent request header
+        withCredentials: true,
       });
-      console.log(res.data);
 
       if (res.data.newUser) {
         dispatch(setUser({

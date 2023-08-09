@@ -62,8 +62,7 @@ export const refreshAccessToken = async (req, res) => {
   const refreshToken = cookies.jwt;
 
   let foundUser = await UserService.getUserByRefreshToken(refreshToken);
-  if (!foundUser) { return res.sendStatus(403); } // forbidden
-  /* Otherwise, evaluate jwt */
+  if (!foundUser) { return res.sendStatus(403); }
   jwt.verify(
     refreshToken,
     process.env.REFRESH_TOKEN_SECRET,
@@ -80,8 +79,7 @@ export const refreshAccessToken = async (req, res) => {
 export const logoutUser = async (req, res) => {
   console.log('Server::logoutUser');
   const cookies = req.cookies;
-  if (cookies && !cookies.jwt) { return res.sendStatus(204); } // no content
-  /* Is refreshToken in db? If so, clear it; clear cookie regardless */
+  if (cookies && !cookies.jwt) { return res.sendStatus(204); }
   try {
     const refreshToken = cookies.jwt;
     const foundUser = await UserService.getUserByRefreshToken(refreshToken);
@@ -101,7 +99,7 @@ function getAccessToken(privateUserProfile) {
   return jwt.sign(
     privateUserProfile,
     process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: '900s' } // 10s for testing purposes; can be longer
+    { expiresIn: '900s' }
   );
 }
 
