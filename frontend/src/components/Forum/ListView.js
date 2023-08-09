@@ -15,11 +15,9 @@ function ListView ({ items }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(user);
     axiosPrivate({
       url: getApiUrl(`/user/me`),
     }).then((response) => {
-      console.log(response);
       setFavorite(response.data.user.favoredThreads);
     }).catch((error) => {
       console.log(error)
@@ -34,11 +32,10 @@ function ListView ({ items }) {
     }
     axios
       .patch(getApiUrl(`/thread/${id}/${user.id}/favorite`))
-      .then((response) => {
+      .then(() => {
         const updatedFavourite = favourite.includes(id)
           ? favourite.filter((itemId) => itemId !== id)
           : [...favourite, id];
-        console.log(updatedFavourite);
         setFavorite(updatedFavourite);
       })
       .catch((error) => {

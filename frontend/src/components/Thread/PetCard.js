@@ -1,10 +1,10 @@
 import { Card, Carousel } from 'antd';
 import React, { useEffect, useState } from 'react';
-import dayjs from 'dayjs';
 import axios from 'axios';
 import '../../style/Thread/PetCard.css';
 import icon from "../../static/icon.png";
 import { getApiUrl } from '../../utils/getApiUrl'
+import PetDetails from './PetDetails'
 
 const { Meta } = Card;
 
@@ -53,13 +53,7 @@ const PetCard = ({ pet }) => {
         title={<span className="id-card-title">Name: {pet.name}</span>}
         description={
           <div className="id-card-info">
-            {pet.species === 'Cat' ?
-              <p><span className="id-card-label">Cat Breed: </span>{pet.breed}</p> :
-              <p><span className="id-card-label">Dog Breed: </span>{pet.breed}</p>
-            }
-            <p><span className="id-card-label">Sex: </span>{pet.sex}</p>
-            <p><span className="id-card-label">Last Seen Time: </span>{dayjs(pet.lastSeenTime).format('hh:mm A, MMMM Do YYYY')}</p>
-            <p><span className="id-card-label">Description: </span>{pet.description}</p>
+            <PetDetails pet={pet} />
           </div>
         }
       />

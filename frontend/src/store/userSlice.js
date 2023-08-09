@@ -7,15 +7,16 @@ const initialState = {
     myThreads: [],
     accessToken: null,
     email: null,
+    subscription: null
 };
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
         setUser: (state, action) => {
-            const { id, username, myThreads, accessToken, email } = action.payload;
+            const { id, username, myThreads, accessToken, email, subscription } = action.payload;
 
-            return { id, username, myThreads, accessToken, email };
+            return { id, username, myThreads, accessToken, email, subscription };
         },
         setAccessToken: (state, action) => {
             return { ...state, accessToken: action.payload };
@@ -24,13 +25,6 @@ const userSlice = createSlice({
             return initialState;
         }
     }
-    // ,
-    // extraReducers: (builder) => {
-    //     builder
-    //       .addCase(getFavoredThreadsAsync.fulfilled, (state, action) => {
-    //           state.favoredThreads = action.payload;
-    //       })
-    // }
 });
 
 export const { setUser, setAccessToken, logoutUser } = userSlice.actions;

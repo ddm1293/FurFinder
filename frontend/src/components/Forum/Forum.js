@@ -10,7 +10,6 @@ import { useState, useEffect } from 'react'
 import AdvancedSearchButton from './Search/AdvancedSearchButton'
 import AdvancedSearchSidePanel from './Search/AdvancedSearchSidebar'
 import { clearSearchResults, updateViewStatus } from '../../store/forumSlice'
-// import { getThreadsAsync } from '../../thunk/forumThunk'
 import axios from 'axios'
 import { fetchPetFromThread } from '../../thunk/thunkHelper'
 import Footer from "../Navbar/Footer"
@@ -22,7 +21,6 @@ function Forum ({ threadType }) {
   const cardsPerPage = useSelector((state) => state.forum.pageSizeCard);
   const searchResults = useSelector((state) => state.forum.searchResults);
   const pagesFromSlice = useSelector((state) => state.forum.pages);
-  // const displayStatus = useSelector((state) => state.forum.displayStatus);
 
   const selectedView = useSelector((state) => state.forum.viewStatus);
   const [totalThreadNum, setTotalThreadNum] = useState(null);
@@ -31,10 +29,6 @@ function Forum ({ threadType }) {
   const [searchBarId, setSearchBarId] = useState(Date.now()); // for resetting search bar input; see below
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [threads, setThreads] = useState([]);
-
-  // useEffect(() => {
-  //   dispatch(getThreadsAsync());
-  // }, [dispatch, threadType]);
 
   // render threads in different views
   const viewOptions = [{
@@ -56,7 +50,6 @@ function Forum ({ threadType }) {
       const response = await axios.get(getApiUrl(`/thread/get${selectedThreadType}`));
       const updated = await fetchPetFromThread(response.data.threads)
       setThreads(updated.reverse());
-      console.log(updated);
     } catch (error) {
       console.error(error);
     }
@@ -70,7 +63,7 @@ function Forum ({ threadType }) {
         console.error('Error while fetching threads:', error);
         setLoading(false);
       });
-  }, [threadType]); // Effect will re-run whenever threadType changes
+  }, [threadType]);
 
 
   const startIndex = (currentPage - 1) * cardsPerPage;
@@ -82,7 +75,7 @@ function Forum ({ threadType }) {
   if (searchResults && searchResults.length > 0) {
     displayedCards = searchResults.slice(startIndex, endIndex);
   }
-  const [advancedSearchForm] = Form.useForm(); // targets advanced search form
+  const [advancedSearchForm] = Form.useForm();
 
   const render = () => {
     switch (selectedView) {
@@ -120,17 +113,6 @@ function Forum ({ threadType }) {
       setTotalThreadNum(res.data);
     })();
   }, [dispatch])
-
-  // useEffect(() => {
-  //   console.log('see currentPage:', currentPage);
-  // }, [currentPage])
-
-  // useEffect(() => {
-  //   console.log('get called cardsPerPage: ', currentPage, cardsPerPage);
-  //   dispatch(getThreadsAsync({page: currentPage, limit: cardsPerPage})).then(() => {
-  //     setLoading(false)
-  //   })
-  // }, [currentPage])
 
   useEffect(() => {
     if (searchResults.length) {

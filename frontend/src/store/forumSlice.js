@@ -18,7 +18,7 @@ const forumSlice = createSlice({
       state.searchResults = [];
     },
     refresh: (state, action) => {
-      state.pages = {};  // Clear the stored pages
+      state.pages = {};
     },
     updateViewStatus: (state, action) => {
       state.viewStatus = action.payload;

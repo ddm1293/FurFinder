@@ -73,7 +73,6 @@ class ThreadService {
     const user = await UserModel.findById(userId);
     if (user) {
       await UserService.getUserFavoriteOrUnfavorite(userId, id);
-      // const thread = await ThreadModel.findById(id);
       return user;
     } else {
       throw new UserDoesNotExistException(`user ${userId} does not exist`);
@@ -103,7 +102,7 @@ class ThreadService {
       if (!userRelated) {
         throw new UserDoesNotExistException(`User ${deleted.poster} does not exist`);
       }
-      userRelated.myThreads.pull(deleted._id); // delete thread from user
+      userRelated.myThreads.pull(deleted._id);
       await userRelated.save();
       return deleted;
     } else {

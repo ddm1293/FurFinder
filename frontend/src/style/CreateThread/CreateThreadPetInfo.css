@@ -11,11 +11,10 @@
     margin-bottom: -20px;
 }
 
-/* Add this CSS to your existing CSS file or style block */
 .preview-images {
     display: flex;
     flex-direction: row;
-    gap: 16px; /* You can adjust the gap between images as needed */
+    gap: 16px;
 }
 
 .preview-image {

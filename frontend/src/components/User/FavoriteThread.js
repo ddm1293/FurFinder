@@ -15,11 +15,10 @@ function FavoriteThread () {
 
 
   useEffect(() => {
-    if (user.username) { // if username property is filled, then so should the remaining fields of user object
+    if (user.username) {
       axiosPrivate({
         url: getApiUrl(`/user/me`),
       }).then((response) => {
-        console.log(response, 21);
         setFavorite(response.data.user.favoredThreads);
       }).catch((error) => {
         console.log(error)
