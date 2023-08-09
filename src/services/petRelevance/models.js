@@ -1,9 +1,9 @@
 import { computeDistanceBetween, convertLatLng } from 'spherical-geometry-js';
 import { PythonShell } from 'python-shell';
+import { colorProbabilityData, timeProbabilityData } from './petAssumption.js'
 
 const getDistance = (from, to) => {
-  const dist = computeDistanceBetween(convertLatLng(from), convertLatLng(to));
-  return dist;
+  return computeDistanceBetween(convertLatLng(from), convertLatLng(to));
 };
 
 export const idwInterpolation = (point, referencePoints, p) => {
@@ -42,4 +42,15 @@ export const exponentialDecay = async (x, y) => {
       console.error(err);
     });
   return exponentialDecayModel;
+};
+
+export const initializeModels = async () => {
+  const exponentialDecayModels = {};
+  exponentialDecayModels.color = await exponentialDecay(
+    colorProbabilityData.x_colorDiff, colorProbabilityData.y_probability
+  );
+  exponentialDecayModels.lastSeenTime = await exponentialDecay(
+    timeProbabilityData.x_lostTime, timeProbabilityData.y_probability
+  );
+  return exponentialDecayModels;
 };

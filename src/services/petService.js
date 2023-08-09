@@ -3,6 +3,7 @@ import async from 'async';
 import { getPetRelevanceIndex, relevanceThreshold } from './petRelevance/petRelevance.js';
 import _ from 'lodash';
 import ThreadService from './threadService.js';
+import { initializeModels } from './petRelevance/models.js';
 
 class PetService {
   static async createPet(body) {
@@ -41,8 +42,14 @@ class PetService {
   static async linkRelevantPets(pet) {
     const threadType = pet.threadType === 'lostPetThread' ? 'witnessThread' : 'lostPetThread';
     const targetPets = await PetModel.find({ threadType, species: pet.species });
+    const exponentialDecayModels = await initializeModels();
     const relevantPets = await async.filter(targetPets, async (targetPet) => {
-      const petRelevance = await getPetRelevanceIndex(pet, targetPet);
+      const lostPet = pet.threadType === 'lostPetThread' ? pet : targetPet;
+      const witnessedPet = pet.threadType === 'witnessThread' ? pet : targetPet;
+      const petRelevance = await getPetRelevanceIndex(lostPet, witnessedPet, exponentialDecayModels);
+      if (petRelevance >= relevanceThreshold) {
+        console.log('see relevantPet: ', petRelevance, targetPet.name);
+      }
       return petRelevance >= relevanceThreshold;
     });
     const relevantThreadIds = _.map(relevantPets, (pet) => pet.threadId);
