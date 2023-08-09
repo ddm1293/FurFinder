@@ -44,6 +44,27 @@ export const compareBreed = (lost, witnessed) => {
   return lostBreed === witnessedBreed ? 1 : 0;
 };
 
+const exponentialDecayModels = {};
+
+const getExponentialDecayModel = async (field) => {
+  if (field === 'compareColor') {
+    if (!exponentialDecayModels.color) {
+      exponentialDecayModels.color = await exponentialDecay(
+        colorProbabilityData.x_colorDiff, colorProbabilityData.y_probability
+      );
+    }
+    return exponentialDecayModels.color;
+  }
+
+  if (field === 'compareLastSeenTime') {
+    if (!exponentialDecayModels.lastSeenTime) {
+      exponentialDecayModels.lastSeenTime = await exponentialDecay(
+        timeProbabilityData.x_lostTime, timeProbabilityData.y_probability);
+    }
+    return exponentialDecayModels.lastSeenTime;
+  }
+};
+
 export const compareColor = async (lost, witnessed) => {
   // TODO: nlp - get rgb from a description
   if (!witnessed.color.dominantColor) {
@@ -62,9 +83,7 @@ export const compareColor = async (lost, witnessed) => {
   const weightedDiff = (dominantColorDiff * colorDiffWeight.dominantColor +
       secondaryColorDiff * colorDiffWeight.secondaryColor) /
     (colorDiffWeight.dominantColor + colorDiffWeight.secondaryColor);
-  const exponentialDecayModel = await exponentialDecay(
-    colorProbabilityData.x_colorDiff, colorProbabilityData.y_probability
-  );
+  const exponentialDecayModel = await getExponentialDecayModel('compareColor');
   return exponentialDecayModel(weightedDiff);
 };
 
@@ -105,9 +124,7 @@ export const compareLastSeenTime = async (lost, witnessed) => {
   if (lostTime > witnessedTime) {
     timeSequenceIndex = 0;
   } else {
-    const exponentialDecayModel = await exponentialDecay(
-      timeProbabilityData.x_lostTime,
-      timeProbabilityData.y_probability);
+    const exponentialDecayModel = await getExponentialDecayModel('compareLastSeenTime');
     timeSequenceIndex = exponentialDecayModel(timeGap);
   }
   return timeSequenceIndex;
