@@ -77,6 +77,16 @@ describe('Test petRelevance helpers', () => {
     compareLastSeenLocation(lost, witnessed2);
   });
 
+  it('Test compareLastSeenLocation: no homeAddress', () => {
+    const lost = {
+      lastSeenLocation: [-123.20969076096888, 49.251320577014916]
+    };
+    const witnessed = {
+      lastSeenLocation: [-123.1976439045317, 49.25427737746856]
+    };
+    expect(compareLastSeenLocation(lost, witnessed)).toBe(0);
+  });
+
   it('Test compareSize: same size category, no size number', () => {
     const lost = generatePet('', '', '', '', 'lostPetThread', 'Dog', 1);
     const witnessed = generatePet('', '', '', '', 'witnessThread', 'Dog', 1);
