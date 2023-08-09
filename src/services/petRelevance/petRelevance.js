@@ -1,12 +1,10 @@
 import {
   colorDiffWeight,
-  colorProbabilityData,
   idwValue,
   maxPossibleCategoryDiff,
-  maxPossibleSizeDiff,
-  timeProbabilityData
+  maxPossibleSizeDiff
 } from './petAssumption.js';
-import { exponentialDecay, idwInterpolation } from './models.js';
+import { idwInterpolation } from './models.js';
 import { diff } from 'color-diff';
 
 const indexWeight = {
@@ -19,11 +17,11 @@ const indexWeight = {
 
 export const relevanceThreshold = 1;
 
-export const getPetRelevanceIndex = async (lost, witnessed) => {
+export const getPetRelevanceIndex = async (lost, witnessed, exponentialDecayModels) => {
   const breedSimilarity = compareBreed(lost, witnessed);
-  const colorSimilarity = await compareColor(lost, witnessed);
+  const colorSimilarity = await compareColor(lost, witnessed, exponentialDecayModels.color);
   const sizeSimilarity = compareSize(lost, witnessed);
-  const timeSequenceIndex = await compareLastSeenTime(lost, witnessed);
+  const timeSequenceIndex = await compareLastSeenTime(lost, witnessed, exponentialDecayModels.lastSeenTime);
   const geoDistanceIndex = compareLastSeenLocation(lost, witnessed);
 
   // console.log('see all the indexes: ', timeSequenceIndex, geoDistanceIndex);
@@ -44,28 +42,7 @@ export const compareBreed = (lost, witnessed) => {
   return lostBreed === witnessedBreed ? 1 : 0;
 };
 
-const exponentialDecayModels = {};
-
-const getExponentialDecayModel = async (field) => {
-  if (field === 'compareColor') {
-    if (!exponentialDecayModels.color) {
-      exponentialDecayModels.color = await exponentialDecay(
-        colorProbabilityData.x_colorDiff, colorProbabilityData.y_probability
-      );
-    }
-    return exponentialDecayModels.color;
-  }
-
-  if (field === 'compareLastSeenTime') {
-    if (!exponentialDecayModels.lastSeenTime) {
-      exponentialDecayModels.lastSeenTime = await exponentialDecay(
-        timeProbabilityData.x_lostTime, timeProbabilityData.y_probability);
-    }
-    return exponentialDecayModels.lastSeenTime;
-  }
-};
-
-export const compareColor = async (lost, witnessed) => {
+export const compareColor = async (lost, witnessed, model) => {
   // TODO: nlp - get rgb from a description
   if (!witnessed.color.dominantColor) {
     return 0;
@@ -83,8 +60,7 @@ export const compareColor = async (lost, witnessed) => {
   const weightedDiff = (dominantColorDiff * colorDiffWeight.dominantColor +
       secondaryColorDiff * colorDiffWeight.secondaryColor) /
     (colorDiffWeight.dominantColor + colorDiffWeight.secondaryColor);
-  const exponentialDecayModel = await getExponentialDecayModel('compareColor');
-  return exponentialDecayModel(weightedDiff);
+  return model(weightedDiff);
 };
 
 export const compareSize = (lost, witnessed) => {
@@ -115,7 +91,7 @@ const compareSizeNumber = (lost, witnessed) => {
   }
 };
 
-export const compareLastSeenTime = async (lost, witnessed) => {
+export const compareLastSeenTime = async (lost, witnessed, model) => {
   const lostTime = lost.lastSeenTime;
   const witnessedTime = witnessed.lastSeenTime;
   const oneDay = 24 * 60 * 60 * 1000;
@@ -124,8 +100,7 @@ export const compareLastSeenTime = async (lost, witnessed) => {
   if (lostTime > witnessedTime) {
     timeSequenceIndex = 0;
   } else {
-    const exponentialDecayModel = await getExponentialDecayModel('compareLastSeenTime');
-    timeSequenceIndex = exponentialDecayModel(timeGap);
+    timeSequenceIndex = model(timeGap);
   }
   return timeSequenceIndex;
 };
