@@ -97,9 +97,10 @@
 - Implemented user profile picture uploads, email service subscriptions and frontend of the user profile page.
 - Incorporated email notification to alert users about new comments and relevant threads.
 ### Huiwen Zuo (n7l4u)
- - Mostly worked on Thread-related frontend and functionalities, including the Thread page, Pet Card, Edit and Delete Thread functionalities, Thread map, and the frontend of Relevant Threads.
- - Helped on setting backend endpoints, including the backend of uploading multiple pictures, and some Relevant Threads endpoints and the related module setting.
- - Played a critical role on bug fixing and documentation work in the team, making sure the project was well-understood and maintainable for the entire team.
+- Developed all Thread-related frontends, including the Thread page, Pet Card, Update Thread form, Thread map, and Relevant Threads bar.
+- Implemented Thread-related functionalities, including the Update Thread reducers and backend endpoint, Delete Thread endpoint and middlewares.
+- Helped with other backend settings, including the backend of uploading multiple pictures, Link Relevant Threads endpoints and Thread-related module settings.
+- Played a major role in various bug fixing and documentation work in the team, making sure the project was well-understood and maintainable for the entire team.
 ----
 ## Initial Planning
 ### Project Description
