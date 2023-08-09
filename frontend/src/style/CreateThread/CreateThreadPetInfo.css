@@ -23,3 +23,8 @@
     align-items: center;
 }
 
+img {
+    height: auto;
+    width: auto;
+}
+

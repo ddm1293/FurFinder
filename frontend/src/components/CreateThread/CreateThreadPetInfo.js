@@ -170,7 +170,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
         <div className="preview-images">
           {previewImages.map((image, index) => (
             <div key={index} className="preview-image">
-              <Image src={image} width={100} />
+              <Image src={image} width={200} />
               <Button icon={<DeleteOutlined />} onClick={() => handleRemovePreview(index)} />
             </div>
           ))}
