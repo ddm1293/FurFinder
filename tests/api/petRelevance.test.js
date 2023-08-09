@@ -4,13 +4,12 @@ import {
   it
 } from '@jest/globals';
 import {
-  compareColor, compareDescription,
+  compareColor,
   compareLastSeenLocation,
   compareLastSeenTime, compareSize
-} from '../../src/services/petRelevance/petRelevance.js'
+} from '../../src/services/petRelevance/petRelevance.js';
 import mongoose from 'mongoose';
 import { diff } from 'color-diff';
-import { callGPT } from '../../src/services/gpt/gpt.js';
 
 const generatePet = (
   breed,
@@ -126,16 +125,5 @@ describe('Test petRelevance helpers', () => {
       }
     };
     console.log(diff(lost.color.dominantColor, witnessed.color.dominantColor));
-  });
-
-  it('Test compareDescription', async () => {
-    const lost = {
-      description: 'Shadow is a sprightly Border Collie with a unique split-colored face; the left side is jet black, while the right side is pristine white. He\'s got this characteristic bushy tail that curls slightly upwards, especially when he\'s excited. Shadow has medium-length fur, predominantly black with white patches on his paws, chest, and the tip of his tail. His eyes are a striking shade of blue, reminiscent of clear skies.'
-    };
-    const witnessed = {
-      description: 'I found this energetic dog that looks a lot like a Border Collie, I think. Half of its face is black and the other half white, which caught my attention. The dog\'s fur is mostly black but with some white areas, especially around its legs and a bit on the chest. One of the distinct features were its bright blue eyes. It\'s pretty lively, kept trying to chase after some pigeons around the park.'
-    };
-    const descriptionIndex = await compareDescription(lost, witnessed);
-    console.log('see descriptionIndex: ', descriptionIndex);
   });
 });
