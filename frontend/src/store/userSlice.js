@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     id: null,
     username: null,
-    // favoredThreads: [],
     myThreads: [],
     accessToken: null,
     email: null,

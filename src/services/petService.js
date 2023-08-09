@@ -6,12 +6,8 @@ import ThreadService from './threadService.js';
 
 class PetService {
   static async createPet(body) {
-    // clone the body to a new object
     const newBody = { ...body };
-
-    // ensure the pic property is an array of images
     newBody.pic = Array.isArray(body.pic) ? body.pic : [body.pic];
-
     return PetModel.create(newBody);
   }
 
@@ -47,9 +43,6 @@ class PetService {
     const targetPets = await PetModel.find({ threadType, species: pet.species });
     const relevantPets = await async.filter(targetPets, async (targetPet) => {
       const petRelevance = await getPetRelevanceIndex(pet, targetPet);
-      if (petRelevance >= relevanceThreshold) {
-        console.log('see relevantPet: ', petRelevance, targetPet.name);
-      }
       return petRelevance >= relevanceThreshold;
     });
     const relevantThreadIds = _.map(relevantPets, (pet) => pet.threadId);

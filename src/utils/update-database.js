@@ -1,11 +1,9 @@
-/* This script updates the database specified by process.env.MONGODB_CONNECTION_STRING using the current models for threads, pets, and comments. */
-
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import { UserModel } from '../../src/models/userModel.js';
-import { ThreadModel } from '../../src/models/threadModel.js';
-import { PetModel } from '../../src/models/petModel.js';
-import { CommentModel } from '../../src/models/commentModel.js';
+import { UserModel } from '../models/userModel.js';
+import { ThreadModel } from '../models/threadModel.js';
+import { PetModel } from '../models/petModel.js';
+import { CommentModel } from '../models/commentModel.js';
 import { faker } from '@faker-js/faker';
 import axios from 'axios';
 

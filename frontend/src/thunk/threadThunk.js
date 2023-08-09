@@ -5,7 +5,6 @@ import { getApiUrl } from '../utils/getApiUrl'
 export const createThreadAsync = createAsyncThunk(
   'thread/create',
   async (threadData) => {
-    // TODO: investigate why when only input pet name and pet species/breed this won't work
     const formData = new FormData();
     for (const key in threadData) {
       if (threadData.hasOwnProperty(key)) {

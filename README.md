@@ -49,13 +49,14 @@
 
 ### Unit 5 – Builds and Deployment
  - Both our frontend and backend are deployed on Render.com, and each push to master is built and deployed automatically.
+ - Backend is dockerized to ensure environment consistency since we also use Python in our project.
  - This approach helped us reduce deployment time, and maintain consistency across different environments, enhancing the overall stability and reliability of our application.
 
 ## Above and Beyond (4):
 ### Relevant Thread Algorithm
- - In order to link new Witness Threads to any potential Lost Pet Threads, we implemented an advanced algorithmic feature by integrating Python with our application to perform data modeling. Specifically, we utilized numpy and scipy libraries to fit an exponential decay model to our data.
- - In the main algorithm file, the exponential decay function was defined, and curve fitting was performed using scipy's curve_fit function. This allowed us to compute the parameters that best fit our data to an exponential decay model.
- - The integration between Python and JavaScript was facilitated by the PythonShell package, which enabled us to run Python scripts from within our JavaScript codebase. This allowed us to leverage the computational power of Python while working within a primarily JavaScript-driven project.
+ - In order to link new Witness Threads to newly created Lost Pet Threads, we developed a pet-matching algorithm to calculate a petRelevance index, representing the probability that two pets are the same pet. We utilized properties of the pet model, including pet's breed, size, color, last seen time, and last seen location.
+ - We used CIEDE2000 to calculate the color difference, used the exponential decay models returned by a Python script to compare last seen time, and an Inverse Distance Weighted (IDW) Interpolation model to calculate the last seen location index.
+ - We have conducted research ourselves to accumulate the data points used to train our models.
  
 ### Map Integration with Google Maps API
  - Our project features a comprehensive integration with the Google Maps API, allowing us to render maps, plot locations, and compute distances between geographical coordinates.
@@ -97,9 +98,10 @@
 - Implemented user profile picture uploads, email service subscriptions and frontend of the user profile page.
 - Incorporated email notification to alert users about new comments and relevant threads.
 ### Huiwen Zuo (n7l4u)
- - Mostly worked on Thread-related frontend and functionalities, including the Thread page, Pet Card, Edit and Delete Thread functionalities, Thread map, and the frontend of Relevant Threads.
- - Helped on setting backend endpoints, including the backend of uploading multiple pictures, and some Relevant Threads endpoints and the related module setting.
- - Played a critical role on bug fixing and documentation work in the team, making sure the project was well-understood and maintainable for the entire team.
+- Developed all Thread-related frontends, including the Thread page, Pet Card, Update Thread form, Thread map, and Relevant Threads bar.
+- Implemented Thread-related functionalities, including the Update Thread reducers and backend endpoint, Delete Thread endpoint and middlewares.
+- Helped with other backend settings, including the backend of uploading multiple pictures, Link Relevant Threads endpoints and Thread-related module settings.
+- Played a major role in various bug fixing and documentation work in the team, making sure the project was well-understood and maintainable for the entire team.
 ----
 ## Initial Planning
 ### Project Description

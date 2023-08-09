@@ -4,7 +4,6 @@ export const createComment = async (req, res, next) => {
   try {
     console.log('Server:: create the Comment');
     const threadId = req.params.threadId;
-    console.log(threadId);
     const comment = await commentService.createComment(threadId, req.body);
     res.status(201).json({
       message: 'The comment is created successfully',
