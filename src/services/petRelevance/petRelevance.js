@@ -36,83 +36,107 @@ export const getPetRelevanceIndex = async (lost, witnessed, exponentialDecayMode
 };
 
 export const compareBreed = (lost, witnessed) => {
-  const lostBreed = lost.breed;
-  const witnessedBreed = witnessed.breed;
-  return lostBreed === witnessedBreed ? 1 : 0;
+  try {
+    const lostBreed = lost.breed;
+    const witnessedBreed = witnessed.breed;
+    return lostBreed === witnessedBreed ? 1 : 0;
+  } catch (err) {
+    console.error(err);
+    return 0;
+  }
 };
 
 export const compareColor = async (lost, witnessed, model) => {
   // TODO: nlp - get rgb from a description
-  if (!witnessed.color.dominantColor) {
+  try {
+    const lostDominantColor = lost.color.dominantColor;
+    const witnessedDominantColor = witnessed.color.dominantColor;
+    const dominantColorDiff = diff(lostDominantColor, witnessedDominantColor);
+
+    const lostSecondaryColor = lost.color.secondaryColor;
+    const witnessedSecondaryColor = lost.color.secondaryColor;
+    let secondaryColorDiff = 0;
+    if (lostSecondaryColor && witnessedSecondaryColor) {
+      secondaryColorDiff = diff(lostSecondaryColor, witnessedSecondaryColor);
+    }
+    const weightedDiff = (dominantColorDiff * colorDiffWeight.dominantColor +
+        secondaryColorDiff * colorDiffWeight.secondaryColor) /
+      (colorDiffWeight.dominantColor + colorDiffWeight.secondaryColor);
+    return model(weightedDiff);
+  } catch (err) {
+    console.error(err);
     return 0;
   }
-  const lostDominantColor = lost.color.dominantColor;
-  const witnessedDominantColor = witnessed.color.dominantColor;
-  const dominantColorDiff = diff(lostDominantColor, witnessedDominantColor);
-
-  const lostSecondaryColor = lost.color.secondaryColor;
-  const witnessedSecondaryColor = lost.color.secondaryColor;
-  let secondaryColorDiff = 0;
-  if (lostSecondaryColor && witnessedSecondaryColor) {
-    secondaryColorDiff = diff(lostSecondaryColor, witnessedSecondaryColor);
-  }
-  const weightedDiff = (dominantColorDiff * colorDiffWeight.dominantColor +
-      secondaryColorDiff * colorDiffWeight.secondaryColor) /
-    (colorDiffWeight.dominantColor + colorDiffWeight.secondaryColor);
-  return model(weightedDiff);
 };
 
 export const compareSize = (lost, witnessed) => {
-  if (!witnessed.sizeCategory) {
+  try {
+    const lostSizeCategory = lost.sizeCategory;
+    const witnessedSizeCategory = witnessed.sizeCategory;
+    if (lostSizeCategory === witnessedSizeCategory) {
+      return compareSizeNumber(lost, witnessed);
+    } else {
+      const categoryDifference = Math.abs(lostSizeCategory - witnessedSizeCategory);
+      return 1 - (categoryDifference / maxPossibleCategoryDiff);
+    }
+  } catch (err) {
+    console.error(err);
     return 0;
-  }
-  const lostSizeCategory = lost.sizeCategory;
-  const witnessedSizeCategory = witnessed.sizeCategory;
-  if (lostSizeCategory === witnessedSizeCategory) {
-    return compareSizeNumber(lost, witnessed);
-  } else {
-    const categoryDifference = Math.abs(lostSizeCategory - witnessedSizeCategory);
-    return 1 - (categoryDifference / maxPossibleCategoryDiff);
   }
 };
 
 const compareSizeNumber = (lost, witnessed) => {
-  const lostSizeNumber = lost.sizeNumber;
-  const witnessedSizeNumber = witnessed.sizeNumber;
-  if (lostSizeNumber && witnessedSizeNumber) {
-    const sizeDifference = Math.abs(lost.sizeNumber - witnessed.sizeNumber);
-    const species = lost.species;
-    const maxPossibleDiff = species === 'Cat' ? maxPossibleSizeDiff.cat : maxPossibleSizeDiff.dog;
-    // TODO: what if sizeDifference is bigger than maxPossibleDiff?
-    return 1 - (sizeDifference / maxPossibleDiff);
-  } else {
-    return 1;
+  try {
+    const lostSizeNumber = lost.sizeNumber;
+    const witnessedSizeNumber = witnessed.sizeNumber;
+    if (lostSizeNumber && witnessedSizeNumber) {
+      const sizeDifference = Math.abs(lost.sizeNumber - witnessed.sizeNumber);
+      const species = lost.species;
+      const maxPossibleDiff = species === 'Cat' ? maxPossibleSizeDiff.cat : maxPossibleSizeDiff.dog;
+      // TODO: what if sizeDifference is bigger than maxPossibleDiff?
+      return 1 - (sizeDifference / maxPossibleDiff);
+    } else {
+      return 1;
+    }
+  } catch (err) {
+    console.error(err);
+    return 0;
   }
 };
 
 export const compareLastSeenTime = async (lost, witnessed, model) => {
-  const lostTime = lost.lastSeenTime;
-  const witnessedTime = witnessed.lastSeenTime;
-  const oneDay = 24 * 60 * 60 * 1000;
-  const timeGap = Math.abs(lostTime - witnessedTime) / oneDay;
-  let timeSequenceIndex;
-  if (lostTime > witnessedTime) {
-    timeSequenceIndex = 0;
-  } else {
-    timeSequenceIndex = model(timeGap);
+  try {
+    const lostTime = lost.lastSeenTime;
+    const witnessedTime = witnessed.lastSeenTime;
+    const oneDay = 24 * 60 * 60 * 1000;
+    const timeGap = Math.abs(lostTime - witnessedTime) / oneDay;
+    let timeSequenceIndex;
+    if (lostTime > witnessedTime) {
+      timeSequenceIndex = 0;
+    } else {
+      timeSequenceIndex = model(timeGap);
+    }
+    return timeSequenceIndex;
+  } catch (err) {
+    console.error(err);
+    return 0;
   }
-  return timeSequenceIndex;
 };
 
 export const compareLastSeenLocation = (lost, witnessed) => {
-  const lostLocation = {
-    coordinates: lost.lastSeenLocation.coordinates,
-    value: idwValue.lastSeenLocation
-  };
-  const homeAddress = {
-    coordinates: lost.homeAddress.coordinates,
-    value: idwValue.homeAddress
-  };
-  const witnessedLocation = witnessed.lastSeenLocation.coordinates;
-  return idwInterpolation(witnessedLocation, [lostLocation, homeAddress], 6);
+  try {
+    const lostLocation = {
+      coordinates: lost.lastSeenLocation.coordinates,
+      value: idwValue.lastSeenLocation
+    };
+    const homeAddress = {
+      coordinates: lost.homeAddress.coordinates,
+      value: idwValue.homeAddress
+    };
+    const witnessedLocation = witnessed.lastSeenLocation.coordinates;
+    return idwInterpolation(witnessedLocation, [lostLocation, homeAddress], 6);
+  } catch (err) {
+    console.error(err);
+    return 0;
+  }
 };
