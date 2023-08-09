@@ -13,6 +13,8 @@ function ProfileListView ({ items }) {
   useEffect(() => {
     axiosPrivate({
       url: getApiUrl(`/user/me`),
+    }).then((response) => {
+      console.log(response);
     }).catch((error) => {
       console.log(error)
     });

@@ -62,13 +62,13 @@ class commentService {
       throw new ThreadDoesNotExistException(`thread ${comment.threadId} does not exist`);
     }
     const replies = await CommentModel.find({ parentId: comment._id });
-    if (replies.length > 0) { // delete replies associated with comment from thread
+    if (replies.length > 0) {
       for (const reply of replies) {
         threadRelated.comments.pull(reply._id);
         await CommentModel.findByIdAndDelete(reply._id);
       }
     }
-    threadRelated.comments.pull(comment._id); // delete comment from thread
+    threadRelated.comments.pull(comment._id);
     await threadRelated.save();
     const deleted = await CommentModel.findByIdAndDelete(id);
     return deleted;

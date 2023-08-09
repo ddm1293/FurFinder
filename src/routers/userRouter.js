@@ -13,6 +13,4 @@ userRouter.patch('/:id', userController.patchUser);
 userRouter.patch('/:id/updateAvatar', upload.any(), userController.updateAvatar);
 userRouter.get('/:id/getAvatar', userController.getAvatar);
 
-// TODO: get a user by id
-
 export default userRouter;

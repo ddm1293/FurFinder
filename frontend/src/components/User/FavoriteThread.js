@@ -19,7 +19,6 @@ function FavoriteThread () {
       axiosPrivate({
         url: getApiUrl(`/user/me`),
       }).then((response) => {
-        console.log(response, 21);
         setFavorite(response.data.user.favoredThreads);
       }).catch((error) => {
         console.log(error)

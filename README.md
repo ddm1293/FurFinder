@@ -68,16 +68,34 @@
  - The integration with Google Login also streamlined the user experience, allowing for quick and hassle-free access to our application's features.
 
 ## Next Steps (5):
- - Algorithm Improvement: We plan to evolve our current algorithm by incorporating machine learning techniques, allowing for more accurate and adaptive predictions. By using a data-driven approach, we aim to enhance the system's responsiveness and effectiveness.
- - Automatic Poster Generation: In line with our original goals, we're working on an auto-poster generation feature. This will enable lost pet owners to effortlessly create and customize pet posters, streamlining the process and providing additional support in stressful situations.
+ - Algorithm Improvement: We plan to evolve our current algorithm by incorporating a machine learning model to recognize cat and dog faces, allowing for more accurate and adaptive predictions. By using a data-driven approach, we aim to enhance the system's responsiveness and effectiveness.
+ - Automatic Poster Generation: In line with our original goals, we're working on an auto-poster generation feature powered by OpenAI APIs. This will enable lost pet owners to effortlessly create and customize pet posters, streamlining the process and providing additional support in stressful situations.
  - On-Site Notifications: To complement our existing email notifications, we intend to implement on-site notifications. This will provide users with immediate alerts within the platform, enhancing user experience and engagement with the content.
+ - Incentive Points System: We plan to add a redeemable points system to offer rewards for witnesses who actively help in the process of finding lost pets.
 
 ## List of contributions (6):
 \* Alphabetized by Last Names
 ### Hank Chen (j4q1b)
+- Developed and animated a responsive Home Page
+- Designed both frontend and backend aspects of authentication (login/logout/signup)
+- Created and routinely executed a db seeding script (populate db with reasonably looking data)
+- Focused on improving specific aspects of create thread form (breed selector, media upload)
+- Handled misc. bug fixes and UX/UI improvements
+
 ### Yaosheng Cheng (j1a4n)
+- Designed the requirements of the project. Responsible for setting up basic project infrastructure including express and API structure, testing framework, MongoDB, and React.
+- Designed and implemented thread models and initial thread-related CRUD APIs. Implemented the error-handling structure in the backend. Redesigned and implemented the forum component. Implemented the search functionality for both frontend and backend. Implemented the map functionality for both frontend and backend (in createThread and mapView more specifically). Designed and implemented the pet matching algorithm for both frontend and backend.
+- Responsible for deploying the project on Render.com
+- Served as the scrum master, creating and maintaining JIRA.
 ### Han Li (x2h3l)
+- Built Navbar and Footer component using ant design
+- Implemented backend of user’s comment service and both frontend and backend of users’ favourite function and split threads into “Lost Pet” and “Witness” categories.
+- Worked on other assigned tasks like support multiple picture upload and preview, users’ post history and favourites of profile page and other small bugs fix.
 ### Xuanya Liu (CSID: t5n0b)
+- Contributed to implementing the frontend of the forum in Card and List views.
+- Developed comment functionality, including frontend implementation, Redux setup, and backend connection.
+- Implemented user profile picture uploads, email service subscriptions and frontend of the user profile page.
+- Incorporated email notification to alert users about new comments and relevant threads.
 ### Huiwen Zuo (n7l4u)
  - Mostly worked on Thread-related frontend and functionalities, including the Thread page, Pet Card, Edit and Delete Thread functionalities, Thread map, and the frontend of Relevant Threads.
  - Helped on setting backend endpoints, including the backend of uploading multiple pictures, and some Relevant Threads endpoints and the related module setting.
