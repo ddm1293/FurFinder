@@ -25,7 +25,6 @@ export const idwInterpolation = (point, referencePoints, p) => {
 };
 
 export const exponentialDecay = async (x, y) => {
-  console.log('see here exponentialDecay is running');
   let exponentialDecayModel;
   await PythonShell.run(
     'src/services/petRelevance/exponentialDecay.py',
@@ -35,7 +34,6 @@ export const exponentialDecay = async (x, y) => {
         JSON.stringify(y)]
     })
     .then((params) => {
-      console.log('are u running?');
       const A = params[0];
       const k = params[1];
       // console.log('see params: ', A, k);
@@ -46,6 +44,5 @@ export const exponentialDecay = async (x, y) => {
     .catch((err) => {
       console.error(err);
     });
-  console.log('see if this run ends');
   return exponentialDecayModel;
 };
