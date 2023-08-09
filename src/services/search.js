@@ -31,7 +31,10 @@ export const keywordSearch = (keyword, searchOn, threadType) => {
 export const threadTypeMatch = (threadType) => {
   return {
     $match: {
-      kind: { $regex: new RegExp(`^${threadType}$`, 'i') }
+      threadType: {
+        $regex: `^${threadType}$`,
+        $options: 'i'
+      }
     }
   };
 };
