@@ -17,7 +17,7 @@ const indexWeight = {
   geoDistanceIndex: 1
 };
 
-export const relevanceThreshold = 0.7;
+export const relevanceThreshold = 1;
 
 export const getPetRelevanceIndex = async (lost, witnessed) => {
   const breedSimilarity = compareBreed(lost, witnessed);
