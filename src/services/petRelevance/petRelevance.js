@@ -1,7 +1,7 @@
-import { colorDiffWeight, idwValue, maxPossibleCategoryDiff, maxPossibleSizeDiff } from './petAssumption.js'
-import { idwInterpolation } from './models.js'
-import { diff } from 'color-diff'
-import { callGPT } from '../gpt/gpt.js'
+import { colorDiffWeight, idwValue, maxPossibleCategoryDiff, maxPossibleSizeDiff } from './petAssumption.js';
+import { idwInterpolation } from './models.js';
+import { diff } from 'color-diff';
+import { callGPT } from '../gpt/gpt.js';
 
 const indexWeight = {
   breedSimilarity: 1,
