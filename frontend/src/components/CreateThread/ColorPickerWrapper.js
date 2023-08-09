@@ -1,8 +1,9 @@
 import { ColorPicker, Divider } from 'antd'
 
-function ColorPickerWrapper ({ colorCategory, setColor }) {
+function ColorPickerWrapper ({ colorCategory, setColor, initialColor }) {
   return (
     <ColorPicker
+      defaultValue = {initialColor}
       styles={{
         popupOverlayInner: {
           width: 468 + 24,

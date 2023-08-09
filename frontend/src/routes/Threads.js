@@ -6,9 +6,9 @@ function Threads() {
   const location = useLocation();
   const user = useSelector((state) => state.user);
   let filterOptions;
-  let threadType = 'lostPetThread'; // set default type when user enters "/threads" from nav bar
+  let threadType = 'lostPetThread';
 
-  if (location.state) { // if user clicks on "Lost Pets" or "Witnesses"
+  if (location.state) {
     if (!user.username) {
       return <Navigate to="/login" replace />;
     } else {
@@ -16,7 +16,7 @@ function Threads() {
       threadType = location.state.threadType;
 
     }
-  } else { // otherwise, when user enters "/threads" into the nav bar
+  } else {
     filterOptions = 'lost';
   }
 

@@ -5,7 +5,7 @@ import { Form, Input, Button, Divider } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import jwt_decode from 'jwt-decode';
 import axios from 'axios';
-import { setUser } from '../store/userSlice'; // import the setUser action creator from your userSlice file
+import { setUser } from '../store/userSlice';
 import '../style/Login.css';
 import { getApiUrl } from '../utils/getApiUrl'
 
@@ -27,7 +27,7 @@ export default function Login() {
           password: values.password,
         },
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true, // this is what actually sets the cookie in the subsequent request header
+        withCredentials: true,
       });
 
       if (res.data.user) {
@@ -62,14 +62,12 @@ export default function Login() {
           didSignInFromGoogle: true,
         },
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true, // this is what actually sets the cookie in the subsequent request header
+        withCredentials: true,
       });
-      console.log(res.data);
 
       dispatch(setUser({
         id: res.data.user._id,
         username: res.data.user.username,
-        // avatar: userObject.picture,
         favoredThreads: res.data.user.favoredThreads,
         myThreads: res.data.user.myThreads,
         accessToken: res.data.accessToken,

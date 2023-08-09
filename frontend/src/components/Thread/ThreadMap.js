@@ -34,11 +34,9 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
     if (mapContainerRef.current) {
       mapContainerRef.current.style.width = '100%';
       if (window.innerWidth > 1024) {
-        // For larger screens, maintain a 7:9 aspect ratio
         mapContainerRef.current.style.height =
           `${0.7 * mapContainerRef.current.clientWidth}px`;
       } else {
-        // For smaller screens, use a fixed height
         mapContainerRef.current.style.height = '300px';
         mapContainerRef.current.style.width = '450px';
       }
@@ -46,20 +44,14 @@ function ThreadMap({ lastSeenLocation, species, relevant }) {
   };
 
   useEffect(() => {
-    // set initial size
     setTimeout(handleResize, 0);
-
-    // update size on window resize
     window.addEventListener('resize', handleResize);
-
-    // cleanup on unmount
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   if (!isLoaded) {
     return <div>Map Loading...</div>
   } else {
-    // Call handleResize function after Google Map library has loaded
     setTimeout(handleResize, 0);
     return (
       <div ref={mapContainerRef} className="ThreadMap">

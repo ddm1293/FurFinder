@@ -20,7 +20,7 @@ export default function DisplayAvatar (props) {
   }, [props.currentUser]);
 
   const getAvatarURL = (avatar) => {
-    if (!avatar.data && avatar.url) { // google profile pic
+    if (!avatar.data && avatar.url) {
       return avatar.url;
     } else if (avatar.data && avatar.data.data && avatar.data.type === 'Buffer') {
       const userAvatar = avatar.data.data;

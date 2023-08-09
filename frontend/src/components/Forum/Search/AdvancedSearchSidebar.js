@@ -45,13 +45,11 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
     if (params.breed || params.lastSeenRange || params.lastSeenStart || params.lastSeenEnd || params.petName || params.sex || params.species) {
       dispatch(searchThreadsAsync(params))
         .then((results) => {
-          console.log("Search Results:", results);
-          setSearchResults(results.payload); // Update the search results state
-          console.log("Search Results Length:", results.payload.length);
+          setSearchResults(results.payload);
           setShowNoMatchedThreadsModal(results.payload.length === 0);
         })
         .catch((error) => {
-          console.error("Error while fetching data:", error);
+          console.error("Search Error - failed to fetch data:", error);
         });
     }
   };
@@ -95,8 +93,8 @@ function AdvancedSearchSidebar ({ onClose, threadType, form }) {
       <Modal
         title="No Matched Threads"
         visible={showNoMatchedThreadsModal}
-        onOk={() => setShowNoMatchedThreadsModal(false)} // Handle closing of "No Matched Threads" modal
-        onCancel={() => setShowNoMatchedThreadsModal(false)} // Handle closing of "No Matched Threads" modal
+        onOk={() => setShowNoMatchedThreadsModal(false)}
+        onCancel={() => setShowNoMatchedThreadsModal(false)}
       >
         No matched threads.
       </Modal>

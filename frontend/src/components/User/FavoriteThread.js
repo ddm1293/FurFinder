@@ -21,7 +21,7 @@ function FavoriteThread () {
       }).then((response) => {
         setFavorite(response.data.user.favoredThreads);
       }).catch((error) => {
-        console.log(error)
+        console.log('Cannot set user favorite' + error)
       });
     }
   }, [user])

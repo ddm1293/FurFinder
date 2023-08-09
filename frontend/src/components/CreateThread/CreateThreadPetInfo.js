@@ -56,8 +56,8 @@ function CreateThreadPetInfo ({ threadType, form }) {
   }
 
   const setDominantColor = (color) => {
-    form.setFieldsValue({ dominantColor: color })
-  }
+    form.setFieldsValue({ dominantColor: color });
+  };
 
   const setSecondaryColor = (color) => {
     form.setFieldsValue({ secondaryColor: color })
@@ -107,23 +107,24 @@ function CreateThreadPetInfo ({ threadType, form }) {
                    required: true,
                    message: 'Please enter the pet\'s dominant color'
                  }]}>
-        <ColorPickerWrapper colorCategory='dominant' setColor={setDominantColor} />
+        <ColorPickerWrapper colorCategory='dominant' setColor={setDominantColor} initialColor={form.getFieldValue('dominantColor')} />
       </Form.Item>
       <Form.Item name='secondaryColor'
                  label='Secondary color'>
-        <ColorPickerWrapper colorCategory='secondary' setColor={setSecondaryColor}/>
+        <ColorPickerWrapper colorCategory='secondary' setColor={setSecondaryColor} initialColor={form.getFieldValue('secondaryColor')} />
       </Form.Item>
 
       <Form.Item
         name='Size'
         label='Size'
-        rules={[{
-          required: true,
-          message: 'Please complete the pet\'s size info'
-        }]}
       >
         <Space.Compact>
-          <Form.Item name='sizeCategory'>
+          <Form.Item
+            name='sizeCategory'
+            rules={[{
+              required: true,
+              message: 'Please select the pet\'s size category'
+            }]}>
             <Select
               style={{
                 width: '100px',
@@ -135,7 +136,7 @@ function CreateThreadPetInfo ({ threadType, form }) {
             ]} />
           </Form.Item>
             <Form.Item name='sizeNumber'>
-              <InputNumber min={1} max={30} onChange={setSizeNumber} />
+              <InputNumber min={1} max={30} onChange={setSizeNumber} defaultValue={form.getFieldValue('sizeNumber')}/>
               <span style={{ marginLeft: 8, }}>inches</span>
             </Form.Item>
         </Space.Compact>

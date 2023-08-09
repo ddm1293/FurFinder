@@ -3,7 +3,7 @@ import credentials from '../middleware/credentials.js';
 import cors from 'cors';
 import corsOptions from './corsOptions.js';
 import cookieParser from 'cookie-parser';
-import verifyJWT from '../middleware/verifyJwt.js';
+// import verifyJWT from '../middleware/verifyJwt.js';
 import authRouter from '../routers/authRouter.js';
 import threadRouter from '../routers/threadRouter.js';
 import userRouter from '../routers/userRouter.js';
@@ -21,7 +21,7 @@ export function createServer(port, dbUrl) {
   app.use(cookieParser());
 
   app.use('/auth', authRouter);
-  // app.use(verifyJWT); // add this middleware wherever a route needs to be protected
+  // app.use(verifyJWT);
   app.use('/user', userRouter);
   app.use('/thread', threadRouter);
   app.use('/comment', commentRouter);
