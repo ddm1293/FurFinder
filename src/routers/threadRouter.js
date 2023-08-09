@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import * as threadController from '../controllers/threadController.js';
-import { processPet, searchQueryValidator } from '../middleware/threadMiddleware.js';
+import { processPet, searchQueryValidator, deleteRelatedPet, removeFromRelevantThreads } from '../middleware/threadMiddleware.js';
 import { handleError } from '../middleware/handleError.js';
 
 const threadRouter = express.Router();
@@ -35,6 +35,6 @@ threadRouter.patch('/:id', threadController.patchThread, handleError);
 threadRouter.patch('/:id/:userId/favorite', threadController.favoriteThread, handleError);
 
 // DELETE APIS
-threadRouter.delete('/:id', threadController.deleteThread, handleError);
+threadRouter.delete('/:id', removeFromRelevantThreads, deleteRelatedPet, threadController.deleteThread, handleError);
 
 export default threadRouter;

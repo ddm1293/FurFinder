@@ -23,5 +23,8 @@
     align-items: center;
 }
 
-
+.ant-image-preview-img {
+    height: auto;
+    width: auto;
+}
 
