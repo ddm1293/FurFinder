@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Radio, Upload, Image, Button, InputNumber, Space, Select } from 'antd'
+import { Form, Input, Radio, Image,Upload,Button, InputNumber, Space, Select } from 'antd'
 import { InboxOutlined, DeleteOutlined } from '@ant-design/icons'
 import useThreadTypeKeywordSwitch from './useThreadTypeKeywordSwitch'
 import '../../style/CreateThread/CreateThreadPetInfo.css'
@@ -7,6 +7,7 @@ import BreedSelector from './BreedSelector'
 import Map from '../Map/Map'
 import { CustomDatePicker } from '../CustomDatePicker'
 import ColorPickerWrapper from './ColorPickerWrapper'
+
 
 function CreateThreadPetInfo ({ threadType, form }) {
   const [originalName, setOriginalName] = useState('');
