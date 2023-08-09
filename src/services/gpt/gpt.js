@@ -24,9 +24,10 @@ export const callGPT = async (prompt) => {
           content: prompt
         }
       ],
-      temperature: 0.2
+      temperature: 0.1
     });
-    return completion.data.choices[0].message.content;
+    const percentage = completion.data.choices[0].message.content;
+    return parseFloat(percentage) / 100;
   } catch (err) {
     console.error(err);
   }

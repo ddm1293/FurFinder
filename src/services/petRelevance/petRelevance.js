@@ -1,19 +1,15 @@
-import {
-  colorDiffWeight,
-  idwValue,
-  maxPossibleCategoryDiff,
-  maxPossibleSizeDiff
-} from './petAssumption.js';
-import { idwInterpolation } from './models.js';
-import { diff } from 'color-diff';
-import { openai } from '../gpt/gpt.js'
+import { colorDiffWeight, idwValue, maxPossibleCategoryDiff, maxPossibleSizeDiff } from './petAssumption.js'
+import { idwInterpolation } from './models.js'
+import { diff } from 'color-diff'
+import { callGPT } from '../gpt/gpt.js'
 
 const indexWeight = {
   breedSimilarity: 1,
   colorSimilarity: 1,
   sizeSimilarity: 1,
   timeSequenceIndex: 1,
-  geoDistanceIndex: 1
+  geoDistanceIndex: 1,
+  descriptionIndex: 0.5
 };
 
 export const relevanceThreshold = 1;
@@ -24,14 +20,15 @@ export const getPetRelevanceIndex = async (lost, witnessed, exponentialDecayMode
   const sizeSimilarity = compareSize(lost, witnessed);
   const timeSequenceIndex = await compareLastSeenTime(lost, witnessed, exponentialDecayModels.lastSeenTime);
   const geoDistanceIndex = compareLastSeenLocation(lost, witnessed);
+  const descriptionIndex = await compareDescription(lost, witnessed);
 
-  // console.log('see all the indexes: ', timeSequenceIndex, geoDistanceIndex);
   if (timeSequenceIndex) {
     return indexWeight.breedSimilarity * breedSimilarity +
       indexWeight.colorSimilarity * colorSimilarity +
       indexWeight.sizeSimilarity * sizeSimilarity +
       indexWeight.timeSequenceIndex * timeSequenceIndex +
-      indexWeight.geoDistanceIndex * geoDistanceIndex;
+      indexWeight.geoDistanceIndex * geoDistanceIndex +
+      indexWeight.descriptionIndex * descriptionIndex;
   } else {
     return 0;
   }
@@ -119,6 +116,17 @@ export const compareLastSeenLocation = (lost, witnessed) => {
   return idwInterpolation(witnessedLocation, [lostLocation, homeAddress], 6);
 };
 
-export const compareDescription = (lost, witnessed) => {
-  const prompt = '';
+export const compareDescription = async (lost, witnessed) => {
+  try {
+    if (!lost.description || !witnessed.description) {
+      return 0;
+    }
+    const prompt =
+      'Based on these two descriptions, give me the probability as an exact number (percentage), not a sentence, that they are describing the same pet without any other words: ' +
+      `Description of the lost pet: ${lost.description}` +
+      `Description of the witnessed pet: ${witnessed.description}`;
+    return await callGPT(prompt);
+  } catch {
+    return 0;
+  }
 };
