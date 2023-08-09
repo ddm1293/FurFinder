@@ -23,7 +23,7 @@ function CreateThreadForm ({ initialType }) {
         form.submit();
       })
       .catch((reason) => {
-        console.log('Validate Failed:', reason);
+        console.log('Form Validate Failed:', reason);
     });
   }
 

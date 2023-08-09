@@ -98,7 +98,6 @@ function Forum ({ threadType }) {
   }
 
   const resetSearch = () => {
-    console.log('reset search');
 
     setSearchBarId(Date.now()); // this is a hack, but this requires the least effort to reset search bar input
     if (showAdvancedSearch) { advancedSearchForm.resetFields(); }

@@ -31,7 +31,7 @@ function CardView ({ items }) {
           setFavorite(updatedFavourite);
         })
       .catch((error) => {
-        console.log(error)
+        console.log('Cannot update user favorite on card view' + error);
       })
     }
 
@@ -46,7 +46,7 @@ function CardView ({ items }) {
       }).then((response) => {
         setFavorite(response.data.user.favoredThreads);
       }).catch((error) => {
-        console.log(error)
+        console.log('Cannot get user favorite on card view' + error);
       });
     }
   }, [user])

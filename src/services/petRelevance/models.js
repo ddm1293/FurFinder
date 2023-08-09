@@ -3,8 +3,7 @@ import { PythonShell } from 'python-shell';
 
 const getDistance = (from, to) => {
   const dist = computeDistanceBetween(convertLatLng(from), convertLatLng(to));
-  // console.log('see from and to and dist : ', convertLatLng(from).toString(), convertLatLng(to).toString(), dist);
-  return computeDistanceBetween(convertLatLng(from), convertLatLng(to));
+  return dist;
 };
 
 export const idwInterpolation = (point, referencePoints, p) => {
@@ -20,12 +19,10 @@ export const idwInterpolation = (point, referencePoints, p) => {
     denominator += weight;
   }
   const idw = numerator / denominator;
-  // console.log('see idw: ', idw);
   return idw;
 };
 
 export const exponentialDecay = async (x, y) => {
-  console.log('see here exponentialDecay is running');
   let exponentialDecayModel;
   await PythonShell.run(
     'src/services/petRelevance/exponentialDecay.py',
@@ -35,10 +32,8 @@ export const exponentialDecay = async (x, y) => {
         JSON.stringify(y)]
     })
     .then((params) => {
-      console.log('are u running?');
       const A = params[0];
       const k = params[1];
-      // console.log('see params: ', A, k);
       exponentialDecayModel = (x) => {
         return A * Math.exp(-k * x);
       };
@@ -46,6 +41,5 @@ export const exponentialDecay = async (x, y) => {
     .catch((err) => {
       console.error(err);
     });
-  console.log('see if this run ends');
   return exponentialDecayModel;
 };

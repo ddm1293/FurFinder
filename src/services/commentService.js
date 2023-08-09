@@ -18,8 +18,7 @@ class commentService {
   static async getCommentsByThread(threadId) {
     const thread = await ThreadModel.findById(threadId);
     if (thread) {
-      const comments = await CommentModel.find({ threadId: threadId });
-      return comments;
+      return CommentModel.find({ threadId });
     } else {
       throw new ThreadDoesNotExistException(`thread ${threadId} does not exist`);
     }
@@ -70,8 +69,7 @@ class commentService {
     }
     threadRelated.comments.pull(comment._id);
     await threadRelated.save();
-    const deleted = await CommentModel.findByIdAndDelete(id);
-    return deleted;
+    return CommentModel.findByIdAndDelete(id);
   }
 }
 

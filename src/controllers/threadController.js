@@ -97,15 +97,11 @@ export const updateThread = async (req, res, next) => {
     console.log('Server::Updating a thread - running updateThread');
     const threadId = req.params.id;
     const formBody = req.body;
-    console.log('threadId: ', threadId);
-    console.log('formBody: ', formBody);
-
     const threadData = {
       title: formBody.title,
       content: formBody.content,
       threadType: formBody.threadType
     };
-
     const geoPointLastSeen = formBody.lastSeenLocation;
     const lastSeenLocation = {
       type: 'Point',
@@ -145,12 +141,9 @@ export const updateThread = async (req, res, next) => {
       petData.sizeNumber = formBody.sizeNumber;
     }
 
-    console.log('Pet data: ', petData);
     const updatedThread = await ThreadService.updateThread(threadId, threadData);
-    console.log('UpdatedThread from backend: ', updatedThread);
-    const petId = updatedThread.pet; // assuming the pet id is available here
-    const updatedPet = await PetService.updatePet(petId, petData);
-    console.log('UpdatedPet from backend: ', updatedPet);
+    const petId = updatedThread.pet;
+    await PetService.updatePet(petId, petData);
 
     res.status(200).json({ message: 'Successfully updated', updated: updatedThread });
   } catch (err) {
@@ -195,7 +188,6 @@ export const searchThreads = async (req, res, next) => {
   try {
     console.log('Server::Searching a thread - running searchThreads');
     const data = matchedData(req);
-    console.log('matchedData', data);
     const searched = await ThreadService.searchThreads(data);
     res.status(200).json({
       message: 'Successfully found the threads',
@@ -212,7 +204,6 @@ export const favoriteThread = async (req, res) => {
     console.log('Server::favorite a thread - running favoriteThread');
     const id = req.params.id;
     const userId = req.params.userId;
-    console.log(req);
     const favorite = await ThreadService.favoriteThread(id, userId);
     res.status(200).json({ message: 'Successfully favorite or unfavorite', favorite });
   } catch (err) {

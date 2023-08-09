@@ -56,12 +56,10 @@ function CreateThreadPetInfo ({ threadType, form }) {
   }
 
   const setDominantColor = (color) => {
-    console.log('Dominant Color:', color);
     form.setFieldsValue({ dominantColor: color });
   };
 
   const setSecondaryColor = (color) => {
-    console.log('Secondary Color:', color);
     form.setFieldsValue({ secondaryColor: color })
   }
 

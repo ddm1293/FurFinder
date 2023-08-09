@@ -1,10 +1,8 @@
-// timeSequenceIndex:
 export const timeProbabilityData = {
   x_lostTime: [0, 0.5, 1, 2, 3, 7, 15, 30, 45],
   y_probability: [1, 0.97, 0.93, 0.85, 0.77, 0.62, 0.31, 0.23, 0.19]
 };
 
-// geoDistanceIndex:
 export const travelMilesPerDay = {
   dog: 2.5,
   cat: 1
@@ -20,7 +18,6 @@ export const idwValue = {
   homeAddress: 1
 };
 
-// compareSize
 export const maxPossibleCategoryDiff = 2;
 
 export const maxPossibleSizeDiff = {
@@ -28,7 +25,6 @@ export const maxPossibleSizeDiff = {
   cat: 11
 };
 
-// compareColor
 export const colorDiffThreshold = 8;
 
 export const colorProbabilityData = {
