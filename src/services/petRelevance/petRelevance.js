@@ -24,7 +24,6 @@ export const getPetRelevanceIndex = async (lost, witnessed, exponentialDecayMode
   const timeSequenceIndex = await compareLastSeenTime(lost, witnessed, exponentialDecayModels.lastSeenTime);
   const geoDistanceIndex = compareLastSeenLocation(lost, witnessed);
 
-  // console.log('see all the indexes: ', timeSequenceIndex, geoDistanceIndex);
   if (timeSequenceIndex) {
     return indexWeight.breedSimilarity * breedSimilarity +
       indexWeight.colorSimilarity * colorSimilarity +

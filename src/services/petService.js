@@ -48,7 +48,9 @@ class PetService {
     const targetPets = await PetModel.find({ threadType, species: pet.species });
     const exponentialDecayModels = await initializeModels();
     const relevantPets = await async.filter(targetPets, async (targetPet) => {
-      const petRelevance = await getPetRelevanceIndex(pet, targetPet, exponentialDecayModels);
+      const lostPet = pet.threadType === 'lostPetThread' ? pet : targetPet;
+      const witnessedPet = pet.threadType === 'witnessThread' ? pet : targetPet;
+      const petRelevance = await getPetRelevanceIndex(lostPet, witnessedPet, exponentialDecayModels);
       if (petRelevance >= relevanceThreshold) {
         console.log('see relevantPet: ', petRelevance, targetPet.name);
       }
