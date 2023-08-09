@@ -8,6 +8,8 @@ import {
   threadTypeValidator
 } from './queryValidator.js';
 import { produce } from 'immer';
+import { ThreadModel } from '../models/threadModel.js';
+import { PetModel } from '../models/petModel.js';
 
 export const processPet = async (req, res, next) => {
   try {
@@ -88,3 +90,37 @@ export const searchQueryValidator = [
   ...petFilterValidator,
   invalidQueryHandler
 ];
+
+export const deleteRelatedPet = async (req, res, next) => {
+  try {
+    const threadId = req.params.id;
+    const thread = await ThreadModel.findById(threadId);
+    if (thread && thread.pet) {
+      await PetModel.findByIdAndDelete(thread.pet);
+    }
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete related pet data' });
+  }
+};
+
+export const removeFromRelevantThreads = async (req, res, next) => {
+  try {
+    const threadId = req.params.id;
+    const thread = await ThreadModel.findById(threadId);
+
+    if (thread && thread.relevant && thread.relevant.length > 0) {
+      const relevantThreads = thread.relevant;
+      for (const relevantThreadId of relevantThreads) {
+        await ThreadModel.findByIdAndUpdate(relevantThreadId, {
+          $pull: { relevant: threadId }
+        });
+      }
+    }
+    next();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to remove relevant thread references' });
+  }
+};
