@@ -10,6 +10,7 @@ import {
 } from '../../src/services/petRelevance/petRelevance.js';
 import mongoose from 'mongoose';
 import { diff } from 'color-diff';
+import { callGPT } from '../../src/services/gpt/gpt.js';
 
 const generatePet = (
   breed,
@@ -125,5 +126,10 @@ describe('Test petRelevance helpers', () => {
       }
     };
     console.log(diff(lost.color.dominantColor, witnessed.color.dominantColor));
+  });
+
+  it('Test GPT', async () => {
+    const response = await callGPT('Say this is a test');
+    console.log(response.choices[0].message);
   });
 });

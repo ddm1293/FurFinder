@@ -6,6 +6,7 @@ import {
 } from './petAssumption.js';
 import { idwInterpolation } from './models.js';
 import { diff } from 'color-diff';
+import { openai } from '../gpt/gpt.js'
 
 const indexWeight = {
   breedSimilarity: 1,
@@ -116,4 +117,8 @@ export const compareLastSeenLocation = (lost, witnessed) => {
   };
   const witnessedLocation = witnessed.lastSeenLocation.coordinates;
   return idwInterpolation(witnessedLocation, [lostLocation, homeAddress], 6);
+};
+
+export const compareDescription = (lost, witnessed) => {
+  const prompt = '';
 };
