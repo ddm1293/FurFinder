@@ -17,13 +17,11 @@ const indexWeight = {
   geoDistanceIndex: 1
 };
 
-export const relevanceThreshold = 0.7;
+export const relevanceThreshold = 1;
 
 export const getPetRelevanceIndex = async (lost, witnessed) => {
   const breedSimilarity = compareBreed(lost, witnessed);
-  console.log('see before compareColor');
   const colorSimilarity = await compareColor(lost, witnessed);
-  console.log('see after compareColor: ', colorSimilarity);
   const sizeSimilarity = compareSize(lost, witnessed);
   const timeSequenceIndex = await compareLastSeenTime(lost, witnessed);
   const geoDistanceIndex = compareLastSeenLocation(lost, witnessed);
