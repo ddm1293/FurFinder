@@ -88,7 +88,14 @@
 - Responsible for deploying the project on Render.com
 - Served as the scrum master, creating and maintaining JIRA.
 ### Han Li (x2h3l)
+- Built Navbar and Footer component using ant design
+- Implemented backend of user’s comment service and both frontend and backend of users’ favourite function and split threads into “Lost Pet” and “Witness” categories.
+- Worked on other assigned tasks like support multiple picture upload and preview, users’ post history and favourites of profile page and other small bugs fix.
 ### Xuanya Liu (CSID: t5n0b)
+- Contributed to implementing the frontend of the forum in Card and List views.
+- Developed comment functionality, including frontend implementation, Redux setup, and backend connection.
+- Implemented user profile picture uploads, email service subscriptions and frontend of the user profile page.
+- Incorporated email notification to alert users about new comments and relevant threads.
 ### Huiwen Zuo (n7l4u)
  - Mostly worked on Thread-related frontend and functionalities, including the Thread page, Pet Card, Edit and Delete Thread functionalities, Thread map, and the frontend of Relevant Threads.
  - Helped on setting backend endpoints, including the backend of uploading multiple pictures, and some Relevant Threads endpoints and the related module setting.
