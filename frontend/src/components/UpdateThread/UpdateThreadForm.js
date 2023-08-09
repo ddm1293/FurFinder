@@ -26,6 +26,12 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
         .then((response) => {
           const pet = response.data;
           if (!pet) return;
+          const homeAddressCoordinates = pet.homeAddress
+            ? {
+              lat: pet.homeAddress.coordinates[1],
+              lng: pet.homeAddress.coordinates[0],
+            }
+            : null;
 
           updateThreadType(thread.kind);
           form.setFieldsValue({
@@ -37,13 +43,18 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
             'breed': pet.breed,
             'id': pet.id,
             'description': pet.description,
+            'dominantColor': pet.color.dominantColor,
+            'secondaryColor': pet.color.secondaryColor,
+            'sizeCategory': pet.sizeCategory,
+            'sizeNumber': pet.sizeNumber,
             'sex': pet.sex,
             'lastSeenTime': dayjs(pet.lastSeenTime),
             'pic': pet.pic,
             'lastSeenLocation': {
               lat: pet.lastSeenLocation.coordinates[1],
               lng: pet.lastSeenLocation.coordinates[0]
-            }
+            },
+            'homeAddress' : homeAddressCoordinates
           });
         })
         .catch((error) => {
@@ -66,7 +77,6 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
         }
       });
   };
-
 
   return (
     <Modal className='update-thread-modal'

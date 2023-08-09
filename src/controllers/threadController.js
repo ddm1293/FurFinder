@@ -100,18 +100,18 @@ export const updateThread = async (req, res, next) => {
     console.log('threadId: ', threadId);
     console.log('formBody: ', formBody);
 
-    // Separate thread data and pet data
     const threadData = {
       title: formBody.title,
       content: formBody.content,
       threadType: formBody.threadType
     };
 
-    const geoPoint = formBody.lastSeenLocation;
+    const geoPointLastSeen = formBody.lastSeenLocation;
     const lastSeenLocation = {
       type: 'Point',
-      coordinates: [geoPoint.lng, geoPoint.lat]
+      coordinates: [geoPointLastSeen.lng, geoPointLastSeen.lat]
     };
+
     const petData = {
       name: formBody.name,
       species: formBody.species,
@@ -122,15 +122,32 @@ export const updateThread = async (req, res, next) => {
       sex: formBody.sex,
       lastSeenTime: formBody.lastSeenTime,
       pic: formBody.pic,
-      lastSeenLocation
+      lastSeenLocation,
+      color: {
+        dominantColor: formBody.dominantColor
+      },
+      sizeCategory: formBody.sizeCategory
     };
 
+    if (formBody.homeAddress) {
+      const geoPointHome = formBody.homeAddress;
+      petData.homeAddress = {
+        type: 'Point',
+        coordinates: [geoPointHome.lng, geoPointHome.lat]
+      };
+    }
+
+    if (formBody.secondaryColor) {
+      petData.color.secondaryColor = formBody.secondaryColor;
+    }
+
+    if (formBody.sizeNumber) {
+      petData.sizeNumber = formBody.sizeNumber;
+    }
+
     console.log('Pet data: ', petData);
-    // Update thread
     const updatedThread = await ThreadService.updateThread(threadId, threadData);
     console.log('UpdatedThread from backend: ', updatedThread);
-
-    // Update pet
     const petId = updatedThread.pet; // assuming the pet id is available here
     const updatedPet = await PetService.updatePet(petId, petData);
     console.log('UpdatedPet from backend: ', updatedPet);
