@@ -33,7 +33,7 @@ function UpdateThreadForm ({ open, onUpdate, onCancel, threadId }) {
             }
             : null;
 
-          updateThreadType(thread.kind);
+          updateThreadType(thread.threadType);
           form.setFieldsValue({
             'threadType': thread.threadType,
             'title': thread.title,
