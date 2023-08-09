@@ -33,34 +33,28 @@ async function createComment({ commentId, content, authorId, threadId }) {
 }
 
 async function createPet(petProperties) {
-  const shouldCreatePetImage = petProperties.threadType === 'lostPetThread'
-    ? true
-    : [true, false, false][Math.floor(Math.random() * 3)];
+  const petBreeds = petProperties.petSpecies === 'Cat'
+    ? catBreeds
+    : dogBreeds;
+  const petBreedId = petBreeds.find((breed) => breed.name === petProperties.petBreed).imageId;
+  const petPicUrl = petProperties.petSpecies === 'Cat'
+    ? `https://cdn2.thecatapi.com/images/${petBreedId}.jpg`
+    : `https://cdn2.thedogapi.com/images/${petBreedId}.jpg`;
   let petPic;
 
-  if (shouldCreatePetImage) {
-    const petBreeds = petProperties.petSpecies === 'Cat'
-      ? catBreeds
-      : dogBreeds;
-    const petBreedId = petBreeds.find((breed) => breed.name === petProperties.petBreed).imageId;
-    const petPicUrl = petProperties.petSpecies === 'Cat'
-      ? `https://cdn2.thecatapi.com/images/${petBreedId}.jpg`
-      : `https://cdn2.thedogapi.com/images/${petBreedId}.jpg`;
+  try {
+    const response = await axios({ method: 'get', url: petPicUrl, responseType: 'arraybuffer' });
+    const buffer = Buffer.from(response.data, 'binary');
 
-    try {
-      const response = await axios({ method: 'get', url: petPicUrl, responseType: 'arraybuffer' });
-      const buffer = Buffer.from(response.data, 'binary');
-
-      petPic = [{
-        data: buffer,
-        contentType: 'image/jpeg'
-      }];
-    } catch (error) {
-      if (error.response && error.response.status === 403) {
-        console.log('Forbidden, but continuing on');
-      } else {
-        console.error(error);
-      }
+    petPic = [{
+      data: buffer,
+      contentType: 'image/jpeg'
+    }];
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      console.log('Forbidden, but continuing on');
+    } else {
+      console.error(error);
     }
   }
 
@@ -74,10 +68,13 @@ async function createPet(petProperties) {
     threadId: petProperties.threadId,
     threadType: petProperties.threadType,
     color: {
-      dominantColor: petProperties.petDominantColor
+      dominantColor: petProperties.petDominantColor,
+      secondaryColor: petProperties.petSecondaryColor
     },
     ownerId: petProperties.ownerId,
     sizeCategory: petProperties.petSizeCategory,
+    sizeNumber: petProperties.petSizeNumber,
+    homeAddress: petProperties.petHomeAddress,
     lastSeenTime: petProperties.lastSeenTime,
     lastSeenLocation: petProperties.lastSeenLocation,
     ...(petPic && { pic: petPic })
@@ -108,7 +105,10 @@ async function createThread(threadProperties, users) {
     petSex: threadProperties.petSex,
     petDescription: threadProperties.petDescription,
     petDominantColor: threadProperties.petDominantColor,
+    petSecondaryColor: threadProperties.petSecondaryColor,
     petSizeCategory: threadProperties.petSizeCategory,
+    petSizeNumber: threadProperties.petSizeNumber,
+    petHomeAddress: threadProperties.petHomeAddress,
     threadId: threadProperties.threadId,
     threadType: threadProperties.threadType,
     ownerId: threadProperties.poster,
@@ -169,20 +169,26 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
     }
 
     for (const userAndThreadId of userAndThreadIds) {
+      const threadType = ['lostPetThread', 'witnessThread'][Math.floor(Math.random() * 2)];
+
       // new pet properties
-      const petName = faker.person.firstName();
+      const petName = threadType === 'lostPetThread'
+        ? faker.person.firstName()
+        : 'Unknown';
       const petSpecies = ['Cat', 'Dog'][Math.floor(Math.random() * 2)];
       const petBreed = petSpecies === 'Cat'
         ? catBreeds[Math.floor(Math.random() * catBreeds.length)].name
         : dogBreeds[Math.floor(Math.random() * dogBreeds.length)].name;
       const petSex = ['male', 'female', 'unknown'][Math.floor(Math.random() * 3)];
       const petDescription = `a friendly and ${faker.word.adjective()} ${petSpecies} with a ${faker.color.human()} coat`;
-      const petDominantColor = {
-        r: randomNumber(0, 255),
-        g: randomNumber(0, 255),
-        b: randomNumber(0, 255)
-      };
+      const petDominantColor = { r: randomNumber(0, 255), g: randomNumber(0, 255), b: randomNumber(0, 255) };
+      const petSecondaryColor = { r: randomNumber(0, 255), g: randomNumber(0, 255), b: randomNumber(0, 255) };
       const petSizeCategory = [0, 1, 2][Math.floor(Math.random() * 3)];
+      const petSizeNumber = [10, 25, 50][Math.floor(Math.random() * 3)];
+      const petHomeAddress = {
+        type: 'Point',
+        coordinates: [randomNumber(-123.263754, -122.890771), randomNumber(49.241829, 49.266554)]
+      };
       const lastSeenCity = faker.location.city();
       const lastSeenDate = faker.date.past().toLocaleDateString();
       const lastSeenLocation = {
@@ -196,7 +202,6 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
         ` ${Math.floor(Math.random() * 1000) + 1} furPoint wanted`,
         ''
       ][Math.floor(Math.random() * 2)];
-      const threadType = ['lostPetThread', 'witnessThread'][Math.floor(Math.random() * 2)];
       const threadTitle = threadType === 'lostPetThread'
         ? `${titlePrefix}Lost ${petName} in ${lastSeenCity} on ${lastSeenDate}!${titleSuffix}`
         : `${titlePrefix}Saw a ${petSpecies} in ${lastSeenCity} on ${lastSeenDate}!${titleSuffix}`;
@@ -216,7 +221,10 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING)
         petSex,
         petDescription,
         petDominantColor,
+        petSecondaryColor,
         petSizeCategory,
+        petSizeNumber,
+        petHomeAddress,
         lastSeenDate,
         lastSeenLocation,
         threadTitle,
