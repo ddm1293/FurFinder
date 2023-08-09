@@ -102,7 +102,6 @@ function Thread() {
         )}
       </div>
 
-
       <ThreadContent content={content} />
       <UpdateThreadForm open={editModalVisible}
                         onUpdate={handleUpdate}

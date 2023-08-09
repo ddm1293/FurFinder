@@ -30,7 +30,6 @@ class UserService {
 
   static async updateThread(userId, threadId) {
     const user = await UserService.getUserById(userId);
-    console.log('updateThread in userService: ', user);
     user.myThreads.push(threadId);
     await user.save();
   }
@@ -70,7 +69,6 @@ class UserService {
 
   static async getUserFavoriteOrUnfavorite (userId, threadId) {
     const user = await UserService.getUserById(userId);
-    console.log('Favorite Or Unfavorite Thread in userService: ', user);
     if (user.favoredThreads.indexOf(threadId) >= 0) {
       user.favoredThreads.remove(threadId);
       await ThreadModel.decFavoriteCount(threadId);

@@ -18,7 +18,7 @@ class ThreadService {
     }
   }
 
-  static async getAllThreads(threadType) {
+  static async getAllThreads() {
     return ThreadModel.find();
   }
 
@@ -118,12 +118,10 @@ class ThreadService {
     const pipeline = [];
 
     if (keyword && !filterExist) {
-      console.log('search case 1: keyword only');
       pipeline.push(keywordSearch(keyword, searchOn.split(','), threadType));
     }
 
     else if (!keyword && filterExist) {
-      console.log('search case 2: filter only');
       pipeline.push(threadTypeMatch(threadType));
       pipeline.push(petInformationSearch(criteria));
       pipeline.push({
@@ -134,7 +132,6 @@ class ThreadService {
     }
 
     else if (keyword && filterExist) {
-      console.log('search case 3: both');
       pipeline.push(keywordSearch(keyword, searchOn.split(','), threadType));
       pipeline.push(petInformationSearch(criteria));
       pipeline.push({
@@ -148,7 +145,6 @@ class ThreadService {
   }
 
   static async linkThreads(threadId1, threadId2) {
-    // Find the threads
     const thread1 = await ThreadModel.findById(threadId1);
     const thread2 = await ThreadModel.findById(threadId2);
 
@@ -156,7 +152,6 @@ class ThreadService {
       throw new ThreadDoesNotExistException(`One or both threads do not exist`);
     }
 
-    // Add each thread to the other's relevant array if not already there
     if (!thread1.relevant.includes(threadId2)) {
       thread1.relevant.push(threadId2);
       await thread1.save();

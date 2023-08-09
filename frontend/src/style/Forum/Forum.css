@@ -60,11 +60,11 @@ img {
 
 .card-view {
     display: grid;
-    grid-gap: 1rem; /* adds some space between the cards */
+    grid-gap: 1rem;
 }
 
 .cards {
-    margin: 12px auto; /* auto centers the grid item within its cell */
+    margin: 12px auto;
 }
 
 .card-cover-container {

@@ -13,7 +13,7 @@ const useAxiosPrivate = () => {
   const refresh = useRefreshToken();
 
   useEffect(() => {
-    // attach accessToken to header if it wasn't already
+
     const requestIntercept = axiosPrivate.interceptors.request.use(
       config => {
         if (!config.headers['Authorization']) {
@@ -23,7 +23,7 @@ const useAxiosPrivate = () => {
       }, (error) => Promise.reject(error)
     );
 
-    // if accessToken has expired, refresh it
+
     const responseIntercept = axiosPrivate.interceptors.response.use(
       response => response,
       async (error) => {
